@@ -1,0 +1,22 @@
+{
+  "sheet": "ContentMemberType",
+  "defaultColumn": "InstanceContent",
+  "definitions": [
+    {
+      "index": 10,
+      "name": "TanksPerParty"
+    },
+    {
+      "index": 11,
+      "name": "HealersPerParty"
+    },
+    {
+      "index": 12,
+      "name": "MeleesPerParty"
+    },
+    {
+      "index": 13,
+      "name": "RangedPerParty"
+    }
+  ]
+}
