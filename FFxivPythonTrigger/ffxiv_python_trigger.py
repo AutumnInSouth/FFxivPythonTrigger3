@@ -252,7 +252,7 @@ class PluginController(object):
             elif isinstance(attr, EventCall):
                 self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec)
 
-    def init_bind(self):
+    def init_bind_values(self):
         store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
         for attr in self.plugin.__class__.__dict__.values():
             if isinstance(attr, BindValue):
