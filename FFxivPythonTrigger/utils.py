@@ -1,10 +1,11 @@
+import hashlib
+import os
+import re
 import threading
 import time
+from math import sin, cos
 from traceback import format_exc
 from typing import Callable, TYPE_CHECKING
-from math import sin, cos
-import hashlib, os
-import re
 
 from shapely.affinity import rotate
 
@@ -24,11 +25,13 @@ def circle(cx: float, cy: float, radius: float) -> 'geometry.Polygon':
     return geometry.Point(cx, cy).buffer(radius)
 
 
-def sector(cx: float, cy: float, radius: float, angle_rad: float, facing_rad: float, steps: int = 100) -> 'geometry.Polygon':
+def sector(cx: float, cy: float, radius: float, angle_rad: float, facing_rad: float,
+           steps: int = 100) -> 'geometry.Polygon':
     from shapely import geometry
     step_angle_width = angle_rad / steps
     segment_vertices = [(cx, cy), (cx, cy + radius)]
-    segment_vertices += [(cx + sin(i * step_angle_width) * radius, cy + cos(i * step_angle_width) * radius) for i in range(1, steps)]
+    segment_vertices += [(cx + sin(i * step_angle_width) * radius, cy + cos(i * step_angle_width) * radius) for i in
+                         range(1, steps)]
     return rotate(geometry.Polygon(segment_vertices), -(facing_rad - angle_rad / 2), origin=(cx, cy), use_radians=True)
 
 
@@ -127,3 +130,10 @@ def utf8_clean_up(string_bytes: bytes):
 class TimeoutException(Exception): pass
 
 
+def get_attr_by_str_path(obj: any, path: str):
+    for p in path.split('.'):
+        if isinstance(obj, dict):
+            obj = obj[p]
+        else:
+            obj = getattr(obj, p)
+    return obj

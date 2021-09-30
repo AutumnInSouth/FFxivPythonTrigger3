@@ -1,8 +1,8 @@
 import re
-from typing import Callable, Union, TYPE_CHECKING
+from typing import Callable, Union, TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from .ffxiv_python_trigger import EventBase, PluginBase
+    from .ffxiv_python_trigger import PluginBase
 
 re_pattern = Union[str, re.Pattern]
 
@@ -49,5 +49,39 @@ def unload_callback(callback: Union[str, Callable]):
             return func(self, *args, **kwargs)
 
         return wrapper
+
+    return decorator
+
+
+class BindValue(object):
+    def __init__(
+            self,
+            key: str,
+            on_change: Optional[Callable] = None,
+            default=None,
+            do_save=True,
+            auto_save=False,
+    ):
+        self.key = key
+        self.default = default
+        self.on_change = on_change
+        self.do_save = do_save
+        self.auto_save = auto_save
+
+    def __get__(self, instance: 'PluginBase', owner):
+        return self if instance is None else instance.controller.bind_values[self.key]
+
+    def __set__(self, instance: 'PluginBase', value):
+        if self.on_change is None or self.on_change(instance, value):
+            if self.do_save:
+                instance.storage.data.setdefault(instance.bind_values_store_key, dict())[self.key] = value
+                if self.auto_save:
+                    instance.storage.save()
+            instance.controller.bind_values[self.key] = value
+
+
+def bind_value(**kwargs):
+    def decorator(func):
+        return BindValue(func.__name__, on_change=func, **kwargs)
 
     return decorator

@@ -1,25 +1,28 @@
+import json
 import os
-import sys
 import re
+import sys
+from importlib import import_module, reload
+from inspect import isclass, getfile, getsourcelines
 from pathlib import Path
 from queue import Queue
+from socketserver import StreamRequestHandler
 from threading import Thread
 from time import time, sleep, perf_counter
 from traceback import format_exc
 from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern
-from inspect import isclass, getfile, getsourcelines
-from importlib import import_module, reload
 
-from .memory import PROCESS_FILENAME
-from .storage import ModuleStorage, get_module_storage, BASE_PATH
-from .logger import Logger, Log, log_handler, DEBUG
+from . import server_enum
+from .address_manager import AddressManager
+from .decorator import ReEventCall, EventCall, BindValue
+from .exceptions import NeedRequirementError, PluginNotFoundException
 from .frame_inject import FrameInjectHook, sig as frame_inject_sig
 from .hook import Hook
-from .utils import Counter
-from .decorator import ReEventCall, EventCall
-from .address_manager import AddressManager
-from .exceptions import NeedRequirementError, PluginNotFoundException
+from .logger import Logger, Log, log_handler, DEBUG
+from .memory import PROCESS_FILENAME
 from .requirements_controller import sub_process_install
+from .storage import ModuleStorage, get_module_storage, BASE_PATH
+from .utils import Counter, get_attr_by_str_path
 
 EVENT_MULTI_THREAD = True
 LOG_FILE_SIZE_MAX = 1024 * 1024
@@ -27,6 +30,98 @@ LOG_FILE_FORMAT = 'log_{int_time}.txt'
 STORAGE_DIRNAME = "Core"
 LOGGER_NAME = "Main"
 re_pattern = Union[str, re.Pattern]
+
+
+class FPTServer(StreamRequestHandler):
+    def __init__(self, request, client_address, server):
+        super().__init__(request, client_address, server)
+        self.client_id = None
+
+    def send_event(self, data):
+        self.wfile.write(server_enum.server_event(data))
+
+    def _process(self, code: int, msg_id: int, namespace: str, data: dict):
+        if not namespace:
+            if code == server_enum.ClientSubscribe:
+                _clients_subscribe.setdefault(data['name'], set()).add(self.client_id)
+                return "success"
+            elif code == server_enum.ClientUnsubscribe:
+                try:
+                    _clients_subscribe.setdefault(data['name'], set()).remove(self.client_id)
+                except ValueError:
+                    pass
+                return "success"
+            elif code == server_enum.ClientGet:
+                return get_attr_by_str_path(globals(), data['name'])
+            elif code == server_enum.ClientCall or code == server_enum.ClientCallReply:
+                reply = get_attr_by_str_path(globals(), data['name'])(*data.get('args', []), **data.get('kwargs', {}))
+                return reply if code == server_enum.ClientCallReply else None
+            elif code == server_enum.ClientSet:
+                value = data['value']
+                try:
+                    path, key = data['name'].rsplit('.', 1)
+                except ValueError:
+                    obj = globals()
+                    key = data['name']
+                else:
+                    obj = get_attr_by_str_path(globals(), path)
+                if isinstance(obj, dict):
+                    obj[key] = value
+                else:
+                    setattr(obj, key, value)
+                return "success"
+            else:
+                raise Exception("invalid unsubscribe arg")
+        elif namespace in _plugins:
+            return _plugins[namespace].controller.client_handle(code, msg_id, namespace, data)
+        else:
+            raise Exception("invalid namespace")
+
+    def process(self, line):
+        message_id = None
+        try:
+            data = json.loads(line)
+            message_id = data['msg_id']
+            code = data['code']
+            namespace = data.get('namespace', '')
+            reply = self._process(code, message_id, namespace, data)
+            if reply is not None:
+                self.wfile.write(server_enum.server_reply(message_id, reply))
+        except Exception as e:
+            self.wfile.write(server_enum.server_error(e, message_id))
+
+    def handle(self):
+        self.client_id = _client_counter.get()
+        _clients[self.client_id] = self
+        try:
+            for _line in self.rfile:
+                Mission("process_client", 0, self.process, _line)
+        except Exception as e:
+            _logger.warning(f"error at server client {e}:\n{format_exc()}")
+        del _clients[self.client_id]
+
+
+def process_clients(name: str, data: any):
+    if name in _clients_subscribe:
+        for client_id in _clients_subscribe[name].copy():
+            if client_id in _clients:
+                _clients[client_id].send_event(data)
+            else:
+                try:
+                    _clients_subscribe[name].remove(client_id)
+                except ValueError:
+                    pass
+        if not _clients_subscribe[name]:
+            del _clients_subscribe[name]
+
+
+def client_log(log: Log):
+    process_clients('fpt_log', {
+        'timestamp': log.datetime.timestamp(),
+        'module': log.module,
+        'level': log.level,
+        'msg': log.message,
+    })
 
 
 class Mission(Thread):
@@ -93,21 +188,26 @@ class PluginBase(object):
     name = "unnamed_plugin"
     save_when_unload = True
     PluginHook: Type[PluginHookI]
+    bind_values_store_key:str = 'bind_values'
 
     def __init__(self):
+        self.logger = Logger(self.name)
+        self.storage = get_module_storage(self.name)
         self.controller = PluginController(self)
         self.PluginHook = self.controller.PluginHook
         self.create_mission = self.controller.create_mission
         self.register_event = self.controller.register_event
         self.register_re_event = self.controller.register_re_event
-        self.logger = Logger(self.name)
-        self.storage = get_module_storage(self.name)
+        self.client_event = self.controller.client_event
 
     def onunload(self):
         pass
 
     def start(self):
         pass
+
+    def client_handle(self, code: int, msg_id: int, namespace: str, data: dict):
+        raise NotImplementedError()
 
 
 class PluginController(object):
@@ -133,6 +233,7 @@ class PluginController(object):
                 except ValueError:
                     pass
 
+        self.bind_values = {}
         self.PluginHook = PluginHook
         self.plugin: PluginBase = plugin
         self.events: list[Tuple[any, EventCallback]] = list()
@@ -145,15 +246,23 @@ class PluginController(object):
         self.unload_callback: list[Tuple[Callable, list, dict]] = []
         self.started = False
 
-        cls = self.plugin.__class__
-        for attr_name in dir(cls):
-            attr = getattr(cls, attr_name)
+        for attr_name, attr in self.plugin.__class__.__dict__.values():
             if isinstance(attr, ReEventCall):
                 self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec)
             elif isinstance(attr, EventCall):
                 self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec)
 
-    def create_mission(self, call: Callable, *args, limit_sec=0.1, put_buffer=True, callback: Optional[Callable] = None, **kwargs) -> Mission:
+    def init_bind(self):
+        store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
+        for attr in self.plugin.__class__.__dict__.values():
+            if isinstance(attr, BindValue):
+                if attr.key in store_values:
+                    setattr(self.plugin, attr.key, store_values[attr.key])
+                elif attr.default is not None:
+                    setattr(self.plugin, attr.key, attr.default)
+
+    def create_mission(self, call: Callable, *args, limit_sec=0.1, put_buffer=True, callback: Optional[Callable] = None,
+                       **kwargs) -> Mission:
         def function(*_args, **_kwargs):
             start = perf_counter()
             try:
@@ -163,7 +272,8 @@ class PluginController(object):
             if limit_sec > 0:
                 used = perf_counter() - start
                 if used > limit_sec:
-                    self.plugin.logger.warning("[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
+                    self.plugin.logger.warning(
+                        "[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
 
         def _callback(res: any):
             if callback is not None:
@@ -221,6 +331,32 @@ class PluginController(object):
             p_hook.uninstall()
         if self.plugin.save_when_unload:
             self.plugin.storage.save()
+
+    def client_handle(self, code: int, msg_id: int, namespace: str, data: dict):
+        if code == server_enum.ClientGet:
+            return get_attr_by_str_path(self.plugin, data['name'])
+        elif code == server_enum.ClientCall or code == server_enum.ClientCallReply:
+            reply = get_attr_by_str_path(self.plugin, data['name'])(*data.get('args', []), **data.get('kwargs', {}))
+            return reply if code == server_enum.ClientCallReply else None
+        elif code == server_enum.ClientSet:
+            value = data['value']
+            try:
+                path, key = data['name'].rsplit('.', 1)
+            except ValueError:
+                obj = globals()
+                key = data['name']
+            else:
+                obj = get_attr_by_str_path(self.plugin, path)
+            if isinstance(obj, dict):
+                obj[key] = value
+            else:
+                setattr(obj, key, value)
+            return "success"
+        else:
+            return self.plugin.client_handle(code, msg_id, namespace, data)
+
+    def client_event(self, data: any):
+        process_clients(self.plugin.name, data)
 
 
 class PluginLoadEvent(EventBase):
@@ -397,13 +533,21 @@ if EVENT_MULTI_THREAD:
     def process_event(event: EventBase):
         for callback in _events.get('*', []).copy():
             callback.call(event)
-        for key in event.id, event.str_event():
-            if key is None:
-                continue
-            for callback in _events.get(key, []).copy():
+        for callback in _events.get(event.id, []).copy():
+            callback.call(event)
+        if isinstance(event.id, str):
+            for pattern in list(_re_events.keys()):
+                match = pattern.search(event.id)
+                if match:
+                    for callback in _re_events[pattern].copy():
+                        callback.call(event, match)
+        str_event = event.str_event()
+        if str_event is not None:
+            append_missions(Mission('client_event', 0, process_clients, 'fpt_event', str_event))
+            for callback in _events.get(str_event, []).copy():
                 callback.call(event)
             for pattern in list(_re_events.keys()):
-                match = pattern.search(key)
+                match = pattern.search(str_event)
                 if match:
                     for callback in _re_events[pattern].copy():
                         callback.call(event, match)
@@ -478,6 +622,7 @@ def init():
     global _allow_create_missions, _log_work
 
     log_handler.add((DEBUG, _log_write_buffer.put))
+    log_handler.add((DEBUG, client_log))
     plugin_path = Path(os.getcwd()) / 'plugins'
     plugin_path.mkdir(exist_ok=True)
     sys.path.insert(0, str(plugin_path))
@@ -517,7 +662,7 @@ _log_write_buffer: Queue[Log] = Queue()
 _log_mission: 'Mission' = Mission('logger', -1, log_writer)
 
 running = False
-_plugins: Dict[str, any] = {}
+_plugins: Dict[str, PluginBase] = {}
 _events: Dict[any, Set['EventCallback']] = {}
 _event_process_mission: 'Mission' = Mission('event_processor', -1, event_processor)
 _re_events: Dict[re.Pattern, Set['EventCallback']] = dict()
@@ -528,6 +673,10 @@ addresses = AddressManager(LOGGER_NAME, _logger).load({
     'frame_inject': frame_inject_sig,
 })
 frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
+
+_client_counter = Counter()
+_clients: Dict[int, FPTServer] = dict()
+_clients_subscribe: Dict[str, Set[int]] = dict()
 
 game_base_dir: Path = Path(PROCESS_FILENAME).parent.parent
 if (game_base_dir / "FFXIVBoot.exe").exists() or (game_base_dir / "rail_files" / "rail_game_identify.json").exists():
