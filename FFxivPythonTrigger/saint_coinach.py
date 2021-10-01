@@ -22,6 +22,5 @@ else:
 realm = pysaintcoinach.ARealmReversed(game_dir, language)
 info("pysaintcoinach", f"{game_language} realm initialized")
 
-"""
-realm._game_data.definition.sheet_definitions
-"""
+"""realm._game_data.definition.sheet_definitions"""
+"""realm.game_data.get_sheet()"""

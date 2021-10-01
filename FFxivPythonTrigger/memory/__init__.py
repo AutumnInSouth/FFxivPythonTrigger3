@@ -1,3 +1,5 @@
+import self as self
+
 from . import process, pattern
 from .memory import *
 
@@ -44,11 +46,22 @@ def scan_patterns_by_sig_base_module(ida_sig: str):
     return scan_patterns_base_module(ida_sig_to_pattern(ida_sig))
 
 
-def read_pointer_shift(base, *shifts):
+# def read_pointer_shift(base, shifts: list[int]):
+#     shifts = shifts.copy()
+#     add = shifts.pop()
+#     ptr = read_ulonglong(base)
+#     if not ptr: return None
+#     for shift in shifts:
+#         ptr = read_ulonglong(ptr + shift)
+#         if not ptr: return None
+#     return ptr + add
+
+def read_pointer_shift(base, shifts):
     ptr = base
     for shift in shifts:
+        ptr = read_ulonglong(ptr)
         if not ptr: return None
-        ptr = read_ulonglong(ptr) + shift
+        ptr += shift
     return ptr
 
 

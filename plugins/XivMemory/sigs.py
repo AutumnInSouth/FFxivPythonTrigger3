@@ -74,6 +74,17 @@ sigs = {
         'param': "48 89 5C 24 ? 57 48 83 EC ? 0F B6 42 ? 48 8B FA 88 81 ? ? ? ? 48 8B D9 0F B6 42 ?",
         'add': BASE_ADDR,
     },
+    "mission_info": {
+        'call': find_unique_signature_point,
+        'param': "48 83 3D * * * * ? 49 8B F8",
+        'add': BASE_ADDR + 1,
+    },
+    "pvp_action": {
+        'call': find_unique_signature_point,
+        'param': "48 8D 0D * * * * 40 0F 95 C6",
+        'add': BASE_ADDR,
+    },
 }
 
 enemies_shifts = [0x30, 0x58, 0x98, 0x20, 0x20]
+mission_info_shifts = [0x568]

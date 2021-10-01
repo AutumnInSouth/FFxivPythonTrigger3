@@ -2,7 +2,7 @@ from ctypes import *
 from typing import Iterable, TYPE_CHECKING
 
 from FFxivPythonTrigger.saint_coinach import realm
-from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
 
 action_sheet = realm.game_data.get_sheet('Action')
 
@@ -94,3 +94,51 @@ class Enemies(Enemy * 8):
         for enemy in self:
             if enemy.id != 0xe0000000:
                 yield enemy.id
+
+
+class MissionAction(OffsetStruct({
+    'action_1_id': (c_uint, 0x1c),
+    'action_2_id': (c_uint, 0x20),
+    'action_2_cool_down_duration': (c_float, 0x34),
+    'action_2_cool_down_total': (c_float, 0x38),
+    'action_1_cool_down_duration': (c_float, 0x48),
+    'action_1_cool_down_total': (c_float, 0x4c),
+    'action_2_remain': (c_ubyte, 0x54),
+    'action_1_remain': (c_ubyte, 0x55),
+})):
+    action_1_id: int
+    action_2_id: int
+    action_1_cool_down_duration: float
+    action_1_cool_down_total: float
+    action_2_cool_down_duration: float
+    action_2_cool_down_total: float
+    action_1_remain: int
+    action_2_remain: int
+
+
+class MissionInfo(OffsetStruct({
+    '_mission_name': (c_char * 18, 0x372),
+    'mission_action': (MissionAction, 0x568),
+    'remain_time': (c_float, 0x6f8),
+})):
+    mission_action: MissionAction
+    remain_time: float
+    _mission_name: bytes
+
+    @property
+    def mission_name(self):
+        return self._mission_name.decode('utf-8', errors='ignore')
+
+
+class PvpAction(OffsetStruct({
+    'action_1_id': (c_uint, 32),
+    'action_2_id': (c_uint, 36)
+})):
+    action_1_id: int
+    action_2_id: int
+
+
+class BlueMage(OffsetStruct({
+    'select_skills': (c_uint * 18, 0x13c)
+})):
+    select_skills: list[int]

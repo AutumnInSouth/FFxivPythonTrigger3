@@ -12,7 +12,7 @@ ServerError = 0x2099
 
 
 def base_response(code: int, data):
-    return json.dumps({'code': code, 'data': data}).encode('utf-8')
+    return json.dumps({'code': code, 'data': data}).encode('utf-8') + b'\n'
 
 
 def server_error(e: any, reply_id: int = None, **kwargs):

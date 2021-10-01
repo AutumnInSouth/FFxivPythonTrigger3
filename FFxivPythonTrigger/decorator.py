@@ -1,5 +1,8 @@
 import re
+import ctypes
 from typing import Callable, Union, TYPE_CHECKING, Optional
+
+from .hook import Hook
 
 if TYPE_CHECKING:
     from .ffxiv_python_trigger import PluginBase
@@ -83,5 +86,47 @@ class BindValue(object):
 def bind_value(**kwargs):
     def decorator(func):
         return BindValue(func.__name__, on_change=func, **kwargs)
+
+    return decorator
+
+
+class _PluginHook(Hook):
+    auto_install: bool
+
+    def __init__(self, plugin: 'PluginBase', func_address: int):
+        super().__init__(func_address)
+        self.plugin = plugin
+        if self.auto_install:
+            if plugin.controller.started:
+                self.install_and_enable()
+            else:
+                plugin.controller.hook_to_start.append(self)
+
+    def install(self):
+        super(_PluginHook, self).install()
+        self.plugin.controller.installed_hooks.append(self)
+
+    def uninstall(self):
+        super(_PluginHook, self).uninstall()
+        try:
+            self.plugin.controller.installed_hooks.remove(self)
+        except ValueError:
+            pass
+
+
+def plugin_hook(_restype=ctypes.c_void_p, _argtypes: Optional[list] = None, _auto_install: bool = False):
+    if _argtypes is None:
+        _argtypes = []
+
+    def decorator(func):
+        class PluginHook(_PluginHook):
+            auto_install = _auto_install
+            argtypes = _argtypes
+            restype = _restype
+
+            def hook_function(self, *args):
+                return func(self.plugin, self, *args)
+
+        return PluginHook
 
     return decorator

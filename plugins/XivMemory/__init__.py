@@ -1,13 +1,15 @@
 from ctypes import *
+from typing import Optional
 
 from FFxivPythonTrigger import PluginBase
+from FFxivPythonTrigger.decorator import plugin_hook
 from FFxivPythonTrigger.address_manager import AddressManager
 from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float, read_ushort
 from FFxivPythonTrigger.memory.struct_factory import PointerStruct
 
-from .sigs import sigs, enemies_shifts
+from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable
-from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies
+from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
 from .struct.job_gauge import gauges
 from .struct.player_info import Player
 from .struct.others import Target, Movement
@@ -26,7 +28,12 @@ class XivMemory(PluginBase):
     movement: Movement
     inventory: InventoryPageIdx
     party: PartyList
+    pvp_action: PvpAction
     world_id: int
+
+    @property
+    def mission_info(self) -> MissionInfo:
+        return self._mission_info[0] if self._mission_info else None
 
     @property
     def zone_id(self) -> int:
@@ -65,14 +72,12 @@ class XivMemory(PluginBase):
         self.movement = read_memory(Movement, self._address['movement'])
         self.inventory = read_memory(InventoryPageIdx, self._address['inventory'])
         self.party = read_memory(PartyList, self._address['party'])
+        self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
+        self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
         self.world_id = 0
-        
-        class WorldIdHook(self.PluginHook):
-            argtypes = [c_int64, c_int64]
-            restype = c_int64
+        self.WorldIdHook(self, self._address["world_id_hook"])
 
-            def hook_function(_self, a1, a2):
-                self.world_id = read_ushort(a2 + 4)
-                return _self.original(a1, a2)
-
-        self.world_id_hook = WorldIdHook(self._address["world_id_hook"],True)
+    @plugin_hook(_restype=c_int64, _argtypes=[c_int64, c_int64], _auto_install=True)
+    def WorldIdHook(self, hook, a1, a2):
+        self.world_id = read_ushort(a2 + 4)
+        return hook.original(a1, a2)

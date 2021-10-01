@@ -6,7 +6,7 @@ from importlib import import_module, reload
 from inspect import isclass, getfile, getsourcelines
 from pathlib import Path
 from queue import Queue
-from socketserver import StreamRequestHandler
+from socketserver import StreamRequestHandler, ThreadingTCPServer
 from threading import Thread
 from time import time, sleep, perf_counter
 from traceback import format_exc
@@ -88,16 +88,17 @@ class FPTServer(StreamRequestHandler):
             if reply is not None:
                 self.wfile.write(server_enum.server_reply(message_id, reply))
         except Exception as e:
-            self.wfile.write(server_enum.server_error(e, message_id))
+            self.wfile.write(server_enum.server_error(format_exc(), message_id))
 
     def handle(self):
         self.client_id = _client_counter.get()
         _clients[self.client_id] = self
+        _logger.debug(f"new client id:{self.client_id}")
         try:
             for _line in self.rfile:
-                Mission("process_client", 0, self.process, _line)
-        except Exception as e:
-            _logger.warning(f"error at server client {e}:\n{format_exc()}")
+                append_missions(Mission("process_client", 0, self.process, _line))
+        except ConnectionError:
+            _logger.debug(f"disconnect client id:{self.client_id}")
         del _clients[self.client_id]
 
 
@@ -188,7 +189,7 @@ class PluginBase(object):
     name = "unnamed_plugin"
     save_when_unload = True
     PluginHook: Type[PluginHookI]
-    bind_values_store_key:str = 'bind_values'
+    bind_values_store_key: str = 'bind_values'
 
     def __init__(self):
         self.logger = Logger(self.name)
@@ -246,7 +247,7 @@ class PluginController(object):
         self.unload_callback: list[Tuple[Callable, list, dict]] = []
         self.started = False
 
-        for attr_name, attr in self.plugin.__class__.__dict__.values():
+        for attr_name, attr in self.plugin.__class__.__dict__.items():
             if isinstance(attr, ReEventCall):
                 self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec)
             elif isinstance(attr, EventCall):
@@ -613,13 +614,19 @@ def run():
     _logger.info('FFxiv Python Trigger closed')
     global _log_work
     _log_work = False
-    _log_mission.join()
-    _event_process_mission.join()
-    _missions_starter_mission.join()
+    _log_mission.join(1)
+    _event_process_mission.join(1)
+    _missions_starter_mission.join(1)
+    _server_mission.join(1)
 
 
 def init():
     global _allow_create_missions, _log_work
+    ThreadingTCPServer.allow_reuse_address = True
+    _server.server_address = ('127.0.0.1', int(os.environ.setdefault('FptSocketPort', "3520")))
+    _server.server_bind()
+    _server.server_activate()
+    _server_mission.start()
 
     log_handler.add((DEBUG, _log_write_buffer.put))
     log_handler.add((DEBUG, client_log))
@@ -677,6 +684,8 @@ frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
 _client_counter = Counter()
 _clients: Dict[int, FPTServer] = dict()
 _clients_subscribe: Dict[str, Set[int]] = dict()
+_server = ThreadingTCPServer(('', 0), FPTServer, bind_and_activate=False)
+_server_mission = Mission('server', -1, _server.serve_forever)
 
 game_base_dir: Path = Path(PROCESS_FILENAME).parent.parent
 if (game_base_dir / "FFXIVBoot.exe").exists() or (game_base_dir / "rail_files" / "rail_game_identify.json").exists():

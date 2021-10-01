@@ -2,7 +2,7 @@ from ctypes import *
 from _ctypes import Array
 from functools import cache
 from typing import Type, List, Tuple, Dict
-from . import read_pointer_shift, memory
+from . import read_pointer_shift, read_memory
 
 
 def get_data(data, full=False):
@@ -50,13 +50,14 @@ def _(res) -> Tuple[any, int]:
     return (res[0], res[1]) if type(res) == tuple else (res, -1)
 
 
-def pad_unk(current: int, target: int):
-    if current % 2 or target - current == 1: return c_ubyte, 1, "byte"
-    if current % 4 or target - current < 4: return c_ushort, 2, "ushort"
+def pad_unk(current: int, target: int, max_pad_length: int = 4):
+    remain = target - current
+    if current % 2 or remain == 1 or max_pad_length == 1: return c_ubyte, 1, "byte"
+    if current % 4 or remain < 4 or max_pad_length == 2: return c_ushort, 2, "ushort"
     return c_uint, 4, "uint"
 
 
-def OffsetStruct(fields: dict, full_size: int = None, name=None) -> Type[_OffsetStruct]:
+def OffsetStruct(fields: dict, full_size: int = None, name=None, max_pad_length: int = 4) -> Type[_OffsetStruct]:
     set_fields = []
     current_size = 0
     for name, data in sorted(fields.items(), key=lambda x: _(x[1])[1]):
@@ -65,7 +66,7 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None) -> Type[_Offset
         if current_size > offset:
             raise Exception("block [%s] is invalid" % name)
         while current_size < offset:
-            t, s, n = pad_unk(current_size, offset)
+            t, s, n = pad_unk(current_size, offset, max_pad_length)
             set_fields.append((f"_{n}_{hex(current_size)}", t))
             current_size += s
         data_size = sizeof(d_type)
@@ -75,7 +76,7 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None) -> Type[_Offset
         if full_size < current_size:
             raise Exception("full size is smaller than current size")
         while current_size < full_size:
-            t, s, n = pad_unk(current_size, full_size)
+            t, s, n = pad_unk(current_size, full_size, max_pad_length)
             set_fields.append((f"_{n}_{hex(current_size)}", t))
             current_size += s
     return type(
@@ -95,7 +96,8 @@ class _PointerStruct(c_void_p):
 
     @property
     def value(self):
-        return memory.read_memory(self.d_type, read_pointer_shift(addressof(self), *self.shifts))
+        address = read_pointer_shift(addressof(self), self.shifts)
+        return read_memory(self.d_type, address) if address else None
 
 
 def PointerStruct(i_d_type: any, *i_shifts: int, name=None) -> Type[_PointerStruct]:
@@ -110,13 +112,15 @@ class _EnumStruct(Structure):
     _data: dict
     _reverse: dict
 
+    @property
     def value(self):
         try:
             return self._data[self.raw_value]
         except KeyError:
             return self.raw_value if self._default is None else self._default
 
-    def set(self, value):
+    @value.setter
+    def value(self, value):
         try:
             self.raw_value = self._reverse[value]
         except KeyError:
