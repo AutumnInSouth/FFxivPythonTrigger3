@@ -14,10 +14,9 @@ from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Patt
 
 from . import server_enum
 from .address_manager import AddressManager
-from .decorator import ReEventCall, EventCall, BindValue
+from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
 from .frame_inject import FrameInjectHook, sig as frame_inject_sig
-from .hook import Hook
 from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .requirements_controller import sub_process_install
@@ -180,22 +179,15 @@ class EventCallback(object):
             self.plugin.create_mission(self._call, event, *args)
 
 
-class PluginHookI(Hook):
-    def __init__(self, func_address: int, auto_start=False):
-        super().__init__(func_address)
-
-
 class PluginBase(object):
     name = "unnamed_plugin"
     save_when_unload = True
-    PluginHook: Type[PluginHookI]
     bind_values_store_key: str = 'bind_values'
 
     def __init__(self):
         self.logger = Logger(self.name)
         self.storage = get_module_storage(self.name)
         self.controller = PluginController(self)
-        self.PluginHook = self.controller.PluginHook
         self.create_mission = self.controller.create_mission
         self.register_event = self.controller.register_event
         self.register_re_event = self.controller.register_re_event
@@ -213,36 +205,15 @@ class PluginBase(object):
 
 class PluginController(object):
     def __init__(self, plugin: 'PluginBase'):
-        class PluginHook(PluginHookI):
-            def __init__(_self, func_address: int, auto_start=False):
-                super().__init__(func_address)
-                if auto_start:
-                    if self.started:
-                        _self.install()
-                        _self.enable()
-                    else:
-                        self.hook_to_start.append(_self)
-
-            def install(_self) -> None:
-                super(PluginHook, _self).install()
-                self.installed_hooks.append(_self)
-
-            def uninstall(_self) -> None:
-                super(PluginHook, _self).uninstall()
-                try:
-                    self.installed_hooks.remove(_self)
-                except ValueError:
-                    pass
 
         self.bind_values = {}
-        self.PluginHook = PluginHook
         self.plugin: PluginBase = plugin
         self.events: list[Tuple[any, EventCallback]] = list()
         self.re_events: list[Tuple[re.Pattern, EventCallback]] = list()
         self.mission_count = Counter()
         self.missions: dict[int, Mission] = dict()
-        self.installed_hooks: list[PluginHookI] = list()
-        self.hook_to_start: list[PluginHookI] = list()
+        self.installed_hooks: list[PluginHook] = list()
+        self.hook_to_start: list[PluginHook] = list()
         self.main_mission: Optional[Mission] = None
         self.unload_callback: list[Tuple[Callable, list, dict]] = []
         self.started = False

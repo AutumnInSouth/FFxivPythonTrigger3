@@ -2,17 +2,8 @@ from ctypes import *
 from typing import Tuple, Optional, Dict, Iterator, TYPE_CHECKING
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.popular_struct import Vector3
 from .enum import Jobs
-
-
-class Vector3(OffsetStruct({
-    'x': (c_float, 0),
-    'z': (c_float, 4),
-    'y': (c_float, 8),
-})):
-    x: float
-    y: float
-    z: float
 
 
 class Effect(OffsetStruct({

@@ -1,5 +1,5 @@
-import re
 import ctypes
+import re
 from typing import Callable, Union, TYPE_CHECKING, Optional
 
 from .hook import Hook
@@ -90,7 +90,7 @@ def bind_value(**kwargs):
     return decorator
 
 
-class _PluginHook(Hook):
+class PluginHook(Hook):
     auto_install: bool
 
     def __init__(self, plugin: 'PluginBase', func_address: int):
@@ -103,11 +103,11 @@ class _PluginHook(Hook):
                 plugin.controller.hook_to_start.append(self)
 
     def install(self):
-        super(_PluginHook, self).install()
+        super(PluginHook, self).install()
         self.plugin.controller.installed_hooks.append(self)
 
     def uninstall(self):
-        super(_PluginHook, self).uninstall()
+        super(PluginHook, self).uninstall()
         try:
             self.plugin.controller.installed_hooks.remove(self)
         except ValueError:
@@ -119,7 +119,7 @@ def plugin_hook(_restype=ctypes.c_void_p, _argtypes: Optional[list] = None, _aut
         _argtypes = []
 
     def decorator(func):
-        class PluginHook(_PluginHook):
+        class _PluginHook(PluginHook):
             auto_install = _auto_install
             argtypes = _argtypes
             restype = _restype
@@ -127,6 +127,6 @@ def plugin_hook(_restype=ctypes.c_void_p, _argtypes: Optional[list] = None, _aut
             def hook_function(self, *args):
                 return func(self.plugin, self, *args)
 
-        return PluginHook
+        return _PluginHook
 
     return decorator

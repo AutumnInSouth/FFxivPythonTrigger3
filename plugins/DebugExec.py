@@ -1,14 +1,13 @@
-import traceback
 import io
+import traceback
 
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.exceptions import NeedRequirementError, PluginNotFoundException
 
 try:
     from aiohttp import web
 except ModuleNotFoundError:
-    from FFxivPythonTrigger.exceptions import NeedRequirementError
-
     raise NeedRequirementError('aiohttp')
 
 

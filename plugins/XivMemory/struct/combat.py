@@ -2,7 +2,7 @@ from ctypes import *
 from typing import Iterable, TYPE_CHECKING
 
 from FFxivPythonTrigger.saint_coinach import realm
-from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 action_sheet = realm.game_data.get_sheet('Action')
 

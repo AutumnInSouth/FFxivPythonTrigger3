@@ -1,8 +1,11 @@
 from ctypes import *
-from typing import Annotated, List
 from inspect import stack
+from typing import Annotated, List, Optional, TYPE_CHECKING, Type, Callable
 
 from . import EasyHook
+
+if TYPE_CHECKING:
+    from ..ffxiv_python_trigger import PluginBase
 
 RAISE_ERROR = False
 
@@ -119,3 +122,53 @@ class Hook(object):
 
 
 hook_manager: Annotated[dict[int, list[Hook]], "manage those installed hooks"] = dict()
+
+
+class PluginHook(Hook):
+    """
+    A hook class for fpt plugins, which can be auto install / uninstall,
+    and easier to communicate between the hook and the plugin
+    """
+    auto_install: bool
+
+    def __init__(self, plugin: 'PluginBase', func_address: int):
+        super().__init__(func_address)
+        self.plugin = plugin
+        if self.auto_install:
+            if plugin.controller.started:
+                self.install_and_enable()
+            else:
+                plugin.controller.hook_to_start.append(self)
+
+    def install(self):
+        super(PluginHook, self).install()
+        self.plugin.controller.installed_hooks.append(self)
+
+    def uninstall(self):
+        super(PluginHook, self).uninstall()
+        try:
+            self.plugin.controller.installed_hooks.remove(self)
+        except ValueError:
+            pass
+
+    @classmethod
+    def decorator(cls, _restype=c_void_p, _argtypes: Optional[list] = None,
+                  _auto_install: bool = False) -> Callable[[Callable], Type['PluginHook']]:
+        """
+        create a decorator for making PluginHook from a single function
+        """
+        if _argtypes is None: _argtypes = []
+
+        def decorator(func: Callable) -> Type['PluginHook']:
+            class TempClass(cls):
+                auto_install = _auto_install
+                argtypes = _argtypes
+                restype = _restype
+
+                def hook_function(self, *args):
+                    return func(self.plugin, self, *args)
+
+            TempClass.__name__ = func.__name__
+            return TempClass
+
+        return decorator

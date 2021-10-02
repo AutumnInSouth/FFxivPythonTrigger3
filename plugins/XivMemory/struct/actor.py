@@ -1,10 +1,10 @@
 import math
 from ctypes import *
-from typing import Dict, Set, Iterator, Tuple, Optional,TYPE_CHECKING
+from typing import Dict, Set, Iterator, Tuple, Optional, TYPE_CHECKING
 
-from FFxivPythonTrigger.utils import circle
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-
+from FFxivPythonTrigger.popular_struct import Position
+from FFxivPythonTrigger.utils import circle
 from .enum import Jobs, ActorType
 
 ACTOR_TABLE_SIZE = 424
@@ -40,17 +40,6 @@ class Effects(Effect * 30):
         for effect in self:
             if effect.buffId and (source is None or effect.actorId == source):
                 yield effect.buffId, effect
-
-
-class Position(OffsetStruct({
-    'x': (c_float, 0),
-    'z': (c_float, 4),
-    'y': (c_float, 8),
-    'r': (c_float, 16)
-})):
-    x: float
-    y: float
-    z: float
 
 
 class Actor(OffsetStruct({

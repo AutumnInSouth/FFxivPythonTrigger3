@@ -1,20 +1,18 @@
 from ctypes import *
-from typing import Optional
 
 from FFxivPythonTrigger import PluginBase
-from FFxivPythonTrigger.decorator import plugin_hook
 from FFxivPythonTrigger.address_manager import AddressManager
+from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float, read_ushort
 from FFxivPythonTrigger.memory.struct_factory import PointerStruct
-
 from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
-from .struct.job_gauge import gauges
-from .struct.player_info import Player
-from .struct.others import Target, Movement
 from .struct.inventory import InventoryPageIdx
+from .struct.job_gauge import gauges
+from .struct.others import Target, Movement
 from .struct.party import PartyList
+from .struct.player_info import Player
 
 
 class XivMemory(PluginBase):
@@ -77,7 +75,7 @@ class XivMemory(PluginBase):
         self.world_id = 0
         self.WorldIdHook(self, self._address["world_id_hook"])
 
-    @plugin_hook(_restype=c_int64, _argtypes=[c_int64, c_int64], _auto_install=True)
+    @PluginHook.decorator(_restype=c_int64, _argtypes=[c_int64, c_int64], _auto_install=True)
     def WorldIdHook(self, hook, a1, a2):
         self.world_id = read_ushort(a2 + 4)
         return hook.original(a1, a2)

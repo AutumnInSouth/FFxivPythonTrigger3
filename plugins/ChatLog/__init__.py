@@ -1,13 +1,13 @@
+from ctypes import *
 from datetime import datetime
 from functools import cache
 from traceback import format_exc
-from ctypes import *
 
 from FFxivPythonTrigger import EventBase, PluginBase, process_event
-from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.memory import read_memory
 from FFxivPythonTrigger.address_manager import AddressManager
-
+from FFxivPythonTrigger.hook import PluginHook
+from FFxivPythonTrigger.memory import read_memory
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from .chat_log import ChatLog
 
 sig = "48 89 ? ? ? 48 89 ? ? ? 48 89 ? ? ? 57 41 ? 41 ? 48 83 EC ? 48 8B ? ? 48 8B ? 48 2B ? ? 4C 8B"
@@ -57,18 +57,14 @@ class ChatLogPlugin(PluginBase):
     def __init__(self):
         super(ChatLogPlugin, self).__init__()
 
-        class LogHook(self.PluginHook):
-            restype = c_int64
-            argtypes = [c_int64, POINTER(c_ubyte), c_int]
-
-            def hook_function(_self, a1, buffer, size):
-                try:
-                    if self.chat_log is None:
-                        self.chat_log = read_memory(ChatLogTable, a1 - 72)
-                    process_event(ChatLogEvent(ChatLog.from_buffer(bytearray(buffer[:size]))))
-                except Exception:
-                    self.logger.error(format_exc())
-                return _self.original(a1, buffer, size)
-
-        self.hook = LogHook(AddressManager(self.name, self.logger).scan_address("hook addr", sig), True)
         self.chat_log = None
+        self.LogHook(self, AddressManager(self.name, self.logger).scan_address("hook addr", sig))
+
+    @PluginHook.decorator(_restype=c_int64, _argtypes=[c_int64, POINTER(c_ubyte), c_int], _auto_install=True)
+    def LogHook(self, hook, a1, buffer, size):
+        try:
+            if self.chat_log is None: self.chat_log = read_memory(ChatLogTable, a1 - 72)
+            process_event(ChatLogEvent(ChatLog.from_buffer(bytearray(buffer[:size]))))
+        except Exception:
+            self.logger.error(format_exc())
+        return hook.original(a1, buffer, size)

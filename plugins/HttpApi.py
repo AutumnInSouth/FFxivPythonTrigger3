@@ -1,16 +1,14 @@
-import traceback
 import asyncio
+import traceback
+
+from FFxivPythonTrigger import PluginBase, plugins
+from FFxivPythonTrigger.decorator import unload_callback, event
+from FFxivPythonTrigger.exceptions import PluginNotFoundException, NeedRequirementError
 
 try:
     from aiohttp import web
 except ModuleNotFoundError:
-    from FFxivPythonTrigger.exceptions import NeedRequirementError
-
     raise NeedRequirementError('aiohttp')
-
-from FFxivPythonTrigger import PluginBase, plugins
-from FFxivPythonTrigger.decorator import unload_callback, event
-from FFxivPythonTrigger.exceptions import PluginNotFoundException
 
 default_host = "127.0.0.1"
 default_port = 2019
@@ -59,7 +57,8 @@ class HttpApiPlugin(PluginBase):
             try:
                 res = await self.routes[paths[0]](request)
             except Exception:
-                res = web.json_response({'msg': 'server error occurred', 'trace': traceback.format_exc(), 'code': 500}, status=500)
+                res = web.json_response({'msg': 'server error occurred', 'trace': traceback.format_exc(), 'code': 500},
+                                        status=500)
         self.logger.debug("request:%s ; response: %s" % (request, res))
         return res
 
