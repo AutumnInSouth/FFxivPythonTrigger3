@@ -1,6 +1,5 @@
-from FFxivPythonTrigger.text_pattern import find_unique_signature_address, find_unique_signature_point
-
 from FFxivPythonTrigger.memory import BASE_ADDR
+from FFxivPythonTrigger.text_pattern import find_unique_signature_address, find_unique_signature_point
 
 sigs = {
     "actor_table": {
@@ -82,6 +81,16 @@ sigs = {
     "pvp_action": {
         'call': find_unique_signature_point,
         'param': "48 8D 0D * * * * 40 0F 95 C6",
+        'add': BASE_ADDR,
+    },
+    "marking_module[local_way_mark]": {
+        'call': find_unique_signature_point,
+        'param': "48 8D ? * * * * 41 B0 ? E8 ? ? ? ? 85 C0",
+        'add': BASE_ADDR + 0x1b0,
+    },
+    "mo_ui_entity_hook": {
+        'call': find_unique_signature_point,
+        'param': "E8 * * * * 48 8B ? ? ? 48 8B ? ? ? 4C 8B ? ? ? 41 83 FC",
         'add': BASE_ADDR,
     },
 }

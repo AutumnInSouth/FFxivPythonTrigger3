@@ -27,4 +27,14 @@ sigs = {
         'param': "48 8D 0D * * * * E8 ? ? ? ? 8B F8 8B CF",
         'add': BASE_ADDR,
     },
+    "head_mark": {
+        'call': find_unique_signature_address,
+        'param': "48 89 5C 24 ?? 48 89 6C 24 ?? 57 48 83 EC ?? 8D 42",
+        'add': BASE_ADDR,
+    },
+    "marking_controller": {
+        'call': find_unique_signature_point,
+        'param': "48 8D ? * * * * 41 B0 ? E8 ? ? ? ? 85 C0",
+        'add': BASE_ADDR,
+    },
 }

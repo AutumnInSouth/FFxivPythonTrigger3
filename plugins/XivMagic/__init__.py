@@ -1,3 +1,5 @@
+import json
+
 from FFxivPythonTrigger import PluginBase, plugins
 from FFxivPythonTrigger.address_manager import AddressManager
 from FFxivPythonTrigger.decorator import event
@@ -10,6 +12,7 @@ except ModuleNotFoundError:
 
 from .do_action import DoAction, DoActionLocation
 from .do_text_command import DoTextCommand
+from .head_mark import HeadMark
 from .sigs import sigs
 
 
@@ -22,6 +25,7 @@ class XivMagic(PluginBase):
         self.do_action = DoAction(self.address['do_action'], self.address('action_manager'))
         self.do_action_location = DoActionLocation(self.address['do_action_location'], self.address('action_manager'))
         self.do_text_command = DoTextCommand(self.address['do_text_command'], self.address['text_command_ui_module'])
+        self.head_mark = HeadMark(self.address['head_mark'], self.address['marking_controller'])
         self.register_http_api_route()
 
     @event("plugin_load:HttpApi")
@@ -29,6 +33,7 @@ class XivMagic(PluginBase):
         try:
             plugins.HttpApi.register_post_route(self, 'command', self.text_command_handler)
             plugins.HttpApi.register_post_route(self, 'useitem', self.use_item_handler)
+            plugins.HttpApi.register_post_route(self, 'mark', self.head_mark_handler)
         except PluginNotFoundException:
             self.logger.warning("HttpApi is not found")
 
@@ -49,3 +54,28 @@ class XivMagic(PluginBase):
         self.logger.debug("use_item_handler", item_id)
         self.do_action.use_item(item_id)
         return web.json_response({'msg': 'success'})
+
+    async def head_mark_handler(self, request: web.Request):
+        try:
+            data = json.loads(await request.text())
+        except json.JSONDecodeError:
+            return web.json_response({'msg': 'failed', 'rtn': 'json error'})
+        if not isinstance(data, dict):
+            return web.json_response({'msg': 'failed', 'rtn': 'data should be dictionary'})
+
+        if "Name" in data:
+            target = list(plugins.XivMemory.actor_table.get_actors_by_name(data["Name"]))
+            if not target:
+                return web.json_response({'msg': 'failed', 'rtn': 'actor not found'})
+            target = target[0].id
+        elif "ActorId" in data:
+            target = int(data["ActorId"])
+        else:
+            return web.json_response({'msg': 'failed', 'rtn': 'no target'})
+
+        try:
+            self.head_mark(data["MarkType"], target)
+        except KeyError:
+            return web.json_response({'msg': 'failed', 'rtn': 'Invalid MarkType'})
+        else:
+            return web.json_response({'msg': 'success'})
