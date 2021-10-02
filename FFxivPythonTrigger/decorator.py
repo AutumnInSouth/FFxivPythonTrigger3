@@ -5,41 +5,87 @@ from typing import Callable, Union, TYPE_CHECKING, Optional
 from .hook import Hook
 
 if TYPE_CHECKING:
-    from .ffxiv_python_trigger import PluginBase
+    from .ffxiv_python_trigger import PluginBase, EventBase
 
 re_pattern = Union[str, re.Pattern]
 
+ConditionType = Union[str, Callable[[], bool]]
+ReEventType = Callable[['PluginBase', 'EventBase', 're.Match'], any]
+EventType = Callable[['PluginBase', 'EventBase'], any]
+
 
 class ReEventCall(object):
-    def __init__(self, pattern: re_pattern, func: Callable, limit_sec: float):
+    def __init__(
+            self,
+            pattern: re_pattern,
+            func: Optional[ReEventType],
+            limit_sec: float = 0.1,
+            condition: Optional[ConditionType] = None
+    ):
         self.pattern = pattern if isinstance(pattern, re.Pattern) else re.compile(pattern)
         self.func = func
         self.limit_sec = limit_sec
+        self.condition = condition
 
     def __get__(self, obj, obj_type=None):
-        return self if obj is None else lambda evt=None, match=None: self.func(obj, evt, match)
+        if obj is None:
+            return self
+
+        if self.condition is None:
+            def callback(evt: 'EventBase' = None, match: re.Match = None):
+                self.func(obj, evt, match)
+        else:
+            condition = getattr(obj, self.condition) if isinstance(self.condition, str) else self.condition
+
+            def callback(evt: 'EventBase' = None, match: re.Match = None):
+                if condition():
+                    self.func(obj, evt, match)
+
+        callback.__name__ = self.func.__name__
+        return callback
 
 
 class EventCall(object):
-    def __init__(self, event_id: any, func: Callable, limit_sec: float):
+    def __init__(
+            self,
+            event_id: any,
+            func: Optional[EventType],
+            limit_sec: float = 0.1,
+            condition: Optional[ConditionType] = None
+    ):
         self.event_id = event_id
         self.func = func
         self.limit_sec = limit_sec
+        self.condition = condition
 
     def __get__(self, obj, obj_type=None):
-        return self if obj is None else lambda evt=None: self.func(obj, evt)
+        if obj is None:
+            return self
+
+        if self.condition is None:
+            def callback(evt: 'EventBase' = None):
+                self.func(obj, evt)
+        else:
+            condition = getattr(obj, self.condition) if isinstance(self.condition, str) else self.condition
+
+            def callback(evt: 'EventBase' = None):
+                if condition():
+                    self.func(obj, evt)
+
+        callback.__name__ = self.func.__name__
+        return callback
 
 
-def re_event(pattern: re_pattern, limit_sec: float = 0.1):
-    def decorator(func: Callable):
-        return ReEventCall(pattern, func, limit_sec)
+def re_event(pattern: re_pattern, limit_sec: float = 0.1, condition: Optional[ConditionType] = None):
+    def decorator(func: ReEventType):
+        return ReEventCall(pattern=pattern, func=func, limit_sec=limit_sec, condition=condition)
 
     return decorator
 
 
-def event(event_id: any, limit_sec: float = 0.1):
-    def decorator(func: Callable):
-        return EventCall(event_id, func, limit_sec)
+def event(event_id: any, limit_sec: float = 0.1, condition: Optional[ConditionType] = None):
+    def decorator(func: EventType):
+        return EventCall(event_id=event_id, func=func, limit_sec=limit_sec, condition=condition)
 
     return decorator
 
