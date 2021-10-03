@@ -1,5 +1,3 @@
-import self as self
-
 from . import process, pattern
 from .memory import *
 

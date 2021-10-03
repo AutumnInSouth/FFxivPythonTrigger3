@@ -2,24 +2,24 @@ from ctypes import *
 
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.decorator import plugin_hook
-from FFxivPythonTrigger.memory import BASE_ADDR, read_ushort
-from FFxivPythonTrigger.popular_struct import Vector3
+from FFxivPythonTrigger.memory import BASE_ADDR, read_int, read_ulonglong
 
 
 class TestHook(PluginBase):
     name = "test_hook"
 
-    """char __fastcall sub_1407AEE00(__int64 a1)"""
-
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.test_hook = self.TestHook(self, BASE_ADDR + 0x7AEE00)
+        self.recv(self, BASE_ADDR + 0x1F0090)
 
-    @plugin_hook(_restype=c_ubyte,
-                 _argtypes=[c_int64],
-                 _auto_install=True)
-    def TestHook(self, hook, action_manager_address):
-        ans = hook.original(action_manager_address)
-        self.logger(ans, hex(action_manager_address),)
-        return ans
+    """void (__fastcall **)(_QWORD, _QWORD, __int64))"""
+    """__int64 __fastcall sub_1401F0090(__int64 a1)"""
+
+    @plugin_hook(_argtypes=[c_int64, c_int64, c_int64], _auto_install=True)
+    def recv(self, hook, a1, a2, a3):
+        self.logger(f"{a1:x} {a2:x} {a3:x} ")
+        hook.original(a1, a2, a3)
+        self.cnt += 1
+        if self.cnt > 10:
+            hook.uninstall()

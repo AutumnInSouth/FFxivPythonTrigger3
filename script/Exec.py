@@ -40,7 +40,11 @@ for i in range(40):
     sleep(0.5)
 plugins.XivMagic.way_mark.clear(9)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c6.encode('utf-8')).text
+c7="""
+from FFxivPythonTrigger.text_pattern import find_unique_signature_address
+print(hex(find_unique_signature_address("48 89 5C 24 ?? 56 48 83 EC 50 8B F2")))
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c7.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)
