@@ -2,6 +2,12 @@ from ctypes import *
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.popular_struct import Vector3, Position
+from .actor import Actor
+
+head_marking_names = ['attack1', 'attack2', 'attack3', 'attack4', 'attack5',
+                      'bind1', 'bind2', 'bind3', 'stop1', 'stop2', 'square',
+                      'circle', 'cross', 'triangle']
+way_mark_names = ['a', 'b', 'c', 'd', 'one', 'two', 'three', 'four']
 
 
 class WayMarkStruct(OffsetStruct({
@@ -10,7 +16,7 @@ class WayMarkStruct(OffsetStruct({
     '_z': (c_int, 0x14),
     '_y': (c_int, 0x18),
     'is_active': (c_bool, 0x1c),
-})):
+}, 0x20)):
     is_active: bool
 
     @property
@@ -85,3 +91,63 @@ class LocalWayMarks(OffsetStruct({
     two: WayMarkStruct
     three: WayMarkStruct
     four: WayMarkStruct
+
+
+class HeadMarkStruct(OffsetStruct({
+    '_actor_id': c_uint
+}, 8)):
+    @property
+    def actor_id(self):
+        return self._actor_id
+
+    @actor_id.setter
+    def actor_id(self, value):
+        if not value:
+            self._actor_id = 0xe0000000
+        else:
+            if isinstance(value, Actor):
+                self._actor_id = value.id
+            elif isinstance(value, int):
+                self._actor_id = value
+            else:
+                raise ValueError(f"unsupported value type: {type(value)}")
+
+
+class LocalHeadMarks(OffsetStruct({
+    'attack1': HeadMarkStruct,
+    'attack2': HeadMarkStruct,
+    'attack3': HeadMarkStruct,
+    'attack4': HeadMarkStruct,
+    'attack5': HeadMarkStruct,
+    'bind1': HeadMarkStruct,
+    'bind2': HeadMarkStruct,
+    'bind3': HeadMarkStruct,
+    'stop1': HeadMarkStruct,
+    'stop2': HeadMarkStruct,
+    'square': HeadMarkStruct,
+    'circle': HeadMarkStruct,
+    'cross': HeadMarkStruct,
+    'triangle': HeadMarkStruct,
+})):
+    attack1: HeadMarkStruct
+    attack2: HeadMarkStruct
+    attack3: HeadMarkStruct
+    attack4: HeadMarkStruct
+    attack5: HeadMarkStruct
+    bind1: HeadMarkStruct
+    bind2: HeadMarkStruct
+    bind3: HeadMarkStruct
+    stop1: HeadMarkStruct
+    stop2: HeadMarkStruct
+    square: HeadMarkStruct
+    circle: HeadMarkStruct
+    cross: HeadMarkStruct
+    triangle: HeadMarkStruct
+
+
+class Markings(OffsetStruct({
+    'head_mark': (LocalHeadMarks, 0x10),
+    'way_mark': (LocalWayMarks, 0x1b0),
+})):
+    head_mark: LocalHeadMarks
+    way_mark: LocalWayMarks

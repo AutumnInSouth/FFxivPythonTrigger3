@@ -13,6 +13,7 @@ except ModuleNotFoundError:
 from .do_action import DoAction, DoActionLocation
 from .do_text_command import DoTextCommand
 from .head_mark import HeadMark
+from .way_mark import WayMark
 from .sigs import sigs
 
 
@@ -22,10 +23,12 @@ class XivMagic(PluginBase):
     def __init__(self):
         super().__init__()
         self.address = AddressManager(self.name, self.logger).load(sigs)
-        self.do_action = DoAction(self.address['do_action'], self.address('action_manager'))
-        self.do_action_location = DoActionLocation(self.address['do_action_location'], self.address('action_manager'))
+        self.do_action = DoAction(self.address['do_action'], self.address['action_manager'])
+        self.do_action_location = DoActionLocation(self.address['do_action_location'], self.address['action_manager'])
         self.do_text_command = DoTextCommand(self.address['do_text_command'], self.address['text_command_ui_module'])
         self.head_mark = HeadMark(self.address['head_mark'], self.address['marking_controller'])
+        self.way_mark = WayMark(self.address['way_mark_set'], self.address['way_mark_clear'], self.address['way_mark_clear_all'],
+                                self.address['marking_controller'], self.address['action_manager'])
         self.register_http_api_route()
 
     @event("plugin_load:HttpApi")

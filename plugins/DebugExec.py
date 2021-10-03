@@ -17,14 +17,14 @@ class DebugExecPlugin(PluginBase):
     async def exec_debug(self, request: web.Request):
         data = {'msg': 'success'}
         str_out = io.StringIO()
+        normal_out = sys.stdout
+        sys.stdout = str_out
         try:
-            normal_out = sys.stdout
-            sys.stdout = str_out
             exec(await request.text())
-            sys.stdout = normal_out
         except Exception:
             data['msg'] = 'error occurred'
             data['traceback'] = traceback.format_exc()
+        sys.stdout = normal_out
         data['print'] = str_out.getvalue()
         return web.json_response(data)
 

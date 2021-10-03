@@ -32,6 +32,21 @@ sigs = {
         'param': "48 89 5C 24 ?? 48 89 6C 24 ?? 57 48 83 EC ?? 8D 42",
         'add': BASE_ADDR,
     },
+    "way_mark_set": {
+        'call': find_unique_signature_address,
+        'param': "48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 8B F2 49 8B E8",
+        'add': BASE_ADDR,
+    },
+    "way_mark_clear": {
+        'call': find_unique_signature_address,
+        'param': "48 89 74 24 ? 57 48 83 EC ? 8B F2 48 8B F9 83 FA ? 72 ?",
+        'add': BASE_ADDR,
+    },
+    "way_mark_clear_all": {
+        'call': find_unique_signature_address,
+        'param': "41 55 48 83 EC ? 4C 8B E9 E8 ? ? ? ? 84 C0",
+        'add': BASE_ADDR,
+    },
     "marking_controller": {
         'call': find_unique_signature_point,
         'param': "48 8D ? * * * * 41 B0 ? E8 ? ? ? ? 85 C0",

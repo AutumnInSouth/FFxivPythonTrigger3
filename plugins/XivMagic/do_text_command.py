@@ -23,8 +23,8 @@ class DoTextCommand(object):
         encoded_command = command.encode('utf-8')
         cmd_size = len(encoded_command)
         cmd = OffsetStruct({"cmd": c_char * cmd_size}, full_size=cmd_size + 30)(cmd=encoded_command)
-        arg = TextCommandStruct(cmd=byref(cmd), t1=64, tLength=cmd_size + 1, t3=0)
-        return self._original(self.ui_module.value, byref(arg), 0, 0)
+        arg = TextCommandStruct(cmd=addressof(cmd), t1=64, tLength=cmd_size + 1, t3=0)
+        return self._original(self.ui_module.value, addressof(arg), 0, 0)
 
     def __call__(self, command: str):
         frame_inject.register_once_call(self.original, command)

@@ -11,7 +11,7 @@ from .struct.actor import ActorTable, Actor
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
 from .struct.inventory import InventoryPageIdx
 from .struct.job_gauge import gauges
-from .struct.local_way_mark import LocalWayMarks
+from .struct.markings import Markings
 from .struct.others import Target, Movement
 from .struct.party import PartyList
 from .struct.player_info import Player
@@ -31,7 +31,7 @@ class XivMemory(PluginBase):
     party: PartyList
     pvp_action: PvpAction
     world_id: int
-    local_way_marks: LocalWayMarks
+    markings: Markings
 
     def __init__(self):
         super().__init__()
@@ -50,7 +50,7 @@ class XivMemory(PluginBase):
         self.party = read_memory(PartyList, self._address['party'])
         self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
-        self.local_way_marks = read_memory(LocalWayMarks, self._address['marking_module[local_way_mark]'])
+        self.markings = read_memory(Markings, self._address['markings'])
         self._world_id_hook = self.WorldIdHook(self, self._address["world_id_hook"])
         self._mo_ui_entity_hook = self.MoUiEntityHook(self, self._address["mo_ui_entity_hook"])
         self.utils = Utils(self)

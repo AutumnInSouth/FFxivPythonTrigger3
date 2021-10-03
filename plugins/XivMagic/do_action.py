@@ -18,7 +18,7 @@ class DoAction(object):
     def __call__(self, action_type: int, action_id: int, target_id=0xE0000000, unk1=0, unk2=0, unk3=0):
         frame_inject.register_once_call(self.original, action_type, action_id, target_id, unk1, unk2, unk3)
 
-    def use_action(self, action_id: int, target_id: int):
+    def use_action(self, action_id: int, target_id=0xE0000000):
         self(1, action_id, target_id)
 
     def use_item(self, item_id, target_id=0xE0000000, block_id=65535):

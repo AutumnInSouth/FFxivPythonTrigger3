@@ -83,10 +83,10 @@ sigs = {
         'param': "48 8D 0D * * * * 40 0F 95 C6",
         'add': BASE_ADDR,
     },
-    "marking_module[local_way_mark]": {
+    "markings": {
         'call': find_unique_signature_point,
         'param': "48 8D ? * * * * 41 B0 ? E8 ? ? ? ? 85 C0",
-        'add': BASE_ADDR + 0x1b0,
+        'add': BASE_ADDR,
     },
     "mo_ui_entity_hook": {
         'call': find_unique_signature_point,
