@@ -1,6 +1,8 @@
 import hashlib
 import os
+import random
 import re
+import string
 import threading
 import time
 from math import sin, cos
@@ -137,3 +139,7 @@ def get_attr_by_str_path(obj: any, path: str):
         else:
             obj = getattr(obj, p)
     return obj
+
+
+def rand_char(length=16):
+    return ''.join(random.choice(string.digits + string.ascii_letters) for i in range(length))

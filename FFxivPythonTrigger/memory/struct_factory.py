@@ -1,7 +1,8 @@
-from ctypes import *
 from _ctypes import Array
+from ctypes import *
 from functools import cache
 from typing import Type, List, Tuple, Dict
+
 from . import read_pointer_shift, read_memory
 
 
@@ -18,6 +19,7 @@ def get_data(data, full=False):
 class _OffsetStruct(Structure):
     _pack_ = 1
     raw_fields: Dict[str, Tuple[any, int]] = None
+    struct_size = 0
 
     @cache
     def _properties(self):
@@ -82,7 +84,7 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None, max_pad_length:
     return type(
         (name or f"OffsetStruct_{current_size:#X}"),
         (_OffsetStruct,),
-        {'raw_fields': fields, '_fields_': set_fields, }
+        {'raw_fields': fields, '_fields_': set_fields, 'struct_size':current_size}
     )
 
 

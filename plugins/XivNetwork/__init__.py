@@ -1,3 +1,13 @@
+from FFxivPythonTrigger import PluginBase
+
+
+class XivNetwork(PluginBase):
+    name = ""
+
+    def is_zone_socket(self, socket: int) -> bool:
+        pass
+
+
 """
 <?xml version="1.0" encoding="utf-8"?>
 <CheatTable>
