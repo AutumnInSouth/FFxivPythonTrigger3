@@ -1,10 +1,17 @@
+from typing import Iterable, Tuple
+
 from FFxivPythonTrigger import PluginBase
+from .base_struct import BundleHeader, MessageHeader
 
 
 class XivNetwork(PluginBase):
-    name = ""
+    name = "XivNetwork"
 
     def is_zone_socket(self, socket: int) -> bool:
+        pass
+
+    def process_msg(self, bundle_header: BundleHeader, messages: Iterable[Tuple[MessageHeader, bytearray]],
+                    is_send: bool, is_zone: bool) -> bytearray:
         pass
 
 

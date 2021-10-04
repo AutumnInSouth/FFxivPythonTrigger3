@@ -1,9 +1,11 @@
 from ctypes import *
+from datetime import datetime
+from functools import cached_property
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 
-class FFXIVBundleHeader(OffsetStruct({
+class BundleHeader(OffsetStruct({
     'magic0': c_uint,
     'magic1': c_uint,
     'magic2': c_uint,
@@ -17,7 +19,7 @@ class FFXIVBundleHeader(OffsetStruct({
     'unk3': c_ushort,
     'unk4': c_ushort,
     'unk5': c_ushort,
-},40)):
+}, 40)):
     magic0: int
     magic1: int
     magic2: int
@@ -32,8 +34,12 @@ class FFXIVBundleHeader(OffsetStruct({
     unk4: int
     unk5: int
 
+    @cached_property
+    def message_time(self):
+        return datetime.fromtimestamp(self.epoch)
 
-class ServerMessageHeader (OffsetStruct({
+
+class MessageHeader(OffsetStruct({
     'msg_length': c_uint,
     'actor_id': c_uint,
     'login_user_id': c_uint,
@@ -43,7 +49,7 @@ class ServerMessageHeader (OffsetStruct({
     'unk3': c_uint,
     'sec': c_uint,
     'unk4': c_uint,
-},32)):
+}, 32)):
     msg_length: int
     actor_id: int
     login_user_id: int
