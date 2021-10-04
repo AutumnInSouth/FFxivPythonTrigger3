@@ -156,7 +156,7 @@ class EventBase(object):
     id = 0
     name = "unnamed event"
 
-    def str_event(self) -> Optional[str]:
+    def str_event(self) -> Optional[Union[str, list[str], tuple[str]]]:
         pass
 
     def text(self) -> any:
@@ -505,16 +505,19 @@ if EVENT_MULTI_THREAD:
     def process_event(event: EventBase):
         for callback in _events.get('*', []).copy():
             callback.call(event)
-        for callback in _events.get(event.id, []).copy():
-            callback.call(event)
-        if isinstance(event.id, str):
-            for pattern in list(_re_events.keys()):
-                match = pattern.search(event.id)
-                if match:
-                    for callback in _re_events[pattern].copy():
-                        callback.call(event, match)
-        str_event = event.str_event()
-        if str_event is not None:
+        e_ids = event.id if isinstance(event.id, (list, tuple)) else [event.id]
+        for e_id in e_ids:
+            for callback in _events.get(e_id, []).copy():
+                callback.call(event)
+            if isinstance(e_id, str):
+                for pattern in list(_re_events.keys()):
+                    match = pattern.search(e_id)
+                    if match:
+                        for callback in _re_events[pattern].copy():
+                            callback.call(event, match)
+        str_events = event.str_event()
+        if str_events is None: return
+        for str_event in (str_events if isinstance(str_events, (list, tuple)) else [str_events]):
             append_missions(Mission('client_event', 0, process_clients, 'fpt_event', str_event))
             for callback in _events.get(str_event, []).copy():
                 callback.call(event)

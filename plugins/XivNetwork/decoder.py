@@ -47,12 +47,11 @@ def process_hook_msg(buffer: bytearray, in_queue: Queue[bytearray], out_queue: Q
             if header.length > len(buffer):
                 break
             try:
-                unpacked = unpack_message(buffer[:header.length])
+                out_queue.put(unpack_message(buffer[:header.length]))
             except Exception as e:
                 _logger.error(f"Error in unpack message:{e}\n{format_exc()}")
                 reset_buffer(buffer)
                 continue
-            out_queue.put(unpacked)
             del buffer[:header.length]
         out_queue.put(None)
 
