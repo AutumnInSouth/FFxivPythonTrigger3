@@ -1,5 +1,6 @@
-from queue import Queue
+from queue import Queue, Empty as QueueEmpty
 from struct import pack
+from threading import Lock
 from traceback import format_exc
 from typing import Iterable, Tuple, List, Optional
 from zlib import decompress, MAX_WBITS, compress
@@ -11,49 +12,65 @@ SAFE_LIMIT = 100
 MAGIC_NUMBER = 0x41a05252
 MAGIC_NUMBER_BYTES = pack('I', MAGIC_NUMBER)
 _logger = Logger("XivNetwork/Decoder")
-unpacked_messages = Tuple[BundleHeader, List[Tuple[MessageHeader, bytearray]]]
+unpacked_messages = Tuple[BundleHeader, List[bytearray]]
 
 
-def reset_buffer(buffer: bytearray):
-    try:
-        idx = buffer.index(MAGIC_NUMBER_BYTES, 1)
-    except ValueError:
-        buffer.clear()
-    else:
-        del buffer[:idx]
+class PacketProcessor(object):
+    def __init__(self):
+        self.buffer = bytearray()
+        self.lock = Lock()
+        self.out_queue = Queue()
 
-
-def process_hook_msg(buffer: bytearray, in_queue: Queue[bytearray], out_queue: Queue[Optional[unpacked_messages]]):
-    while True:
-        buffer.extend(in_queue.get())
+    def process(self, packet: bytearray):
+        self.buffer.extend(packet)
         msg_cnt = 0
-        while buffer:
+        while self.buffer:
             msg_cnt += 1
             if msg_cnt >= SAFE_LIMIT:
                 _logger.error("too many msg in buffer!")
-                buffer.clear()
+                self.out_queue.put(self.buffer.copy())
+                self.buffer.clear()
                 break
-            if len(buffer) < BundleHeader.struct_size:
+            if len(self.buffer) < BundleHeader.struct_size:
+                # _logger("not enough for header")
                 break
-            header = BundleHeader.from_buffer(buffer[:BundleHeader.struct_size])
+            header = BundleHeader.from_buffer_copy(self.buffer)
             if header.magic0 != MAGIC_NUMBER and header.magic0 and header.magic1 and header.magic2 and header.magic3:
                 _logger.error("Invalid magic in header:", header.get_data())
-                reset_buffer(buffer)
+                self.reset_buffer()
                 continue
             if not header.length:
                 _logger.error("Invalid header length:", header.get_data())
-                reset_buffer(buffer)
+                self.reset_buffer()
                 continue
-            if header.length > len(buffer):
+            if header.length > len(self.buffer):
+                # _logger("not enough for full")
                 break
             try:
-                out_queue.put(unpack_message(buffer[:header.length]))
+                self.out_queue.put(unpack_message(self.buffer[:header.length]))
             except Exception as e:
                 _logger.error(f"Error in unpack message:{e}\n{format_exc()}")
-                reset_buffer(buffer)
+                self.reset_buffer()
                 continue
-            del buffer[:header.length]
-        out_queue.put(None)
+            del self.buffer[:header.length]
+            # _logger("msg put")
+        return self.get()
+
+    def get(self):
+        try:
+            return self.out_queue.get(False)
+        except QueueEmpty:
+            pass
+
+    def reset_buffer(self):
+        try:
+            idx = self.buffer.index(MAGIC_NUMBER_BYTES, 1)
+        except ValueError:
+            self.out_queue.put(self.buffer.copy())
+            self.buffer.clear()
+        else:
+            self.out_queue.put(self.buffer[:idx])
+            del self.buffer[:idx]
 
 
 class UnpackError(Exception): pass
@@ -73,26 +90,32 @@ def unpack_message(data: bytearray) -> unpacked_messages:
     messages = []
     msg_offset = 0
     for i in range(bundle_header.msg_count):
-        message_header = MessageHeader.from_buffer(raw_messages, offset=msg_offset)
-        messages.append((message_header, raw_messages[msg_offset:msg_offset + message_header.msg_length]))
-        msg_offset += message_header.msg_length
+        msg_length = int.from_bytes(raw_messages[msg_offset:msg_offset + 4], byteorder='little')
+        messages.append(raw_messages[msg_offset:msg_offset + msg_length])
+        msg_offset += msg_length
     return bundle_header, messages
 
 
-def pack_message(bundle_header: BundleHeader, messages: Iterable[Tuple[MessageHeader, bytearray]]) -> bytearray:
+def pack_message(bundle_header: BundleHeader, messages: Iterable[bytearray]) -> bytearray:
     raw_message = bytearray()
     cnt = 0
-    for message_header, message in messages:
-        raw_message += bytearray(message_header) + message
+    for message in messages:
+        raw_message += message
         cnt += 1
     if not cnt: return raw_message
     if bundle_header.encoding == 0x0000 or bundle_header.encoding == 0x0001:
         compress_messages = raw_message
     elif bundle_header.encoding == 0x0101 or bundle_header.encoding == 0x0100:
-        compress_messages = compress(raw_message)[2:]
+        compress_messages = compress(raw_message)
     else:
         raise PackError(f"unknown encoding type:{bundle_header.encoding:#x}")
 
     bundle_header.msg_count = cnt
     bundle_header.length = bundle_header.struct_size + len(compress_messages)
     return bytearray(bundle_header) + compress_messages
+
+    # bundle_header.encoding = 0
+    # bundle_header.msg_count = cnt
+    # bundle_header.length = bundle_header.struct_size + len(raw_message)
+    # return bytearray(bundle_header) + raw_message
+

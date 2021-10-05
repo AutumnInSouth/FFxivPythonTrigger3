@@ -1,12 +1,17 @@
+import time
 from ctypes import *
-from queue import Queue, Empty as QueueEmpty
-from typing import TYPE_CHECKING, Optional
+from threading import Lock
+from typing import TYPE_CHECKING
 
 from FFxivPythonTrigger.hook import PluginHook
-from .decoder import process_hook_msg, unpacked_messages, pack_message
+from FFxivPythonTrigger.utils import err_catch
+from .decoder import PacketProcessor, pack_message
 
 if TYPE_CHECKING:
     from . import XivNetwork
+
+RECV_DEBUG = False
+SEND_DEBUG = False
 
 
 class WebActionHook(PluginHook):
@@ -14,86 +19,52 @@ class WebActionHook(PluginHook):
     argtypes = [c_int64, POINTER(c_ubyte), c_int]
     restype = c_int
     plugin: 'XivNetwork'
-    n = ""
 
     def __init__(self, plugin, func_address):
         super().__init__(plugin, func_address)
-        self.zone_socket = 0
-        self.zone_buffer = bytearray()
-        self.zone_in_queue: Queue[bytearray] = Queue()
-        self.zone_out_queue: Queue[Optional[unpacked_messages]] = Queue()
-        self.non_zone_socket = 0
-        self.non_zone_buffer = bytearray()
-        self.non_zone_in_queue: Queue[bytearray] = Queue()
-        self.non_zone_out_queue: Queue[Optional[unpacked_messages]] = Queue()
-        self.zone_process_mission = None
-        self.non_zone_process_mission = None
-
-    def install(self):
-        self.non_zone_in_queue.queue.clear()
-        self.non_zone_out_queue.queue.clear()
-        self.zone_process_mission = self.plugin.create_mission(f'zone_process_{self.n}', 0)
-        self.non_zone_process_mission = self.plugin.create_mission(f'non_zone_process_{self.n}', 0)
-        super().install()
-
-    def uninstall(self):
-        super().uninstall()
-        if self.zone_process_mission is not None:
-            self.zone_process_mission.join(0)
-            self.zone_out_queue.put(None)
-        if self.non_zone_process_mission is not None:
-            self.non_zone_process_mission.join(0)
-            self.non_zone_out_queue.put(None)
-
-    def process_zone_buffer(self):
-        process_hook_msg(self.zone_buffer, self.zone_in_queue, self.zone_out_queue)
-
-    def process_non_zone_buffer(self):
-        process_hook_msg(self.non_zone_buffer, self.non_zone_in_queue, self.non_zone_out_queue)
-
-    def select_queue(self, socket):
-        is_zone = self.plugin.is_zone_socket(socket)
-        if is_zone:
-            if self.zone_socket != socket:
-                self.zone_in_queue.queue.clear()
-                self.zone_out_queue.queue.clear()
-                self.zone_socket = socket
-            return is_zone, self.zone_in_queue, self.zone_out_queue
-        else:
-            if self.non_zone_socket != socket:
-                self.non_zone_in_queue.queue.clear()
-                self.non_zone_out_queue.queue.clear()
-                self.non_zone_socket = socket
-            return is_zone, self.non_zone_in_queue, self.non_zone_out_queue
+        self.original_lock = Lock()
+        self.processors = dict()
 
 
 class SendHook(WebActionHook):
+    @err_catch
     def hook_function(self, socket, buffer, size):
-        is_zone, in_queue, out_queue = self.select_queue(socket)
-        in_queue.put(bytearray(buffer[:size]))
-        out_msg = out_queue.get()
-        while out_msg is not None:
-            bundle_header, messages = out_msg
-            bundle_header, messages = self.plugin.process_msg(bundle_header, messages, True, is_zone)
-            if messages:
-                data = pack_message(bundle_header, messages)
+        if SEND_DEBUG: self.plugin.logger('start send', hex(socket))
+        if SEND_DEBUG:
+            self.plugin.logger('_send', hex(socket), size, hash(bytes(buffer[:size])))
+        with self.original_lock:
+            if socket not in self.processors:
+                self.plugin.logger.debug(f"Initial send decoder of {socket:x}")
+                self.processors[socket] = PacketProcessor()
+        processor = self.processors[socket]
+        with processor.lock:
+            to_send = processor.process(bytearray(buffer[:size]))
+            if to_send is None:
+                self.plugin.logger('send none')
+            while to_send is not None:
+                if isinstance(to_send, bytearray):
+                    data = to_send
+                else:
+                    bundle_header, messages = to_send
+                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, True, socket)
+                    if messages:
+                        data = pack_message(bundle_header, messages)
+                    else:
+                        to_send = processor.get()
+                        continue
                 new_size = len(data)
-                if not self.original(socket, (c_ubyte * new_size).from_buffer(data), new_size):
-                    return 0
-            out_msg = out_queue.get()
+                if SEND_DEBUG:
+                    self.plugin.logger('send', hex(socket), new_size, hash(bytes(data)))
+                success_size = self.original(socket,
+                                             (c_ubyte * new_size).from_buffer(data),
+                                             new_size)
+                if success_size < 1:
+                    self.plugin.logger.error("send error", success_size)
+                    return success_size
+                to_send = processor.get()
+        if SEND_DEBUG:
+            self.plugin.logger('finish send', size)
         return size
-
-
-def process_recv(bundle_header, messages, buffer, size, _buffer):
-    rtn_msg = pack_message(bundle_header, messages)
-    rtn_size = len(rtn_msg)
-    if rtn_size > size:
-        memmove(buffer, rtn_msg, size)
-        _buffer.extend(rtn_msg[size:])
-        return size
-    else:
-        memmove(buffer, rtn_msg, rtn_size)
-        return rtn_size
 
 
 class RecvHook(WebActionHook):
@@ -101,33 +72,59 @@ class RecvHook(WebActionHook):
         super().__init__(plugin, func_address)
         self.buffers = dict()
 
+    @err_catch
     def hook_function(self, socket, buffer, size):
-        is_zone, in_queue, out_queue = self.select_queue(socket)
-        _buffer = self.buffers.setdefault(socket, bytearray())
-        if buffer:
-            rtn_size = min(size, len(_buffer))
-            memmove(buffer, _buffer, rtn_size)
-            del _buffer[:rtn_size]
-            return rtn_size
-        try:
-            rtn_msg = out_queue.get(block=False)
-        except QueueEmpty:
-            pass
-        else:
-            if rtn_msg is not None:
-                bundle_header, messages = rtn_msg
-                bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, is_zone)
-                if messages:
-                    return process_recv(bundle_header, messages, buffer, size, _buffer)
-        while True:
-            success_size = self.original(socket, buffer, size)
-            if not success_size: return 0
-            in_queue.put(bytearray(buffer[:success_size]))
-            data = out_queue.get()
-            if data is None:
-                continue
+        # return self.original(socket,buffer,size)
+        with self.original_lock:
+            if socket not in self.processors:
+                self.plugin.logger.debug(f"Initial recv decoder of {socket:x}")
+                self.processors[socket] = PacketProcessor()
+        processor = self.processors[socket]
+        original_hash = 0
+        with processor.lock:
+            if RECV_DEBUG: self.plugin.logger('start recv', hex(socket))
+            if socket in self.buffers and self.buffers[socket]:
+                rtn = self.buffers[socket]
+                del self.buffers[socket]
             else:
-                bundle_header, messages = data
-                bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, is_zone)
-                if messages:
-                    return process_recv(bundle_header, messages, buffer, size, _buffer)
+                rtn = processor.get()
+                while rtn is None:
+                    success_size = self.original(socket, buffer, size)
+                    if success_size < 1:
+                        self.plugin.logger.error("recv error", success_size)
+                        if success_size != -2 or True: return success_size
+                    if success_size != -2:
+                        new_hash = hash(bytes(buffer[:success_size]))
+                        if RECV_DEBUG:  self.plugin.logger('_recv', hex(socket), f"{success_size}/{size}", new_hash)
+                        original_hash = new_hash
+                        rtn = processor.process(bytearray(buffer[:success_size]))
+                    if rtn is None:
+                        time.sleep(.02)
+                if not isinstance(rtn, bytearray):
+                    bundle_header, messages = rtn
+                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, socket)
+                    rtn = pack_message(bundle_header, messages)
+            extra_rtn = processor.get()
+            while extra_rtn is not None:
+                if not isinstance(extra_rtn, bytearray):
+                    bundle_header, messages = extra_rtn
+                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, socket)
+                    extra_rtn = pack_message(bundle_header, messages)
+                rtn += extra_rtn
+                extra_rtn = processor.get()
+            # rtn+=processor.buffer
+            # processor.buffer.clear()
+            rtn_size = len(rtn)
+            new_hash = hash(bytes(rtn))
+            if new_hash != original_hash:
+                self.plugin.logger.debug(f'fix_recv\t{socket:x}\t{original_hash}=>{new_hash}')
+                if rtn_size > size:
+                    self.buffers[socket] = rtn[size:]
+                    rtn_size = size
+                try:
+                    memmove(buffer, (c_char * rtn_size).from_buffer(rtn), size)
+                except OSError as e:
+                    self.plugin.logger.error(f"{e} at writing to recv buffer from socket {socket:x}")
+                    return -1
+            if RECV_DEBUG: self.plugin.logger('finish recv', hex(socket), rtn_size)
+            return rtn_size

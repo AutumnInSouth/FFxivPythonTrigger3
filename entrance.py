@@ -17,6 +17,7 @@ try:
         'HttpApi',
         'DebugExec',
         'XivMemory',
+        'XivNetwork',
     ])
     run()
 except Exception:

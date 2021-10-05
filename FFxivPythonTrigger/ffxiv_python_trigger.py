@@ -21,7 +21,7 @@ from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .requirements_controller import sub_process_install
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
-from .utils import Counter, get_attr_by_str_path
+from .utils import Counter, get_attr_by_str_path, wait_until
 
 EVENT_MULTI_THREAD = True
 LOG_FILE_SIZE_MAX = 1024 * 1024
@@ -596,24 +596,26 @@ def run():
 
 def init():
     global _allow_create_missions, _log_work
+    log_handler.add((DEBUG, _log_write_buffer.put))
+    log_handler.add((DEBUG, client_log))
+    _allow_create_missions = True
+    _log_work = True
+    _missions_starter_mission.start()
+    _log_mission.start()
+
     ThreadingTCPServer.allow_reuse_address = True
     _server.server_address = ('127.0.0.1', int(os.environ.setdefault('FptSocketPort', "3520")))
     _server.server_bind()
     _server.server_activate()
     _server_mission.start()
+    wait_until(lambda: _clients_subscribe.get('fpt_log'))
 
-    log_handler.add((DEBUG, _log_write_buffer.put))
-    log_handler.add((DEBUG, client_log))
     plugin_path = Path(os.getcwd()) / 'plugins'
     plugin_path.mkdir(exist_ok=True)
     sys.path.insert(0, str(plugin_path))
     for path in _storage.data.setdefault('paths', list()):
         _logger.debug("add plugin path:%s" % path)
         sys.path.insert(0, path)
-    _allow_create_missions = True
-    _log_work = True
-    _missions_starter_mission.start()
-    _log_mission.start()
     _event_process_mission.start()
     frame_inject.install_and_enable()
 

@@ -115,7 +115,7 @@ def wait_until(statement: Callable[[], any], timeout: float = None, period: floa
 def err_catch(func):
     def warper(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         except Exception:
             error('error_catch', format_exc())
 

@@ -41,10 +41,14 @@ for i in range(40):
 plugins.XivMagic.way_mark.clear(9)
 """
 c7="""
-from FFxivPythonTrigger.text_pattern import find_unique_signature_address
-print(hex(find_unique_signature_address("48 89 5C 24 ?? 56 48 83 EC 50 8B F2")))
+from FFxivPythonTrigger.text_pattern import find_unique_signature_address,find_unique_signature_point
+print(hex(find_unique_signature_point(("48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? "
+                       "BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ?"))))
 """
-t = requests.post("http://127.0.0.1:2019/exec", c7.encode('utf-8')).text
+c8="""
+from .text_pattern import find_unique_signature_point
+"""
+t = requests.post("http://127.0.0.1:2019/exec", "reload_module('XivNetwork')".encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)
