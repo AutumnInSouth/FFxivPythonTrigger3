@@ -12,9 +12,10 @@ _storage.save()
 
 
 class AddressManager(object):
-    def __init__(self, key: str, logger: Logger):
+    def __init__(self, key: str, logger: Logger, force_search: bool = False):
         self.storage = _storage_data.setdefault(key, {})
         self.logger = logger
+        self.force_search = force_search
 
     def scan_address(self, key: str, sig: str, add=0):
         return self.get(key, find_unique_signature_address, sig, add=BASE_ADDR + add)
@@ -23,7 +24,7 @@ class AddressManager(object):
         return self.get(key, find_unique_signature_point, sig, add=BASE_ADDR + add)
 
     def get(self, key: str, call: Callable, param: any = None, add=0, **kwargs):
-        if key in self.storage:
+        if key in self.storage and not self.force_search:
             offset = self.storage[key]['offset']
             address = offset + BASE_ADDR
             msg = "address load [{address}] [+{offset}] \"{name}\""
@@ -37,7 +38,7 @@ class AddressManager(object):
                 'offset': offset,
             }
             msg = "address found [{address}] [+{offset}] \"{name}\""
-        _storage.save()
+            _storage.save()
         self.logger.debug(msg.format(name=key, address=hex(address), offset=hex(offset)))
         return address
 

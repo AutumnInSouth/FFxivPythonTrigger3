@@ -46,7 +46,7 @@ class SendHook(WebActionHook):
                     data = to_send
                 else:
                     bundle_header, messages = to_send
-                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, True, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, True, socket)
                     if messages:
                         data = pack_message(bundle_header, messages)
                     else:
@@ -102,18 +102,16 @@ class RecvHook(WebActionHook):
                         time.sleep(.02)
                 if not isinstance(rtn, bytearray):
                     bundle_header, messages = rtn
-                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, False, socket)
                     rtn = pack_message(bundle_header, messages)
             extra_rtn = processor.get()
             while extra_rtn is not None:
                 if not isinstance(extra_rtn, bytearray):
                     bundle_header, messages = extra_rtn
-                    bundle_header, messages = self.plugin.process_msg(bundle_header, messages, False, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, False, socket)
                     extra_rtn = pack_message(bundle_header, messages)
                 rtn += extra_rtn
                 extra_rtn = processor.get()
-            # rtn+=processor.buffer
-            # processor.buffer.clear()
             rtn_size = len(rtn)
             new_hash = hash(bytes(rtn))
             if new_hash != original_hash:
@@ -121,6 +119,9 @@ class RecvHook(WebActionHook):
                 if rtn_size > size:
                     self.buffers[socket] = rtn[size:]
                     rtn_size = size
+                # elif processor.buffer:
+                #     rtn_size = rtn_size - min(10, rtn_size - 1)
+                #     self.buffers[socket] = rtn[rtn_size:]
                 try:
                     memmove(buffer, (c_char * rtn_size).from_buffer(rtn), size)
                 except OSError as e:
