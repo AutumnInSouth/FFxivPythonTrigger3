@@ -18,7 +18,7 @@ except:
     is_admin = False
 if not is_admin:
     e_print("please start as admin")
-    exit()
+    exit(1)
 
 if not args.port: exit(1)
 
@@ -45,7 +45,7 @@ from FFxivPythonTrigger.memory import *
 ep = process.enable_privilege()
 if ep:
     e_print(f"enable privileges failed with err code {ep}")
-    exit()
+    exit(1)
 python_version = "python{0}{1}.dll".format(sys.version_info.major, sys.version_info.minor)
 python_lib = process.module_from_name(python_version).filename
 local_handle = kernel32.GetModuleHandleW(python_version)
@@ -75,11 +75,13 @@ class FrontRpc(object):
             return False
         python_lib_h = process.module_from_name(python_version, handler)
         if python_lib_h is None:
-            python_lib_h = process.inject_dll(bytes(python_lib, 'utf-8'), handler)
-            if not python_lib_h:
+            dll_base = process.inject_dll(bytes(python_lib, 'utf-8'), handler)
+            if not dll_base:
                 e_print(f"inject dll failed on process {pid}")
                 return False
-        dif = python_lib_h - local_handle
+        else:
+            dll_base = python_lib_h.lpBaseOfDll
+        dif = dll_base - local_handle
         param_addr = memory.allocate_memory(4, handler)
         memory.write_memory(ctypes.c_int, param_addr, 1, handler)
         process.start_thread(funcs[b'Py_InitializeEx'] + dif, param_addr, handler)
@@ -113,8 +115,11 @@ try:
     finally:
         close()
 except:
+    err_text=format_exc()
     with open("{err_path}", "w+") as f:
-        f.write(format_exc())
+        f.write(err_text)
+    import ctypes
+    ctypes.windll.user32.MessageBoxW(0,"error occur:\\n"+err_text,"fpt inject error",0x10)
 finally:
     for key in sys.modules.keys():
         if key not in init_modules:
@@ -131,7 +136,7 @@ finally:
 
 
 host = f"tcp://127.0.0.1:{args.port}"
-print(f"server will listen at {host}")
+print(f"server will listen at [{host}]")
 server = zerorpc.Server(FrontRpc())
 server.bind(host)
 server.run()
