@@ -13,3 +13,4 @@ sections==0.0.3
 Shapely==1.7.1
 zope.event==4.5.0
 zope.interface==5.4.0
+zerorpc~=0.6.3
