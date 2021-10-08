@@ -120,8 +120,8 @@ else:
 err_path = os.path.join(application_path, 'InjectErr.log').replace("\\", "\\\\")
 sys.path.insert(0, application_path)
 game_environ = {
-    'FptSocketPort': str(args.port),
-    'FptDataDir': str(args.dataDir),
+    'fpt_socket_port': str(args.port),
+    'fpt_data_dir': str(args.dataDir),
     'address_search': "1" if args.force_search_address else "",
     'python_interpreter': sys.executable,
 }
@@ -165,7 +165,8 @@ while True:
         except:
             time.sleep(1)
     print("connect!")
-    sock.send(json.dumps({'code': 0x1000, 'name': 'fpt_log', 'msg_id': 0}).encode('utf-8') + b'\n')
+    sock.send(json.dumps({'msg_type': 'sub', 'key': 'fpt_log', 'msg_id': 0}).encode('utf-8') + b'\n')
+    sock.send(json.dumps({'msg_type': 'run', 'key': 'start', 'msg_id': 1}).encode('utf-8') + b'\n')
     buffer = bytearray()
     while True:
         try:

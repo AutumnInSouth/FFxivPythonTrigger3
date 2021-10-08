@@ -1,5 +1,16 @@
-import zerorpc
-c=zerorpc.Client()
-c.connect("tcp://127.0.0.1:12344")
-for pid in sorted(c.get_game_process("notepad.exe")):
-    print(pid,c.inject_process(pid, 3520, "AppData", []),c.is_process_injected(pid))
+import threading
+from FFxivPythonTrigger.rpc_server import RpcClient
+
+
+client = RpcClient()
+client.connect(("127.0.0.1", 12300))
+thread = threading.Thread(target=client.serve_forever)
+thread.start()
+print(1)
+client.send({
+    'msg_type': 'run',
+    'key': 'get_game_process_g',
+    'args': ['python.exe']
+})
+
+thread.join(10)

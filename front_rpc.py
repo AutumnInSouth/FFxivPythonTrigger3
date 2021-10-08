@@ -2,6 +2,11 @@ import argparse
 import ctypes
 import sys
 import time
+import os
+
+application_path = os.path.dirname(__file__)
+os.chdir(application_path)
+sys.path.insert(0, application_path)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--port', type=int)
@@ -36,11 +41,10 @@ if not args.skip_requirement_check:
             e_print("cant install requirements")
             exit(1)
 
-import os
 import locale
-import zerorpc
 import _thread
 from FFxivPythonTrigger.memory import *
+from FFxivPythonTrigger.rpc_server import RpcServer
 
 ep = process.enable_privilege()
 if ep:
@@ -51,8 +55,6 @@ python_lib = process.module_from_name(python_version).filename
 local_handle = kernel32.GetModuleHandleW(python_version)
 funcs = {k: kernel32.GetProcAddress(local_handle, k) for k in
          [b'Py_InitializeEx', b'PyRun_SimpleString', b'Py_FinalizeEx']}
-application_path = os.path.dirname(__file__)
-sys.path.insert(0, application_path)
 
 
 class FrontRpc(object):
@@ -69,9 +71,10 @@ class FrontRpc(object):
             return False
 
     def inject_process(self, pid: int, socket_port: int, data_dir: str, init_plugins: list):
+        ctypes.windll.kernel32.SetLastError(0)
         handler = kernel32.OpenProcess(structure.PROCESS.PROCESS_ALL_ACCESS.value, False, pid)
         if not handler:
-            e_print(f"could not open process {pid}")
+            e_print(f"could not open process {pid} with error code {ctypes.windll.kernel32.GetLastError()}")
             return False
         python_lib_h = process.module_from_name(python_version, handler)
         if python_lib_h is None:
@@ -135,8 +138,6 @@ finally:
         return True
 
 
-host = f"tcp://127.0.0.1:{args.port}"
-print(f"server will listen at [{host}]")
-server = zerorpc.Server(FrontRpc())
-server.bind(host)
-server.run()
+print(f"server will listen at [tcp://127.0.0.1:{args.port}]", flush=True)
+server = RpcServer(('127.0.0.1', args.port), FrontRpc())
+server.serve_forever()

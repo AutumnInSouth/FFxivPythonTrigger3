@@ -1,4 +1,3 @@
-import json
 import os
 import re
 import sys
@@ -6,13 +5,13 @@ from importlib import import_module, reload
 from inspect import isclass, getfile, getsourcelines
 from pathlib import Path
 from queue import Queue
-from socketserver import StreamRequestHandler, ThreadingTCPServer
 from threading import Thread
 from time import time, sleep, perf_counter
 from traceback import format_exc
+from types import ModuleType
 from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern
 
-from . import server_enum
+from .rpc_server import RpcServer
 from .address_manager import AddressManager
 from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
@@ -21,7 +20,7 @@ from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .requirements_controller import sub_process_install
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
-from .utils import Counter, get_attr_by_str_path, wait_until
+from .utils import Counter, wait_until
 
 EVENT_MULTI_THREAD = True
 LOG_FILE_SIZE_MAX = 1024 * 1024
@@ -31,92 +30,29 @@ LOGGER_NAME = "Main"
 re_pattern = Union[str, re.Pattern]
 
 
-class FPTServer(StreamRequestHandler):
-    def __init__(self, request, client_address, server):
-        super().__init__(request, client_address, server)
-        self.client_id = None
+class FPTHandler(object):
+    reload_module = reload_module
+    unload_module = unload_module
+    eval = eval
+    exec = exec
+    fpt_start = False
 
-    def send_event(self, data):
-        self.wfile.write(server_enum.server_event(data))
+    def start(self):
+        self.fpt_start = True
 
-    def _process(self, code: int, msg_id: int, namespace: str, data: dict):
-        if not namespace:
-            if code == server_enum.ClientSubscribe:
-                _clients_subscribe.setdefault(data['name'], set()).add(self.client_id)
-                return "success"
-            elif code == server_enum.ClientUnsubscribe:
-                try:
-                    _clients_subscribe.setdefault(data['name'], set()).remove(self.client_id)
-                except ValueError:
-                    pass
-                return "success"
-            elif code == server_enum.ClientGet:
-                return get_attr_by_str_path(globals(), data['name'])
-            elif code == server_enum.ClientCall or code == server_enum.ClientCallReply:
-                reply = get_attr_by_str_path(globals(), data['name'])(*data.get('args', []), **data.get('kwargs', {}))
-                return reply if code == server_enum.ClientCallReply else None
-            elif code == server_enum.ClientSet:
-                value = data['value']
-                try:
-                    path, key = data['name'].rsplit('.', 1)
-                except ValueError:
-                    obj = globals()
-                    key = data['name']
-                else:
-                    obj = get_attr_by_str_path(globals(), path)
-                if isinstance(obj, dict):
-                    obj[key] = value
-                else:
-                    setattr(obj, key, value)
-                return "success"
-            else:
-                raise Exception("invalid unsubscribe arg")
-        elif namespace in _plugins:
-            return _plugins[namespace].controller.client_handle(code, msg_id, namespace, data)
-        else:
-            raise Exception("invalid namespace")
+    def plugin_list(self):
+        return list(_plugins.keys())
 
-    def process(self, line):
-        message_id = None
-        try:
-            data = json.loads(line)
-            message_id = data['msg_id']
-            code = data['code']
-            namespace = data.get('namespace', '')
-            reply = self._process(code, message_id, namespace, data)
-            if reply is not None:
-                self.wfile.write(server_enum.server_reply(message_id, reply))
-        except Exception as e:
-            self.wfile.write(server_enum.server_error(format_exc(), message_id))
-
-    def handle(self):
-        self.client_id = _client_counter.get()
-        _clients[self.client_id] = self
-        _logger.debug(f"new client id:{self.client_id}")
-        try:
-            for _line in self.rfile:
-                append_missions(Mission("process_client", 0, self.process, _line))
-        except ConnectionError:
-            _logger.debug(f"disconnect client id:{self.client_id}")
-        del _clients[self.client_id]
+    def plugin(self, plugin_name, func_name, *args, **kwargs):
+        return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
 
 
-def process_clients(name: str, data: any):
-    if name in _clients_subscribe:
-        for client_id in _clients_subscribe[name].copy():
-            if client_id in _clients:
-                _clients[client_id].send_event(data)
-            else:
-                try:
-                    _clients_subscribe[name].remove(client_id)
-                except ValueError:
-                    pass
-        if not _clients_subscribe[name]:
-            del _clients_subscribe[name]
+def server_event(name: str, data: any):
+    _server.broadcast_event(name, data)
 
 
 def client_log(log: Log):
-    process_clients('fpt_log', {
+    server_event('fpt_log', {
         'timestamp': log.datetime.timestamp(),
         'module': log.module,
         'level': log.level,
@@ -304,31 +240,8 @@ class PluginController(object):
         if self.plugin.save_when_unload:
             self.plugin.storage.save()
 
-    def client_handle(self, code: int, msg_id: int, namespace: str, data: dict):
-        if code == server_enum.ClientGet:
-            return get_attr_by_str_path(self.plugin, data['name'])
-        elif code == server_enum.ClientCall or code == server_enum.ClientCallReply:
-            reply = get_attr_by_str_path(self.plugin, data['name'])(*data.get('args', []), **data.get('kwargs', {}))
-            return reply if code == server_enum.ClientCallReply else None
-        elif code == server_enum.ClientSet:
-            value = data['value']
-            try:
-                path, key = data['name'].rsplit('.', 1)
-            except ValueError:
-                obj = globals()
-                key = data['name']
-            else:
-                obj = get_attr_by_str_path(self.plugin, path)
-            if isinstance(obj, dict):
-                obj[key] = value
-            else:
-                setattr(obj, key, value)
-            return "success"
-        else:
-            return self.plugin.client_handle(code, msg_id, namespace, data)
-
     def client_event(self, data: any):
-        process_clients(self.plugin.name, data)
+        server_event(self.plugin.name, data)
 
 
 class PluginLoadEvent(EventBase):
@@ -410,7 +323,7 @@ def unload_plugin(plugin_name) -> bool:
     return False
 
 
-def register_module(module) -> List[PluginBase]:
+def register_module(module: ModuleType | str) -> List[PluginBase]:
     installed = []
     if type(module) == str:
         _logger.debug("try load plugin \"%s\" dynamically" % module)
@@ -431,7 +344,7 @@ def register_module(module) -> List[PluginBase]:
     return installed
 
 
-def unload_module(module):
+def unload_module(module: ModuleType | str):
     if type(module) == str:
         module = import_module(module)
     for attr_name in dir(module):
@@ -440,7 +353,7 @@ def unload_module(module):
             unload_plugin(attr.name)
 
 
-def reload_module(module):
+def reload_module(module: ModuleType | str):
     if type(module) == str:
         module = import_module(module)
     unload_module(module)
@@ -518,7 +431,7 @@ if EVENT_MULTI_THREAD:
         str_events = event.str_event()
         if str_events is None: return
         for str_event in (str_events if isinstance(str_events, (list, tuple)) else [str_events]):
-            append_missions(Mission('client_event', 0, process_clients, 'fpt_event', str_event))
+            append_missions(Mission('client_event', 0, server_event, 'fpt_event', str_event))
             for callback in _events.get(str_event, []).copy():
                 callback.call(event)
             for pattern in list(_re_events.keys()):
@@ -603,12 +516,11 @@ def init():
     _missions_starter_mission.start()
     _log_mission.start()
 
-    ThreadingTCPServer.allow_reuse_address = True
-    _server.server_address = ('127.0.0.1', int(os.environ.setdefault('FptSocketPort', "3520")))
+    _server.server_address = ('127.0.0.1', int(os.environ.setdefault('fpt_socket_port', "3520")))
     _server.server_bind()
     _server.server_activate()
     _server_mission.start()
-    wait_until(lambda: _clients_subscribe.get('fpt_log'))
+    wait_until(lambda: FPTHandler.fpt_start or None)
 
     plugin_path = Path(os.getcwd()) / 'plugins'
     plugin_path.mkdir(exist_ok=True)
@@ -657,10 +569,7 @@ addresses = AddressManager(LOGGER_NAME, _logger).load({
 })
 frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
 
-_client_counter = Counter()
-_clients: Dict[int, FPTServer] = dict()
-_clients_subscribe: Dict[str, Set[int]] = dict()
-_server = ThreadingTCPServer(('', 0), FPTServer, bind_and_activate=False)
+_server = RpcServer(('', 0), FPTHandler(), bind_and_activate=False)
 _server_mission = Mission('server', -1, _server.serve_forever)
 
 game_base_dir: Path = Path(PROCESS_FILENAME).parent.parent
