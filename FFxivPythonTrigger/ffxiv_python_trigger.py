@@ -30,23 +30,6 @@ LOGGER_NAME = "Main"
 re_pattern = Union[str, re.Pattern]
 
 
-class FPTHandler(object):
-    reload_module = reload_module
-    unload_module = unload_module
-    eval = eval
-    exec = exec
-    fpt_start = False
-
-    def start(self):
-        self.fpt_start = True
-
-    def plugin_list(self):
-        return list(_plugins.keys())
-
-    def plugin(self, plugin_name, func_name, *args, **kwargs):
-        return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
-
-
 def server_event(name: str, data: any):
     _server.broadcast_event(name, data)
 
@@ -543,6 +526,23 @@ class Plugins(object):
         if name not in self.plugin_dict:
             raise PluginNotFoundException(name)
         return self.plugin_dict[name]
+
+
+class FPTHandler(object):
+    reload_module = reload_module
+    unload_module = unload_module
+    eval = eval
+    exec = exec
+    fpt_start = False
+
+    def start(self):
+        self.fpt_start = True
+
+    def plugin_list(self):
+        return list(_plugins.keys())
+
+    def plugin(self, plugin_name, func_name, *args, **kwargs):
+        return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
 
 
 _missions_buffer: Queue[tuple['Mission', bool]] = Queue()

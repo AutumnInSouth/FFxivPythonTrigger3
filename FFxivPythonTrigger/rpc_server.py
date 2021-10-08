@@ -6,8 +6,6 @@ from socketserver import StreamRequestHandler, ThreadingTCPServer
 from types import GeneratorType
 from typing import Dict, Set, Callable
 
-import ptr as ptr
-
 from FFxivPythonTrigger.utils import Counter, wait_until
 
 SEND_OUT = 0
