@@ -14,7 +14,7 @@ parser.add_argument('-sr', dest='skip_requirement_check')
 args = parser.parse_args()
 
 
-def e_print(*args, **kwargs): print(*args, file=sys.stderr, **kwargs)
+def e_print(*args, **kwargs): print(*args,flush=True, file=sys.stderr, **kwargs)
 
 
 try:
@@ -41,8 +41,25 @@ if not args.skip_requirement_check:
             e_print("cant install requirements")
             exit(1)
 
+    if not requirements_controller.test_requirements(["pywin32"]):
+        import pip
+
+        param = ["install", ".\\res\\pywin32-301.1-cp310-cp310-win_amd64.whl"]
+        if hasattr(pip, 'main'):
+            pip.main(param)
+        else:
+            pip._internal.main(param)
+        if not requirements_controller.test_requirements(["pywin32"]):
+            e_print("cant install win32com")
+            exit(1)
+
 import locale
 import _thread
+
+for k in list(sys.modules.keys()):
+    if k.startswith("FFxivPythonTrigger"):
+        del sys.modules[k]
+
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.rpc_server import RpcServer
 

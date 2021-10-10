@@ -24,7 +24,6 @@ class RpcHandler(StreamRequestHandler):
         super().__init__(request, client_address, server)
 
     def _send(self, data):
-        print("send",data)
         self.wfile.write(json.dumps(data).encode('utf8') + b'\n')
 
     def send(self, data, rtn=-1, has_next=False, send_type=SEND_OUT, **kwargs):
@@ -74,19 +73,18 @@ class RpcHandler(StreamRequestHandler):
             self.send(str(e), rtn=msg_id, send_type=SEND_ERR, trace=traceback.format_exc())
 
     def handle(self):
-        print("connect ",self.client_id)
+        print("connect ", self.client_id, flush=True)
         self.server.clients[self.client_id] = self
         threads = []
         try:
             for _line in self.rfile:
-                print("recv",_line)
                 t = threading.Thread(target=self.process, args=(_line,))
                 threads.append(t)
                 t.start()
         except ConnectionError:
             pass
         finally:
-            print("disconnect ",self.client_id)
+            print("disconnect ",self.client_id,flush=True)
             [t.join() for t in threads]
             del self.server.clients[self.client_id]
 
