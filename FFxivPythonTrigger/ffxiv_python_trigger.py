@@ -537,12 +537,19 @@ class FPTHandler(object):
 
     def start(self):
         self.fpt_start = True
+        return True
 
-    def plugin_list(self):
+    def plugins_list(self):
         return list(_plugins.keys())
 
-    def plugin(self, plugin_name, func_name, *args, **kwargs):
+    def plugin_run(self, plugin_name, func_name, *args, **kwargs):
         return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
+
+    def plugin_set(self, plugin_name, attr_name, value):
+        return setattr(getattr(plugins, plugin_name), attr_name, value)
+
+    def plugin_get(self, plugin_name, attr_name):
+        return getattr(getattr(plugins, plugin_name), attr_name)
 
 
 _missions_buffer: Queue[tuple['Mission', bool]] = Queue()
