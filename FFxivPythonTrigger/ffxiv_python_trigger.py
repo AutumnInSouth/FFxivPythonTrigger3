@@ -35,12 +35,14 @@ def server_event(name: str, data: any):
 
 
 def client_log(log: Log):
-    server_event('fpt_log', {
+    log = {
         'timestamp': log.datetime.timestamp(),
         'module': log.module,
         'level': log.level,
         'msg': log.message,
-    })
+    }
+    _client_log_history.append(log)
+    server_event('fpt_log', log)
 
 
 class Mission(Thread):
@@ -479,8 +481,7 @@ def run():
     global running
     running = True
     _logger.info('FFxiv Python Trigger started')
-    while running or _missions:
-        sleep(0.1)
+    while running or _missions:sleep(0.1)
     _logger.info('FFxiv Python Trigger closed')
     global _log_work
     _log_work = False
@@ -503,7 +504,8 @@ def init():
     _server.server_bind()
     _server.server_activate()
     _server_mission.start()
-    wait_until(lambda: FPTHandler.fpt_start or None)
+    wait_until(lambda: _socket_handler.fpt_start or None)
+    _logger.info('FFxivPythonTrigger start initialize')
 
     plugin_path = Path(os.getcwd()) / 'plugins'
     plugin_path.mkdir(exist_ok=True)
@@ -551,6 +553,9 @@ class FPTHandler(object):
     def plugin_get(self, plugin_name, attr_name):
         return getattr(getattr(plugins, plugin_name), attr_name)
 
+    def log_history(self):
+        for log in _client_log_history: yield log
+
 
 _missions_buffer: Queue[tuple['Mission', bool]] = Queue()
 _missions: Set['Mission'] = set()
@@ -562,6 +567,7 @@ _log_path: Path = _storage.path / LOG_FILE_FORMAT.format(int_time=int(time()))
 _log_work = False
 _log_write_buffer: Queue[Log] = Queue()
 _log_mission: 'Mission' = Mission('logger', -1, log_writer)
+_client_log_history = []
 
 running = False
 _plugins: Dict[str, PluginBase] = {}
@@ -576,7 +582,8 @@ addresses = AddressManager(LOGGER_NAME, _logger).load({
 })
 frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
 
-_server = RpcServer(('', 0), FPTHandler(), bind_and_activate=False)
+_socket_handler = FPTHandler()
+_server = RpcServer(('', 0), _socket_handler, bind_and_activate=False)
 _server_mission = Mission('server', -1, _server.serve_forever)
 
 game_base_dir: Path = Path(PROCESS_FILENAME).parent.parent

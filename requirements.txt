@@ -2,3 +2,6 @@ aiohttp~=3.7.4.post0
 pip~=21.1.2
 Pillow~=8.3.2
 pefile~=2021.9.3
+
+requests~=2.26.0
+Shapely~=1.5.9

@@ -29,7 +29,7 @@ from FFxivPythonTrigger.saint_coinach import realm
 for s in realm._game_data.definition.sheet_definitions:
     sheet = realm.game_data.get_sheet(s.name)
     try:
-        print(sheet[9345])
+        print(sheet[100011])
     except:
         pass
 """
@@ -48,7 +48,7 @@ print(hex(find_unique_signature_point(("48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 4
 c8="""
 from .text_pattern import find_unique_signature_point
 """
-t = requests.post("http://127.0.0.1:2019/exec", "reload_module('XivNetwork')".encode('utf-8')).text
+t = requests.post("http://127.0.0.1:2019/exec", c5.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

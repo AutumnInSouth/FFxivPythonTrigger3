@@ -6,7 +6,7 @@ from inspect import getmodule, stack
 from re import compile
 
 STORAGE_DIRNAME: Annotated[str, "the directory name where the storage will be"] = environ.setdefault('fpt_data_dir', "AppData")
-DATA_FILENAME: Annotated[str, "the file name where json data will be stored"] = "data"
+DATA_FILENAME: Annotated[str, "the file name where json data will be stored"] = "data.json"
 MODULE_DIRNAME: Annotated[str, "the directory under base storage directory for modules"] = "Plugins"
 
 BASE_PATH: Annotated[Path, "the base path of the storage"] = Path(getcwd()) / STORAGE_DIRNAME

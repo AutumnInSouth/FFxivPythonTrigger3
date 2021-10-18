@@ -4,7 +4,7 @@ from typing import Dict, Set, Iterator, Tuple, Optional, TYPE_CHECKING
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.popular_struct import Position
-from FFxivPythonTrigger.utils import circle
+from FFxivPythonTrigger.utils.shape import circle
 from .enum import Jobs, ActorType
 
 ACTOR_TABLE_SIZE = 424
