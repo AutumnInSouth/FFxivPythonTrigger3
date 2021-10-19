@@ -14,7 +14,7 @@ parser.add_argument('-sr', dest='skip_requirement_check')
 args = parser.parse_args()
 
 
-def e_print(*args, **kwargs): print(*args,flush=True, file=sys.stderr, **kwargs)
+def e_print(*args, **kwargs): print(*args, flush=True, file=sys.stderr, **kwargs)
 
 
 try:
@@ -61,7 +61,7 @@ for k in list(sys.modules.keys()):
         del sys.modules[k]
 
 from FFxivPythonTrigger.memory import *
-from FFxivPythonTrigger.rpc_server import RpcServer
+from FFxivPythonTrigger.rpc_server import RpcServer, RpcClient, RpcFuncHandler, RpcHandler
 
 ep = process.enable_privilege()
 if ep:
@@ -74,7 +74,36 @@ funcs = {k: kernel32.GetProcAddress(local_handle, k) for k in
          [b'Py_InitializeEx', b'PyRun_SimpleString', b'Py_FinalizeEx']}
 
 
-class FrontRpc(object):
+class GameClient(object):
+    def __init__(self, connect_port: int, server: RpcServer):
+        self.server = server
+        self.connect_port = connect_port
+        self.client = RpcClient()
+        self.pid = -1
+
+    def event(self, name, data):
+        self.server.broadcast_event(f"p{self.pid}|{name}", data)
+
+    def subscribe(self, name, client: RpcHandler):
+        self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).add(client.client_id)
+        return self.client.subscribe(name, self.event)
+
+    def unsubscribe(self, name, client: RpcHandler):
+        try:
+            self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).remove(client.client_id)
+        except ValueError:
+            pass
+        return self.client.subscribe(f"p{self.pid}|{name}", self.event)
+
+    def connect_client(self):
+        self.client.connect(('127.0.0.1', self.connect_port))
+        self.client.serve_thread.start()
+        self.pid = self.client.run('get_pid')
+        return self.pid
+
+
+class FrontRpc(RpcFuncHandler):
+
     def get_game_process(self, game_execution: str):
         return [p.th32ProcessID for p in process.list_processes()
                 if game_execution in p.szExeFile.decode(locale.getpreferredencoding()).lower()]
@@ -154,7 +183,26 @@ finally:
         )
         return True
 
+    def connect_game(self, port):
+        new_client = GameClient(port, self.server)
+        rtn = new_client.connect_client()
+        clients[new_client.pid] = new_client
+        return rtn
 
+    def game_subscribe(self, pid, name):
+        return clients[pid].subscribe(name, self.client)
+
+    def game_unsubscribe(self, pid, name):
+        return clients[pid].unsubscribe(name, self.client)
+
+    def game_run(self, pid, name, args=[], timeout=5, kwargs={}):
+        return clients[pid].client.run(name, *args, timeout=timeout, **kwargs)
+
+    def game_get(self, pid, name, timeout=5):
+        return clients[pid].client.get(name, timeout=timeout)
+
+
+clients: dict[int, GameClient] = {}
 print(f"server will listen at [tcp://127.0.0.1:{args.port}]", flush=True)
-server = RpcServer(('127.0.0.1', args.port), FrontRpc())
+server = RpcServer(('127.0.0.1', args.port), FrontRpc)
 server.serve_forever()

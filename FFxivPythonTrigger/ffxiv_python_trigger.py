@@ -11,7 +11,7 @@ from traceback import format_exc
 from types import ModuleType
 from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern
 
-from .rpc_server import RpcServer
+from .rpc_server import RpcServer, RpcFuncHandler
 from .address_manager import AddressManager
 from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
@@ -481,7 +481,7 @@ def run():
     global running
     running = True
     _logger.info('FFxiv Python Trigger started')
-    while running or _missions:sleep(0.1)
+    while running or _missions: sleep(0.1)
     _logger.info('FFxiv Python Trigger closed')
     global _log_work
     _log_work = False
@@ -504,7 +504,7 @@ def init():
     _server.server_bind()
     _server.server_activate()
     _server_mission.start()
-    wait_until(lambda: _socket_handler.fpt_start or None)
+    wait_until(lambda: start or None)
     _logger.info('FFxivPythonTrigger start initialize')
 
     plugin_path = Path(os.getcwd()) / 'plugins'
@@ -530,15 +530,18 @@ class Plugins(object):
         return self.plugin_dict[name]
 
 
-class FPTHandler(object):
+class FPTHandler(RpcFuncHandler):
     reload_module = reload_module
     unload_module = unload_module
     eval = eval
     exec = exec
-    fpt_start = False
+
+    def get_pid(self):
+        return os.getpid()
 
     def start(self):
-        self.fpt_start = True
+        global start
+        start = True
         return True
 
     def plugins_list(self):
@@ -569,6 +572,7 @@ _log_write_buffer: Queue[Log] = Queue()
 _log_mission: 'Mission' = Mission('logger', -1, log_writer)
 _client_log_history = []
 
+start = False
 running = False
 _plugins: Dict[str, PluginBase] = {}
 _events: Dict[any, Set['EventCallback']] = {}
@@ -582,8 +586,7 @@ addresses = AddressManager(LOGGER_NAME, _logger).load({
 })
 frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
 
-_socket_handler = FPTHandler()
-_server = RpcServer(('', 0), _socket_handler, bind_and_activate=False)
+_server = RpcServer(('', 0), FPTHandler, bind_and_activate=False)
 _server_mission = Mission('server', -1, _server.serve_forever)
 
 game_base_dir: Path = Path(PROCESS_FILENAME).parent.parent
