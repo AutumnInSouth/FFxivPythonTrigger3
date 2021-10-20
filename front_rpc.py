@@ -78,17 +78,28 @@ class GameClient(object):
     def __init__(self, connect_port: int, server: RpcServer):
         self.server = server
         self.connect_port = connect_port
-        self.client = RpcClient()
+        self.client = RpcClient(self.client_disconnect)
+        self.available = False
         self.pid = -1
+
+    def client_disconnect(self, e):
+        self.server.broadcast_event(f"p{self.pid}|disconnect", str(e))
+        self.available = False
 
     def event(self, name, data):
         self.server.broadcast_event(f"p{self.pid}|{name}", data)
 
     def subscribe(self, name, client: RpcHandler):
+        if not self.available:
+            raise Exception("client is not available")
+        print(f"client {client.client_id} subscribe {name} on pid {self.pid}")
         self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).add(client.client_id)
         return self.client.subscribe(name, self.event)
 
     def unsubscribe(self, name, client: RpcHandler):
+        if not self.available:
+            raise Exception("client is not available")
+        print(f"client {client.client_id} unsubscribe {name} on pid {self.pid}")
         try:
             self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).remove(client.client_id)
         except ValueError:
@@ -99,6 +110,7 @@ class GameClient(object):
         self.client.connect(('127.0.0.1', self.connect_port))
         self.client.serve_thread.start()
         self.pid = self.client.run('get_pid')
+        self.available = True
         return self.pid
 
 
@@ -185,9 +197,14 @@ finally:
 
     def connect_game(self, port):
         new_client = GameClient(port, self.server)
-        rtn = new_client.connect_client()
-        clients[new_client.pid] = new_client
-        return rtn
+        pid = new_client.connect_client()
+        if new_client.pid not in clients:
+            clients[pid] = new_client
+        elif not clients[pid].available:
+            clients[pid].connect_port = port
+            return clients[pid].connect_client()
+        print(f"connect game to port {port} pid {pid}")
+        return pid
 
     def game_subscribe(self, pid, name):
         return clients[pid].subscribe(name, self.client)

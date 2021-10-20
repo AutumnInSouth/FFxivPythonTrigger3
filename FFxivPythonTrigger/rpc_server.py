@@ -99,7 +99,7 @@ class RpcHandler(StreamRequestHandler):
             pass
         finally:
             print("disconnect ", self.client_id, flush=True)
-            [t.join() for t in threads]
+            for t in threads: t.join()
             del self.server.clients[self.client_id]
 
 
@@ -129,6 +129,10 @@ class RpcServer(ThreadingTCPServer):
                     pass
             else:
                 client.send_event(key, event)
+
+    def broadcast_event_force(self, key, event):
+        for client in list(self.clients.values()):
+            client.send_event(key, event)
 
 
 class RpcServerException(Exception): pass
@@ -165,7 +169,7 @@ class RpcGenerator(object):
 
 
 class RpcClient(object):
-    def __init__(self):
+    def __init__(self, on_end=None):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.start = False
         self.buffer_size = 1024 * 1024
@@ -173,6 +177,7 @@ class RpcClient(object):
         self.counter = Counter()
         self.subscribe_events = {}
         self.serve_thread = threading.Thread(target=self.serve_forever)
+        self.on_end = on_end
 
     def connect(self, address):
         self.sock.connect(address)
@@ -212,6 +217,8 @@ class RpcClient(object):
                 raise Exception(f"unknown return {data}")
 
     def send(self, data, need_rtn=True, timeout=None):
+        if not self.start:
+            raise Exception(f"client not started")
         msg_id = self.counter.get()
         data['msg_id'] = msg_id
         q = queue.Queue()
@@ -244,13 +251,19 @@ class RpcClient(object):
             raise Exception("client is already started")
         self.start = True
         buffer = bytearray()
-        while True:
-            buffer.extend(self.sock.recv(self.buffer_size))
+        try:
             while True:
-                try:
-                    idx = buffer.index(10)
-                except ValueError:
-                    break
-                else:
-                    threading.Thread(target=self.process, args=(buffer[:idx],)).start()
-                    buffer = buffer[idx + 1:]
+                buffer.extend(self.sock.recv(self.buffer_size))
+                while True:
+                    try:
+                        idx = buffer.index(10)
+                    except ValueError:
+                        break
+                    else:
+                        threading.Thread(target=self.process, args=(buffer[:idx],)).start()
+                        buffer = buffer[idx + 1:]
+        except Exception as e:
+            if self.on_end:
+                self.on_end(e)
+        finally:
+            self.start = False
