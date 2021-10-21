@@ -1,17 +1,17 @@
 import os
 import re
-import sys
 from importlib import import_module, reload
 from inspect import isclass, getfile, getsourcelines
 from pathlib import Path
 from queue import Queue
 from threading import Thread
-from time import time, sleep, perf_counter
 from traceback import format_exc
 from types import ModuleType
 from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern
 
-from .rpc_server import RpcServer, RpcFuncHandler
+import sys
+from time import time, sleep, perf_counter
+
 from .address_manager import AddressManager
 from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
@@ -19,6 +19,7 @@ from .frame_inject import FrameInjectHook, sig as frame_inject_sig
 from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .requirements_controller import sub_process_install
+from .rpc_server import RpcServer, RpcFuncHandler
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
 from .utils import Counter, wait_until
 
@@ -104,6 +105,7 @@ class PluginBase(object):
     name = "unnamed_plugin"
     save_when_unload = True
     bind_values_store_key: str = 'bind_values'
+    layout = ""
 
     def __init__(self):
         self.logger = Logger(self.name)
@@ -119,9 +121,6 @@ class PluginBase(object):
 
     def start(self):
         pass
-
-    def client_handle(self, code: int, msg_id: int, namespace: str, data: dict):
-        raise NotImplementedError()
 
 
 class PluginController(object):
@@ -226,7 +225,7 @@ class PluginController(object):
             self.plugin.storage.save()
 
     def client_event(self, data: any):
-        server_event(self.plugin.name, data)
+        server_event(f"{self.plugin.name}/{name}", data)
 
 
 class PluginLoadEvent(EventBase):

@@ -1,6 +1,6 @@
-from FFxivPythonTrigger import *
 import traceback
 
+from FFxivPythonTrigger import *
 from FFxivPythonTrigger.decorator import event, unload_callback
 
 """
@@ -24,9 +24,32 @@ functions (*[arg] is optional args):
                 format: /e @fpt reload [module_name]
 """
 
+update_event_key = 'commands_update'
+
 
 class CommandPlugin(PluginBase):
     name = "Command"
+    layout = [
+        {
+            'type': 'bind param',
+            'key': 'enable',
+            'label': '启用',
+            'display': 'switch',
+        },
+        {
+            'type': 'func get',
+            'key': 'command_list',
+            'label': '注册指令',
+            'display': 'key_value_table',
+            'update_evt': update_event_key
+        },
+        {
+            'type': 'func run',
+            'key': 'process_command',
+            'label': '执行指令',
+            'kwargs': {'command_line': 'string'}
+        }
+    ]
 
     def FptManager(self, args):
         if args[0] == 'close':
@@ -44,14 +67,16 @@ class CommandPlugin(PluginBase):
 
     @event("log_event")
     def deal_chat_log(self, event):
-        if event.channel_id == 56:
-            args = event.message.split(' ')
-            if args[0] in self.commands:
-                self.logger.debug(event.message)
-                try:
-                    self.commands[args[0]](args[1:])
-                except Exception:
-                    self.logger.error('exception occurred:\n{}'.format(traceback.format_exc()))
+        if event.channel_id == 56: self.process_command(event.message)
+
+    def process_command(self, command_line):
+        args = command_line.split(' ')
+        if args[0] in self.commands:
+            self.logger.debug(command_line)
+            try:
+                self.commands[args[0]](args[1:])
+            except Exception:
+                self.logger.error('exception occurred:\n{}'.format(traceback.format_exc()))
 
     @unload_callback('unregister')
     def register(self, command: str, callback):
@@ -60,10 +85,18 @@ class CommandPlugin(PluginBase):
         if command in self.commands:
             raise Exception("Command %s already exists" % command)
         self.commands[command] = callback
+        self.update_event()
 
     def unregister(self, command: str, callback):
         if command in self.commands:
             del self.commands[command]
+        self.update_event()
+
+    def command_list(self):
+        return {k: f"{f.__module__}.{f.__name__}" for k, f in self.commands.items()}
+
+    def update_event(self):
+        self.client_event(update_event_key, self.command_list())
 
     def __init__(self):
         super(CommandPlugin, self).__init__()
