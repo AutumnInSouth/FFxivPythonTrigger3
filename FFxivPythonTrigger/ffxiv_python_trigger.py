@@ -224,7 +224,7 @@ class PluginController(object):
         if self.plugin.save_when_unload:
             self.plugin.storage.save()
 
-    def client_event(self, data: any):
+    def client_event(self, name: str, data: any):
         server_event(f"{self.plugin.name}/{name}", data)
 
 
