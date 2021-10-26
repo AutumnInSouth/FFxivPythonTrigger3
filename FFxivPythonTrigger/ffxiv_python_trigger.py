@@ -534,8 +534,11 @@ class Plugins(object):
 
 
 class FPTHandler(RpcFuncHandler):
-    eval = eval
-    exec = exec
+    def eval(self, cmd):
+        return eval(cmd, globals())
+
+    def exec(self, cmd):
+        exec(cmd, globals())
 
     def reload_module(self, module_name):
         reload_module(module_name)
