@@ -12,6 +12,8 @@ from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Patt
 import sys
 from time import time, sleep, perf_counter
 
+import module as module
+
 from .address_manager import AddressManager
 from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
@@ -199,6 +201,7 @@ class PluginController(object):
                 self.plugin.logger.warning("an auto start hook initialize failed:\n" + format_exc())
         self.main_mission = self.create_mission(self.plugin.start, limit_sec=0)
         self.started = True
+        server_event('plugin_start', self.plugin.name)
 
     def unload_plugin(self):
         for call, args, kwargs in self.unload_callback:
@@ -223,6 +226,7 @@ class PluginController(object):
             p_hook.uninstall()
         if self.plugin.save_when_unload:
             self.plugin.storage.save()
+        server_event('plugin_unload', self.plugin.name)
 
     def client_event(self, name: str, data: any):
         server_event(f"{self.plugin.name}/{name}", data)
@@ -530,10 +534,16 @@ class Plugins(object):
 
 
 class FPTHandler(RpcFuncHandler):
-    reload_module = reload_module
-    unload_module = unload_module
     eval = eval
     exec = exec
+
+    def reload_module(self, module_name):
+        reload_module(module_name)
+        return module_name
+
+    def unload_module(self, module_name):
+        unload_module(module_name)
+        return module_name
 
     def get_pid(self):
         return os.getpid()
@@ -546,7 +556,7 @@ class FPTHandler(RpcFuncHandler):
     def plugins_list(self):
         return list(_plugins.keys())
 
-    def plugin_run(self, plugin_name, func_name, *args, **kwargs):
+    def plugin_run(self, plugin_name, func_name, args, kwargs):
         return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
 
     def plugin_set(self, plugin_name, attr_name, value):

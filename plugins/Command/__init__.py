@@ -29,7 +29,7 @@ update_event_key = 'commands_update'
 
 class CommandPlugin(PluginBase):
     name = "Command"
-    layout = Path(__file__).parent / 'layout.js'
+    layout = str(Path(__file__).parent / 'layout.js')
 
     def FptManager(self, args):
         if args[0] == 'close':
