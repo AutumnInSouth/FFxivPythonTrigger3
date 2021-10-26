@@ -24,6 +24,7 @@ class Logger(object):
             raise ModuleTypeException(module_name)
         self._module = module_name
         self.default_level = INFO
+        self.on_log = None
 
     def __call__(self, *messages: any) -> None:
         """
@@ -41,6 +42,7 @@ class Logger(object):
         :param messages: the message elements to be logged
         """
         log(level, self._module, *messages)
+        if self.on_log: self.on_log(level, messages)
 
     def debug(self, *messages: any) -> None:
         """

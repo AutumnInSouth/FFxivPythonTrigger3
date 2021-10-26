@@ -117,6 +117,7 @@ class PluginBase(object):
         self.register_event = self.controller.register_event
         self.register_re_event = self.controller.register_re_event
         self.client_event = self.controller.client_event
+        self.client_log = self.controller.client_log
 
     def onunload(self):
         pass
@@ -127,7 +128,6 @@ class PluginBase(object):
 
 class PluginController(object):
     def __init__(self, plugin: 'PluginBase'):
-
         self.bind_values = {}
         self.plugin: PluginBase = plugin
         self.events: list[Tuple[any, EventCallback]] = list()
@@ -138,6 +138,7 @@ class PluginController(object):
         self.hook_to_start: list[PluginHook] = list()
         self.main_mission: Optional[Mission] = None
         self.unload_callback: list[Tuple[Callable, list, dict]] = []
+        self.plugin.logger.on_log = self.client_log
         self.started = False
 
         for attr_name, attr in self.plugin.__class__.__dict__.items():
@@ -230,6 +231,14 @@ class PluginController(object):
 
     def client_event(self, name: str, data: any):
         server_event(f"{self.plugin.name}/{name}", data)
+
+    def client_log(self, level, messages):
+        self.client_event('log', {
+            'timestamp': time(),
+            'module': self.plugin.name,
+            'level': level,
+            'msg': '\t'.join(messages),
+        })
 
 
 class PluginLoadEvent(EventBase):
