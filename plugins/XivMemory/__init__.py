@@ -1,11 +1,18 @@
 from ctypes import *
-from typing import Optional
+import json
 
-from FFxivPythonTrigger import PluginBase
+from FFxivPythonTrigger import PluginBase, plugins
 from FFxivPythonTrigger.address_manager import AddressManager
-from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float, read_ushort
+from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.exceptions import NeedRequirementError, PluginNotFoundException
+from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float
 from FFxivPythonTrigger.memory.struct_factory import PointerStruct
+
+try:
+    from aiohttp import web
+except ModuleNotFoundError:
+    raise NeedRequirementError('aiohttp')
+
 from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable, Actor
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
@@ -15,6 +22,14 @@ from .struct.markings import Markings
 from .struct.others import Target, Movement
 from .struct.party import PartyList
 from .struct.player_info import Player
+from .hook import ValueBindHook
+from .hook.mo_ui_entity import MoUiEntityHook
+from .hook.world_id import WorldIdHook
+from .hook.chat_log import ChatLogHook
+from .calls.do_action import DoAction, DoActionLocation
+from .calls.do_text_command import DoTextCommand
+from .calls.head_mark import HeadMark
+from .calls.way_mark import WayMark
 from .utils import Utils
 
 
@@ -51,9 +66,23 @@ class XivMemory(PluginBase):
         self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
         self.markings = read_memory(Markings, self._address['markings'])
-        self._world_id_hook = self.WorldIdHook(self, self._address["world_id_hook"])
-        self._mo_ui_entity_hook = self.MoUiEntityHook(self, self._address["mo_ui_entity_hook"])
+        self.value_bind_hooks = {
+            'world_id': WorldIdHook(self, self._address["world_id_hook"]),
+            'mo_ui_entity': MoUiEntityHook(self, self._address["mo_ui_entity_hook"]),
+        }
+        self.hooks = {
+            'chat_log':ChatLogHook(self,self._address["chat_log_hook"])
+        }
+        self.calls = type('memory_call', (object,), {
+            'do_action': DoAction(self._address['do_action'], self._address['action_manager']),
+            'do_action_location': DoActionLocation(self._address['do_action_location'], self._address['action_manager']),
+            'do_text_command': DoTextCommand(self._address['do_text_command'], self._address['text_command_ui_module']),
+            'head_mark': HeadMark(self._address['head_mark'], self._address['marking_controller']),
+            'way_mark': WayMark(self._address['way_mark_set'], self._address['way_mark_clear'], self._address['way_mark_clear_all'],
+                                self._address['marking_controller'], self._address['action_manager']),
+        })
         self.utils = Utils(self)
+        self.register_http_api_route()
 
     @property
     def mission_info(self) -> MissionInfo:
@@ -81,36 +110,59 @@ class XivMemory(PluginBase):
     def skill_animation_lock(self, value):
         write_float(self._address["skill_animation_lock"], float(value))
 
-    class WorldIdHook(PluginHook):
-        argtypes = [c_int64, c_int64]
-        restype = c_int64
-        auto_install = True
+    @event("plugin_load:HttpApi")
+    def register_http_api_route(self, _):
+        try:
+            plugins.HttpApi.register_post_route(self, 'command', self.text_command_handler)
+            plugins.HttpApi.register_post_route(self, 'useitem', self.use_item_handler)
+            plugins.HttpApi.register_post_route(self, 'mark', self.head_mark_handler)
+        except PluginNotFoundException:
+            self.logger.warning("HttpApi is not found")
 
-        def __init__(self, plugin: 'PluginBase', func_address: int):
-            super().__init__(plugin, func_address)
-            self.world_id = 0
+    async def text_command_handler(self, request: web.Request):
+        cmd = await request.text()
+        self.do_text_command(cmd)
+        self.logger.debug("text_command_handler", cmd)
+        return web.json_response({'msg': 'success'})
 
-        def hook_function(self, a1, a2):
-            self.world_id = read_ushort(a2 + 4)
-            return self.original(a1, a2)
+    async def use_item_handler(self, request: web.Request):
+        try:
+            item_id = int(await request.text())
+        except ValueError:
+            return web.json_response({'msg': 'Value Error'})
+        paths = request.path.strip('/').split('/')
+        if len(paths) > 1 and paths[1] == 'hq':
+            item_id += 1000000
+        self.logger.debug("use_item_handler", item_id)
+        self.do_action.use_item(item_id)
+        return web.json_response({'msg': 'success'})
 
-    @property
-    def world_id(self) -> int:
-        return self._world_id_hook.world_id
+    async def head_mark_handler(self, request: web.Request):
+        try:
+            data = json.loads(await request.text())
+        except json.JSONDecodeError:
+            return web.json_response({'msg': 'failed', 'rtn': 'json error'})
+        if not isinstance(data, dict):
+            return web.json_response({'msg': 'failed', 'rtn': 'data should be dictionary'})
 
-    class MoUiEntityHook(PluginHook):
-        mo_entity: Optional[Actor]
-        argtypes = [c_int64, POINTER(Actor)]
-        auto_install = True
+        if "Name" in data:
+            target = list(plugins.XivMemory.actor_table.get_actors_by_name(data["Name"]))
+            if not target:
+                return web.json_response({'msg': 'failed', 'rtn': 'actor not found'})
+            target = target[0].id
+        elif "ActorId" in data:
+            target = int(data["ActorId"])
+        else:
+            return web.json_response({'msg': 'failed', 'rtn': 'no target'})
 
-        def __init__(self, plugin: 'PluginBase', func_address: int):
-            super().__init__(plugin, func_address)
-            self.mo_entity = None
+        try:
+            self.head_mark(data["MarkType"], target)
+        except KeyError:
+            return web.json_response({'msg': 'failed', 'rtn': 'Invalid MarkType'})
+        else:
+            return web.json_response({'msg': 'success'})
 
-        def hook_function(self, a1, actor):
-            self.mo_entity = actor[0] if actor else None
-            self.original(a1, actor)
-
-    @property
-    def mo_ui_entity(self):
-        return self._mo_ui_entity_hook.mo_entity
+    def __getattr__(self, item):
+        if item in self.value_bind_hooks:
+            return self.value_bind_hooks[item].value
+        raise AttributeError

@@ -6,6 +6,7 @@ import os
 
 application_path = os.path.dirname(__file__)
 os.chdir(application_path)
+init_modules = list(sys.modules.keys())
 sys.path.insert(0, application_path)
 
 parser = argparse.ArgumentParser()
@@ -30,35 +31,39 @@ if not args.port: exit(1)
 if not args.skip_requirement_check:
     from FFxivPythonTrigger import requirements_controller
 
+    require_reload = False
+
     requirements = [i for i in open('requirements.txt', encoding='utf-8', mode='r').read().split('\n') if i]
     if not requirements_controller.test_requirements(requirements):
         if requirements_controller.pip_source is None:
             e_print("no valid pip source")
             exit(1)
         print('using pypi source [%s]' % requirements_controller.pip_source_name)
-        requirements_controller.install(*requirements)
+        requirements_controller.sub_process_install(*requirements)
         if not requirements_controller.test_requirements(requirements):
             e_print("cant install requirements")
             exit(1)
+        require_reload = True
 
     if not requirements_controller.test_requirements(["pywin32"]):
-        import pip
-
-        param = ["install", ".\\res\\pywin32-301.1-cp310-cp310-win_amd64.whl"]
-        if hasattr(pip, 'main'):
-            pip.main(param)
-        else:
-            pip._internal.main(param)
+        requirements_controller.sub_process_install(".\\res\\pywin32-301.1-cp310-cp310-win_amd64.whl")
         if not requirements_controller.test_requirements(["pywin32"]):
-            e_print("cant install win32com")
+            e_print("cant install pywin32")
             exit(1)
+        require_reload = True
+
+    if not requirements_controller.test_requirements(["Shapely"]):
+        requirements_controller.sub_process_install(".\\res\\Shapely-1.8.0-cp310-cp310-win_amd64.whl")
+        if not requirements_controller.test_requirements(["Shapely"]):
+            e_print("cant install Shapely")
+            exit(1)
+        require_reload = True
+
+    if require_reload:
+        exit(2)
 
 import locale
 import _thread
-
-for k in list(sys.modules.keys()):
-    if k.startswith("FFxivPythonTrigger"):
-        del sys.modules[k]
 
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.rpc_server import RpcServer, RpcClient, RpcFuncHandler, RpcHandler

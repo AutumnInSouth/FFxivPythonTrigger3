@@ -12,15 +12,13 @@ from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Patt
 import sys
 from time import time, sleep, perf_counter
 
-import module as module
-
+from FFxivPythonTrigger.requirements_controller import sub_process_install
 from .address_manager import AddressManager
 from .decorator import ReEventCall, EventCall, BindValue, PluginHook
 from .exceptions import NeedRequirementError, PluginNotFoundException
 from .frame_inject import FrameInjectHook, sig as frame_inject_sig
 from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
-from .requirements_controller import sub_process_install
 from .rpc_server import RpcServer, RpcFuncHandler
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
 from .utils import Counter, wait_until
@@ -140,21 +138,15 @@ class PluginController(object):
         self.unload_callback: list[Tuple[Callable, list, dict]] = []
         self.plugin.logger.on_log = self.client_log
         self.started = False
-
+        store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
         for attr_name, attr in self.plugin.__class__.__dict__.items():
             if isinstance(attr, ReEventCall):
                 self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec)
             elif isinstance(attr, EventCall):
                 self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec)
-
-    def init_bind_values(self):
-        store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
-        for attr in self.plugin.__class__.__dict__.values():
-            if isinstance(attr, BindValue):
-                if attr.key in store_values:
-                    setattr(self.plugin, attr.key, store_values[attr.key])
-                elif attr.default is not None:
-                    setattr(self.plugin, attr.key, attr.default)
+            elif isinstance(attr, BindValue):
+                attr.key=attr_name
+                self.bind_values[attr_name] = store_values.get(attr_name, attr.default)
 
     def create_mission(self, call: Callable, *args, limit_sec=0.1, put_buffer=True, callback: Optional[Callable] = None,
                        **kwargs) -> Mission:
@@ -237,7 +229,7 @@ class PluginController(object):
             'timestamp': time(),
             'module': self.plugin.name,
             'level': level,
-            'msg': '\t'.join(messages),
+            'msg': '\t'.join(map(str, messages)),
         })
 
 

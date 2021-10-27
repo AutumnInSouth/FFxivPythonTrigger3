@@ -105,7 +105,7 @@ def unload_callback(callback: Union[str, Callable]):
 class BindValue(object):
     def __init__(
             self,
-            key: str,
+            key: str = "",
             on_change: Optional[Callable] = None,
             default=None,
             do_save=True,
@@ -121,19 +121,20 @@ class BindValue(object):
         return self if instance is None else instance.controller.bind_values[self.key]
 
     def __set__(self, instance: 'PluginBase', value):
-        if self.on_change is None or self.on_change(instance, value):
+        old_val = instance.controller.bind_values[self.key]
+        if value != old_val and (self.on_change is None or self.on_change(instance, value, old_val)):
             if self.do_save:
                 instance.storage.data.setdefault(instance.bind_values_store_key, dict())[self.key] = value
-                if self.auto_save:
-                    instance.storage.save()
+                if self.auto_save: instance.storage.save()
             instance.controller.bind_values[self.key] = value
+            instance.controller.client_event('bind_value/' + self.key, value)
 
+    @classmethod
+    def decorator(cls, **kwargs):
+        def wrapper(func):
+            return cls(func.__name__, on_change=func, **kwargs)
 
-def bind_value(**kwargs):
-    def decorator(func):
-        return BindValue(func.__name__, on_change=func, **kwargs)
-
-    return decorator
+        return wrapper
 
 
 class PluginHook(Hook):

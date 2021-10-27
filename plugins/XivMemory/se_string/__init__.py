@@ -3,7 +3,7 @@ from traceback import format_exc
 
 from .messages import *
 
-_logger = Logger("ChatLog/ChatLog")
+_logger = Logger("memory/SeString")
 
 
 def get_next_message(raw: bytearray):
@@ -43,20 +43,20 @@ def get_next_message(raw: bytearray):
 
 def get_message_chain(raw: bytearray):
     backup = raw.hex()
-    messages = []
+    msgs = []
     try:
         while raw and raw[0] != CHAT_LOG_SPLITTER[0]:
             msg = get_next_message(raw)
             if msg is None: raise Exception("None messages")
-            messages.append(msg)
+            msgs.append(msg)
     except Exception:
         _logger.warning(f'err in getting msg chain:\n{backup}\n{format_exc()}')
-        messages.append(UnknownMessage.from_buffer(raw))
-    return messages
+        msgs.append(UnknownMessage.from_buffer(raw))
+    return msgs
 
 
 def group_message_chain(message_chain):
-    messages = []
+    msgs = []
     skip = False
     for msg in message_chain:
         if skip:
@@ -66,8 +66,8 @@ def group_message_chain(message_chain):
             skip = True
         if msg.Type == "UIForeground" or msg.Type == "UIGlow":
             continue
-        messages.append(msg)
-    return messages
+        msgs.append(msg)
+    return msgs
 
 
 def get_text_from_chain(message_chain):

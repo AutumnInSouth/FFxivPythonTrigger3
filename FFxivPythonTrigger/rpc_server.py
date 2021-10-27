@@ -83,6 +83,9 @@ class RpcHandler(StreamRequestHandler):
         try:
             msg_id = data['msg_id']  # a number
             self._process(msg_id, data['msg_type'], data['key'], data)
+        except RpcClientException as e:
+            res = e.args[0]
+            self.send(res['data'], rtn=msg_id, send_type=SEND_ERR, trace=res['trace'])
         except Exception as e:
             self.send(str(e), rtn=msg_id, send_type=SEND_ERR, trace=traceback.format_exc())
 
@@ -233,7 +236,7 @@ class RpcClient(object):
                 raise
             if res['type'] == 'err':
                 del self.wait_return[msg_id]
-                raise RpcClientException(res['data'])
+                raise RpcClientException(res)
             elif res['iter']:
                 return RpcGenerator(msg_id, self.wait_return, res)
             else:

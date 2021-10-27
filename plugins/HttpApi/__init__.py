@@ -1,7 +1,8 @@
 import asyncio
 import traceback
+from pathlib import Path
 
-from FFxivPythonTrigger import PluginBase, plugins
+from FFxivPythonTrigger import PluginBase, plugins, wait_until
 from FFxivPythonTrigger.decorator import unload_callback, event
 from FFxivPythonTrigger.exceptions import PluginNotFoundException, NeedRequirementError
 
@@ -18,9 +19,15 @@ command = "@HttpApi"
 class HttpApiPlugin(PluginBase):
     name = "HttpApi"
 
+    layout = str(Path(__file__).parent / 'layout.js')
+
     def __init__(self):
         super(HttpApiPlugin, self).__init__()
-        self.server_config = self.storage.data.setdefault('server', dict())
+        self.server_config = self.storage.data.setdefault('server', {
+            'start_default': False,
+            'port': 2019,
+            'host': '127.0.0.1'
+        })
         self.app = web.Application()
         self.app.add_routes([web.post('/{uri:.*}', self.post_route)])
         self.loop = asyncio.new_event_loop()
@@ -71,6 +78,7 @@ class HttpApiPlugin(PluginBase):
     def stop_server(self):
         asyncio.set_event_loop(self.loop)
         self.loop.create_task(self._stop_server())
+        wait_until(lambda: not self.work or None)
 
     def onunload(self):
         if self.work:
@@ -117,3 +125,29 @@ class HttpApiPlugin(PluginBase):
         else:
             self.logger("HttpApi: [%s]" % ('enable' if self.work else 'disable'))
         self.storage.save()
+
+    # layout control
+    def get_config(self):
+        return {
+            'config': self.server_config,
+            'work': self.work,
+        }
+
+    def set_config(self, key, val):
+        old = self.server_config[key]
+        self.server_config[key] = val
+        return old
+
+    def layout_start_server(self):
+        if self.work:
+            raise Exception("HttpApi has been started")
+        else:
+            self.create_mission(self.start_server, limit_sec=0)
+        return True
+
+    def layout_stop_server(self):
+        if self.work:
+            self.stop_server()
+        else:
+            raise Exception("HttpApi haven't been started")
+        return True

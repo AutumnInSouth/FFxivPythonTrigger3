@@ -10,7 +10,7 @@ def get_data(data, full=False):
     if isinstance(data, _OffsetStruct):
         return {k: get_data(v, full) for k, v in (data.get_full_item if full else data.get_item)()}
     if isinstance(data, _EnumStruct):
-        return data.value()
+        return data.value
     if isinstance(data, Array):
         return [get_data(i, full) for i in data]
     return data

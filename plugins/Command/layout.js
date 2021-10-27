@@ -39,8 +39,7 @@ module.exports = vue.defineComponent({
     },
     props: ['plugin'],
     template: `
-<div>
-<el-form :inline="true" @submit="process">
+<div class="terminal">
     <el-input v-model="input" class="input-with-select" placeholder="请输入内容" clearable>
         <template v-slot:prepend>
             <el-select placeholder="指令" v-model="select">
@@ -51,7 +50,6 @@ module.exports = vue.defineComponent({
             <el-button @click="process" icon="el-icon-caret-right"/>
         </template>
     </el-input>
-    </el-form>
     <p v-for="(line,i) in this.log_lines" :key ="i">{{line}}</p>
 </div>
 `

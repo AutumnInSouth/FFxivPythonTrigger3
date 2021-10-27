@@ -36,9 +36,9 @@ for s in realm._game_data.definition.sheet_definitions:
 c6="""
 from time import sleep
 for i in range(40):
-    plugins.XivMagic.way_mark(i%8 , plugins.XivMemory.actor_table.me.pos)
+    plugins.XivMemory.calls.way_mark(i%8 , plugins.XivMemory.actor_table.me.pos)
     sleep(0.5)
-plugins.XivMagic.way_mark.clear(9)
+plugins.XivMemory.calls.way_mark.clear(9)
 """
 c7="""
 from FFxivPythonTrigger.text_pattern import find_unique_signature_address,find_unique_signature_point
@@ -46,9 +46,12 @@ print(hex(find_unique_signature_point(("48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 4
                        "BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ?"))))
 """
 c8="""
-from .text_pattern import find_unique_signature_point
+print(plugins.Test.num,plugins.Test.num2)
+plugins.Test.num += 1
+plugins.Test.num2 *= 2
+print(plugins.Test.num,plugins.Test.num2)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c5.encode('utf-8')).text
+t = requests.post("http://127.0.0.1:2019/exec", c8.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)
