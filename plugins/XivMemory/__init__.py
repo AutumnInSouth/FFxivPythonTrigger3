@@ -1,5 +1,5 @@
-from ctypes import *
 import json
+from ctypes import *
 
 from FFxivPythonTrigger import PluginBase, plugins
 from FFxivPythonTrigger.address_manager import AddressManager
@@ -22,6 +22,7 @@ from .struct.markings import Markings
 from .struct.others import Target, Movement
 from .struct.party import PartyList
 from .struct.player_info import Player
+from .struct.coordinate import Coordinate
 from .hook import ValueBindHook
 from .hook.mo_ui_entity import MoUiEntityHook
 from .hook.world_id import WorldIdHook
@@ -66,19 +67,22 @@ class XivMemory(PluginBase):
         self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
         self.markings = read_memory(Markings, self._address['markings'])
+        self.coordinate = Coordinate(self._address)
         self.value_bind_hooks = {
             'world_id': WorldIdHook(self, self._address["world_id_hook"]),
             'mo_ui_entity': MoUiEntityHook(self, self._address["mo_ui_entity_hook"]),
         }
         self.hooks = {
-            'chat_log':ChatLogHook(self,self._address["chat_log_hook"])
+            'chat_log': ChatLogHook(self, self._address["chat_log_hook"])
         }
         self.calls = type('memory_call', (object,), {
             'do_action': DoAction(self._address['do_action'], self._address['action_manager']),
-            'do_action_location': DoActionLocation(self._address['do_action_location'], self._address['action_manager']),
+            'do_action_location': DoActionLocation(self._address['do_action_location'],
+                                                   self._address['action_manager']),
             'do_text_command': DoTextCommand(self._address['do_text_command'], self._address['text_command_ui_module']),
             'head_mark': HeadMark(self._address['head_mark'], self._address['marking_controller']),
-            'way_mark': WayMark(self._address['way_mark_set'], self._address['way_mark_clear'], self._address['way_mark_clear_all'],
+            'way_mark': WayMark(self._address['way_mark_set'], self._address['way_mark_clear'],
+                                self._address['way_mark_clear_all'],
                                 self._address['marking_controller'], self._address['action_manager']),
         })
         self.utils = Utils(self)
@@ -109,6 +113,8 @@ class XivMemory(PluginBase):
     @skill_animation_lock.setter
     def skill_animation_lock(self, value):
         write_float(self._address["skill_animation_lock"], float(value))
+
+    # http-api handlers start
 
     @event("plugin_load:HttpApi")
     def register_http_api_route(self, _):
@@ -161,6 +167,8 @@ class XivMemory(PluginBase):
             return web.json_response({'msg': 'failed', 'rtn': 'Invalid MarkType'})
         else:
             return web.json_response({'msg': 'success'})
+
+    # http-api handlers end
 
     def __getattr__(self, item):
         if item in self.value_bind_hooks:

@@ -95,7 +95,7 @@ sigs = {
     },
     "do_text_command": {
         'call': find_unique_signature_address,
-        'param': "48 89 5C 24 ?? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9",
+        'param': "48 89 5C 24 ? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9",
         'add': BASE_ADDR,
     },
     "text_command_ui_module": {
@@ -120,7 +120,7 @@ sigs = {
     },
     "head_mark": {
         'call': find_unique_signature_address,
-        'param': "48 89 5C 24 ?? 48 89 6C 24 ?? 57 48 83 EC ?? 8D 42",
+        'param': "48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 8D 42",
         'add': BASE_ADDR,
     },
     "way_mark_set": {
@@ -143,12 +143,23 @@ sigs = {
         'param': "48 8D ? * * * * 41 B0 ? E8 ? ? ? ? 85 C0",
         'add': BASE_ADDR,
     },
-    "chat_log_hook":{
+    "chat_log_hook": {
         'call': find_unique_signature_address,
-        'param':"48 89 ? ? ? 48 89 ? ? ? 48 89 ? ? ? 57 41 ? 41 ? 48 83 EC ? 48 8B ? ? 48 8B ? 48 2B ? ? 4C 8B",
-        'add':BASE_ADDR
+        'param': "48 89 ? ? ? 48 89 ? ? ? 48 89 ? ? ? 57 41 ? 41 ? 48 83 EC ? 48 8B ? ? 48 8B ? 48 2B ? ? 4C 8B",
+        'add': BASE_ADDR,
+    },
+    "coordinate_main_pointer": {
+        'call': find_unique_signature_point,
+        'param': "f3 0f ? ? * * * * eb ? 48 8b ? ? ? ? ? e8 ? ? ? ? 48 85",
+        'add': BASE_ADDR + 0x14,
+    },
+    "coordinate_fly": {
+        'call': find_unique_signature_point,
+        'param': "48 8d ? * * * * 84 c0 75 ? 48 8d ? ? ? ? ? 80 79 66 ? 74 ? e8 ? ? ? ? c6 87 f4 03 ? ?",
+        'add': BASE_ADDR + 0x10,
     }
 }
 
 enemies_shifts = [0x30, 0x58, 0x98, 0x20, 0x20]
 mission_info_shifts = [0x568]
+main_coordinate_shifts = [0xa0]
