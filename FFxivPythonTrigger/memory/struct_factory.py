@@ -1,6 +1,7 @@
 from _ctypes import Array
 from ctypes import *
 from functools import cache
+from json import JSONEncoder, JSONDecodeError
 from typing import Type, List, Tuple, Dict
 
 from . import read_pointer_shift, read_memory
@@ -84,8 +85,34 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None, max_pad_length:
     return type(
         (name or f"OffsetStruct_{current_size:#X}"),
         (_OffsetStruct,),
-        {'raw_fields': fields, '_fields_': set_fields, 'struct_size':current_size}
+        {'raw_fields': fields, '_fields_': set_fields, 'struct_size': current_size}
     )
+
+
+class _OffsetStructJsonEncoder(JSONEncoder):
+    def default(self, data):
+        if isinstance(data, _OffsetStruct):
+            _data = {}
+            for k, v in data.get_item():
+                try:
+                    _data[k] = self.default(v)
+                except JSONDecodeError:
+                    pass
+            data = _data
+        elif isinstance(data, _EnumStruct):
+            data = data.value
+        elif isinstance(data, Array):
+            _data = []
+            for v in data:
+                try:
+                    _data.append(self.default(v))
+                except JSONDecodeError:
+                    _data.append(None)
+            data = _data
+        return super().default(data)
+
+
+OffsetStructJsonEncoder = _OffsetStructJsonEncoder()
 
 
 class _PointerStruct(c_void_p):

@@ -100,8 +100,9 @@ def pack_message(bundle_header: BundleHeader, messages: Iterable[bytearray]) -> 
     raw_message = bytearray()
     cnt = 0
     for message in messages:
-        raw_message += message
-        cnt += 1
+        if message:
+            raw_message += message
+            cnt += 1
     if not cnt: return raw_message
     if bundle_header.encoding == 0x0000 or bundle_header.encoding == 0x0001:
         compress_messages = raw_message

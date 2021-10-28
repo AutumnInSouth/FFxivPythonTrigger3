@@ -89,12 +89,20 @@ class EventBase(object):
 
 
 class EventCallback(object):
-    def __init__(self, plugin: "PluginBase", call: Callable, limit_sec: Optional[float] = None):
+    def __init__(self, plugin: "PluginBase", call: Callable, limit_sec: Optional[float] = None, min_interval=0):
         self.plugin = plugin
         self._call = call
         self.limit_sec = limit_sec
+        self.min_interval = min_interval
+        self.last_trigger = -min_interval
 
     def call(self, event: EventBase, *args):
+        if self.min_interval:
+            current = perf_counter()
+            if self.last_trigger + self.min_interval > current:
+                return
+            else:
+                self.last_trigger = current
         if self.limit_sec is not None:
             self.plugin.create_mission(self._call, event, *args, limit_sec=self.limit_sec)
         else:
@@ -141,11 +149,11 @@ class PluginController(object):
         store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
         for attr_name, attr in self.plugin.__class__.__dict__.items():
             if isinstance(attr, ReEventCall):
-                self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec)
+                self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
             elif isinstance(attr, EventCall):
-                self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec)
+                self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
             elif isinstance(attr, BindValue):
-                attr.key=attr_name
+                attr.key = attr_name
                 self.bind_values[attr_name] = store_values.get(attr_name, attr.default)
 
     def create_mission(self, call: Callable, *args, limit_sec=0.1, put_buffer=True, callback: Optional[Callable] = None,
@@ -174,15 +182,15 @@ class PluginController(object):
             self.missions[mid] = mission
         return mission
 
-    def register_event(self, event_id: any, call: Callable, limit_sec=None):
-        callback = EventCallback(self.plugin, call, limit_sec)
+    def register_event(self, event_id: any, call: Callable, limit_sec=None, min_interval=0):
+        callback = EventCallback(self.plugin, call, limit_sec, min_interval)
         self.events.append((event_id, callback))
         register_event(event_id, callback)
 
-    def register_re_event(self, pattern: Union[Pattern[str], re.Pattern], call: Callable, limit_sec=None):
+    def register_re_event(self, pattern: Union[Pattern[str], re.Pattern], call: Callable, limit_sec=None, min_interval=0):
         if not isinstance(pattern, re.Pattern):
             pattern = re.compile(pattern)
-        callback = EventCallback(self.plugin, call, limit_sec)
+        callback = EventCallback(self.plugin, call, limit_sec, min_interval)
         self.re_events.append((pattern, callback))
         register_re_event(pattern, callback)
 

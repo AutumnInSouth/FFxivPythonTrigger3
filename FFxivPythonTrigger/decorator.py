@@ -20,12 +20,14 @@ class ReEventCall(object):
             pattern: re_pattern,
             func: Optional[ReEventType],
             limit_sec: float = 0.1,
-            condition: Optional[ConditionType] = None
+            condition: Optional[ConditionType] = None,
+            min_interval=0,
     ):
         self.pattern = pattern if isinstance(pattern, re.Pattern) else re.compile(pattern)
         self.func = func
         self.limit_sec = limit_sec
         self.condition = condition
+        self.min_interval = min_interval
 
     def __get__(self, obj, obj_type=None):
         if obj is None:
@@ -51,12 +53,14 @@ class EventCall(object):
             event_id: any,
             func: Optional[EventType],
             limit_sec: float = 0.1,
-            condition: Optional[ConditionType] = None
+            condition: Optional[ConditionType] = None,
+            min_interval=0,
     ):
         self.event_id = event_id
         self.func = func
         self.limit_sec = limit_sec
         self.condition = condition
+        self.min_interval = min_interval
 
     def __get__(self, obj, obj_type=None):
         if obj is None:
@@ -76,16 +80,16 @@ class EventCall(object):
         return callback
 
 
-def re_event(pattern: re_pattern, limit_sec: float = 0.1, condition: Optional[ConditionType] = None):
+def re_event(pattern: re_pattern, limit_sec: float = 0.1, condition: Optional[ConditionType] = None, min_interval=0):
     def decorator(func: ReEventType):
-        return ReEventCall(pattern=pattern, func=func, limit_sec=limit_sec, condition=condition)
+        return ReEventCall(pattern=pattern, func=func, limit_sec=limit_sec, condition=condition, min_interval=min_interval)
 
     return decorator
 
 
-def event(event_id: any, limit_sec: float = 0.1, condition: Optional[ConditionType] = None):
+def event(event_id: any, limit_sec: float = 0.1, condition: Optional[ConditionType] = None, min_interval=0):
     def decorator(func: EventType):
-        return EventCall(event_id=event_id, func=func, limit_sec=limit_sec, condition=condition)
+        return EventCall(event_id=event_id, func=func, limit_sec=limit_sec, condition=condition, min_interval=min_interval)
 
     return decorator
 

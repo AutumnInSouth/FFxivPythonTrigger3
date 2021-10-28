@@ -1,7 +1,7 @@
-from typing import TYPE_CHECKING, Type, Tuple, Dict, Set
+from typing import TYPE_CHECKING, Type
 
 from FFxivPythonTrigger import EventBase
-from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 if TYPE_CHECKING:
     from ..base_struct import BundleHeader, MessageHeader
@@ -70,16 +70,5 @@ class NetworkLobbyServerEvent(_NetworkLobbyEvent):
 
 class BaseProcessors(object):
     opcode: str
-    struct: Type[_OffsetStruct]
+    struct = OffsetStruct({}, 0)
     Event: Type[_NetworkEvent]
-
-
-def index_processors(namespace: dict) -> Tuple[Dict[int, Set[Type[BaseProcessors]]], Dict[str, Type[BaseProcessors]]]:
-    len_dict = {}
-    opcode_dict = {}
-    for attr in namespace.values():
-        if issubclass(attr, BaseProcessors):
-            len_dict.setdefault(attr.struct.struct_size, set()).add(attr)
-            opcode_dict[attr.opcode] = attr
-    return len_dict, opcode_dict
-

@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Dict, List
 
 from FFxivPythonTrigger import game_version
 from FFxivPythonTrigger.storage import get_module_storage
@@ -6,7 +7,7 @@ from FFxivPythonTrigger.storage import get_module_storage
 scope_name = ["chat", "lobby", "zone"]
 
 
-def load_opcodes(path):
+def load_opcodes(path) -> List[Dict[str, int]]:
     data = []
     for i in range(6):
         add = {}
