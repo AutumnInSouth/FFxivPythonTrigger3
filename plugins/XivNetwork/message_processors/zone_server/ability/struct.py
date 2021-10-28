@@ -53,6 +53,18 @@ class ServerActionEffectEntry(OffsetStruct({
     main_param: int
 
 
+class ServerActionEffectType:
+    max_count = 0
+    header: ServerActionEffectHeader
+    padding1: int
+    padding2: int
+    effects: list[list[ServerActionEffectEntry]]
+    padding3: int
+    padding4: int
+    target_id: list[int]
+    padding5: int
+
+
 class ServerActionEffect1(OffsetStruct({
     'header': ServerActionEffectHeader,
     'padding1': c_uint,
@@ -62,15 +74,8 @@ class ServerActionEffect1(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 1,
     'padding5': c_uint,
-})):
-    header: ServerActionEffectHeader
-    padding1: int
-    padding2: int
-    effects: list[list[ServerActionEffectEntry]]
-    padding3: int
-    padding4: int
-    target_id: list[int]
-    padding5: int
+}), ServerActionEffectType):
+    max_count = 1
 
 
 class ServerActionEffect8(OffsetStruct({
@@ -82,15 +87,8 @@ class ServerActionEffect8(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 8,
     'padding5': c_uint,
-})):
-    header: ServerActionEffectHeader
-    padding1: int
-    padding2: int
-    effects: list[list[ServerActionEffectEntry]]
-    padding3: int
-    padding4: int
-    target_id: list[int]
-    padding5: int
+}), ServerActionEffectType):
+    max_count = 8
 
 
 class ServerActionEffect16(OffsetStruct({
@@ -102,15 +100,8 @@ class ServerActionEffect16(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 16,
     'padding5': c_uint,
-})):
-    header: ServerActionEffectHeader
-    padding1: int
-    padding2: int
-    effects: list[list[ServerActionEffectEntry]]
-    padding3: int
-    padding4: int
-    target_id: list[int]
-    padding5: int
+}), ServerActionEffectType):
+    max_count = 16
 
 
 class ServerActionEffect24(OffsetStruct({
@@ -122,15 +113,8 @@ class ServerActionEffect24(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 24,
     'padding5': c_uint,
-})):
-    header: ServerActionEffectHeader
-    padding1: int
-    padding2: int
-    effects: list[list[ServerActionEffectEntry]]
-    padding3: int
-    padding4: int
-    target_id: list[int]
-    padding5: int
+}), ServerActionEffectType):
+    max_count = 24
 
 
 class ServerActionEffect32(OffsetStruct({
@@ -142,15 +126,8 @@ class ServerActionEffect32(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 32,
     'padding5': c_uint,
-})):
-    header: ServerActionEffectHeader
-    padding1: int
-    padding2: int
-    effects: list[list[ServerActionEffectEntry]]
-    padding3: int
-    padding4: int
-    target_id: list[int]
-    padding5: int
+}), ServerActionEffectType):
+    max_count = 32
 
 
 class ServerActionEffectDisplayType:

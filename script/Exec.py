@@ -51,7 +51,13 @@ plugins.Test.num += 1
 plugins.Test.num2 *= 2
 print(plugins.Test.num,plugins.Test.num2)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c8.encode('utf-8')).text
+c9="""
+import time
+for i in range(200):
+    self.logger(time.time())
+    time.sleep(0.1)
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c9.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

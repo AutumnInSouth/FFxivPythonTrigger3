@@ -19,7 +19,7 @@ for version, version_key in idx.items():
     c_data = dict()
     for i, row in data.iterrows():
         if not row[version]: continue
-        c_data.setdefault(row['Scope'].strip(), dict())[row['Name'].strip()] = eval(row[version]), row['Length']
+        c_data.setdefault(row['Scope'].strip(), dict())[(row['ACT'] or row['Name']).strip()] = eval(row[version]), row['Length']
     for scope, file_name in outputs.items():
         s_data = c_data.get(scope)
         if s_data:

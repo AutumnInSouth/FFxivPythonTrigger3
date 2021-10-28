@@ -1,10 +1,25 @@
 from typing import TYPE_CHECKING, Type
+from threading import Lock
 
 from FFxivPythonTrigger import EventBase
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 if TYPE_CHECKING:
     from ..base_struct import BundleHeader, MessageHeader
+
+
+class Controller(object):
+    def __init__(self, event: '_NetworkEvent'):
+        self.event = event
+        self.inited = False
+        self.init_lock = Lock()
+
+    def init(self):
+        if not self.inited:
+            with self.init_lock:
+                if not self.inited:
+                    self.event.init()
+                    self.inited = True
 
 
 class _NetworkEvent(EventBase):
@@ -21,6 +36,10 @@ class _NetworkEvent(EventBase):
         self.message_header = message_header
         self.raw_message = raw_message
         self.struct_message = struct_message
+        self.controller = Controller(self)
+
+    def init(self):
+        pass
 
 
 class _NetworkZoneEvent(_NetworkEvent):
@@ -71,4 +90,4 @@ class NetworkLobbyServerEvent(_NetworkLobbyEvent):
 class BaseProcessors(object):
     opcode: str
     struct = OffsetStruct({}, 0)
-    Event: Type[_NetworkEvent]
+    event: Type[_NetworkEvent]

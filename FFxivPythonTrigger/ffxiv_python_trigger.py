@@ -36,6 +36,7 @@ def server_event(name: str, data: any):
 
 
 def client_log(log: Log):
+    global _client_log_history
     log = {
         'timestamp': log.datetime.timestamp(),
         'module': log.module,
@@ -43,6 +44,7 @@ def client_log(log: Log):
         'msg': log.message,
     }
     _client_log_history.append(log)
+    if len(_client_log_history) > 1000: _client_log_history = _client_log_history[-500:]
     server_event('fpt_log', log)
 
 

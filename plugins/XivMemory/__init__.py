@@ -54,6 +54,7 @@ class XivMemory(PluginBase):
 
         self._address = AddressManager(self.name, self.logger).load(sigs)
         self.actor_table = read_memory(ActorTable, self._address['actor_table'])
+        self.actor_table._aid_to_idx_cache = {}
         self.combo_state = read_memory(ComboState, self._address['combo_state'])
         self.skill_queue = read_memory(SkillQueue, self._address['skill_queue'])
         self.cool_down_group = read_memory(CoolDownGroups, self._address['cool_down_group'])

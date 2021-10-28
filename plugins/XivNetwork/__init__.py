@@ -65,7 +65,7 @@ class UnknownOpcodeEvent(_NetworkEvent):
             class _UnknownOpcodeEvent(cls):
                 scope = _scope_name
                 is_send = _is_send
-                id = _NetworkEvent.id + '/unknown/' + _scope_name + '/' + ('client' if _is_send else 'server') + message_header.msg_type
+                id = f"{_NetworkEvent.id}unknown/{_scope_name}/{'client' if _is_send else 'server'}/{message_header.msg_type}"
                 scope_idx = _scope_idx
                 opcode = message_header.msg_type
                 msg_len = len(raw_message)
@@ -116,22 +116,22 @@ class XivNetwork(PluginBase):
         else:
             return 1
 
-    def process_message(self, bundle_header: BundleHeader, message: bytearray, is_send: bool, socket: int):
+    def process_message(self, bundle_header: BundleHeader, message: bytearray, is_server: bool, socket: int):
         if len(message) < MessageHeader.struct_size:
-            self.pings.setdefault(socket, Ping()).set(is_send)
+            self.pings.setdefault(socket, Ping()).set(is_server)
             return message
         else:
             message_header = MessageHeader.from_buffer(message)
             raw_message = message[MessageHeader.struct_size:]
-            scope = socket * 2 + is_send
+            scope = socket * 2 + is_server
             struct_message = None
             processor = None
             opcode = message_header.msg_type
             if opcode in opcode_processors[scope]:
-                processor = opcode_processors[scope][message_header.msg_type]
+                processor = opcode_processors[scope][opcode]
                 if processor.struct.struct_size and len(raw_message) >= processor.struct.struct_size:
                     struct_message = processor.struct.from_buffer(raw_message)
-                else:
+                elif processor.struct.struct_size:
                     self.logger.error(f"message size too short for [{processor.opcode}], "
                                       f"require {processor.struct.struct_size} but {len(raw_message)} is given")
             for fixer in self._packet_fixer[scope].get(opcode, set()).copy():
@@ -146,13 +146,14 @@ class XivNetwork(PluginBase):
                     struct_message = new_msg_body
                     raw_message = bytearray(new_msg_body)
             if processor is not None:
-                process_event(processor.Event(bundle_header, message_header, raw_message, struct_message))
+                process_event(processor.event(bundle_header, message_header, raw_message, struct_message))
             else:
-                process_event(UnknownOpcodeEvent.get_event(bundle_header, message_header, raw_message, socket, is_send))
+                process_event(UnknownOpcodeEvent.get_event(bundle_header, message_header, raw_message, socket, is_server))
             return bytearray(message_header) + raw_message
 
-    def process_messages(self, bundle_header: BundleHeader, messages: Iterable[bytearray], is_send: bool, socket: int) -> unpacked_messages:
-        return bundle_header, [self.process_message(bundle_header, message, is_send, self.socket_type(socket)) for message in messages]
+    def process_messages(self, bundle_header: BundleHeader, messages: Iterable[bytearray], is_server: bool, socket: int) -> unpacked_messages:
+        socket=self.socket_type(socket)
+        return bundle_header, [self.process_message(bundle_header, message, is_server, socket) for message in messages]
 
     # layout used
     def get_key_to_code(self):
@@ -170,5 +171,5 @@ class XivNetwork(PluginBase):
                     'opcode': evt.opcode,
                     'guess': possible.opcode,
                     'struct': OffsetStructJsonEncoder.default(struct_msg),
-                    'event': possible.Event(evt.bundle_header, evt.message_header, evt.raw_message, struct_msg).str_event()
+                    'event': possible.event(evt.bundle_header, evt.message_header, evt.raw_message, struct_msg).str_event()
                 })

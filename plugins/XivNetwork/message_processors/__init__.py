@@ -1,18 +1,19 @@
+from inspect import isclass
 from typing import List, Dict, Type, Set
 
 from . import chat_client, chat_server, lobby_client, lobby_server, zone_client, zone_server
 from .opcodes import key_to_code, code_to_key, scope_name
 from .utils import BaseProcessors, _NetworkEvent
 
-len_processors:List[Dict[int, Set[Type[BaseProcessors]]]] = []
-_opcode_processors:List[Dict[str, Type[BaseProcessors]]] = []
+len_processors: List[Dict[int, Set[Type[BaseProcessors]]]] = []
+_opcode_processors: List[Dict[str, Type[BaseProcessors]]] = []
 
 for module in chat_client, chat_server, lobby_client, lobby_server, zone_client, zone_server:
     len_dict = {}
     opcode_dict = {}
     for key in dir(module):
         attr = getattr(module, key)
-        if issubclass(attr, BaseProcessors):
+        if isclass(attr) and issubclass(attr, BaseProcessors):
             len_dict.setdefault(attr.struct.struct_size, set()).add(attr)
             opcode_dict[attr.opcode] = attr
     len_processors.append(len_dict)
@@ -32,8 +33,8 @@ for scope, data in enumerate(key_to_code):
 
 
             class UndefinedProcessor(BaseProcessors):
-                class Event(_NetworkEvent):
-                    id = _NetworkEvent.id + _scope_name + '/' + ('client' if is_send else 'server') + '/undefined/' + key
+                class event(_NetworkEvent):
+                    id = f"{_NetworkEvent.id}undefined/{_scope_name}/{'client' if is_send else 'server'}/{key}"
                     scope = _scope_name
                     is_send = is_send
 

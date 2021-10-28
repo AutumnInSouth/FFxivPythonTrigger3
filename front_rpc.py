@@ -67,6 +67,7 @@ import _thread
 
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.rpc_server import RpcServer, RpcClient, RpcFuncHandler, RpcHandler
+from FFxivPythonTrigger.utils import wait_until
 
 ep = process.enable_privilege()
 if ep:
@@ -155,7 +156,8 @@ class FrontRpc(RpcFuncHandler):
         game_environ = {
             'fpt_socket_port': str(socket_port),
             'fpt_data_dir': str(data_dir),
-            'python_interpreter': sys.executable
+            'python_interpreter': sys.executable,
+            'init_plugins': str(init_plugins),
         }
         shellcode = f"""
 import sys

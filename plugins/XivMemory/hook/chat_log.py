@@ -23,7 +23,7 @@ class ChatLogEvent(EventBase):
 
     @cache
     def str_event(self):
-        return f"00:{self.channel_id:X}:{self.player.replace(':', '：')}:{self.message.replace(':', '：')}"
+        return f"chatlog|{self.channel_id:X}|{self.player.replace('|', '│')}|{self.message.replace('|', '│')}"
 
     def text(self):
         return "{}\t{}\t{}\t{}".format(self.time, self.channel_id, self.player or 'n/a', self.message)

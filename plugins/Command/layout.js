@@ -10,7 +10,7 @@ module.exports = vue.defineComponent({
     name: 'commands',
     setup(props) {
         const {plugin} = vue.toRefs(props);
-        const log_lines = vue.ref([])
+        const logs = vue.ref()
         const commands = vue.ref({})
         const select = vue.ref("")
         const input = vue.ref("")
@@ -19,9 +19,7 @@ module.exports = vue.defineComponent({
         style.innerHTML = styles
         const head = document.getElementsByTagName('head')[0]
 
-        const on_log = (_, evt) => log_lines.value.push(
-            `[${new Date(evt.timestamp * 1000).toUTCString()}|${evt.level}|${evt.module}] ${evt.msg}`
-        )
+        const on_log = (_, log) => logs.value.log(utils.format_fpt_log(log), log.level)
 
         const process = () => plugin.value.run_single('process_command', [`${select.value} ${input.value}`])
 
@@ -35,11 +33,11 @@ module.exports = vue.defineComponent({
             front_rpc.front_rpc?.game_unsubscribe(plugin.value.pid, 'fpt_log', on_log)
         })
 
-        return {log_lines, commands, select, input, process}
+        return {logs,commands, select, input, process}
     },
     props: ['plugin'],
     template: `
-<div class="terminal">
+<div>
     <el-input v-model="input" class="input-with-select" placeholder="请输入内容" clearable>
         <template v-slot:prepend>
             <el-select placeholder="指令" v-model="select">
@@ -50,7 +48,9 @@ module.exports = vue.defineComponent({
             <el-button @click="process" icon="el-icon-caret-right"/>
         </template>
     </el-input>
-    <p v-for="(line,i) in this.log_lines" :key ="i">{{line}}</p>
+    <div class="h-50">
+        <LogLines ref="logs"/>
+    </div>
 </div>
 `
 })

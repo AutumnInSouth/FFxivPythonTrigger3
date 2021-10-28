@@ -6,9 +6,8 @@ module.exports = vue.defineComponent({
         const logs = vue.ref([]);
         const config = vue.reactive({'start_default': false, 'port': 2019, 'host': '127.0.0.1'});
         const work = vue.ref(false);
-        const on_log = (_, log) => logs.value.push(log)
+        const on_log = (_, log) => logs.value.log(utils.format_fpt_log(log), log.level)
         const update = () => plugin.value.run_single('get_config').then(data => {
-            console.log(data)
             Object.assign(config, data.config)
             work.value = data.work
         })
@@ -49,7 +48,7 @@ module.exports = vue.defineComponent({
         return {logs, config, work, stop_server, start_server}
     },
     template: `
-<div class="terminal">
+<div>
 当前状态：{{work?'运行中':'未运行'}}
 <el-button v-if="!work" type="success" @click="start_server" round>启动</el-button>
 <el-button v-else type="danger" @click="stop_server" round>停止</el-button>
@@ -66,7 +65,9 @@ module.exports = vue.defineComponent({
 </el-switch>
   </el-form-item>
 </el-form>
-<fpt-log-lines class="h-50" :logs ="logs"/>
+<div class="h-50">
+    <LogLines ref="logs"/>
+</div>
 </div>
 `
 })

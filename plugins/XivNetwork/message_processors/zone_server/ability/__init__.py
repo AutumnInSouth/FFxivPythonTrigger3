@@ -1,5 +1,7 @@
+from FFxivPythonTrigger import plugins
+from FFxivPythonTrigger.saint_coinach import action_names
 from .struct import *
-from ...utils import NetworkZoneServerEvent
+from ...utils import NetworkZoneServerEvent, BaseProcessors
 
 MsgStructs = ServerActionEffect1 | ServerActionEffect8 | ServerActionEffect16 | ServerActionEffect24 | ServerActionEffect32
 
@@ -29,32 +31,79 @@ class ActionEffect(object):
             # self.tags.add(hex(self.raw_flag)[2:].zfill(8)+"-"+hex(self.raw_amount)[2:].zfill(8))
 
     def __str__(self):
-        return f"{self.param}{self.tags}" + str(self.raw_entry.get_data())
+        return f"{self.param}{self.tags}"  # + str(self.raw_entry.get_data())
 
 
 class ActionEffectEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'action_effect'
     struct_message: MsgStructs
+    targets: dict[int, list]
 
-    def __init__(self, bundle_header, message_header, raw_message, struct_message:MsgStructs):
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: MsgStructs):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
-
+        self.source_actor = None
         self.source_id = message_header.actor_id
         effect_header = struct_message.header
-        if effect_header.effect_display_type == ServerActionEffectDisplayType.MountName:
-            self.action_type = "mount"
-        elif effect_header.effect_display_type == ServerActionEffectDisplayType.ShowItemName:
-            self.action_type = "item"
-        elif effect_header.effect_display_type == ServerActionEffectDisplayType.ShowActionName or effect_header.effect_display_type == ServerActionEffectDisplayType.HideActionName:
-            self.action_type = "action"
-        else:
-            self.action_type = "unknown_%s" % effect_header.effect_display_type
+        match effect_header.effect_display_type:
+            case ServerActionEffectDisplayType.MountName:
+                self.action_type = "mount"
+            case ServerActionEffectDisplayType.ShowItemName:
+                self.action_type = "item"
+            case ServerActionEffectDisplayType.ShowActionName | ServerActionEffectDisplayType.HideActionName:
+                self.action_type = "action"
+            case t:
+                self.action_type = "unknown_%s" % t
         self.action_id = effect_header.action_animation_id if self.action_type == "action" else effect_header.action_id
-        effect_count = min(effect_header.effect_count, max_count)
+        effect_count = min(effect_header.effect_count, struct_message.max_count)
         self.targets = dict()
         for i in range(effect_count):
             effects = list()
             for j in range(8):
-                if not raw_msg.effects[i][j].type: break
-                effects.append(ActionEffect(raw_msg.effects[i][j]))
-            self.targets[raw_msg.target_id[i]] = effects
+                if not struct_message.effects[i][j].type: break
+                effects.append(ActionEffect(struct_message.effects[i][j]))
+            self.targets[struct_message.target_id[i]] = [None, effects]
+
+    def init(self):
+        self.source_actor = plugins.XivMemory.actor_table.get_actor_by_id(self.source_id)
+        for a_id, data in self.targets.items(): data[0] = plugins.XivMemory.actor_table.get_actor_by_id(a_id)
+
+    def text(self):
+        self.controller.init()
+        m = " / ".join(f"{data[0].name if data[0] else hex(aid)}[{' ;'.join(map(str, data[1]))}]" for aid, data in self.targets.items())
+        return f"{self.source_actor.name if self.source_actor else hex(self.source_id)} use {action_names[self.action_id]}({self.action_type}) on {len(self.targets)} target(s) : {m}"
+
+    def str_event(self):
+        self.controller.init()
+        m = "|".join(
+            f"{data[0].name if data[0] else ''};{';'.join(','.join(effect.tags) for effect in data[1])}" for aid, data in self.targets.items())
+        return f"ability|{self.action_type}|{self.action_id:X}|{action_names[self.action_id]}|{self.source_actor.name if self.source_actor else ''}|" + m
+
+
+class Ability1(BaseProcessors):
+    opcode = "Ability1"
+    struct = ServerActionEffect1
+    event = ActionEffectEvent
+
+
+class Ability8(BaseProcessors):
+    opcode = "Ability8"
+    struct = ServerActionEffect8
+    event = ActionEffectEvent
+
+
+class Ability16(BaseProcessors):
+    opcode = "Ability16"
+    struct = ServerActionEffect16
+    event = ActionEffectEvent
+
+
+class Ability24(BaseProcessors):
+    opcode = "Ability24"
+    struct = ServerActionEffect24
+    event = ActionEffectEvent
+
+
+class Ability32(BaseProcessors):
+    opcode = "Ability32"
+    struct = ServerActionEffect32
+    event = ActionEffectEvent

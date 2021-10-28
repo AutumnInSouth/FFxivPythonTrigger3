@@ -1,5 +1,5 @@
+from functools import cache
 import os
-
 import pysaintcoinach
 
 from .logger import info
@@ -24,3 +24,8 @@ info("pysaintcoinach", f"{game_language} realm initialized")
 
 """realm._game_data.definition.sheet_definitions"""
 """realm.game_data.get_sheet()"""
+
+action_sheet = realm.game_data.get_sheet('Action')
+action_names = {row.key: row['Name'] for row in action_sheet}
+item_sheet = realm.game_data.get_sheet('Item')
+item_names = {row.key: row['Name'] for row in item_sheet}

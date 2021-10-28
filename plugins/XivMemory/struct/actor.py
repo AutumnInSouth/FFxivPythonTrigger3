@@ -134,7 +134,6 @@ class Actor(OffsetStruct({
         if type(other) == str:
             return self.name == other
 
-    @property
     def hitbox(self):
         return circle(self.pos.x, self.pos.y, self.hitbox_radius)
 
@@ -197,9 +196,7 @@ class Actor(OffsetStruct({
 
 
 class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
-    def __init__(self, *args):
-        super().__init__(*args)
-        self._aid_to_idx_cache = {}
+    _aid_to_idx_cache:dict
 
     @property
     def me(self):
@@ -226,9 +223,8 @@ class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
             if actor.id == actor_id:
                 return actor
         for i, actor in self.items():
-            if actor.id == actor_id:
-                self._aid_to_idx_cache[actor_id] = i
-                return actor
+            self._aid_to_idx_cache[actor.id] = i
+            if actor.id == actor_id: return actor
 
     def get_actors_by_ids(self, actor_ids: Set[int]) -> Iterator[Actor]:
         for actor_id in actor_ids.copy():
@@ -238,10 +234,11 @@ class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
                     actor_ids.remove(actor_id)
                     yield actor
         for i, actor in self.items():
+            self._aid_to_idx_cache[actor.id] = i
             if actor.id in actor_ids:
-                self._aid_to_idx_cache[actor.id] = i
                 actor_ids.remove(actor.id)
                 yield actor
+                if not actor_ids: return
 
     def get_actors_by_name(self, name: str) -> Iterator[Actor]:
         for actor in self:

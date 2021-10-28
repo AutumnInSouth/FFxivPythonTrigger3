@@ -46,7 +46,7 @@ class SendHook(WebActionHook):
                     data = to_send
                 else:
                     bundle_header, messages = to_send
-                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, True, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, False, socket)
                     if messages:
                         data = pack_message(bundle_header, messages)
                     else:
@@ -82,33 +82,33 @@ class RecvHook(WebActionHook):
         processor = self.processors[socket]
         original_hash = 0
         with processor.lock:
-            if RECV_DEBUG: self.plugin.logger('start recv', hex(socket))
+            if RECV_DEBUG: self.plugin.logger('start recv', hex(socket),hex(addressof(buffer)))
             if socket in self.buffers and self.buffers[socket]:
                 rtn = self.buffers[socket]
                 del self.buffers[socket]
             else:
                 rtn = processor.get()
-                while rtn is None:
+                if rtn is None:
                     success_size = self.original(socket, buffer, size)
                     if success_size < 1:
                         self.plugin.logger.error("recv error", success_size)
-                        if success_size != -2 or True: return success_size
-                    if success_size != -2:
-                        new_hash = hash(bytes(buffer[:success_size]))
-                        if RECV_DEBUG:  self.plugin.logger('_recv', hex(socket), f"{success_size}/{size}", new_hash)
-                        original_hash = new_hash
-                        rtn = processor.process(bytearray(buffer[:success_size]))
+                        return success_size
+                    new_hash = hash(bytes(buffer[:success_size]))
+                    if RECV_DEBUG:  self.plugin.logger('_recv', hex(socket), f"{success_size}/{size}", new_hash)
+                    original_hash = new_hash
+                    rtn = processor.process(bytearray(buffer[:success_size]))
                     if rtn is None:
-                        time.sleep(.02)
+                        if RECV_DEBUG:  self.plugin.logger('_recv', "return -2")
+                        return -2
                 if not isinstance(rtn, bytearray):
                     bundle_header, messages = rtn
-                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, False, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, True, socket)
                     rtn = pack_message(bundle_header, messages)
             extra_rtn = processor.get()
             while extra_rtn is not None:
                 if not isinstance(extra_rtn, bytearray):
                     bundle_header, messages = extra_rtn
-                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, False, socket)
+                    bundle_header, messages = self.plugin.process_messages(bundle_header, messages, True, socket)
                     extra_rtn = pack_message(bundle_header, messages)
                 rtn += extra_rtn
                 extra_rtn = processor.get()
