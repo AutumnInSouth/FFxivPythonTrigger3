@@ -6,15 +6,14 @@ def fix(s: str):
 
 
 d = """
-    'msg_length': c_uint,
-    'actor_id': c_uint,
-    'login_user_id': c_uint,
-    'unk1': c_uint,
-    'unk2': c_ushort,
-    'msg_type': c_ushort,
-    'unk3': c_uint,
-    'sec': c_uint,
-    'unk4': c_uint,
+    'header': ServerActionEffectHeader,
+    'padding1': c_uint,
+    'padding2': c_ushort,
+    'effects': ServerActionEffectEntry * 8 * 1,
+    'padding3': c_ushort,
+    'padding4': c_uint,
+    'target_id': c_ulonglong * 1,
+    'padding5': c_uint,
 """
 #f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: \(([^,]+),(.*)\),?")
 f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: ([^,]+)")
