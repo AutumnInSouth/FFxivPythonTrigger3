@@ -38,8 +38,8 @@ class Effects(Effect * 30):
 
     def get_items(self, source: Optional[int] = None) -> Iterator[Tuple[int, Effect]]:
         for effect in self:
-            if effect.buffId and (source is None or effect.actorId == source):
-                yield effect.buffId, effect
+            if effect.buff_id and (source is None or effect.actor_id == source):
+                yield effect.buff_id, effect
 
 
 class Actor(OffsetStruct({
@@ -154,7 +154,7 @@ class Actor(OffsetStruct({
 
     @property
     def name(self):
-        return self._name.decode('utf-8', errors='ignore')
+        return self._name.decode('utf-8', errors='ignore') or f"{self.type.value}_{self.id:x}"
 
     @property
     def can_select(self):
@@ -196,7 +196,7 @@ class Actor(OffsetStruct({
 
 
 class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
-    _aid_to_idx_cache:dict
+    _aid_to_idx_cache: dict
 
     @property
     def me(self):
@@ -218,9 +218,10 @@ class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
                 yield i, actor
 
     def get_actor_by_id(self, actor_id: int) -> Optional[Actor]:
+        if not actor_id or actor_id == 0xe0000000: return
         if actor_id in self._aid_to_idx_cache:
             actor = self.get_actor(self._aid_to_idx_cache[actor_id])
-            if actor.id == actor_id:
+            if actor and actor.id == actor_id:
                 return actor
         for i, actor in self.items():
             self._aid_to_idx_cache[actor.id] = i
@@ -230,7 +231,7 @@ class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
         for actor_id in actor_ids.copy():
             if actor_id in self._aid_to_idx_cache:
                 actor = self.get_actor(self._aid_to_idx_cache[actor_id])
-                if actor.id == actor_id:
+                if actor and actor.id == actor_id:
                     actor_ids.remove(actor_id)
                     yield actor
         for i, actor in self.items():

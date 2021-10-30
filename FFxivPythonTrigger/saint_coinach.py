@@ -1,5 +1,6 @@
 from functools import cache
 import os
+
 import pysaintcoinach
 
 from .logger import info
@@ -29,3 +30,7 @@ action_sheet = realm.game_data.get_sheet('Action')
 action_names = {row.key: row['Name'] for row in action_sheet}
 item_sheet = realm.game_data.get_sheet('Item')
 item_names = {row.key: row['Name'] for row in item_sheet}
+status_sheet = realm.game_data.get_sheet('Status')
+status_names = {row.key: row['Name'] for row in status_sheet}
+class_job_sheet = realm.game_data.get_sheet('ClassJob')
+class_job_names = {row.key: row['Name'] for row in class_job_sheet}

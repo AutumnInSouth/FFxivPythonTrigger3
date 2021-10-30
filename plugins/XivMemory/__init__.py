@@ -103,9 +103,7 @@ class XivMemory(PluginBase):
 
     @property
     def gauge(self):
-        job = self.player_info.job.value()
-        if job in self._gauges:
-            return self._gauges[job]
+        return self._gauges.get(self.player_info.job.value)
 
     @property
     def skill_animation_lock(self) -> float:

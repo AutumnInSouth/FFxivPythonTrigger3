@@ -1,5 +1,6 @@
 from . import process, pattern
 from .memory import *
+from .res.kernel32 import ReadProcessMemory
 
 BASE_MODULE = process.base_module()
 BASE_ADDR = BASE_MODULE.lpBaseOfDll if BASE_MODULE is not None else None
@@ -53,6 +54,16 @@ def scan_patterns_by_sig_base_module(ida_sig: str):
 #         ptr = read_ulonglong(ptr + shift)
 #         if not ptr: return None
 #     return ptr + add
+def read_ulonglong(address: int):
+    buff = create_string_buffer(8)
+    bytes_read = c_size_t()
+    windll.kernel32.SetLastError(0)
+    ReadProcessMemory(CURRENT_PROCESS_HANDLER, c_void_p(address), byref(buff), 8, byref(bytes_read))
+    error_code = windll.kernel32.GetLastError()
+    if error_code:
+        windll.kernel32.SetLastError(0)
+        raise Exception(f"error on reading ulonglong at {address:x} - {error_code}")
+    return int.from_bytes(buff.raw,'little')
 
 def read_pointer_shift(base, shifts):
     ptr = base

@@ -29,7 +29,7 @@ for scope, data in enumerate(key_to_code):
     for key, code in data.items():
         if code not in opcode_processors[scope]:
             _scope_name = scope_name[scope // 2]
-            is_send = bool(scope % 2)
+            is_send = not bool(scope % 2)
 
 
             class UndefinedProcessor(BaseProcessors):

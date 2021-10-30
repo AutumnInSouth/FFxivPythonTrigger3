@@ -181,3 +181,4 @@ ABILITY_SUB_TYPE = {
     6: {'water'},
     7: {'unaspected'},
 }
+

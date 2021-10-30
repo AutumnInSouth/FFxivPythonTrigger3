@@ -1,23 +1,22 @@
 from ctypes import *
 from functools import cache
 from pathlib import Path
-from typing import Iterable, Callable, List, Dict, Set
+from typing import Callable, List, Dict, Set
 
 from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event
 from FFxivPythonTrigger.decorator import unload_callback, re_event
-from FFxivPythonTrigger.memory import read_memory
-from FFxivPythonTrigger.memory.struct_factory import PointerStruct, _OffsetStruct, OffsetStructJsonEncoder
+from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct, OffsetStructJsonEncoder
 from .base_struct import BundleHeader, MessageHeader
 from .decoder import unpacked_messages
-from .hook import RecvHook, SendHook
-from .message_processors import opcode_processors, len_processors, key_to_code, code_to_key,_opcode_processors
+from .hook import SendHook, BufferProcessorHook
+from .message_processors import opcode_processors, len_processors, key_to_code, code_to_key, _opcode_processors
 from .message_processors.utils import _NetworkEvent, BaseProcessors
 from .ping import Ping
 
 send_sig = "48 83 EC ? 48 8B 49 ? 45 33 C9 FF 15 ? ? ? ? 85 C0"
-recv_sig = "48 83 EC ? 48 8B 49 ? 45 33 C9 FF 15 ? ? ? ? 83 F8 ?"
-zone_socket_ptr_sig = ("48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? "
-                       "BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ?")
+chat_recv_buffer_sig = "48 8D 15 * * * * 48 8B CF E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CF E8 ? ? ? ? 45 8D 47 ?"
+lobby_recv_buffer_sig = "48 8D 15 * * * * 48 8B CF E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CF E8 ? ? ? ? 44 8D 46 ?"
+zone_recv_buffer_sig = "48 8D 15 * * * * 48 8B CE E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CE E8 ? ? ? ? 45 8D 47 ?"
 scope_name = ["chat", "lobby", "zone"]
 
 packet_fixer_interface = Callable[[BundleHeader, MessageHeader, bytearray, _OffsetStruct | None], bytearray | _OffsetStruct | None]
@@ -84,13 +83,17 @@ class XivNetwork(PluginBase):
         super().__init__()
 
         am = AddressManager(self.name, self.logger)
-        socket_ptr_base = am.scan_point('packet_ptr', zone_socket_ptr_sig)
-        self.zone_pointer = read_memory(PointerStruct(c_longlong, 0x3c8, 0x8, 0, 0x28, 0x10), socket_ptr_base)
-        self.chat_pointer = read_memory(PointerStruct(c_longlong, 0x3c8, 0x8, 0x80, 0xa8, 0x10), socket_ptr_base)
-        self.recv_hook = RecvHook(self, am.scan_address('recv', recv_sig))
         self.send_hook = SendHook(self, am.scan_address('send', send_sig))
+        self.chat_buffer_hook = BufferProcessorHook(self, am.scan_point('chat_buffer', chat_recv_buffer_sig), 0)
+        self.lobby_buffer_hook = BufferProcessorHook(self, am.scan_point('lobby_buffer', lobby_recv_buffer_sig), 1)
+        self.zone_buffer_hook = BufferProcessorHook(self, am.scan_point('zone_buffer', zone_recv_buffer_sig), 2)
         self.pings = dict()
+
+        self.sockets = {}
+        self._socket_guessing_cache = {}
         self._packet_fixer = [dict()] * 6
+        self.magic_backup = {i: BundleHeader() for i in range(3)}
+        self.header_backup = {i: MessageHeader() for i in range(3)}
 
     @unload_callback('unregister_packet_fixer')
     def register_packet_fixer(self, scope: int | str, is_send: bool, opcode: int | str, method: packet_fixer_interface):
@@ -108,13 +111,21 @@ class XivNetwork(PluginBase):
         except (ValueError, KeyError):
             pass
 
-    def socket_type(self, socket: int) -> int:
-        if socket == self.zone_pointer.value:
-            return 2
-        elif socket == self.chat_pointer.value:
-            return 0
-        else:
-            return 1
+    def guess_socket_type(self, bundle_header: BundleHeader, messages: list[bytearray]):
+        if not bundle_header.magic0:
+            return -1
+        for message in messages:
+            if len(message) < MessageHeader.struct_size:
+                continue
+            else:
+                header = MessageHeader.from_buffer(message)
+                if header.login_user_id > 0x20000000:
+                    return 1  # lobby
+                if header.unk3:
+                    return 2  # zone
+                else:
+                    return 0  # chat
+        return -1
 
     def process_message(self, bundle_header: BundleHeader, message: bytearray, is_server: bool, socket: int):
         if len(message) < MessageHeader.struct_size:
@@ -122,6 +133,7 @@ class XivNetwork(PluginBase):
             return message
         else:
             message_header = MessageHeader.from_buffer(message)
+            pointer(self.header_backup[socket])[0] = message_header
             raw_message = message[MessageHeader.struct_size:]
             scope = socket * 2 + is_server
             struct_message = None
@@ -146,13 +158,24 @@ class XivNetwork(PluginBase):
                     struct_message = new_msg_body
                     raw_message = bytearray(new_msg_body)
             if processor is not None:
-                process_event(processor.event(bundle_header, message_header, raw_message, struct_message))
+                event = processor.event(bundle_header, message_header, raw_message, struct_message)
             else:
-                process_event(UnknownOpcodeEvent.get_event(bundle_header, message_header, raw_message, socket, is_server))
+                event = UnknownOpcodeEvent.get_event(bundle_header, message_header, raw_message, socket, is_server)
+            self.create_mission(process_event, event)
             return bytearray(message_header) + raw_message
 
-    def process_messages(self, bundle_header: BundleHeader, messages: Iterable[bytearray], is_server: bool, socket: int) -> unpacked_messages:
-        socket=self.socket_type(socket)
+    def process_messages(self, bundle_header: BundleHeader, messages: list[bytearray], is_server: bool, socket: int) -> unpacked_messages:
+        if not is_server:
+            if socket not in self._socket_guessing_cache:
+                guess = self.guess_socket_type(bundle_header, messages)
+                if guess < 0: return bundle_header, messages
+                self._socket_guessing_cache[socket] = guess
+                self.sockets[guess] = socket
+                socket = guess
+            else:
+                socket = self._socket_guessing_cache[socket]
+        if bundle_header.magic0:
+            pointer(self.magic_backup[socket])[0] = bundle_header
         return bundle_header, [self.process_message(bundle_header, message, is_server, socket) for message in messages]
 
     # layout used

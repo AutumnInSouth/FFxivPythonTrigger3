@@ -6,14 +6,13 @@ def fix(s: str):
 
 
 d = """
-    'header': ServerActionEffectHeader,
+    'category': c_ushort,
+    'padding0': c_ushort,
+    'param1': c_uint,
+    'param2': c_uint,
+    'param3': c_uint,
+    'param4': c_uint,
     'padding1': c_uint,
-    'padding2': c_ushort,
-    'effects': ServerActionEffectEntry * 8 * 1,
-    'padding3': c_ushort,
-    'padding4': c_uint,
-    'target_id': c_ulonglong * 1,
-    'padding5': c_uint,
 """
 #f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: \(([^,]+),(.*)\),?")
 f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: ([^,]+)")

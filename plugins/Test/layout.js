@@ -7,14 +7,7 @@ module.exports = vue.defineComponent({
     },
     template: `
 <div>
-    <fpt-bind-item attr="num" :plugin="plugin" v-slot="{value}">
-    num:
-        <el-input type="number" v-model.number="value.value"/>
-    </fpt-bind-item>
-    <fpt-bind-item attr="num2" :plugin="plugin" v-slot="{value}">
-    num2:
-        <el-input type="number" v-model.number="value.value"/>
-    </fpt-bind-item>
+     <el-button @click="plugin.run_single('call')">call</el-button>
 </div>
 `
 })

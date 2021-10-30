@@ -78,7 +78,6 @@ class Mission(Thread):
 
 class EventBase(object):
     id = 0
-    name = "unnamed event"
 
     def str_event(self) -> Optional[Union[str, list[str], tuple[str]]]:
         pass
@@ -87,7 +86,7 @@ class EventBase(object):
         return str(self.id)
 
     def __str__(self):
-        return f"<{self.name}>{self.text()}"
+        return self.text()
 
 
 class EventCallback(object):
@@ -190,6 +189,7 @@ class PluginController(object):
         register_event(event_id, callback)
 
     def register_re_event(self, pattern: Union[Pattern[str], re.Pattern], call: Callable, limit_sec=None, min_interval=0):
+        self.plugin.logger.debug(f"register re_event {call.__name__} by pattern {pattern}")
         if not isinstance(pattern, re.Pattern):
             pattern = re.compile(pattern)
         callback = EventCallback(self.plugin, call, limit_sec, min_interval)
@@ -202,6 +202,9 @@ class PluginController(object):
                 p_hook.install_and_enable()
             except Exception:
                 self.plugin.logger.warning("an auto start hook initialize failed:\n" + format_exc())
+        for attr_name, attr in self.plugin.__class__.__dict__.items():
+            if isinstance(attr, BindValue) and attr.init_set and attr.on_change:
+                attr.on_change(self.plugin, getattr(self.plugin, attr_name), None)
         self.main_mission = self.create_mission(self.plugin.start, limit_sec=0)
         self.started = True
         server_event('plugin_start', self.plugin.name)
@@ -471,7 +474,7 @@ else:
 
 
 def log_writer():
-    with open(_log_path, 'a+') as fo:
+    with open(_log_path, 'a+', encoding='utf-8') as fo:
         while _log_work:
             if _log_write_buffer.empty():
                 fo.flush()
@@ -549,7 +552,9 @@ class FPTHandler(RpcFuncHandler):
         return eval(cmd, globals())
 
     def exec(self, cmd):
-        exec(cmd, globals())
+        loc={}
+        exec(cmd, globals(),loc)
+        return loc
 
     def reload_module(self, module_name):
         reload_module(module_name)

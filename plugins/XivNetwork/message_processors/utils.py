@@ -41,6 +41,20 @@ class _NetworkEvent(EventBase):
     def init(self):
         pass
 
+    def _text(self):
+        return self.id
+
+    def text(self):
+        self.controller.init()
+        return self._text()
+
+    def _str_event(self):
+        pass
+
+    def str_event(self):
+        self.controller.init()
+        return self._str_event()
+
 
 class _NetworkZoneEvent(_NetworkEvent):
     scope = "zone"

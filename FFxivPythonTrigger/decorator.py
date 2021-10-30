@@ -114,14 +114,16 @@ class BindValue(object):
             default=None,
             do_save=True,
             auto_save=False,
+            init_set=False,
     ):
         self.key = key
         self.default = default
         self.on_change = on_change
         self.do_save = do_save
         self.auto_save = auto_save
+        self.init_set = init_set
 
-    def __get__(self, instance: 'PluginBase', owner):
+    def __get__(self, instance: 'PluginBase', owner) -> any:
         return self if instance is None else instance.controller.bind_values[self.key]
 
     def __set__(self, instance: 'PluginBase', value):
@@ -139,6 +141,7 @@ class BindValue(object):
             return cls(func.__name__, on_change=func, **kwargs)
 
         return wrapper
+
 
 
 class PluginHook(Hook):

@@ -57,7 +57,16 @@ for i in range(200):
     self.logger(time.time())
     time.sleep(0.1)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c9.encode('utf-8')).text
+c10="""
+from FFxivPythonTrigger.address_manager import _storage_data
+del _storage_data['XivHacks']['cutscene_skip']
+"""
+c11="""
+from ctypes import *
+from FFxivPythonTrigger.memory import BASE_ADDR, read_pointer_shift, read_ulonglong
+print(CFUNCTYPE(c_int64)(BASE_ADDR + 0xA88C80)())
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c10.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

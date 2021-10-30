@@ -1,5 +1,7 @@
+import tags as tags
+
 from FFxivPythonTrigger import plugins
-from FFxivPythonTrigger.saint_coinach import action_names
+from FFxivPythonTrigger.saint_coinach import action_names, item_names
 from .struct import *
 from ...utils import NetworkZoneServerEvent, BaseProcessors
 
@@ -18,14 +20,15 @@ class ActionEffect(object):
             if self.tags.intersection(TYPE_HAVE_AMOUNT):
                 if effect_entry.param5 == 64:
                     self.param += effect_entry.param4 * 65535
-                if self.tags.intersection(TYPE_HAVE_CRITICAL_DIRECT):
+                if 'ability' in self.tags:
                     if effect_entry.param1 & 1: self.tags.add('critical')
                     if effect_entry.param1 & 2: self.tags.add('direct')
-                if 'ability' in self.tags:
                     main_type = effect_entry.param2 & 0xf
                     self.tags |= ABILITY_TYPE[main_type] if main_type in ABILITY_TYPE else {f"unk_main_type_{effect_entry.param3}"}
                     sub_type = effect_entry.param2 >> 4
                     self.tags |= ABILITY_SUB_TYPE[sub_type] if sub_type in ABILITY_TYPE else {f"unk_sub_type_{effect_entry.param3}"}
+                elif 'healing' in self.tags:
+                    if effect_entry.param2 & 1: self.tags.add('critical')
         else:
             self.tags.add(f"UnkType_{effect_entry.type}")
             # self.tags.add(hex(self.raw_flag)[2:].zfill(8)+"-"+hex(self.raw_amount)[2:].zfill(8))
@@ -37,11 +40,11 @@ class ActionEffect(object):
 class ActionEffectEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'action_effect'
     struct_message: MsgStructs
+    source_actor: any
     targets: dict[int, list]
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message: MsgStructs):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
-        self.source_actor = None
         self.source_id = message_header.actor_id
         effect_header = struct_message.header
         match effect_header.effect_display_type:
@@ -62,6 +65,16 @@ class ActionEffectEvent(NetworkZoneServerEvent):
                 if not struct_message.effects[i][j].type: break
                 effects.append(ActionEffect(struct_message.effects[i][j]))
             self.targets[struct_message.target_id[i]] = [None, effects]
+        match self.action_type:
+            case "item":
+                if self.action_id > 1000000:
+                    self.action_name = item_names[self.action_id-1000000]+'hq'
+                else:
+                    self.action_name = item_names[self.action_id ]
+            case "action":
+                self.action_name = action_names[self.action_id]
+            case t:
+                self.action_name = f"{t}_{self.action_id}"
 
     def init(self):
         self.source_actor = plugins.XivMemory.actor_table.get_actor_by_id(self.source_id)
@@ -70,13 +83,14 @@ class ActionEffectEvent(NetworkZoneServerEvent):
     def text(self):
         self.controller.init()
         m = " / ".join(f"{data[0].name if data[0] else hex(aid)}[{' ;'.join(map(str, data[1]))}]" for aid, data in self.targets.items())
-        return f"{self.source_actor.name if self.source_actor else hex(self.source_id)} use {action_names[self.action_id]}({self.action_type}) on {len(self.targets)} target(s) : {m}"
+        return f"{self.source_actor.name if self.source_actor else hex(self.source_id)} use {self.action_name}({self.action_type}) on {len(self.targets)} target(s) : {m}"
 
     def str_event(self):
         self.controller.init()
         m = "|".join(
-            f"{data[0].name if data[0] else ''};{';'.join(','.join(effect.tags) for effect in data[1])}" for aid, data in self.targets.items())
-        return f"ability|{self.action_type}|{self.action_id:X}|{action_names[self.action_id]}|{self.source_actor.name if self.source_actor else ''}|" + m
+            f"{data[0].name if data[0] else ''};{';'.join(f'{effect.param},' + ','.join(effect.tags) for effect in data[1])}" for aid, data in
+            self.targets.items())
+        return f"network_ability|{self.action_type}|{self.action_id}|{self.action_name}|{self.source_actor.name if self.source_actor else ''}|" + m
 
 
 class Ability1(BaseProcessors):

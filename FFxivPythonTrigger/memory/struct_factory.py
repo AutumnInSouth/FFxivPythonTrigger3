@@ -26,6 +26,19 @@ class _OffsetStruct(Structure):
     def _properties(self):
         return [k for k, v in type(self).__dict__.items() if not k.startswith('_') and isinstance(v, property)]
 
+    @classmethod
+    def from_dict(cls, data: dict):
+        new_obj = cls()
+        for key, _d in cls.raw_fields.items():
+            _t, _ = _d
+            if key in data:
+                if isinstance(_t, _OffsetStruct):
+                    setattr(new_obj, key, _t.from_dict(data[key]))
+                elif isinstance(_t, _EnumStruct):
+                    getattr(new_obj, key).value = data[key]
+                else:
+                    setattr(new_obj, key, data[key])
+
     def __str__(self):
         return str(get_data(self))
 
