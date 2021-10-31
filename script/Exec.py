@@ -1,11 +1,12 @@
 import requests
 import json
-c1="""
+
+c1 = """
 from pprint import pprint
 from FFxivPythonTrigger import *
 pprint(locals())
 """
-c2="""
+c2 = """
 from FFxivPythonTrigger.text_pattern import *
 from FFxivPythonTrigger.text_pattern import section_virtual_address
 sig="48 8d ? * * * * e8 ? ? ? ? 48 8b ? 48 8b ? 48 8d ? ? ? ? ? e8 ? ? ? ? 48 8d ? ? ? ? ? ba ? ? ? ? e8 ? ? ? ? 89 2f"
@@ -14,17 +15,17 @@ print(pattern,offsets)
 for match in re.finditer(bytes(pattern), section_data):
     print(match.groups()[0].hex(' '))
 """
-c3="""
+c3 = """
 from FFxivPythonTrigger.ffxiv_python_trigger import _clients_subscribe,_clients
 print(_clients,_clients_subscribe)
 """
-c4="""
+c4 = """
 #reload_module('XivMemory')
 from ctypes import *
 print(hex(addressof(plugins.XivMemory.mission_info)))
 print(plugins.XivMemory.mission_info)
 """
-c5="""
+c5 = """
 from FFxivPythonTrigger.saint_coinach import realm
 for s in realm._game_data.definition.sheet_definitions:
     sheet = realm.game_data.get_sheet(s.name)
@@ -33,40 +34,53 @@ for s in realm._game_data.definition.sheet_definitions:
     except:
         pass
 """
-c6="""
+c6 = """
 from time import sleep
 for i in range(40):
     plugins.XivMemory.calls.way_mark(i%8 , plugins.XivMemory.actor_table.me.pos)
     sleep(0.5)
 plugins.XivMemory.calls.way_mark.clear(9)
 """
-c7="""
+c7 = """
 from FFxivPythonTrigger.text_pattern import find_unique_signature_address,find_unique_signature_point
 print(hex(find_unique_signature_point(("48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? "
                        "BA ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ?"))))
 """
-c8="""
+c8 = """
 print(plugins.Test.num,plugins.Test.num2)
 plugins.Test.num += 1
 plugins.Test.num2 *= 2
 print(plugins.Test.num,plugins.Test.num2)
 """
-c9="""
+c9 = """
 import time
 for i in range(200):
     self.logger(time.time())
     time.sleep(0.1)
 """
-c10="""
+c10 = """
 from FFxivPythonTrigger.address_manager import _storage_data
 del _storage_data['XivHacks']['cutscene_skip']
 """
-c11="""
+c11 = """
 from ctypes import *
 from FFxivPythonTrigger.memory import BASE_ADDR, read_pointer_shift, read_ulonglong
 print(CFUNCTYPE(c_int64)(BASE_ADDR + 0xA88C80)())
 """
-t = requests.post("http://127.0.0.1:2019/exec", c10.encode('utf-8')).text
+c12 = """
+from ctypes import *
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+
+ClientTriggerStruct = OffsetStruct({
+    'param1': c_uint,  # 0x0453 in in WardLandInfo mode,0x0452 in HousingDetails mode, 0x451 in check can buy mode
+    'param2': c_uint,  # territory_type
+    'param3': c_ubyte,  # Ward ID in WardLandInfo mode,  House ID in HousingDetails mode
+    'param4': c_ubyte,  # 0 in WardLandInfo mode,        Ward ID in HousingDetails mode
+}, 32)
+msg = ClientTriggerStruct(param1=0x0453, param2=339, param3=5)
+print(plugins.XivNetwork.send_messages('zone',("ClientTrigger",msg),'WardLandInfo'))
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c12.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

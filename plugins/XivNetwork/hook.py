@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 SEND_DEBUG = False
 
 
-class WebActionHook(PluginHook):
+class SendHook(PluginHook):
     auto_install = True
     argtypes = [c_int64, POINTER(c_ubyte), c_int]
     restype = c_int
@@ -23,10 +23,9 @@ class WebActionHook(PluginHook):
     def __init__(self, plugin, func_address):
         super().__init__(plugin, func_address)
         self.original_lock = Lock()
+        self.send_locks = {}
         self.processors = dict()
 
-
-class SendHook(WebActionHook):
     @err_catch
     def hook_function(self, socket, buffer, size):
         raw_data = bytearray(buffer[:size])
@@ -58,7 +57,8 @@ class SendHook(WebActionHook):
                 new_size = len(data)
                 if SEND_DEBUG:
                     self.plugin.logger('send', new_size)
-                success_size = self.original(socket, (c_ubyte * new_size).from_buffer(data), new_size)
+                with self.send_locks.setdefault(socket, Lock()):
+                    success_size = self.original(socket, (c_ubyte * new_size).from_buffer(data), new_size)
                 if success_size < 1:
                     self.plugin.logger.error("send error", success_size)
                     return success_size

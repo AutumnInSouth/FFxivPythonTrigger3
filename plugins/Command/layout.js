@@ -48,7 +48,7 @@ module.exports = vue.defineComponent({
             <el-button @click="process" icon="el-icon-caret-right"/>
         </template>
     </el-input>
-    <div class="h-50">
+    <div class="h-50" style="max-height: 50%">
         <LogLines ref="logs"/>
     </div>
 </div>

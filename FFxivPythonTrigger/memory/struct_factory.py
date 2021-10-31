@@ -1,6 +1,7 @@
 from _ctypes import Array
 from ctypes import *
 from functools import cache
+from inspect import isclass
 from json import JSONEncoder, JSONDecodeError
 from typing import Type, List, Tuple, Dict
 
@@ -29,15 +30,17 @@ class _OffsetStruct(Structure):
     @classmethod
     def from_dict(cls, data: dict):
         new_obj = cls()
-        for key, _d in cls.raw_fields.items():
-            _t, _ = _d
+        for key, _t in cls._fields_:
             if key in data:
-                if isinstance(_t, _OffsetStruct):
-                    setattr(new_obj, key, _t.from_dict(data[key]))
-                elif isinstance(_t, _EnumStruct):
-                    getattr(new_obj, key).value = data[key]
-                else:
-                    setattr(new_obj, key, data[key])
+                if isclass(_t):
+                    if issubclass(_t, _OffsetStruct):
+                        setattr(new_obj, key, _t.from_dict(data[key]))
+                        continue
+                    elif issubclass(_t, _EnumStruct):
+                        getattr(new_obj, key).value = data[key]
+                        continue
+                setattr(new_obj, key, data[key])
+        return new_obj
 
     def __str__(self):
         return str(get_data(self))
