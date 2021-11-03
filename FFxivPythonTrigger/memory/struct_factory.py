@@ -1,6 +1,6 @@
 from _ctypes import Array
 from ctypes import *
-from functools import cache
+from functools import cache, cached_property
 from inspect import isclass
 from json import JSONEncoder, JSONDecodeError
 from typing import Type, List, Tuple, Dict
@@ -25,7 +25,7 @@ class _OffsetStruct(Structure):
 
     @cache
     def _properties(self):
-        return [k for k, v in type(self).__dict__.items() if not k.startswith('_') and isinstance(v, property)]
+        return [k for k, v in type(self).__dict__.items() if not k.startswith('_') and isinstance(v, (property, cached_property))]
 
     @classmethod
     def from_dict(cls, data: dict):

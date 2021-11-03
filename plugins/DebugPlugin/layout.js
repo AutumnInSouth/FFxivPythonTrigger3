@@ -15,8 +15,6 @@ module.exports = vue.defineComponent({
         return {logs, }
     },
     template: `
-<div>
-<log-lines ref ="logs"/>
-</div>
+<log-lines style="max-height:100%" ref ="logs"/>
 `
 })

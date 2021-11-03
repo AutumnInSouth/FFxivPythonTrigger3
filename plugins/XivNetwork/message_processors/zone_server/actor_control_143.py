@@ -34,7 +34,7 @@ class UnknownActorControl143Event(ActorControl143Event):
     id = ActorControl143Event.id + 'unk_143'
 
     def text(self):
-        return f'unknown actor control 142 category from {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
+        return f'unknown actor control 143 category from {self.message_header.actor_id:x} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
                f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}|' \
                f'{self.struct_message.param5:x}|{self.struct_message.param6:x}'
 

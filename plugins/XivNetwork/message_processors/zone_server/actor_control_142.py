@@ -1,6 +1,6 @@
 from ctypes import *
 from FFxivPythonTrigger import plugins
-from FFxivPythonTrigger.saint_coinach import status_names,class_job_names
+from FFxivPythonTrigger.saint_coinach import status_names, class_job_names
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
@@ -42,7 +42,7 @@ class UnknownActorControl142Event(ActorControl142Event):
     id = ActorControl142Event.id + 'unk_142'
 
     def _text(self):
-        return f'unknown actor control 142 category from {self.target_name} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
+        return f'unknown actor control 142 category from {self.target_name}({self.target_id:x}) {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
                f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}'
 
 
@@ -133,6 +133,8 @@ class TargetIconEvent(ActorControl142Event):
 
     def _str_event(self):
         return f"network_actor_mark|{self.target_name}|{self.icon_id}"
+
+
 class JobChangeEvent(ActorControl142Event):
     id = ActorControl142Event.id + 'job_change'
 
@@ -145,6 +147,20 @@ class JobChangeEvent(ActorControl142Event):
 
     def _str_event(self):
         return f"network_actor_job_change|{self.target_name}|{self.to_job}|{class_job_names[self.to_job]}"
+
+
+class CombatStateChangeEvent(ActorControl142Event):
+    id = ActorControl142Event.id + 'combat_state_change'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.is_combat = bool(struct_message.param1)
+
+    def _text(self):
+        return f"{self.target_name} set is combat to {self.is_combat}."
+
+    def _str_event(self):
+        return f"network_actor_is_combat|{self.target_name}|{self.struct_message.param1}"
 
 
 class EffectUpdateEvent(ActorControl142Event):
@@ -192,6 +208,8 @@ class TetherEvent(ActorControl142Event):
 
     def _str_event(self):
         return f"network_actor_tether|{self.target_name}|{self.source_name}|{self.type}"
+
+
 class EffectRemoveEvent(ActorControl142Event):
     id = ActorControl142Event.id + 'effect_remove'
     source_actor: any
@@ -222,6 +240,7 @@ category_event_map = {
     5: JobChangeEvent,
     21: EffectRemoveEvent,
     23: dot_hot_event,
+    4: CombatStateChangeEvent,
 }
 
 

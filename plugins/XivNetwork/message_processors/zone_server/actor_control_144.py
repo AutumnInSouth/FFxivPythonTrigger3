@@ -26,38 +26,53 @@ class ServerActorControl144(OffsetStruct({
     target_id: int
     padding1: int
 
+
 class ActorControl144Event(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'actor_control/'
     struct_message: ServerActorControl144
-    target_actor: any
 
-    def __init__(self, bundle_header, message_header, raw_message, struct_message):
-        super().__init__(bundle_header, message_header, raw_message, struct_message)
-        self.target_id = message_header.actor_id
-        self.target_name = hex(self.target_id)
 
-    def init(self):
-        self.target_actor = plugins.XivMemory.actor_table.get_actor_by_id(self.target_id)
-        if self.target_actor is not None: self.target_name = self.target_actor.name
-
-class UnknownActorControl143Event(ActorControl144Event):
+class UnknownActorControl144Event(ActorControl144Event):
     id = ActorControl144Event.id + 'unk_144'
 
     def text(self):
-        return f'unknown actor control 144 category from {self.target_name} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
+        return f'unknown actor control 144 category from {self.message_header.actor_id:x} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
                f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}|' \
                f'{self.struct_message.target_id:x}'
 
 
 class SetTargetEvent(ActorControl144Event):
     id = ActorControl144Event.id + 'set_target'
+    target_actor: any
 
-    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControl144):
+    def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
-        self.param = struct_message.param1 & 255
+        self.actor_id = struct_message.target_id
+        self.actor_name = hex(self.actor_id)
+        self.target_id = struct_message.param2
+        self.target_name = hex(self.target_id)
 
-    def text(self):
-        return f"limit break {self.param}/10000*3"
+    def init(self):
+        self.target_actor = plugins.XivMemory.actor_table.get_actor_by_id(self.target_id)
+        if self.target_actor is not None: self.target_name = self.target_actor.name
+        self.actor = plugins.XivMemory.actor_table.get_actor_by_id(self.actor_id)
+        if self.actor is not None: self.actor_name = self.actor.name
 
-    def str_event(self):
-        return f"network_actor_limit_break|{self.param}"
+    def _text(self):
+        return f"{self.actor_name} set target on {self.target_name}"
+
+    def _str_event(self):
+        return f"network_actor_set_target|{self.actor_name}|{self.target_name}"
+
+
+class ActorControl144(BaseProcessors):
+    opcode = "ActorControl144"
+    struct = ServerActorControl144
+
+    @staticmethod
+    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControl144):
+        if struct_message.category == 502:
+            evt = SetTargetEvent
+        else:
+            evt = UnknownActorControl144Event
+        return evt(bundle_header, message_header, raw_message, struct_message)
