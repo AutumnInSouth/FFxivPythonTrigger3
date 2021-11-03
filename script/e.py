@@ -6,13 +6,14 @@ def fix(s: str):
 
 
 d = """
-    'category': c_ushort,
-    'padding0': c_ushort,
-    'param1': c_uint,
-    'param2': c_uint,
-    'param3': c_uint,
-    'param4': c_uint,
-    'padding1': c_uint,
+    'selling_price': c_uint,
+    'purchase_time': c_uint,
+    'item_count': c_uint,
+    'is_hq': c_bool,
+    'unk1': c_ubyte,
+    'is_mannequin': c_bool,
+    '_buyer_name': c_ubyte * 33,
+    'item_id': c_uint,
 """
 #f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: \(([^,]+),(.*)\),?")
 f = re.compile(r"['\"]([a-zA-Z0-9_]+)['\"]: ([^,]+)")
