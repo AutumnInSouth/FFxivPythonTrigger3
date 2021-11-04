@@ -33,9 +33,9 @@ from FFxivPythonTrigger import plugins
 dnc_standard_step_skill_mapping = [15999, 15999, 16000, 16001, 16002]
 
 class Single(ComboBase):
-    action_id = 15989
+    action_id = 15990
     combo_id = "dnc/single"
-    title = "瀑布-单体连"
+    title = "单体连"
 
     @staticmethod
     def combo(me):
@@ -48,9 +48,9 @@ class Single(ComboBase):
 
 
 class Multi(ComboBase):
-    action_id = 15993
+    action_id = 15994
     combo_id = "dnc/multi"
-    title = "风车-群体连"
+    title = "群体连"
 
     @staticmethod
     def combo(me):
