@@ -15,7 +15,6 @@ from FFxivPythonTrigger import plugins
 16009,扇舞·急（66）
 15997,标准舞步（15）
 15998,技巧舞步（70）
-15999: 
 16005,剑舞（76）
 """
 """
@@ -29,13 +28,13 @@ from FFxivPythonTrigger import plugins
 1821,标准舞步结束
 1822,技巧舞步结束
 """
-
-dnc_standard_step_skill_mapping = [15999, 16000, 16001, 16002]
+# index 0  is a fallback for special cases
+dnc_standard_step_skill_mapping = [15999, 15999, 16000, 16001, 16002]
 
 class Single(ComboBase):
-    action_id = 15989
+    action_id = 15990
     combo_id = "dnc/single"
-    title = "瀑泻"
+    title = "单体连"
 
     @staticmethod
     def combo(me):
@@ -44,13 +43,13 @@ class Single(ComboBase):
         # TODO: better check remain time of according effect to avoid wasting
         if 1815 in effects: return 15992
         if 1814 in effects: return 15991
-        return 15990 if plugins.XivMemory.combat_data.combo_state.action_id == 15989 and me.level >= 2 else 15989 
+        return 15990 if plugins.XivMemory.combo_state.action_id == 15989 and me.level >= 2 else 15989
 
 
 class Multi(ComboBase):
-    action_id = 15993
+    action_id = 15994
     combo_id = "dnc/multi"
-    title = "风车"
+    title = "群体连"
 
     @staticmethod
     def combo(me):
@@ -59,7 +58,7 @@ class Multi(ComboBase):
         # TODO: better check remain time of according effect to avoid wasting
         if 1817 in effects: return 15996
         if 1816 in effects: return 15995
-        return 15994 if plugins.XivMemory.combat_data.combo_state.action_id == 15993 and me.level >= 25 else 15993
+        return 15994 if plugins.XivMemory.combo_state.action_id == 15993 and me.level >= 25 else 15993
 
 
 class Standard(ComboBase):
@@ -69,17 +68,13 @@ class Standard(ComboBase):
 
     @staticmethod
     def combo(me):
-        gauge = plugins.XivMemory.player_info.gauge
-        
-        # check whether in standard dance
-        if 1818 in me.effects.get_set():
-            # check if all steps already done
-            if gauge.currentStep >= 2: return 15997
-            # not a possible case
-            if gauge.step[gauge.currentStep].raw_value == 0: return 15999
+        gauge = plugins.XivMemory.gauge
+
+        # check whether in standard dance and dance isn't finish
+        if 1818 in me.effects.get_set() and gauge.current_step < 2:
             # mapping to next demanding spell
-            return dnc_standard_step_skill_mapping[gauge.step[gauge.currentStep].raw_value - 1]
-        # start dance
+            return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
+        # start/finish dance
         return 15997
 
 
@@ -90,17 +85,13 @@ class Skill(ComboBase):
 
     @staticmethod
     def combo(me):
-        gauge = plugins.XivMemory.player_info.gauge
-        
-        # check whether in skill dance
-        if 1819 in me.effects.get_set():
-            # check if all steps already done
-            if gauge.currentStep >= 4: return 15998
-            # not a possible case
-            if gauge.step[gauge.currentStep].raw_value == 0: return 15999
+        gauge = plugins.XivMemory.gauge
+
+        # check whether in standard dance and dance isn't finish
+        if 1819 in me.effects.get_set() and gauge.current_step < 4:
             # mapping to next demanding spell
-            return dnc_standard_step_skill_mapping[gauge.step[gauge.currentStep].raw_value - 1]
-        # start dance
+            return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
+        # start/finish dance
         return 15998
 
 
