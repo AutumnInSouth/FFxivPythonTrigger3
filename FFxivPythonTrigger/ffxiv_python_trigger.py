@@ -44,7 +44,7 @@ def client_log(log: Log):
         'msg': log.message,
     }
     _client_log_history.append(log)
-    if len(_client_log_history) > 1000: _client_log_history = _client_log_history[-500:]
+    if len(_client_log_history) > 100: _client_log_history = _client_log_history[-50:]
     server_event('fpt_log', log)
 
 

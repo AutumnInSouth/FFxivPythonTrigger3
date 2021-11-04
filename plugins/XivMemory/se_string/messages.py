@@ -383,7 +383,8 @@ class AutoTranslateKey(MessageBase):
                 s = r["LookupTable"].split("[", 1)[0]
                 break
         if s is None:
-            raise KeyError("[%s] is not a valid group key" % self.group)
+            return f"unk_{self.group}/{self.key}"
+            #raise KeyError("[%s] is not a valid group key" % self.group)
         try:
             return realm.game_data.get_sheet(s)[self.key]["Name"]
         except KeyError:
