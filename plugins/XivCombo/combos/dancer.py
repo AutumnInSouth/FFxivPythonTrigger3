@@ -44,7 +44,7 @@ class Single(ComboBase):
         # TODO: better check remain time of according effect to avoid wasting
         if 1815 in effects: return 15992
         if 1814 in effects: return 15991
-        return 15990 if plugins.XivMemory.combat_data.combo_state.action_id == 15989 and me.level >= 2 else 15989 
+        return 15990 if plugins.XivMemory.combo_state.action_id == 15989 and me.level >= 2 else 15989
 
 
 class Multi(ComboBase):
@@ -59,7 +59,7 @@ class Multi(ComboBase):
         # TODO: better check remain time of according effect to avoid wasting
         if 1817 in effects: return 15996
         if 1816 in effects: return 15995
-        return 15994 if plugins.XivMemory.combat_data.combo_state.action_id == 15993 and me.level >= 25 else 15993
+        return 15994 if plugins.XivMemory.combo_state.action_id == 15993 and me.level >= 25 else 15993
 
 
 class Standard(ComboBase):
@@ -69,13 +69,13 @@ class Standard(ComboBase):
 
     @staticmethod
     def combo(me):
-        gauge = plugins.XivMemory.player_info.gauge
-        
+        gauge = plugins.XivMemory.gauge
+
         # check whether in standard dance and dance isn't finish
         if 1818 in me.effects.get_set() and gauge.current_step < 2:
             # mapping to next demanding spell
             return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
-        # start/finsh dance
+        # start/finish dance
         return 15997
 
 
@@ -86,13 +86,13 @@ class Skill(ComboBase):
 
     @staticmethod
     def combo(me):
-        gauge = plugins.XivMemory.player_info.gauge
-        
+        gauge = plugins.XivMemory.gauge
+
         # check whether in standard dance and dance isn't finish
         if 1819 in me.effects.get_set() and gauge.current_step < 4:
             # mapping to next demanding spell
             return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
-        # start/finsh dance
+        # start/finish dance
         return 15998
 
 
