@@ -11,7 +11,7 @@ class MarketBoardItemEntry(OffsetStruct({
     'retainer_id': c_uint64,
     'retainer_owner_id': c_uint64,
     'artisan_id': c_uint64,
-    'price_per_uint': c_uint,
+    'price_per_unit': c_uint,
     'total_tax': c_uint,
     'total_item_count': c_uint,
     'item_id': c_uint,

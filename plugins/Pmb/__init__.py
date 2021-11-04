@@ -18,14 +18,15 @@ class Pmb(PluginBase):
     def collect_items(self, evt):
         key = evt.item.key
         if key in self.item_ready:
-            for i in range(evt.struct_message.item_count):
+            for i in range(evt.item_count):
                 item = evt.struct_message.items[i]
                 self.item_data[key][i + evt.struct_message.list_index_start] = {
                     'listing_id': item.listing_id,
                     'retainer_id': item.retainer_id,
-                    'price_per_uint': item.price_per_uint,
+                    'price_per_unit': item.price_per_unit,
                     'total_tax': item.total_tax,
                     'total_item_count': item.total_item_count,
+                    'item_id': item.item_id,
                     'unk0': item.unk0,
                     'is_hq': item.is_hq,
                     'retainer_city_id': item.retainer_city_id,
@@ -45,8 +46,10 @@ class Pmb(PluginBase):
             }), "MarketBoardItemListingCount").struct_message.item_count
         if not count:
             raise Exception(f"no item founds")
-        wait_until(lambda: self.item_ready.get(item_id), 1.)
+        wait_until(lambda: self.item_ready.get(item_id), 5.)
         return self.item_data[item_id][:count]
 
     def buy(self, item_data):
-        return plugins.XivNetwork.send_messages('zone', ('MarketBoardPurchaseHandler', {'unk2': 0x264, **item_data}))
+        data= {'unk2': 0x264, **item_data}
+        self.logger(item_data,data)
+        return plugins.XivNetwork.send_messages('zone', ('MarketBoardPurchaseHandler',data))

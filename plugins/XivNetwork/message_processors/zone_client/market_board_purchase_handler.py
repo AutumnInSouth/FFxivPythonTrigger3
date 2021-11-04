@@ -8,7 +8,7 @@ class ClientMarketBoardPurchaseHandler(OffsetStruct({
     'retainer_id': c_ulonglong,
     'listing_id': c_ulonglong,
     'item_id': c_uint,
-    'quantity': c_uint,
+    'total_item_count': c_uint,
     'price_per_unit': c_uint,
     'total_tax': c_uint,
     'unk0': c_ushort,  # item.unk0
