@@ -80,7 +80,13 @@ ClientTriggerStruct = OffsetStruct({
 msg = ClientTriggerStruct(param1=0x0453, param2=339, param3=5)
 print(plugins.XivNetwork.send_messages('zone',("ClientTrigger",msg),'WardLandInfo'))
 """
-t = requests.post("http://127.0.0.1:2019/exec", c12.encode('utf-8')).text
+
+c13 = """
+from ctypes import *
+print(plugins.XivNetwork.send_messages('zone',("MarketBoardQueryItemCount",{'item_id':18,'unk1':0x902}),"MarketBoardItemListingCount",True))
+"""
+
+t = requests.post("http://127.0.0.1:2019/exec", c13.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

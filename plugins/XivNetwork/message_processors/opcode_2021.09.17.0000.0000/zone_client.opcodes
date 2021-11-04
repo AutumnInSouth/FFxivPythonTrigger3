@@ -6,6 +6,7 @@ EventFinish|D2
 EventStart|315
 InventoryModifyHandler|39A
 MarketBoardPurchaseHandler|10C
+MarketBoardQueryItemCount|230
 SetSearchInfoHandler|35D
 TripleTriadPlaceCardSend|2F4
 TripleTriadSelectDeck|C1
