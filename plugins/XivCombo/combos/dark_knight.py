@@ -22,14 +22,14 @@ from FFxivPythonTrigger import plugins
 """
 
 class Single(ComboBase):
-    action_id = 3617
+    action_id = 3632
     combo_id = "dk/single"
-    title = "重斩"
+    title = "单体连"
 
     @staticmethod
     def combo(me):
         lv = me.level
-        combo_id = plugins.XivMemory.combat_data.combo_state.action_id
+        combo_id = plugins.XivMemory.combo_state.action_id
         # single combat loop: 3617, 3623, 3632
         if combo_id == 3617:
             return 3623 if lv >= 2 else 3617
@@ -40,13 +40,13 @@ class Single(ComboBase):
 
 
 class Multi(ComboBase):
-    action_id = 3621
+    action_id = 16468
     combo_id = "dk/multi"
-    title = "释放"
+    title = "群体连"
 
     @staticmethod
     def combo(me):
-        combo_id = plugins.XivMemory.combat_data.combo_state.action_id
+        combo_id = plugins.XivMemory.combo_state.action_id
         return 16468 if combo_id == 3621 and me.level >= 72 else 3621
 
 

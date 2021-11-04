@@ -56,7 +56,7 @@ class SingleDamage(ComboBase):
         if 802 in me_effect: return 3554
         if 803 in me_effect: return 3556
         lv = me.level
-        combo_id = plugins.XivMemory.combat_data.combo_state.action_id
+        combo_id = plugins.XivMemory.combo_state.action_id
         # first action in combo can be either 75 or 16479
         if (combo_id == 75 or combo_id == 16479) and lv >= 4: return 78
         if combo_id == 78 and lv >= 26: return 84
@@ -75,7 +75,7 @@ class SingleDot(ComboBase):
         if 802 in me_effect: return 3554
         if 803 in me_effect: return 3556
         lv = me.level
-        combo_id = plugins.XivMemory.combat_data.combo_state.action_id
+        combo_id = plugins.XivMemory.combo_state.action_id
         # first action in combo can be either 75 or 16479
         if (combo_id == 75 or combo_id == 16479) and lv >= 18: return 87
         if combo_id == 87 and lv >= 50: return 88
@@ -85,12 +85,12 @@ class SingleDot(ComboBase):
 class Multi(ComboBase):
     action_id = 86
     combo_id = "drg/multi"
-    title = "龙骑群体"
+    title = "群体连"
 
     @staticmethod
     def combo(me):
         lv = me.level
-        combo_id = plugins.XivMemory.combat_data.combo_state.action_id
+        combo_id = plugins.XivMemory.combo_state.action_id
         # multiple combat loop: 86, 7397, 16477
         if combo_id == 7397 and lv >= 72: return 16477
         if combo_id == 86 and lv >= 62: return 7397
