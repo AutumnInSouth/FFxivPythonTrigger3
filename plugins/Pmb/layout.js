@@ -52,7 +52,7 @@ module.exports = vue.defineComponent({
             </template>
         </el-input>
         <el-badge v-for="(i_name,i_id) in item_list" :key="i_id" :value="i_id" class="m-3" type="primary">
-            <el-button class="w-100" size="small">{{i_name}}</el-button>
+            <el-button @click="query(parseInt(i_id))" class="w-100" size="small">{{i_name}}</el-button>
         </el-badge>
     </el-aside>
     <el-container v-if="item_id">
