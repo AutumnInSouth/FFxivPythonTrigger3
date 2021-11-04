@@ -1,5 +1,3 @@
-import tags as tags
-
 from FFxivPythonTrigger import plugins
 from FFxivPythonTrigger.saint_coinach import action_names, item_names
 from .struct import *
