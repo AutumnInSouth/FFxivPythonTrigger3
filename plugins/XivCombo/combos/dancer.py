@@ -29,13 +29,13 @@ from FFxivPythonTrigger import plugins
 1821,标准舞步结束
 1822,技巧舞步结束
 """
-
-dnc_standard_step_skill_mapping = [15999, 16000, 16001, 16002]
+# index 0  is a fallback for special cases
+dnc_standard_step_skill_mapping = [15999, 15999, 16000, 16001, 16002]
 
 class Single(ComboBase):
     action_id = 15989
     combo_id = "dnc/single"
-    title = "瀑布"
+    title = "瀑布-单体连"
 
     @staticmethod
     def combo(me):
@@ -50,7 +50,7 @@ class Single(ComboBase):
 class Multi(ComboBase):
     action_id = 15993
     combo_id = "dnc/multi"
-    title = "风车"
+    title = "风车-群体连"
 
     @staticmethod
     def combo(me):
@@ -71,15 +71,11 @@ class Standard(ComboBase):
     def combo(me):
         gauge = plugins.XivMemory.player_info.gauge
         
-        # check whether in standard dance
-        if 1818 in me.effects.get_set():
-            # check if all steps already done
-            if gauge.currentStep >= 2: return 15997
-            # not a possible case
-            if gauge.step[gauge.currentStep].raw_value == 0: return 15999
+        # check whether in standard dance and dance isn't finish
+        if 1818 in me.effects.get_set() and gauge.current_step < 2:
             # mapping to next demanding spell
-            return dnc_standard_step_skill_mapping[gauge.step[gauge.currentStep].raw_value - 1]
-        # start dance
+            return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
+        # start/finsh dance
         return 15997
 
 
@@ -92,15 +88,11 @@ class Skill(ComboBase):
     def combo(me):
         gauge = plugins.XivMemory.player_info.gauge
         
-        # check whether in skill dance
-        if 1819 in me.effects.get_set():
-            # check if all steps already done
-            if gauge.currentStep >= 4: return 15998
-            # not a possible case
-            if gauge.step[gauge.currentStep].raw_value == 0: return 15999
+        # check whether in standard dance and dance isn't finish
+        if 1819 in me.effects.get_set() and gauge.current_step < 4:
             # mapping to next demanding spell
-            return dnc_standard_step_skill_mapping[gauge.step[gauge.currentStep].raw_value - 1]
-        # start dance
+            return dnc_standard_step_skill_mapping[gauge.step[gauge.current_step].raw_value]
+        # start/finsh dance
         return 15998
 
 
