@@ -255,9 +255,7 @@ class XivNetwork(PluginBase):
             else:
                 if isinstance(message, dict):
                     if opcode in _processors:
-                        self.logger(message,_processors[opcode].struct)
                         message = _processors[opcode].struct.from_dict(message)
-                        self.logger(message)
                     else:
                         raise Exception(f"no record struct found for opcode [{opcode}]")
                 _message = bytearray(message)

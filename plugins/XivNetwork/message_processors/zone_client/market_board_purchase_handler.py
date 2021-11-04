@@ -14,7 +14,7 @@ class ClientMarketBoardPurchaseHandler(OffsetStruct({
     'unk0': c_ushort,  # item.unk0
     'unk1': c_ubyte,
     'retainer_city_id': c_ubyte,
-    'unk2': c_uint,  # 0x264
+    'unk2': c_uint,  # ?
 })):
     retainer_id: int
     listing_id: int

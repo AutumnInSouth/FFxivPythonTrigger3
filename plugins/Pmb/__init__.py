@@ -50,6 +50,4 @@ class Pmb(PluginBase):
         return self.item_data[item_id][:count]
 
     def buy(self, item_data):
-        data= {'unk2': 0x264, **item_data}
-        self.logger(item_data,data)
-        return plugins.XivNetwork.send_messages('zone', ('MarketBoardPurchaseHandler',data))
+        return plugins.XivNetwork.send_messages('zone', ('MarketBoardPurchaseHandler',item_data))
