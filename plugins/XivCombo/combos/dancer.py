@@ -35,7 +35,7 @@ dnc_standard_step_skill_mapping = [15999, 16000, 16001, 16002]
 class Single(ComboBase):
     action_id = 15989
     combo_id = "dnc/single"
-    title = "瀑布"
+    title = "瀑泻"
 
     @staticmethod
     def combo(me):
