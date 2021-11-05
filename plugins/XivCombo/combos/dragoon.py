@@ -83,7 +83,7 @@ class SingleDot(ComboBase):
 
 
 class Multi(ComboBase):
-    action_id = 86
+    action_id = 16477
     combo_id = "drg/multi"
     title = "群体连"
 
