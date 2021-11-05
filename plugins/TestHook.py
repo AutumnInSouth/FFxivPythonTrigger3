@@ -29,7 +29,7 @@ class TestHook(PluginBase):
         # self.cmd_catch2(self, BASE_ADDR + 0x990B0)
         # self.h1(self, BASE_ADDR + 0x7138E0)
         self.change_sht(self, BASE_ADDR + 0x6319B0)
-        self.change_sht2(self, BASE_ADDR + 0x62EF40)
+        # self.change_sht2(self, BASE_ADDR + 0x62EF40)
 
     """__int64 __fastcall sub_1406319B0(__int64 a1, __int64 *a2)"""
 
