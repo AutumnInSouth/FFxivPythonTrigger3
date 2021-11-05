@@ -86,7 +86,10 @@ from ctypes import *
 print(plugins.XivNetwork.send_messages('zone',("MarketBoardQueryItemCount",{'item_id':18,'unk1':0x902}),"MarketBoardItemListingCount",True))
 """
 
-t = requests.post("http://127.0.0.1:2019/exec", c13.encode('utf-8')).text
+c14="""
+plugins.XivMemory.calls.do_text_command("/e <t>")
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c14.encode('utf-8')).text
 
 # print(t)
 d = json.loads(t)

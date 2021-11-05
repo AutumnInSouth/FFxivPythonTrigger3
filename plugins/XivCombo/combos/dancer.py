@@ -31,6 +31,7 @@ from FFxivPythonTrigger import plugins
 # index 0  is a fallback for special cases
 dnc_standard_step_skill_mapping = [15999, 15999, 16000, 16001, 16002]
 
+
 class Single(ComboBase):
     action_id = 15990
     combo_id = "dnc/single"

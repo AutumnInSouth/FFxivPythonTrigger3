@@ -49,9 +49,13 @@ class XivCombo(PluginBase):
         if action_id in self.combos:
             try:
                 me = plugins.XivMemory.actor_table.me
-                if me is not None: return hook.original(a1, self.combos[action_id](me))
+                if me is not None:
+                    return hook.original(a1, self.combos[action_id](me))
             except Exception:
                 self.logger.error("error occured:\n" + format_exc())
+                temp_combo = self.combo_select
+                temp_combo[str(action_id)] = ''
+                self.combo_select = temp_combo
         return hook.original(a1, action_id)
 
     @PluginHook.decorator(c_uint, [c_ulonglong], True)
