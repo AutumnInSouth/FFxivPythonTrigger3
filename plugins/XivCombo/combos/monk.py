@@ -91,30 +91,4 @@ class Multi(ComboBase):
         return 62
 
 
-# TODO: choose spell in each form
-
-class OpoopoForm(ComboBase):
-    title = "魔猿形"
-
-    @staticmethod
-    def combo(me):
-        pass
-
-
-class RaptorForm(ComboBase):
-    title = "盗龙形"
-
-    @staticmethod
-    def combo(me):
-        pass
-
-
-class CoeurlForm(ComboBase):
-    title = "猛豹形"
-
-    @staticmethod
-    def combo(me):
-        pass
-
-
 combos = [SingleNormal, SingleSpecial, Multi]
