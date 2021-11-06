@@ -51,7 +51,8 @@ class Multi(ComboBase):
         #  note that it's not a pre-defined combo so we cannot use combo_state to check
         return 16149 if plugins.XivMemory.combo_state.action_id == 16141 and me.level >= 40 else 16141
 
-
+cartridge_auras = [1842, 1843, 1844]
+cartridge_spells = [16146, 16147, 16150]
 class Cartridge(ComboBase):
     action_id = 16150
     combo_id = "gnb/cartridge"
@@ -59,14 +60,9 @@ class Cartridge(ComboBase):
 
     @staticmethod
     def combo(me):
-        cartridge_auras = [1842, 1843, 1844]
-        effects = me.effects.get_items()
+        effects = me.effects.get_set()
         # decide whether to use 16155
-        for aura in cartridge_auras:
-            if aura in effects:
-                return 16155
-
-        cartridge_spells = [16146, 16147, 16150]
+        if any(aura in effects for aura in cartridge_auras): return 16155
         return cartridge_spells[plugins.XivMemory.gauge.continuationState]
 
 
