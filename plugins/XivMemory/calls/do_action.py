@@ -33,8 +33,8 @@ class DoAction(object):
     def fashion_item(self, item_id):
         self(20, item_id)
 
-    def common_action_id(self, skill_id, target_id=0xE0000000):
-        self(5, skill_id, target_id)
+    def common_action(self, action_id, target_id=0xE0000000):
+        self(5, action_id, target_id)
 
     def craft_action(self, action_id):
         self(9, action_id)

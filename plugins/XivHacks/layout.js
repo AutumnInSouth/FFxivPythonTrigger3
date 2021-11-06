@@ -80,6 +80,7 @@ module.exports = vue.defineComponent({
             </el-col>
         </el-form-item>
     </fpt-bind-item>
+    <el-button @click="plugin.run_single('apply_zoom')" class="w-100">apply zoom</el-button>
     <el-divider/>
     <fpt-bind-item attr="cutscene_skip" :plugin="plugin" v-slot="{value}">
         <el-form-item label="cutscene skip">

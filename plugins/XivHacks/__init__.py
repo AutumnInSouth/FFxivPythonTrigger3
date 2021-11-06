@@ -94,6 +94,10 @@ class XivHacks(PluginBase):
     def zoom_cam_no_collision_set(self, mode):
         write_ubytes(self._address['zoom_cam_collision_jmp'], bytearray(b'\x90\xe9' if mode else b'\x0F\x84'))
 
+    def apply_zoom(self):
+        self.zoom_set(self.zoom_property)
+        return True
+
     @BindValue.decorator(init_set=True,auto_save=True)
     def zoom_property(self, new_val, old_val):
         self.zoom_set(new_val)
