@@ -1,7 +1,7 @@
 from ctypes import *
 from typing import Optional, Iterator, TYPE_CHECKING
 
-from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
 
 from .enum import INVENTORY_CONTAINERS
 
@@ -41,22 +41,11 @@ class InventoryPage(OffsetStruct({
                 yield self.page[i]
 
 
-class _InventoryPageIdx(InventoryPage * 74):
-    if TYPE_CHECKING:
-        def __iter__(self) -> Iterator[InventoryPage]: pass
-
-        def __getitem__(self, item: int) -> InventoryPage: pass
-
-
-class InventoryPageIdx(POINTER(_InventoryPageIdx)):
-
-    @property
-    def inventory(self) -> Optional[_InventoryPageIdx]:
-        return self[0] if self else None
+class InventoryPagePtr(PointerStruct(InventoryPage * 74, 0)):
 
     def get_item_in_containers(self, item_id: Optional[int], containers: set[int]) -> Iterator[InventoryItem]:
         containers = containers.copy()
-        inventory = self.inventory
+        inventory = self.value
         if inventory is not None:
             for page in inventory:
                 if page.container_id in containers:

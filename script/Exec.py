@@ -87,7 +87,17 @@ print(plugins.XivNetwork.send_messages('zone',("MarketBoardQueryItemCount",{'ite
 """
 
 c14="""
-plugins.XivMemory.calls.do_text_command("/e <t>")
+from FFxivPythonTrigger.memory import *
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.saint_coinach import item_names
+for page in plugins.XivMemory.inventory.value:
+    self.logger(page.container_id)
+    for item in page:
+        try:
+            name=item_names[item.item_id]
+        except:
+            name=item.item_id
+        self.logger(item.item_id,name,item.count)
 """
 t = requests.post("http://127.0.0.1:2019/exec", c14.encode('utf-8')).text
 

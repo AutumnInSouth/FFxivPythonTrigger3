@@ -19,12 +19,14 @@ class DebugExecPlugin(PluginBase):
         str_out = io.StringIO()
         normal_out = sys.stdout
         sys.stdout = str_out
+        local_data = {}
         try:
-            exec(await request.text())
+            exec(await request.text(), globals() | locals(), local_data)
         except Exception:
             data['msg'] = 'error occurred'
             data['traceback'] = traceback.format_exc()
         sys.stdout = normal_out
+        data['local'] = local_data
         data['print'] = str_out.getvalue()
         return web.json_response(data)
 

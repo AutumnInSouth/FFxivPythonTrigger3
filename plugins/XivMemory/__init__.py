@@ -6,7 +6,7 @@ from FFxivPythonTrigger.address_manager import AddressManager
 from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.exceptions import NeedRequirementError, PluginNotFoundException
 from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float
-from FFxivPythonTrigger.memory.struct_factory import PointerStruct
+from FFxivPythonTrigger.memory.struct_factory import PointerStruct, OffsetStruct
 
 try:
     from aiohttp import web
@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable, Actor
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
-from .struct.inventory import InventoryPageIdx
+from .struct.inventory import InventoryPagePtr,InventoryPage
 from .struct.job_gauge import gauges
 from .struct.markings import Markings
 from .struct.others import Target, Movement
@@ -43,7 +43,7 @@ class XivMemory(PluginBase):
     player_info: Player
     targets: Target
     movement: Movement
-    inventory: InventoryPageIdx
+    inventory: InventoryPagePtr
     party: PartyList
     pvp_action: PvpAction
     world_id: int
@@ -63,7 +63,7 @@ class XivMemory(PluginBase):
         self.player_info = read_memory(Player, self._address['player_info'])
         self.targets = read_memory(Target, self._address['targets'])
         self.movement = read_memory(Movement, self._address['movement'])
-        self.inventory = read_memory(InventoryPageIdx, self._address['inventory'])
+        self.inventory = read_memory(InventoryPagePtr, self._address['inventory'])
         self.party = read_memory(PartyList, self._address['party'])
         self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
