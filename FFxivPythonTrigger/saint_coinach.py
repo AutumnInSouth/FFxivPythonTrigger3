@@ -2,6 +2,7 @@ from functools import cache
 import os
 
 import pysaintcoinach
+from plugins.XivMemory.se_string import territory_type_sheet
 
 from .logger import info
 
@@ -34,3 +35,4 @@ status_sheet = realm.game_data.get_sheet('Status')
 status_names = {row.key: row['Name'] for row in status_sheet}
 class_job_sheet = realm.game_data.get_sheet('ClassJob')
 class_job_names = {row.key: row['Name'] for row in class_job_sheet}
+territory_type_sheet = realm.game_data.get_sheet('TerritoryType')
