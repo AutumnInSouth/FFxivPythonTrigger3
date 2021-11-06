@@ -42,6 +42,7 @@ class XivCombo(PluginBase):
         for action_id, combo_id in new_val.items():
             if combo_id: new_combo[int(action_id)] = self.all_combo[int(action_id)][combo_id].combo
         self.combos = new_combo
+        self.logger.debug(f"combo_select update: {new_val}")
         return True
 
     @PluginHook.decorator(c_ulonglong, [c_ubyte, c_uint], True)

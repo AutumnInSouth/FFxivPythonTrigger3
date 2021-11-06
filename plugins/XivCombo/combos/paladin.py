@@ -40,9 +40,9 @@ low_blow_group = action_sheet[7540]['CooldownGroup']
 
 
 class Single(ComboBase):
-    action_id = 16460
+    action_id = 3538
     combo_id = "pld/single"
-    title = "智能dot"
+    title = "单体自动"
 
     @staticmethod
     def combo(me):
@@ -65,7 +65,7 @@ class Single(ComboBase):
 class SingleNormal(ComboBase):
     action_id = 3539
     combo_id = "pld/single_normal"
-    title = "王权剑"
+    title = "单体普通"
 
     @staticmethod
     def combo(me):
@@ -82,7 +82,7 @@ class SingleNormal(ComboBase):
 class SingleDot(ComboBase):
     action_id = 3538
     combo_id = "pld/single_dot"
-    title = "沥血剑"
+    title = "单体dot"
 
     @staticmethod
     def combo(me):

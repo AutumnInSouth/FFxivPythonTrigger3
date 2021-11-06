@@ -63,7 +63,7 @@ class Cartridge(ComboBase):
         effects = me.effects.get_set()
         # decide whether to use 16155
         if any(aura in effects for aura in cartridge_auras): return 16155
-        return cartridge_spells[plugins.XivMemory.gauge.continuationState]
+        return cartridge_spells[plugins.XivMemory.gauge.continuation_state]
 
 
 combos = [Single, Multi, Cartridge]
