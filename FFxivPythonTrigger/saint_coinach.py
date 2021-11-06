@@ -1,8 +1,6 @@
-from functools import cache
 import os
 
 import pysaintcoinach
-from plugins.XivMemory.se_string import territory_type_sheet
 
 from .logger import info
 
