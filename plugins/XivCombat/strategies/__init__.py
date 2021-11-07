@@ -1,11 +1,7 @@
 from typing import Optional, Union, TYPE_CHECKING, Tuple
 
-from .logic_data import LogicData
-from .define import HQ_FIRST
-
-if TYPE_CHECKING:
-    from .config import CombatConfig
-
+from ..logic_data import LogicData
+from ..define import HQ_FIRST
 
 class UseAbility(object):
     def __init__(self, ability_id: int, target_id: int = None):
@@ -28,8 +24,8 @@ class UseCommon(object):
 
 class Strategy(object):
     name = ""
+    job = ""
     fight_only: bool = True
-    config: 'CombatConfig'
     default_data = {}
 
     def __init__(self, config):

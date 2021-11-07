@@ -45,6 +45,14 @@ def get_actors_by_ids(*a_id: int):
     return plugins.XivMemory.actor_table.get_actors_by_ids(a_id)
 
 
+def get_party_list(alliance_all=False):
+    return get_actors_by_ids(*[member.id for member in (plugins.XivMemory.party.alliance if alliance_all else plugins.XivMemory.party.main_party)()])
+
+
+def get_can_select():
+    return [actor for actor in plugins.XivMemory.actor_table.get_item() if actor.can_select]
+
+
 def get_current_target():
     return plugins.XivMemory.targets.current
 
@@ -66,7 +74,7 @@ def get_enemies_list():
 
 
 def get_current_job():
-    return plugins.XivMemory.player_info.job.value()
+    return plugins.XivMemory.player_info.job.value
 
 
 def get_combo_state():
@@ -147,16 +155,6 @@ def get_backpack_item_count(item_id: int, is_hq: bool = None):
 
 def get_movement_speed():
     return plugins.XivMemory.movement.speed
-
-
-def get_party_list(alliance_all=False):
-    if alliance_all:
-        return plugins.XivMemory.party.alliance()
-    return plugins.XivMemory.party.main_party()
-
-
-def get_can_select():
-    return [actor for actor in plugins.XivMemory.actor_table.get_item() if actor.can_select]
 
 
 def get_coordinate():

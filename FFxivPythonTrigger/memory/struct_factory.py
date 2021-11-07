@@ -157,6 +157,9 @@ class _EnumStruct(Structure):
     _data: dict
     _reverse: dict
 
+    def __eq__(self, other):
+        return self.raw_value == other or self.value == other
+
     @property
     def value(self):
         try:

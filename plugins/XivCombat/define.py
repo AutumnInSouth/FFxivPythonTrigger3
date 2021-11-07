@@ -30,3 +30,8 @@ HQ_ONLY = 1  # 只使用HQ
 NQ_ONLY = 2  # 只使用NQ
 HQ_FIRST = 3  # 先使用HQ
 NQ_FIRST = 4  # 先使用NQ
+
+# 移动，咏唱状态
+ALWAYS_MOVING = -1  # 始终移动
+ALWAYS_CASTING = 1  # 始终咏唱
+CAST_MOVE_AUTO = 0  # 自动判断

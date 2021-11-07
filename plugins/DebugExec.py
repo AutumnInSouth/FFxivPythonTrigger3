@@ -21,7 +21,7 @@ class DebugExecPlugin(PluginBase):
         sys.stdout = str_out
         local_data = {}
         try:
-            exec(await request.text(), globals() | locals(), local_data)
+            exec(await request.text(), globals(), local_data)
         except Exception:
             data['msg'] = 'error occurred'
             data['traceback'] = traceback.format_exc()

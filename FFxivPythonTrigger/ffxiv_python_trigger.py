@@ -2,12 +2,13 @@ import os
 import re
 from importlib import import_module, reload
 from inspect import isclass, getfile, getsourcelines
+from operator import attrgetter
 from pathlib import Path
 from queue import Queue
 from threading import Thread
 from traceback import format_exc
 from types import ModuleType
-from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern
+from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern, Any
 
 import sys
 from time import time, sleep, perf_counter
@@ -552,8 +553,8 @@ class FPTHandler(RpcFuncHandler):
         return eval(cmd, globals())
 
     def exec(self, cmd):
-        loc={}
-        exec(cmd, globals(),loc)
+        loc = {}
+        exec(cmd, globals(), loc)
         return loc
 
     def reload_module(self, module_name):
@@ -576,13 +577,26 @@ class FPTHandler(RpcFuncHandler):
         return list(_plugins.keys())
 
     def plugin_run(self, plugin_name, func_name, args, kwargs):
-        return getattr(getattr(plugins, plugin_name), func_name)(*args, **kwargs)
+        plugin = getattr(plugins, plugin_name)
+        try:
+            obj_name, func_name = func_name.rsplit('.', 1)
+            obj = attrgetter(obj_name)(plugin)
+        except ValueError:
+            obj = plugin
+        return getattr(obj, func_name)(*args, **kwargs)
 
     def plugin_set(self, plugin_name, attr_name, value):
-        return setattr(getattr(plugins, plugin_name), attr_name, value)
+        plugin = getattr(plugins, plugin_name)
+        try:
+            obj_name, attr_name = attr_name.rsplit('.', 1)
+            obj = attrgetter(obj_name)(plugin)
+        except ValueError:
+            obj = plugin
+        setattr(obj, attr_name, value)
+        return getattr(obj, attr_name)
 
     def plugin_get(self, plugin_name, attr_name):
-        return getattr(getattr(plugins, plugin_name), attr_name)
+        return attrgetter(attr_name)(getattr(plugins, plugin_name))
 
     def log_history(self):
         for log in _client_log_history: yield log
