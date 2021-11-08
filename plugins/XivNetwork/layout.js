@@ -31,32 +31,32 @@ module.exports = vue.defineComponent({
                 <el-switch v-model="value.value"/>
             </el-form-item>
         </el-form>
-        <div v-if="value.value">
-            <el-table style="width: 100%"
-                :data="discover_log.filter(data=>data.guess.toLowerCase().includes(search_key.toLowerCase()))">
-                <el-table-column prop="opcode" label="opcode" width="100">
-                    <template v-slot:header>
-                        <el-button type="danger" @click="discover_log = []" placeholder="输入关键字搜索">
-                            清除
-                        </el-button>
-                      </template>
-                </el-table-column>
-                <el-table-column prop="guess" label="guess key" width="250">
-                    <template v-slot:header>
-                        <el-input
-                          v-model="search_key"
-                          size="mini"
-                          placeholder="输入关键字搜索"/>
-                      </template>
-                </el-table-column>
-                <el-table-column prop="event" label="event"/>
-                <el-table-column type="expand">
-                    <template v-slot="{row}">
-                        {{JSON.stringify(row.struct, null, 2)}}
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
+        <el-table style="width: 100%" :data="discover_log.filter(data=>data.guess.toLowerCase().includes(search_key.toLowerCase()))">
+            <el-table-column prop="opcode" label="opcode" width="100">
+            <template v-slot:header>
+                <el-button type="danger" @click="discover_log = []" placeholder="输入关键字搜索">
+                    清除
+                </el-button>
+            </template>
+            <template v-slot="{row}">
+                0x{{row.opcode.toString(16)}}
+            </template>
+            </el-table-column>
+            <el-table-column prop="guess" label="guess key" width="250">
+                <template v-slot:header>
+                    <el-input
+                      v-model="search_key"
+                      size="mini"
+                      placeholder="输入关键字搜索"/>
+                  </template>
+            </el-table-column>
+            <el-table-column prop="event" label="event"/>
+            <el-table-column type="expand">
+                <template v-slot="{row}">
+                    {{JSON.stringify(row.struct, null, 2)}}
+                </template>
+            </el-table-column>
+        </el-table>
     </fpt-bind-item>
 </div>
 `
