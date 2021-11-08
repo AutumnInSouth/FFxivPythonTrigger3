@@ -1,7 +1,7 @@
 from ctypes import *
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.saint_coinach import item_sheet
+from FFxivPythonTrigger.saint_coinach import item_sheet,item_names
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
 
@@ -19,10 +19,15 @@ class MarketBoardItemListCountEvent(NetworkZoneServerEvent):
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerMarketBoardItemListCount):
         super(MarketBoardItemListCountEvent, self).__init__(bundle_header, message_header, raw_message, struct_message)
-        self.item = item_sheet[self.struct_message.item_id]
+        if self.struct_message.item_id in item_names:
+            self.item_name = item_names[self.struct_message.item_id]
+            self.item = item_sheet[self.struct_message.item_id]
+        else:
+            self.item_name = 'Unknown'
+            self.item = None
 
     def __str__(self):
-        return f"{self.item['Name']} x{self.struct_message.item_count}"
+        return f"{self.item_name} x{self.struct_message.item_count}"
 
 
 class MarketBoardItemListCount(BaseProcessors):

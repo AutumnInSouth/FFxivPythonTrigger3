@@ -6,5 +6,7 @@ from .event_start import EventStart
 from .inventory_modify_handler import InventoryModifyHandler
 from .market_board_purchase_handler import MarketBoardPurchaseHandler
 from .market_board_query_item_count import MarketBoardQueryItemCount
+from .triple_triad_place_card_send import TripleTriadPlaceCardSend
+from .triple_triad_select_deck import TripleTriadSelectDeck
 from .update_position_handler import UpdatePositionHandler
 from .update_position_instance import UpdatePositionInstance

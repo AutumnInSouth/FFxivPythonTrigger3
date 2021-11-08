@@ -8,7 +8,7 @@ module.exports = vue.defineComponent({
         const discover_log = vue.ref([])
         const scope_name = (idx) => _scope_name[Math.floor(idx / 2)] + " " + (idx % 2 ? 'server' : 'client')
         const used_opcodes = vue.computed(() => opcodes.value.filter(op => Object.keys(op.codes).length))
-
+        const search_key = vue.ref('')
         vue.onMounted(() => {
             plugin.value.run_single('get_key_to_code').then(data => {
                 data.forEach(_d => opcodes.value.push({'codes': _d, 'idx': opcodes.value.length}))
@@ -16,7 +16,7 @@ module.exports = vue.defineComponent({
             plugin.value.subscribe('discover', (_, data) => discover_log.value.unshift(data));
         })
         vue.onBeforeUnmount(plugin.value.all_unsubscribe)
-        return {plugin, opcodes, discover_log, scope_name, used_opcodes}
+        return {plugin, opcodes, discover_log, scope_name, used_opcodes, search_key}
     },
     template: `
 <div>
@@ -31,17 +31,33 @@ module.exports = vue.defineComponent({
                 <el-switch v-model="value.value"/>
             </el-form-item>
         </el-form>
+        <div v-if="value.value">
+            <el-table style="width: 100%"
+                :data="discover_log.filter(data=>data.guess.toLowerCase().includes(search_key.toLowerCase()))">
+                <el-table-column prop="opcode" label="opcode" width="100">
+                    <template v-slot:header>
+                        <el-button type="danger" @click="discover_log = []" placeholder="输入关键字搜索">
+                            清除
+                        </el-button>
+                      </template>
+                </el-table-column>
+                <el-table-column prop="guess" label="guess key" width="250">
+                    <template v-slot:header>
+                        <el-input
+                          v-model="search_key"
+                          size="mini"
+                          placeholder="输入关键字搜索"/>
+                      </template>
+                </el-table-column>
+                <el-table-column prop="event" label="event"/>
+                <el-table-column type="expand">
+                    <template v-slot="{row}">
+                        {{JSON.stringify(row.struct, null, 2)}}
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </fpt-bind-item>
-    <el-table :data="discover_log" style="width: 100%">
-        <el-table-column prop="opcode" label="opcode" width="100"/>
-        <el-table-column prop="guess" label="guess key" width="200"/>
-        <el-table-column prop="event" label="event"/>
-        <el-table-column type="expand">
-            <template v-slot="{row}">
-                {{JSON.stringify(row.struct, null, 2)}}
-            </template>
-        </el-table-column>
-    </el-table>
 </div>
 `
 })

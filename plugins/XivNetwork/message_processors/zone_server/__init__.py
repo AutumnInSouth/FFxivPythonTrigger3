@@ -19,5 +19,8 @@ from .market_board_item_listing_count import MarketBoardItemListCount
 from .market_board_item_listing_history import MarketBoardItemListHistory
 from .retainer_information import RetainerInformation
 from .status_effect_list import StatusEffectList, StatusEffectList2, BossStatusEffectList
+from .triple_triad_game_data import TripleTriadGameData
+from .triple_triad_game_desc import TripleTriadGameDesc
+from .triple_triad_place_card_recv import TripleTriadPlaceCardRecv
 from .update_inventory_slot import UpdateInventorySlot
 from .ward_land_info import WardLandInfo
