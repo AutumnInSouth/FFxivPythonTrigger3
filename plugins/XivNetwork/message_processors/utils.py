@@ -23,7 +23,7 @@ class Controller(object):
 
 
 class _NetworkEvent(EventBase):
-    is_send: bool
+    is_server: bool
     scope: str
     id = "network/"
 
@@ -62,12 +62,12 @@ class _NetworkZoneEvent(_NetworkEvent):
 
 
 class NetworkZoneClientEvent(_NetworkZoneEvent):
-    is_send = True
+    is_server = False
     id = _NetworkZoneEvent.id + "client/"
 
 
 class NetworkZoneServerEvent(_NetworkZoneEvent):
-    is_send = False
+    is_server = True
     id = _NetworkZoneEvent.id + "server/"
 
 
@@ -77,12 +77,12 @@ class _NetworkChatEvent(_NetworkEvent):
 
 
 class NetworkChatClientEvent(_NetworkChatEvent):
-    is_send = True
+    is_server = False
     id = _NetworkChatEvent.id + "client/"
 
 
 class NetworkChatServerEvent(_NetworkChatEvent):
-    is_send = False
+    is_server = True
     id = _NetworkChatEvent.id + "server/"
 
 
@@ -92,12 +92,12 @@ class _NetworkLobbyEvent(_NetworkEvent):
 
 
 class NetworkLobbyClientEvent(_NetworkLobbyEvent):
-    is_send = True
+    is_server = False
     id = _NetworkLobbyEvent.id + "client/"
 
 
 class NetworkLobbyServerEvent(_NetworkLobbyEvent):
-    is_send = False
+    is_server = True
     id = _NetworkLobbyEvent.id + "server/"
 
 

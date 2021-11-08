@@ -63,30 +63,30 @@ class UnknownDotHotEvent(ActorControl142Event):
         if self.source_actor is not None: self.source_name = self.source_actor.name
 
     def _text(self):
-        return f"{self.target_name} gains {self.damage} effect over time({self.struct_message.param2}) from {self.source_name}({status_names[self.status_id]})"
+        return f"{self.target_name} gains {self.damage} effect over time({self.struct_message.param2}) from {self.source_name}({status_names.get(self.status_id)})"
 
     def _str_event(self):
-        return f"network_unk_dot_hot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names[self.status_id]}"
+        return f"network_unk_dot_hot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names.get(self.status_id)}"
 
 
 class DotEvent(UnknownDotHotEvent):
     id = ActorControl142Event.id + 'dot'
 
     def _text(self):
-        return f"{self.target_name} gains {self.damage} dot from {self.source_name}({status_names[self.status_id]})"
+        return f"{self.target_name} gains {self.damage} dot from {self.source_name}({status_names.get(self.status_id)})"
 
     def _str_event(self):
-        return f"network_dot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names[self.status_id]}"
+        return f"network_dot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names.get(self.status_id)}"
 
 
 class HotEvent(UnknownDotHotEvent):
     id = ActorControl142Event.id + 'hot'
 
     def _text(self):
-        return f"{self.target_name} gains {self.damage} hot from {self.source_name}({status_names[self.status_id]})"
+        return f"{self.target_name} gains {self.damage} hot from {self.source_name}({status_names.get(self.status_id)})"
 
     def _str_event(self):
-        return f"network_hot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names[self.status_id]}"
+        return f"network_hot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names.get(self.status_id)}"
 
 
 def dot_hot_event(bundle_header, message_header, raw_message, struct_message: ServerActorControl142):
@@ -226,10 +226,10 @@ class EffectRemoveEvent(ActorControl142Event):
         if self.source_actor is not None: self.source_name = self.source_actor.name
 
     def _text(self):
-        return f"{self.target_name} remove effect {status_names[self.effect_id]} from {self.source_name}"
+        return f"{self.target_name} remove effect {status_names.get(self.effect_id)} from {self.source_name}"
 
     def _str_event(self):
-        return f"network_actor_effect_remove|{self.target_name}|{self.effect_id}|{status_names[self.effect_id]}|{self.source_name}"
+        return f"network_actor_effect_remove|{self.target_name}|{self.effect_id}|{status_names.get(self.effect_id)}|{self.source_name}"
 
 
 category_event_map = {

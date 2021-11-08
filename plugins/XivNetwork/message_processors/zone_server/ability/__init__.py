@@ -66,11 +66,11 @@ class ActionEffectEvent(NetworkZoneServerEvent):
         match self.action_type:
             case "item":
                 if self.action_id > 1000000:
-                    self.action_name = item_names[self.action_id-1000000]+'hq'
+                    self.action_name = item_names.get(self.action_id - 1000000, 'unk') + 'hq'
                 else:
-                    self.action_name = item_names[self.action_id ]
+                    self.action_name = item_names.get(self.action_id - 1000000, 'unk')
             case "action":
-                self.action_name = action_names[self.action_id]
+                self.action_name = action_names.get(self.action_id, 'unk')
             case t:
                 self.action_name = f"{t}_{self.action_id}"
 

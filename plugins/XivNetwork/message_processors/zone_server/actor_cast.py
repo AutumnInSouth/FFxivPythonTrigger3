@@ -55,10 +55,10 @@ class ServerActorCastEvent(NetworkZoneServerEvent):
         if self.source_actor is not None: self.source_name = self.source_actor.name
 
     def _text(self):
-        return f"{self.source_name} is casting {action_names[self.action_id]} on {self.target_name} for {self.cast_time:.2f} seconds"
+        return f"{self.source_name} is casting {action_names.get(self.action_id)} on {self.target_name} for {self.cast_time:.2f} seconds"
 
     def _str_event(self):
-        return f"network_cast|{self.action_id}|{action_names[self.action_id]}|{self.source_name}|{self.target_name}|{self.cast_time:.2f}"
+        return f"network_cast|{self.action_id}|{action_names.get(self.action_id)}|{self.source_name}|{self.target_name}|{self.cast_time:.2f}"
 
 
 class ActorCast(BaseProcessors):

@@ -36,7 +36,7 @@ for scope, data in enumerate(key_to_code):
                 class event(_NetworkEvent):
                     id = f"{_NetworkEvent.id}undefined/{_scope_name}/{'client' if is_send else 'server'}/{key}"
                     scope = _scope_name
-                    is_send = is_send
+                    is_server = is_send
 
                 opcode = key
 

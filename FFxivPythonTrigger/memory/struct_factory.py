@@ -156,6 +156,7 @@ class _EnumStruct(Structure):
     _default: any
     _data: dict
     _reverse: dict
+    raw_value: int
 
     def __eq__(self, other):
         return self.raw_value == other or self.value == other

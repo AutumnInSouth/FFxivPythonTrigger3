@@ -29,5 +29,6 @@ user_path = get_module_storage("XivNetworkOpcodes").path
 user_path.mkdir(exist_ok=True)
 source_data = load_opcodes(Path(__file__).parent / f'opcode_{game_version}')
 user_data = load_opcodes(user_path / game_version)
+# key_to_code = [{} for i in range(6)]
 key_to_code = [source_data[i] | user_data[i] for i in range(6)]
 code_to_key = [{v: k for k, v in opcodes.items()} for opcodes in key_to_code]

@@ -37,7 +37,7 @@ class ClientActionSendEvent(NetworkZoneClientEvent):
         if self.target_actor is not None: self.target_name = self.target_actor.name
 
     def _text(self):
-        return f"using {self.struct_message.action_type}-{self.struct_message.action_id} on {self.target_actor.name}({self.struct_message.target_id:x})"
+        return f"using {self.struct_message.action_type}-{self.struct_message.action_id} on {self.target_name}({self.struct_message.target_id:x})"
 
 
 class ActionSend(BaseProcessors):

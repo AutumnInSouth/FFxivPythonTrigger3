@@ -33,10 +33,13 @@ class RpcHandler(StreamRequestHandler):
     def __init__(self, request, client_address, server, client_id, func_class):
         self.client_id = client_id
         self.func_object = func_class(self, server)
+        self.send_lock = threading.Lock()
         super().__init__(request, client_address, server)
 
     def _send(self, data):
-        self.wfile.write(json.dumps(data).encode('utf8') + b'\n')
+        msg = json.dumps(data).encode('utf8') + b'\n'
+        with self.send_lock:
+            self.wfile.write(msg)
 
     def send(self, data, rtn=-1, is_iter=False, send_type=SEND_OUT, **kwargs):
         self._send({

@@ -87,7 +87,7 @@ class ServerActionEffect8(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 8,
     'padding5': c_uint,
-}), ServerActionEffectType):
+}, 0x27c), ServerActionEffectType):
     max_count = 8
 
 
@@ -181,4 +181,3 @@ ABILITY_SUB_TYPE = {
     6: {'water'},
     7: {'unaspected'},
 }
-

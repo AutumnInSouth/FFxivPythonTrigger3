@@ -59,19 +59,19 @@ class UnknownOpcodeEvent(_NetworkEvent):
         return [
             processor
             for processor in len_processors[self.scope_idx].get(self.msg_len, set())
-            if processor.opcode not in key_to_code
+            if processor.opcode not in key_to_code[self.scope_idx]
         ]
 
     @classmethod
-    def get_event(cls, bundle_header: 'BundleHeader', message_header: 'MessageHeader', raw_message: bytearray, scope: int, _is_send: bool):
-        _scope_idx = scope * 2 + _is_send
+    def get_event(cls, bundle_header: 'BundleHeader', message_header: 'MessageHeader', raw_message: bytearray, scope: int, _is_server: bool):
+        _scope_idx = scope * 2 + _is_server
         if message_header.msg_type not in unknown_type_event[_scope_idx]:
             _scope_name = scope_name[scope]
 
             class _UnknownOpcodeEvent(cls):
                 scope = _scope_name
-                is_send = _is_send
-                id = f"{_NetworkEvent.id}unknown/{_scope_name}/{'client' if _is_send else 'server'}/{message_header.msg_type}"
+                is_server = _is_server
+                id = f"{_NetworkEvent.id}unknown/{_scope_name}/{'client' if _is_server else 'server'}/{message_header.msg_type}"
                 scope_idx = _scope_idx
                 opcode = message_header.msg_type
                 msg_len = len(raw_message)
@@ -215,11 +215,12 @@ class XivNetwork(PluginBase):
         for possible in evt.possible_processors():
             if possible.struct.struct_size:
                 struct_msg = possible.struct.from_buffer(evt.raw_message)
+                possible_evt = possible.event(evt.bundle_header, evt.message_header, evt.raw_message, struct_msg)
                 self.client_event('discover', {
                     'opcode': evt.opcode,
-                    'guess': possible.opcode,
-                    'struct': OffsetStructJsonEncoder.default(struct_msg),
-                    'event': possible.event(evt.bundle_header, evt.message_header, evt.raw_message, struct_msg).str_event()
+                    'guess': f"{evt.scope}/{'server' if evt.is_server else 'client'}/{possible.opcode}",
+                    'struct': struct_msg.get_data(),
+                    'event': possible_evt.str_event() or str(possible_evt)
                 })
 
     @unload_callback('unregister_packet_fixer')
