@@ -214,7 +214,11 @@ class XivNetwork(PluginBase):
     def discover_event(self, evt: UnknownOpcodeEvent, _):
         for possible in evt.possible_processors():
             if possible.struct.struct_size:
-                struct_msg = possible.struct.from_buffer(evt.raw_message)
+                try:
+                    struct_msg = possible.struct.from_buffer(evt.raw_message)
+                except ValueError:
+                    self.logger.error(f"{possible.opcode} require {possible.struct.struct_size} but {len(evt.raw_message)} is given")
+                    continue
                 possible_evt = possible.event(evt.bundle_header, evt.message_header, evt.raw_message, struct_msg)
                 self.client_event('discover', {
                     'opcode': evt.opcode,

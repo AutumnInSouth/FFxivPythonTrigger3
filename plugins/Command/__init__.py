@@ -1,7 +1,13 @@
 import traceback
+from ctypes import *
 from pathlib import Path
-from FFxivPythonTrigger import *
+
+from FFxivPythonTrigger import PluginBase, close, unload_module, reload_module, AddressManager
 from FFxivPythonTrigger.decorator import event, unload_callback
+from FFxivPythonTrigger.memory import read_memory, read_ulonglong, read_string
+from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.utils import err_catch
+from FFxivPythonTrigger.hook import PluginHook
 
 """
 provide a service process echo message as commands
@@ -26,6 +32,12 @@ functions (*[arg] is optional args):
 
 update_event_key = 'commands_update'
 
+TextCommandStruct = OffsetStruct({
+    "cmd": c_wchar_p,
+    "t1": c_longlong,
+    "tLength": c_longlong,
+    "t3": c_longlong,
+}, full_size=400)
 
 class CommandPlugin(PluginBase):
     name = "Command"
@@ -47,7 +59,16 @@ class CommandPlugin(PluginBase):
 
     @event("log_event")
     def deal_chat_log(self, event):
-        if event.channel_id == 56: self.process_command(event.message)
+        if event.channel_id == 56:
+            self.process_command(event.message)
+
+    @PluginHook.decorator(c_void_p, [c_int64, c_int, c_int64, POINTER(c_char_p), c_int64], True)
+    @err_catch
+    def cmd_catch_hook(self, hook, a1, a2, a3, cmd_ptr, a5):
+        msg = cmd_ptr[0].decode('utf-8')
+        if msg.startswith('/') and self.process_command(msg[1:]):
+            return
+        hook.original(a1, a2, a3, cmd_ptr, a5)
 
     def process_command(self, command_line):
         args = command_line.split(' ')
@@ -57,6 +78,8 @@ class CommandPlugin(PluginBase):
                 self.commands[args[0]](args[1:])
             except Exception:
                 self.logger.error('exception occurred:\n{}'.format(traceback.format_exc()))
+            return True
+        return False
 
     @unload_callback('unregister')
     def register(self, command: str, callback):
@@ -83,3 +106,5 @@ class CommandPlugin(PluginBase):
 
         self.commands = dict()
         self.register(self, '@fpt', self.FptManager)
+        self.cmd_catch_hook(self, AddressManager(self.name, self.logger).
+                            scan_address('catch_cmd', "40 55 53 57 41 54 41 56 41 57 48 8D 6C 24 ?"))

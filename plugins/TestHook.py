@@ -8,7 +8,7 @@ from FFxivPythonTrigger.utils import err_catch
 from XivMemory import se_string
 
 TextCommandStruct = OffsetStruct({
-    "cmd": POINTER(c_ubyte),
+    "cmd": POINTER(c_char),
     "t1": c_longlong,
     "tLength": c_longlong,
     "t3": c_longlong,

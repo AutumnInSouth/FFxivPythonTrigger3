@@ -86,7 +86,7 @@ from ctypes import *
 print(plugins.XivNetwork.send_messages('zone',("MarketBoardQueryItemCount",{'item_id':18,'unk1':0x902}),"MarketBoardItemListingCount",True))
 """
 
-c14="""
+c14 = """
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.saint_coinach import item_names
@@ -99,10 +99,13 @@ for page in plugins.XivMemory.inventory.value:
             name=item.item_id
         self.logger(item.item_id,name,item.count)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c14.encode('utf-8')).text
+c15 = """
+for i in range(3):plugins.XivMemory.calls.do_text_command('/@fpt eval self.logger(1)')
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c15.encode('utf-8')).text
 
-# print(t)
+
 d = json.loads(t)
-if d['print']:
-    print(d['print'])
-if "traceback" in d: print(json.loads(t)['traceback'])
+if 'print' in d: print(d['print'])
+if "traceback" in d: print(d['traceback'])
+print(d)

@@ -28,7 +28,11 @@ class SomeMacro(PluginBase):
         self.counter = Counter()
         self.counter.current = 0x900000
         self.returns = {}
+
+        """40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"""
         self.macro_parse_hook(self, BASE_ADDR + 0x6319B0)
+
+        """48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 8B DA 48 8B F9 83 FA ?"""
         self.actor_fallback_hook(self, BASE_ADDR + 0x631D50)
 
     def store(self, val):

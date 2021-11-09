@@ -15,6 +15,7 @@ def load_opcodes(path) -> List[Dict[str, int]]:
         if _path.exists():
             with open(_path) as f:
                 for line in f.readlines():
+                    if line.startswith("#"): continue
                     try:
                         name, code = line.strip().split('|')
                     except ValueError:
