@@ -73,7 +73,7 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 ClientTriggerStruct = OffsetStruct({
     'param1': c_uint,  # 0x0453 in in WardLandInfo mode,0x0452 in HousingDetails mode, 0x451 in check can buy mode
-    'param2': c_uint,  # territory_type
+    'param2': c_uint,  # territory_id
     'param3': c_ubyte,  # Ward ID in WardLandInfo mode,  House ID in HousingDetails mode
     'param4': c_ubyte,  # 0 in WardLandInfo mode,        Ward ID in HousingDetails mode
 }, 32)

@@ -7,15 +7,11 @@ from ..utils import NetworkZoneServerEvent, BaseProcessors
 class LandHouseEntry(OffsetStruct({
     'price': c_uint,
     '_flag': c_ubyte,
-    'appeal_1': c_ubyte,
-    'appeal_2': c_ubyte,
-    'appeal_3': c_ubyte,
+    'appeals': c_ubyte * 3,
     '_owner': c_char * 32
 })):
     price: int
-    appeal_1: int
-    appeal_2: int
-    appeal_3: int
+    appeals: list[int]
 
     @property
     def owner(self):
@@ -33,13 +29,13 @@ class LandHouseEntry(OffsetStruct({
 class ServerWardLandInfo(OffsetStruct({
     'land_id': c_ushort,
     'ward_id': c_ushort,
-    'territory_type': c_ushort,
+    'territory_id': c_ushort,
     'world_id': c_ushort,
     'houses': LandHouseEntry * 60
 })):
     land_id: int
     ward_id: int
-    territory_type: int
+    territory_id: int
     world_id: int
     houses: list[LandHouseEntry]
 
@@ -62,7 +58,7 @@ class ServerWardLandInfoEvent(NetworkZoneServerEvent):
 
     def _text(self):
         msg = self.struct_message
-        return (f'land_id={msg.land_id} ward_id={msg.ward_id} territory_type={msg.territory_type} '
+        return (f'land_id={msg.land_id} ward_id={msg.ward_id} territory_id={msg.territory_id} '
                 f'world_id={msg.world_id} empty={len(self.houses_without_owner)}')
 
 

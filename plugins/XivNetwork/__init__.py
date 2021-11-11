@@ -1,13 +1,15 @@
-import time
 from ctypes import *
 from functools import cache
 from pathlib import Path
 from traceback import format_exc
 from typing import Callable, List, Dict, Set, Tuple
 
-from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, Counter, wait_until
+import time
+
+from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, Counter
 from FFxivPythonTrigger.decorator import unload_callback, re_event
-from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct, OffsetStructJsonEncoder
+from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct
+from FFxivPythonTrigger.utils import WaitRecall
 from .base_struct import BundleHeader, MessageHeader
 from .decoder import unpacked_messages, pack_message
 from .hook import SendHook, BufferProcessorHook
@@ -81,16 +83,17 @@ class UnknownOpcodeEvent(_NetworkEvent):
 
 
 class ResponseListener(object):
-    def __init__(self, response_data, is_block):
+    def __init__(self, response_data, is_block, recall):
         self.response_data = response_data
         self.is_block = is_block
-        self.response = None
+        self.recall = recall
 
     def check(self, message_event: _NetworkEvent):
-        if self.response is None:
+        if self.recall is not None:
             if message_event.message_header.msg_type in self.response_data:
                 if self.response_data[message_event.message_header.msg_type](message_event):
-                    self.response = message_event
+                    self.recall(message_event)
+                    self.recall = None
                     return self.is_block
 
 
@@ -303,10 +306,13 @@ class XivNetwork(PluginBase):
         if not response_data: return success_size
 
         # set listener and wait for response
-        listener = ResponseListener(response_data, block_response)
+        wait_recall = WaitRecall()
+        listener = ResponseListener(response_data, block_response, wait_recall.recall)
         self.response_waiting[response_id] = listener
-        res = wait_until(lambda: listener.response, timeout=response_timeout, period=.05)
-        del self.response_waiting[response_id]
-        for r_code in response_data.keys():
-            self.response_listens[_scope][r_code].remove(response_id)
+        try:
+            res = wait_recall.wait(response_timeout)
+        finally:
+            del self.response_waiting[response_id]
+            for r_code in response_data.keys():
+                self.response_listens[_scope][r_code].remove(response_id)
         return res

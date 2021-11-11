@@ -2,9 +2,10 @@ import random
 import re
 import string
 import threading
-import time
 from traceback import format_exc
 from typing import Callable
+
+import time
 
 from ..logger import error
 
@@ -38,6 +39,26 @@ def wait_until(statement: Callable[[], any], timeout: float = None, period: floa
         time.sleep(period)
         temp = statement()
     return temp
+
+
+class WaitRecall(object):
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.res = None
+
+    def wait(self, timeout: float = None):
+        if not self.lock.acquire(timeout=timeout):
+            raise WaitTimeoutException()
+        return self.res
+
+    def recall(self, res=None):
+        self.res = res
+        try:
+            self.lock.release()
+        except RuntimeError:
+            return False
+        else:
+            return True
 
 
 def err_catch(func):
