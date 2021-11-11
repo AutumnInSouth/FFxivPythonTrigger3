@@ -5,6 +5,13 @@ from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.utils import wait_until
 
 
+def try_int(s: str):
+    try:
+        return int(s)
+    except ValueError:
+        return s
+
+
 class Pmb(PluginBase):
     name = "Pmb"
     layout = str(Path(__file__).parent / 'layout.js')
@@ -49,5 +56,7 @@ class Pmb(PluginBase):
         wait_until(lambda: self.item_ready.get(item_id), 5.)
         return self.item_data[item_id][:count]
 
-    def buy(self, item_data):
-        return plugins.XivNetwork.send_messages('zone', ('MarketBoardPurchaseHandler',item_data))
+    def buy(self, item_data: dict):
+        return plugins.XivNetwork.send_messages('zone', (
+            'MarketBoardPurchaseHandler', {k: try_int(v) for k, v in item_data.items()}
+        ))
