@@ -278,3 +278,15 @@ GetModuleFileName.argtypes = [
     ctypes.c_void_p,
     ctypes.c_ulong
 ]
+
+DuplicateHandle = dll.DuplicateHandle
+DuplicateHandle.restype = ctypes.c_bool
+DuplicateHandle.argtypes = [
+    ctypes.c_void_p,
+    ctypes.c_void_p,
+    ctypes.c_void_p,
+    ctypes.POINTER(ctypes.c_void_p),
+    ctypes.c_ulong,
+    ctypes.c_bool,
+    ctypes.c_ulong
+]

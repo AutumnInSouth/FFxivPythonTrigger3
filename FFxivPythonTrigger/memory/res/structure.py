@@ -6,8 +6,10 @@ import ctypes
 
 from . import psapi, ntdll
 
-DEFAULT_CODING=locale.getpreferredencoding()
-#DEFAULT_CODING='utf-8'
+DEFAULT_CODING = locale.getpreferredencoding()
+
+
+# DEFAULT_CODING='utf-8'
 
 class LUID(ctypes.Structure):
     _fields_ = [
@@ -553,4 +555,15 @@ class SMALL_TEB(ctypes.Structure):
         ("ClientId", CLIENT_ID),
         ("ActiveRpcHandle", ctypes.c_void_p),
         ("ThreadLocalStoragePointer", ctypes.c_void_p)
+    ]
+
+
+class SYSTEM_HANDLE(ctypes.Structure):
+    _fields_ = [
+        ("ProcessId", ctypes.c_int),
+        ("ObjectTypeNumber", ctypes.c_byte),
+        ("Flags", ctypes.c_byte),
+        ("Handle", ctypes.c_ushort),
+        ("Object", ctypes.c_void_p),
+        ("AccessMask", ctypes.c_int),
     ]

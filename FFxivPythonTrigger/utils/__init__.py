@@ -44,11 +44,15 @@ def wait_until(statement: Callable[[], any], timeout: float = None, period: floa
 class WaitRecall(object):
     def __init__(self):
         self.lock = threading.Lock()
+        self.lock.acquire()
         self.res = None
 
     def wait(self, timeout: float = None):
-        if not self.lock.acquire(timeout=timeout):
-            raise WaitTimeoutException()
+        try:
+            if not self.lock.acquire(timeout=timeout):
+                raise WaitTimeoutException()
+        finally:
+            self.lock.release()
         return self.res
 
     def recall(self, res=None):

@@ -67,7 +67,6 @@ import _thread
 
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.rpc_server import RpcServer, RpcClient, RpcFuncHandler, RpcHandler
-from FFxivPythonTrigger.utils import wait_until
 
 ep = process.enable_privilege()
 if ep:
@@ -98,14 +97,14 @@ class GameClient(object):
     def subscribe(self, name, client: RpcHandler):
         if not self.available:
             raise Exception("client is not available")
-        print(f"client {client.client_id} subscribe {name} on pid {self.pid}")
+        print(f"client {client.client_id} subscribe {name} on pid {self.pid}",flush=True)
         self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).add(client.client_id)
         return self.client.subscribe(name, self.event)
 
     def unsubscribe(self, name, client: RpcHandler):
         if not self.available:
             raise Exception("client is not available")
-        print(f"client {client.client_id} unsubscribe {name} on pid {self.pid}")
+        print(f"client {client.client_id} unsubscribe {name} on pid {self.pid}",flush=True)
         try:
             self.server.client_subscribe.setdefault(f"p{self.pid}|{name}", set()).remove(client.client_id)
         except ValueError:
@@ -210,7 +209,7 @@ finally:
         elif not clients[pid].available:
             clients[pid].connect_port = port
             return clients[pid].connect_client()
-        print(f"connect game to port {port} pid {pid}")
+        print(f"connect game to port {port} pid {pid}",flush=True)
         return pid
 
     def game_subscribe(self, pid, name):
@@ -219,10 +218,10 @@ finally:
     def game_unsubscribe(self, pid, name):
         return clients[pid].unsubscribe(name, self.client)
 
-    def game_run(self, pid, name, args=[], timeout=5, kwargs={}):
+    def game_run(self, pid, name, args=[], timeout=60, kwargs={}):
         return clients[pid].client.run(name, *args, timeout=timeout, **kwargs)
 
-    def game_get(self, pid, name, timeout=5):
+    def game_get(self, pid, name, timeout=60):
         return clients[pid].client.get(name, timeout=timeout)
 
 

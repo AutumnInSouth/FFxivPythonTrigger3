@@ -1,5 +1,6 @@
 import ctypes
 
+
 dll = ctypes.WinDLL('ntdll.dll')
 
 NTSTATUS = ctypes.c_ulong
@@ -13,25 +14,6 @@ NtQueryInformationThread.restype = NTSTATUS
 NtQueryInformationThread.argtypes = [
     ctypes.c_void_p,
     THREADINFOCLASS,
-    ctypes.c_void_p,
-    ctypes.c_ulong,
-    ctypes.POINTER(ctypes.c_ulong)
-]
-
-NtQuerySystemInformation = dll.NtQuerySystemInformation
-NtQuerySystemInformation.restype = NTSTATUS
-NtQuerySystemInformation.argtypes = [
-    ctypes.c_ulong,
-    ctypes.c_void_p,
-    ctypes.c_ulong,
-    ctypes.POINTER(ctypes.c_ulong)
-]
-
-NtQueryObject = dll.NtQueryObject
-NtQueryObject.restype = NTSTATUS
-NtQueryObject.argtypes = [
-    ctypes.c_void_p,
-    ctypes.c_ulong,
     ctypes.c_void_p,
     ctypes.c_ulong,
     ctypes.POINTER(ctypes.c_ulong)

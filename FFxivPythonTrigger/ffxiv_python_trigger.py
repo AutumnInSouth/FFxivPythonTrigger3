@@ -23,6 +23,7 @@ from .memory import PROCESS_FILENAME
 from .rpc_server import RpcServer, RpcFuncHandler
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
 from .utils import Counter, wait_until
+from .close_mutex import close_mutex
 
 EVENT_MULTI_THREAD = True
 LOG_FILE_SIZE_MAX = 1024 * 1024
@@ -494,6 +495,7 @@ def close():
 
 
 def run():
+    _logger.debug(f"close {close_mutex()} mutex")
     for plugin in _plugins.values():
         plugin.controller.start_plugin()
     global running

@@ -102,10 +102,25 @@ for page in plugins.XivMemory.inventory.value:
 c15 = """
 for i in range(3):plugins.XivMemory.calls.do_text_command('/@fpt eval self.logger(1)')
 """
-t = requests.post("http://127.0.0.1:2019/exec", c15.encode('utf-8')).text
+c16="""
+import test_mutex
+import importlib
+import time
+test_mutex=importlib.reload(test_mutex)
+
+print(test_mutex.close_mutex())
+"""
+c17="""
+plugins.XivNetwork.send_messages('zone',[('ClientTrigger',{
+            'param1':0x0453,
+            'param2':area,
+            'param3':ward_id,
+        }) for ward_id in range(24) for area in [339,341,340,641,]])
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c17.encode('utf-8')).text
 
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])
 if "traceback" in d: print(d['traceback'])
-print(d)
+#print(d)

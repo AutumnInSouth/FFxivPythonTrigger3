@@ -41,7 +41,7 @@ class ModuleStorage(object):
         """
         file = self._path / DATA_FILENAME
         if file.exists() and file.stat().st_size:
-            with open(file) as fi:
+            with open(file, encoding='utf-8') as fi:
                 try:
                     return load(fi)
                 except decoder.JSONDecodeError:
@@ -57,7 +57,7 @@ class ModuleStorage(object):
         """
         if self.data:
             self._path.mkdir(exist_ok=True, parents=True)
-            with open(self._path / DATA_FILENAME, 'w+') as fo:
+            with open(self._path / DATA_FILENAME, 'w+', encoding='utf-8') as fo:
                 fo.write(dumps(self.data, indent=4, ensure_ascii=False))
             return True
         else:
