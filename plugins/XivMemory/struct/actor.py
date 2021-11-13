@@ -227,7 +227,8 @@ class ActorTable(POINTER(Actor) * ACTOR_TABLE_SIZE):
             self._aid_to_idx_cache[actor.id] = i
             if actor.id == actor_id: return actor
 
-    def get_actors_by_ids(self, actor_ids: Set[int]) -> Iterator[Actor]:
+    def get_actors_by_ids(self, _actor_ids: Set[int]) -> Iterator[Actor]:
+        actor_ids = set(_actor_ids)
         for actor_id in actor_ids.copy():
             if actor_id in self._aid_to_idx_cache:
                 actor = self.get_actor(self._aid_to_idx_cache[actor_id])

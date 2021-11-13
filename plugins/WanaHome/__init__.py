@@ -227,7 +227,9 @@ class WanaHome(PluginBase):
                 not self.is_searching and plugins.XivMemory.actor_table.me:
             self.create_mission(self.full_search, limit_sec=0)
 
-    def goto(self, world_id, territory_id, ward_id, house_id):
+    def goto(self, territory_id, ward_id, house_id, world_id=None):
+        if world_id is None:
+            world_id = plugins.XivMemory.world_id
         plugins.XivNetwork.send_messages('zone', ('ClientTrigger', GotoStruct(a=0xd3, l=territory_id, wo=world_id, h=house_id, w=ward_id, m=0x60)))
         return True
 

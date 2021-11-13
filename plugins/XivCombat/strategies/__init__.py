@@ -1,22 +1,35 @@
-from typing import Optional, Union, TYPE_CHECKING, Tuple
+from functools import cached_property
+from typing import Optional, Union, Tuple, TYPE_CHECKING
 
-from ..logic_data import LogicData
 from ..define import HQ_FIRST
+from .. import api
 
-class UseAbility(object):
+if TYPE_CHECKING:
+    from ..logic_data import LogicData
+
+
+class _Using(object):
+    target_id: int
+
+    @cached_property
+    def actor(self):
+        return api.get_actor_by_id(self.target_id)
+
+
+class UseAbility(_Using):
     def __init__(self, ability_id: int, target_id: int = None):
         self.ability_id = ability_id
         self.target_id = target_id
 
 
-class UseItem(object):
+class UseItem(_Using):
     def __init__(self, item_id: int, priority: int = HQ_FIRST, target_id: int = None):
         self.item_id = item_id
         self.priority = priority
         self.target_id = target_id
 
 
-class UseCommon(object):
+class UseCommon(_Using):
     def __init__(self, ability_id: int, target_id: int = None):
         self.ability_id = ability_id
         self.target_id = target_id
@@ -28,17 +41,14 @@ class Strategy(object):
     fight_only: bool = True
     default_data = {}
 
-    def __init__(self, config):
-        self.config = config
-
-    def global_cool_down_ability(self, data: LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
         pass
 
-    def non_global_cool_down_ability(self, data: LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
         pass
 
-    def common(self, data: LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def common_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
         pass
 
-    def process_ability_use(self, data: LogicData, action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
         pass

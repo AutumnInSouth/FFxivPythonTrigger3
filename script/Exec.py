@@ -117,7 +117,10 @@ plugins.XivNetwork.send_messages('zone',[('ClientTrigger',{
             'param3':ward_id,
         }) for ward_id in range(24) for area in [339,341,340,641,]])
 """
-t = requests.post("http://127.0.0.1:2019/exec", c17.encode('utf-8')).text
+c18="""
+print(plugins.XivMemory.skill_queue)
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c18.encode('utf-8')).text
 
 
 d = json.loads(t)

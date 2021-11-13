@@ -2,10 +2,11 @@ from ctypes import addressof
 from functools import cache
 
 from FFxivPythonTrigger import plugins
+from FFxivPythonTrigger.logger import info
 
 _func_action_data = lambda a: 0
 
-_func_can_use_action_to = lambda a, b, c: False
+_func_action_type_check = lambda a, b, c: False
 
 _func_action_distance_check = lambda a, b, c: 0
 
@@ -26,11 +27,11 @@ def _action_data(action_id):
 
 
 def action_type_check(action_id, actor) -> bool:
-    return _func_can_use_action_to(action_id, _action_data(action_id), addressof(actor))
+    return _func_action_type_check(action_id, _action_data(action_id), addressof(actor))
 
 
 def action_distance_check(action_id, source_actor, target_actor):
-    return _func_action_distance_check(action_id, source_actor, target_actor)
+    return _func_action_distance_check(action_id, addressof(source_actor), addressof(target_actor))
 
 
 def get_me_actor():
@@ -111,7 +112,7 @@ def reset_cd(cd_group: int):
 
 
 def use_action(action_id: int, target_id: int = 0xE0000000):
-    plugins.XivMemory.combat_data.skill_queue.use_action(action_id, target_id)
+    plugins.XivMemory.skill_queue.use_skill(action_id, target_id)
 
 
 def use_area_action(action_id: int, x: float, y: float, z: float, target=0xE0000000):

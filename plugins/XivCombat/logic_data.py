@@ -2,9 +2,10 @@ from functools import cached_property, lru_cache, cache
 from math import sqrt
 from typing import TYPE_CHECKING
 
+from FFxivPythonTrigger.logger import info
 from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
 
-from . import api, define
+from . import api, define, utils
 
 invincible_effects = {325, 394, 529, 656, 671, 775, 776, 895, 969, 981, 1570, 1697, 1829, 1302, }
 invincible_actor = set()
@@ -22,15 +23,10 @@ def is_actor_status_can_damage(actor):
     return True
 
 
-@cache
-def zone_is_pvp(zone_id):
-    if not zone_id: return False
-    return territory_type_sheet[zone_id]["IsPvpZone"]
-
-
 class LogicData(object):
     def __init__(self, config: dict):
         self.config = config
+        self.ability_cnt = 0
 
     @cached_property
     def me(self):
@@ -38,10 +34,7 @@ class LogicData(object):
 
     @cached_property
     def job(self):
-        if self.is_pvp:
-            return f"{api.get_current_job()}_pvp"
-        else:
-            return str(api.get_current_job())
+        return utils.job_name()
 
     @cached_property
     def target_check_action(self):
@@ -49,9 +42,9 @@ class LogicData(object):
 
     @lru_cache
     def is_target_attackable(self, target_actor):
-        return is_actor_status_can_damage(target_actor) and \
-               api.action_distance_check(self.target_check_action, self.me, target_actor) and \
-               target_actor.current_hp > 1
+        return (is_actor_status_can_damage(target_actor) and
+                api.action_type_check(self.target_check_action, target_actor) and
+                target_actor.current_hp > 1)
 
     @cached_property
     def target(self):
@@ -116,7 +109,7 @@ class LogicData(object):
                     all_enemy = [actor for actor in all_enemy if actor.is_in_combat]
             case k:
                 raise Exception(f'invalid targets {k}')
-        return all_enemy.sort(key=self.actor_distance_effective)
+        return sorted(all_enemy, key=self.actor_distance_effective)
 
     # @lru_cache
     # def dps(self, actor_id):
@@ -258,4 +251,4 @@ class LogicData(object):
 
     @cached_property
     def is_pvp(self):
-        return zone_is_pvp(api.get_zone_id())
+        return utils.is_pvp()

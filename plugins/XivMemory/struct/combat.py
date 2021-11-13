@@ -70,7 +70,7 @@ class SkillQueue(OffsetStruct({
 
     @property
     def has_skill(self):
-        return bool(self.mark1)
+        return bool(self.ability_id)
 
     def use_skill(self, skill_id, target_id=0xe0000000):
         self.target_id = target_id

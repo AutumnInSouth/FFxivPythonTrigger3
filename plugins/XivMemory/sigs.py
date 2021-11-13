@@ -15,8 +15,8 @@ sigs = {
     },
     "skill_queue": {
         'call': find_unique_signature_point,
-        'param': "80 3d * * * * ? 0f 95 c0 48 83 c4 ?",
-        'add': BASE_ADDR + 1,
+        'param': "F3 0F 11 05 * * * * 48 83 C2 ?",
+        'add': BASE_ADDR + 8,
     },
     "cool_down_group": {
         'call': find_unique_signature_point,
