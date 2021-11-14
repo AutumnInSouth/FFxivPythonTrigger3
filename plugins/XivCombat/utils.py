@@ -1,8 +1,8 @@
 from functools import cache
+from typing import TYPE_CHECKING
 
 from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
 from . import define, strategies, api
-
 
 def use_item(to_use: strategies.UseItem):
     api.reset_ani_lock()

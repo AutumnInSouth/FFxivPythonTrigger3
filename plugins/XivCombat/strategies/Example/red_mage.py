@@ -2,8 +2,8 @@ from math import radians
 
 from FFxivPythonTrigger.logger import debug
 from FFxivPythonTrigger.utils.shape import sector, circle
-from .. import *
-from ... import define
+from XivCombat.strategies import *
+from XivCombat import define
 
 """
 7503,摇荡,2

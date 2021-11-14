@@ -1,8 +1,8 @@
 from functools import cached_property
 from typing import Optional, Union, Tuple, TYPE_CHECKING
 
-from ..define import HQ_FIRST
-from .. import api
+from XivCombat import api
+from XivCombat.define import HQ_FIRST
 
 if TYPE_CHECKING:
     from ..logic_data import LogicData
