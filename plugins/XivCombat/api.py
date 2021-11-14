@@ -1,8 +1,13 @@
 from ctypes import addressof
 from functools import cache
+from typing import TYPE_CHECKING, Iterable
 
 from FFxivPythonTrigger import plugins
-from FFxivPythonTrigger.logger import info
+
+if TYPE_CHECKING:
+    from FFxivPythonTrigger.popular_struct import Position
+    from XivMemory.struct.actor import Actor
+    from XivMemory.struct.combat import ComboState, CoolDownGroup
 
 _func_action_data = lambda a: 0
 
@@ -34,35 +39,35 @@ def action_distance_check(action_id, source_actor, target_actor):
     return _func_action_distance_check(action_id, addressof(source_actor), addressof(target_actor))
 
 
-def get_me_actor():
+def get_me_actor() -> 'Actor':
     return plugins.XivMemory.actor_table.me
 
 
-def get_actor_by_id(a_id: int):
+def get_actor_by_id(a_id: int) -> 'None |Actor':
     return plugins.XivMemory.actor_table.get_actor_by_id(a_id)
 
 
-def get_actors_by_ids(*a_id: int):
+def get_actors_by_ids(*a_id: int) -> Iterable['Actor']:
     return plugins.XivMemory.actor_table.get_actors_by_ids(a_id)
 
 
-def get_party_list(alliance_all=False):
+def get_party_list(alliance_all=False) -> Iterable['Actor']:
     return get_actors_by_ids(*[member.id for member in (plugins.XivMemory.party.alliance if alliance_all else plugins.XivMemory.party.main_party)()])
 
 
-def get_can_select():
+def get_can_select() -> list['Actor']:
     return [actor for actor in plugins.XivMemory.actor_table if actor.can_select]
 
 
-def get_current_target():
+def get_current_target() -> 'None |Actor':
     return plugins.XivMemory.targets.current
 
 
-def get_focus_target():
+def get_focus_target() -> 'None |Actor':
     return plugins.XivMemory.targets.focus
 
 
-def get_mo_target():
+def get_mo_target() -> 'None |Actor':
     return plugins.XivMemory.utils.mo_entity
 
 
@@ -70,27 +75,27 @@ def set_current_target(actor):
     plugins.XivMemory.targets.current = actor
 
 
-def get_enemies_list():
+def get_enemies_list() -> Iterable['Actor']:
     return get_actors_by_ids(*[enemy.id for enemy in plugins.XivMemory.enemies.get_item() if enemy.can_select])
 
 
-def get_current_job():
+def get_current_job() -> str | int:
     return plugins.XivMemory.player_info.job.value
 
 
-def get_combo_state():
+def get_combo_state() -> 'ComboState':
     return plugins.XivMemory.combo_state
 
 
-def get_gauge():
+def get_gauge() -> any:
     return plugins.XivMemory.gauge
 
 
-def get_global_cool_down_group():
+def get_global_cool_down_group() -> 'CoolDownGroup':
     return plugins.XivMemory.cool_down_group.gcd_group
 
 
-def get_item_cool_down_group():
+def get_item_cool_down_group() -> 'CoolDownGroup':
     return plugins.XivMemory.cool_down_group.item_group
 
 
@@ -102,7 +107,7 @@ def get_item_cool_down_group():
 #     return api.CombatMonitor.actor_tdps(a_id, period_sec=600)
 #
 
-def get_cd_group(cd_group: int):
+def get_cd_group(cd_group: int) -> 'CoolDownGroup':
     return plugins.XivMemory.cool_down_group[cd_group]
 
 
@@ -135,7 +140,7 @@ def use_common(action_id: int, target_id: int = 0xE0000000):
     plugins.XivMemory.calls.do_action.common_action(action_id, target_id)
 
 
-def get_ani_lock():
+def get_ani_lock() -> float:
     return plugins.XivMemory.skill_animation_lock
 
 
@@ -154,13 +159,13 @@ def get_backpack_item_count(item_id: int, is_hq: bool = None):
     return cnt
 
 
-def get_movement_speed():
+def get_movement_speed() -> float:
     return plugins.XivMemory.movement.speed
 
 
-def get_coordinate():
+def get_coordinate() -> 'Position':
     return plugins.XivMemory.coordinate.coordinate_main
 
 
-def get_zone_id():
+def get_zone_id() -> int:
     return plugins.XivMemory.zone_id
