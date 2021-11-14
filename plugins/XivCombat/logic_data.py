@@ -1,11 +1,10 @@
 from functools import cached_property, lru_cache, cache
 from math import sqrt
-from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger.logger import info
-from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
+from FFxivPythonTrigger.saint_coinach import action_sheet
 
 from . import api, define, utils
+from .strategies import UseAbility
 
 invincible_effects = {325, 394, 529, 656, 671, 775, 776, 895, 969, 981, 1570, 1697, 1829, 1302, }
 invincible_actor = set()
@@ -60,6 +59,18 @@ class LogicData(object):
                 return api.get_current_target()
             case define.FOCUSED:
                 return api.get_focus_target()
+            case define.DISTANCE_NEAREST:
+                return min(self.valid_enemies,key = self.actor_distance_effective)
+            case define.DISTANCE_FURTHEST:
+                return max(self.valid_enemies,key = self.actor_distance_effective)
+            case define.HP_HIGHEST:
+                return max(self.valid_enemies,key = lambda x: x.current_hp)
+            case define.HP_LOWEST:
+                return min(self.valid_enemies,key = lambda x: x.current_hp)
+            case define.HPP_HIGHEST:
+                return max(self.valid_enemies,key = lambda x: x.current_hp / x.max_hp)
+            case define.HPP_LOWEST:
+                return min(self.valid_enemies,key = lambda x: x.current_hp / x.max_hp)
 
     @cached_property
     def valid_party(self):
@@ -252,3 +263,6 @@ class LogicData(object):
     @cached_property
     def is_pvp(self):
         return utils.is_pvp()
+
+    def use_ability_to_target(self, ability_id):
+        return UseAbility(ability_id, (self.target.id if self.target is not None else self.me.id))

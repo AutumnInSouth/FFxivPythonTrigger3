@@ -1,9 +1,8 @@
 from math import radians
 
-from FFxivPythonTrigger.logger import info
 from FFxivPythonTrigger.utils.shape import sector
-from . import *
-from .. import define as Define, logic_data
+from .. import *
+from ... import define, logic_data
 
 """
 2866：分裂弹
@@ -28,9 +27,9 @@ mch_aoe_angle = radians(90)
 
 
 def is_single(data: logic_data.LogicData) -> bool:
-    if data.config['single'] == Define.FORCE_SINGLE:
+    if data.config['single'] == define.FORCE_SINGLE:
         return True
-    elif data.config['single'] == Define.FORCE_MULTI:
+    elif data.config['single'] == define.FORCE_MULTI:
         return False
     cnt = 0
     mch_aoe = sector(data.me.pos.x, data.me.pos.y, 12, mch_aoe_angle, data.me.target_radian(data.target))
@@ -42,11 +41,11 @@ def is_single(data: logic_data.LogicData) -> bool:
 
 
 def res_lv(data: logic_data.LogicData) -> int:
-    if data.config['resource'] == Define.RESOURCE_SQUAND:
+    if data.config['resource'] == define.RESOURCE_SQUAND:
         return 2
-    elif data.config['resource'] == Define.RESOURCE_NORMAL:
+    elif data.config['resource'] == define.RESOURCE_NORMAL:
         return 1
-    elif data.config['resource'] == Define.RESOURCE_STINGY:
+    elif data.config['resource'] == define.RESOURCE_STINGY:
         return 0
     return 1
 
@@ -62,20 +61,20 @@ class MachinistLogic(Strategy):
         if data.target_distance > 25:
             return
         if data[2876] or not res_use:
-            if data.gcd >= data[16498]: return UseAbility(16498 if single or data.me.level < 72 else 16498)
+            if data.gcd >= data[16498]: return data.use_ability_to_target(16498 if single or data.me.level < 72 else 16498)
         if data[2876] or not res_use or data.me.level < 76:
-            if data.gcd >= data[hsid]: return UseAbility(hsid)
+            if data.gcd >= data[hsid]: return data.use_ability_to_target(hsid)
         if single or data.target_distance > 12 or data.me.level < 18:
             if data.gauge.overheat_ms and data.me.level >= 35:
-                return UseAbility(7410)
+                return data.use_ability_to_target(7410)
             elif data.combo_id == 2866 and data.me.level >= 2:
-                return UseAbility(2868)
+                return data.use_ability_to_target(2868)
             elif data.combo_id == 2868 and data.me.level >= 26:
-                return UseAbility(2873)
+                return data.use_ability_to_target(2873)
             else:
-                return UseAbility(2866)
+                return data.use_ability_to_target(2866)
         else:
-            return UseAbility(16497 if data.gauge.overheat_ms and data.me.level >= 52 else 2870)
+            return data.use_ability_to_target(16497 if data.gauge.overheat_ms and data.me.level >= 52 else 2870)
 
     def non_global_cool_down_ability(self, data: logic_data.LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
         hsid = 2872 if data.me.level < 76 else 16500
@@ -83,27 +82,27 @@ class MachinistLogic(Strategy):
         if data.target_distance > 25:
             return
         if min(data[2874], data[2890]) < 15:
-            return UseAbility(2874) if data[2874] <= data[2890] else UseAbility(2890)
+            return data.use_ability_to_target(2874) if data[2874] <= data[2890] else data.use_ability_to_target(2890)
         if not res_use: return
         if data.gauge.battery >= 90:
-            return UseAbility(2864)
+            return data.use_ability_to_target(2864)
         if not data[2876]:
             if data[16498] < data.gcd:
                 data.reset_cd(16498)
-                return UseAbility(2876)
+                return data.use_ability_to_target(2876)
             elif data[hsid] < data.gcd and data.me.level > 76:
                 data.reset_cd(hsid)
-                return UseAbility(2876)
+                return data.use_ability_to_target(2876)
         can_over = not data.gauge.overheat_ms and data[16498] > 8 and data[hsid] > 8 and data.combo_remain > 11 and data.gauge.heat >= 50
         if can_over and not data[2878] and not data.ability_cnt:
-            return UseAbility(2878)
+            return data.use_ability_to_target(2878)
         if can_over and data[2878] > 8:
             if data.ability_cnt and data.gcd > 1.3:
                 return
             elif data.gcd <= 1.3:
-                return UseAbility(17209)
-        if data.gauge.heat < 50 and not data[7414]: return UseAbility(7414)
+                return data.use_ability_to_target(17209)
+        if data.gauge.heat < 50 and not data[7414]: return data.use_ability_to_target(7414)
         if min(data[2874], data[2890]) < 60:
-            return UseAbility(2874) if data[2874] <= data[2890] else UseAbility(2890)
+            return data.use_ability_to_target(2874) if data[2874] <= data[2890] else data.use_ability_to_target(2890)
         if data.gauge.battery >= 50:
-            return UseAbility(2864)
+            return data.use_ability_to_target(2864)
