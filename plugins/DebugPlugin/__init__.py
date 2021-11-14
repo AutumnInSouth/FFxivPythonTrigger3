@@ -11,9 +11,9 @@ class DebugPlugin(PluginBase):
         if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
 
-    #@re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
-        self.logger.debug(evt.id, evt)
+        self.logger.debug(evt.id, evt,len(evt.raw_message))
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):
