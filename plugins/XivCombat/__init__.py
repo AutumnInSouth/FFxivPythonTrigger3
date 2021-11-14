@@ -6,7 +6,8 @@ from importlib import import_module
 from inspect import isclass
 from threading import Lock
 
-from FFxivPythonTrigger import PluginBase, AddressManager
+from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException
+from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
@@ -15,6 +16,8 @@ from FFxivPythonTrigger.text_pattern import find_unique_signature_point, find_un
 
 from . import define, strategies, api, logic_data, utils
 from .utils import is_area_action, use_ability
+
+command = "@acombat"
 
 ERR_LIMIT = 20
 default_common_config = {
@@ -91,6 +94,8 @@ class XivCombat(PluginBase):
         self.work_lock = Lock()
         self.ability_cnt = 0
         self.err_count = 0
+
+        self.register_command()
 
     def start(self):
         self.work = True
@@ -253,3 +258,34 @@ class XivCombat(PluginBase):
         data = logic_data.LogicData(self.common_config | self.strategy_config)
         data.ability_cnt = self.ability_cnt
         return data
+
+    @event("plugin_load:Command")
+    def register_command(self, _):
+        try:
+            plugins.Command.register(self, command, self.process_cmd)
+        except PluginNotFoundException:
+            self.logger.warning("Command is not found")
+
+    def process_cmd(self, args):
+        try:
+            self._process_cmd(args)
+        except Exception as e:
+            self.logger.error(str(e))
+            self.logger.error(traceback.format_exc())
+
+    def _process_cmd(self, args):
+        if len(args) == 0:
+            return self.logger.info(self.common_config | self.strategy_config)
+        match args[0]:
+            case 'set':
+                match args[1]:
+                    case 'pair':
+                        self.current_strategy = args[2]
+                    case 'common':
+                        self.common_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                    case 'strategy':
+                        self.strategy_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                    case unk:
+                        self.logger.error(f"unknown arg: {unk}")
+            case unk:
+                self.logger.error(f"unknown arg: {unk}")
