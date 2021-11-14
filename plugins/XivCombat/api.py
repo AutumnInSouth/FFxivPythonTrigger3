@@ -51,7 +51,7 @@ def get_party_list(alliance_all=False):
 
 
 def get_can_select():
-    return [actor for actor in plugins.XivMemory.actor_table.get_item() if actor.can_select]
+    return [actor for actor in plugins.XivMemory.actor_table if actor.can_select]
 
 
 def get_current_target():

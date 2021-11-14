@@ -60,16 +60,22 @@ class LogicData(object):
             case define.FOCUSED:
                 return api.get_focus_target()
             case define.DISTANCE_NEAREST:
+                if not self.valid_enemies:return None
                 return min(self.valid_enemies,key = self.actor_distance_effective)
             case define.DISTANCE_FURTHEST:
+                if not self.valid_enemies:return None
                 return max(self.valid_enemies,key = self.actor_distance_effective)
             case define.HP_HIGHEST:
+                if not self.valid_enemies:return None
                 return max(self.valid_enemies,key = lambda x: x.current_hp)
             case define.HP_LOWEST:
+                if not self.valid_enemies:return None
                 return min(self.valid_enemies,key = lambda x: x.current_hp)
             case define.HPP_HIGHEST:
+                if not self.valid_enemies:return None
                 return max(self.valid_enemies,key = lambda x: x.current_hp / x.max_hp)
             case define.HPP_LOWEST:
+                if not self.valid_enemies:return None
                 return min(self.valid_enemies,key = lambda x: x.current_hp / x.max_hp)
 
     @cached_property

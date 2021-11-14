@@ -282,9 +282,15 @@ class XivCombat(PluginBase):
                     case 'pair':
                         self.current_strategy = args[2]
                     case 'common':
-                        self.common_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                        try:
+                            self.common_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                        except:
+                            self.common_config[args[2]] = ' '.join(args[3:])
                     case 'strategy':
-                        self.strategy_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                        try:
+                            self.strategy_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                        except:
+                            self.strategy_config[args[2]] = ' '.join(args[3:])
                     case unk:
                         self.logger.error(f"unknown arg: {unk}")
             case unk:
