@@ -1,8 +1,8 @@
 from math import radians
 
 from FFxivPythonTrigger.utils.shape import sector
-from .. import *
-from ... import define, logic_data
+from XivCombat.strategies import *
+from XivCombat import define, logic_data
 
 """
 2866：分裂弹

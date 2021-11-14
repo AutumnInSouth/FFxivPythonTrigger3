@@ -2,8 +2,8 @@ from math import radians
 
 from FFxivPythonTrigger.logger import debug
 from FFxivPythonTrigger.utils.shape import sector, circle
-from .. import *
-from ... import define
+from XivCombat.strategies import *
+from XivCombat import define
 
 """
 7503,摇荡,2
@@ -117,61 +117,64 @@ class RDMLogic(Strategy):
             elif not data.is_moving:
                 return UseAbility(7514, data.me.id)
             elif not data[7561]:
-                return data.use_ability_to_target(7561)
+                return UseAbility(7561)
 
         if dis > 25 or not data.valid_enemies: return
 
         if data.me.level >= 52 and count_enemy(data, 2) > 2 and min_mana >= (90 if not res else 20 if data[7521] else 50):
-            return data.use_ability_to_target(7513)  # 人数够了就画圆
+            return UseAbility(7513)  # 人数够了就画圆
 
         # 处理魔连击开始
         if data.combo_id == 7504 and lv >= 35:
-            return data.use_ability_to_target(7512) if dis < 4 else None
+            return UseAbility(7512) if dis < 4 else None
         elif data.combo_id == 7512 and lv >= 50:
-            return data.use_ability_to_target(7516) if dis < 4 else None
+            return UseAbility(7516) if dis < 4 else None
         elif data.combo_id == 7529 and lv >= 68:
-            if lv < 70: return data.use_ability_to_target(7525)
+            if lv < 70: return UseAbility(7525)
             if data.gauge.white_mana == data.gauge.black_mana:
-                if 1234 in data.effects: return data.use_ability_to_target(7526)
-                if 1235 in data.effects: return data.use_ability_to_target(7525)
-            return data.use_ability_to_target(7526 if use_white else 7525)
+                if 1234 in data.effects: return UseAbility(7526)
+                if 1235 in data.effects: return UseAbility(7525)
+            return UseAbility(7526 if use_white else 7525)
         elif (data.combo_id == 7525 or data.combo_id == 7526) and lv >= 80:
-            return data.use_ability_to_target(16530)
+            return UseAbility(16530)
         # 处理魔连击结束
 
         if min_mana >= 5 and data.me.level >= 76:  # 续斩处理溢出魔元、走位
-            if max_mana >= (90 if res else 97) and dis > 10: return data.use_ability_to_target(16529)
+            if max_mana >= (90 if res else 97) and dis > 10: return UseAbility(16529)
             # if res and data.is_moving and not has_swift:
             #     if data.gcd:
             #         return None
             #     else:
-            #         return data.use_ability_to_target(16529)  # 续斩处理溢出魔元、走位
+            #         return UseAbility(16529)  # 续斩处理溢出魔元、走位
 
         cnt = count_enemy(data, 0)
+        prepare = {1234, 1235}.intersection(data.effects.keys())
         if has_swift:  # 有瞬发
             if swift_res_target is not None and data.me.current_mp >= 2400:
                 debug('swift_res', swift_res_target.name, hex(swift_res_target.id))
                 return UseAbility(7523, swift_res_target.id)
             if lv >= 15 and cnt > (1 if lv >= 66 else 2):
-                return data.use_ability_to_target(7509)  # aoe 散碎、冲击
+                return UseAbility(7509)  # aoe 散碎、冲击
             if lv >= 4:
-                return data.use_ability_to_target(7507 if use_white and lv >= 10 else 7505)  # 闪雷、疾风
+                if len(prepare) == 1:
+                    return UseAbility(7507 if next(iter(prepare)) == 1234 else 7505)
+                else:
+                    return UseAbility(7507 if data.gauge.white_mana < data.gauge.black_mana and lv >= 10 else 7505)
 
         if (lv < 2 or res and min_mana >= (80 if lv >= 50 else 55 if lv >= 35 else 30)) and dis < 4:
-            return data.use_ability_to_target(7516)  # 魔回刺、判断是否适合开始魔连击
+            return UseAbility(7516)  # 魔回刺、判断是否适合开始魔连击
 
         if not data.is_moving and lv >= 2:
             if cnt > 2 and lv >= 18:
-                return data.use_ability_to_target(16525 if use_white and lv >= 22 else 16524)
-            if use_white:
-                if 1234 in data.effects: return data.use_ability_to_target(7510)
-                if 1235 in data.effects: return data.use_ability_to_target(7511)
-            else:
-                if 1235 in data.effects: return data.use_ability_to_target(7511)
-                if 1234 in data.effects: return data.use_ability_to_target(7510)
-            return data.use_ability_to_target(7503)
+                return UseAbility(16525 if use_white and lv >= 22 else 16524)
+
+            if len(prepare) == 2:
+                return UseAbility(7511 if data.gauge.white_mana < data.gauge.black_mana else 7510)
+            if 1235 in prepare: return UseAbility(7511)
+            if 1234 in prepare: return UseAbility(7510)
+            return UseAbility(7503)
         # else:
-        #     return data.use_ability_to_target(7561)  # 即刻
+        #     return UseAbility(7561)  # 即刻
 
     def non_global_cool_down_ability(self, data: 'LogicData'):
 
@@ -180,11 +183,11 @@ class RDMLogic(Strategy):
 
         if res_lv(data) and data.target_distance < 20:
             if not data[7521] and 40 <= min_mana <= 60 and data.combo_id not in combos:
-                if not data[7506] and data.target_distance < 1: return data.use_ability_to_target(7506)
-                if not data[16527] and data.target_distance < 3: return data.use_ability_to_target(16527)
-                return data.use_ability_to_target(7521)  # 倍增
-            if not data[7518] and min_mana < 60: return data.use_ability_to_target(7518)  # 促进
-            if not data[7520] and min_mana >= (50 if count_enemy(data, 2) < 3 else 20): return data.use_ability_to_target(7520)  # 鼓励
-            if not data[7517]: return data.use_ability_to_target(7517)  # 飞刺
-            if not data[7519]: return data.use_ability_to_target(7519)  # 六分
-        if not data[7562] and data.me.current_mp < 7000: return data.use_ability_to_target(7562)  # 醒梦
+                if not data[7506] and data.target_distance < 1: return UseAbility(7506)
+                if not data[16527] and data.target_distance < 3: return UseAbility(16527)
+                return UseAbility(7521)  # 倍增
+            if not data[7518] and min_mana < 60: return UseAbility(7518)  # 促进
+            if not data[7520] and min_mana >= (50 if count_enemy(data, 2) < 3 else 20): return UseAbility(7520)  # 鼓励
+            if not data[7517]: return UseAbility(7517)  # 飞刺
+            if not data[7519]: return UseAbility(7519)  # 六分
+        if not data[7562] and data.me.current_mp < 7000: return UseAbility(7562)  # 醒梦

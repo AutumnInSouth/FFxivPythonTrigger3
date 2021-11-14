@@ -18,6 +18,37 @@ def get_data(data, full=False):
     return data
 
 
+def obj_set_item(obj, _t, key, val):
+    if isclass(_t):
+        if issubclass(_t, _OffsetStruct):
+            obj[key] = _t.from_dict(val)
+            return
+        elif issubclass(_t, Array):
+            _bt = _t._type_
+            for i, v in enumerate(val):
+                obj_set_item(obj[key], _t._type_, i, v)
+            return
+        elif issubclass(_t, _EnumStruct):
+            obj[key].value = val
+            return
+    obj[key] = val
+
+
+def obj_set_attr(obj, _t, key, val):
+    if isclass(_t):
+        if issubclass(_t, _OffsetStruct):
+            return setattr(obj, key, _t.from_dict(val))
+        elif issubclass(_t, Array):
+            _bt = _t._type_
+            for i, v in enumerate(val):
+                obj_set_item(getattr(obj, key), _t._type_, i, v)
+            return
+        elif issubclass(_t, _EnumStruct):
+            getattr(obj, key).value = val
+            return
+    setattr(obj, key, val)
+
+
 class _OffsetStruct(Structure):
     _pack_ = 1
     raw_fields: Dict[str, Tuple[any, int]] = None
@@ -32,14 +63,7 @@ class _OffsetStruct(Structure):
         new_obj = cls()
         for key, _t in cls._fields_:
             if key in data:
-                if isclass(_t):
-                    if issubclass(_t, _OffsetStruct):
-                        setattr(new_obj, key, _t.from_dict(data[key]))
-                        continue
-                    elif issubclass(_t, _EnumStruct):
-                        getattr(new_obj, key).value = data[key]
-                        continue
-                setattr(new_obj, key, data[key])
+                obj_set_attr(new_obj, _t, key, data[key])
         return new_obj
 
     def __str__(self):
