@@ -46,6 +46,15 @@ class Coordinate(object):
         self.coordinate_main.z = value
         self.coordinate_fly.z = value
 
+    @property
+    def r(self):
+        return self.coordinate_main.r
+
+    @r.setter
+    def r(self, value):
+        self.coordinate_main.r = value
+        self.coordinate_fly.r = value
+
     def from_obj(self, other):
         self.x = other.x
         self.y = other.y

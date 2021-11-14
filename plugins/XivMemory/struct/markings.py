@@ -1,7 +1,7 @@
 from ctypes import *
 
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.popular_struct import Vector3, Position
+from FFxivPythonTrigger.popular_struct import Vector3
 from .actor import Actor
 
 head_marking_names = ['attack1', 'attack2', 'attack3', 'attack4', 'attack5',
@@ -47,30 +47,26 @@ class WayMarkStruct(OffsetStruct({
         self._z = int(value * 1000)
 
     def set(self, other):
-        if isinstance(other, (Vector3, Position)):
-            self.x = other.x
-            self.y = other.y
-            self.z = other.z
-        elif isinstance(other, tuple):
+        if isinstance(other, tuple):
             x, y, z = other
             self.x = x
             self.y = y
             self.z = z
         else:
-            raise ValueError("Only allow Vector3, Position or tuple of float")
+            self.x = other.x
+            self.y = other.y
+            self.z = other.z
 
     def add(self, other):
-        if isinstance(other, (Vector3, Position)):
-            self.x += other.x
-            self.y += other.y
-            self.z += other.z
-        elif isinstance(other, tuple):
+        if isinstance(other, tuple):
             x, y, z = other
             self.x += x
             self.y += y
             self.z += z
         else:
-            raise ValueError("Only allow Vector3, Position or tuple of float")
+            self.x += other.x
+            self.y += other.y
+            self.z += other.z
 
 
 class LocalWayMarks(OffsetStruct({
