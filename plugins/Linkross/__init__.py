@@ -83,7 +83,9 @@ class Linkross(PluginBase):
         confirm_rule_2(event_id)
         deck = solver.get_deck()
         self.logger(",".join([f"{card.card_id}:{card.name}[{card.card_type}]({card.stars})" for card in [Card.get_card(cid) for cid in deck]]))
-        data = choose_cards(event_id, list(deck)).struct_message
+        import ctypes
+        deck_list = list(deck)
+        data = choose_cards(event_id, (ctypes.c_ulong * len(deck_list))(*deck_list)).struct_message
         game = Game(BLUE if data.blue_first else RED, data.blue_card, data.red_card, data.rules[:])
         r_data = place_card(event_id, game.round, *(solver.solve(game, data.force_hand_id) if game.current_player == BLUE else [])).struct_message
         game.place_card(r_data.block_id, r_data.hand_id, r_data.card_id)
