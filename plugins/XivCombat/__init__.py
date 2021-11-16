@@ -94,6 +94,7 @@ class XivCombat(PluginBase):
         self.work_lock = Lock()
         self.ability_cnt = 0
         self.err_count = 0
+        self.spell_queue = []
 
         self.register_command()
 
@@ -209,7 +210,12 @@ class XivCombat(PluginBase):
             if to_use is not None:
                 return to_use
             if data.gcd < 0.2:
+                if self.spell_queue:
+                    return self.spell_queue[0]
                 to_use = strategy.global_cool_down_ability(data)
+                if isinstance(to_use, list):
+                    self.spell_queue.extend(to_use[1:])
+                    return to_use[0]
                 if to_use is not None: return to_use
             if process_non_gcd:
                 return strategy.non_global_cool_down_ability(data)
@@ -234,6 +240,8 @@ class XivCombat(PluginBase):
         # 获取决策行为
         to_use = self.get_to_use(data, strategy)
         if to_use is not None:
+            if self.spell_queue:
+                self.spell_queue.pop(0)
             if to_use.target_id is None:
                 target = data.target
                 to_use.target_id = data.me.id if target is None else target.id
