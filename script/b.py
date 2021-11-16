@@ -26,8 +26,7 @@ for action in action_with_omen:
         27, 152, 165, 251  # 扩散
     }:
         action_idx.setdefault(key, []).append(action)
-    action_idx.setdefault(action['Name'], {}).setdefault(key, []).append(action)
-
+    action_name_idx.setdefault(action['Name'], {}).setdefault(key, []).append(action)
 
 def find_reflect(action_id):
     if not action_id % 1000: print(action_id)
@@ -43,7 +42,12 @@ def find_reflect(action_id):
     # print(action_id, action_data, select, ';', ','.join(a['Name'] for a in allow_action))
     return select.key
 
+#print(find_reflect(22294))
+
 
 d = {action.key: white_list.get(action.key) or find_reflect(action.key) for action in action_sheet}
 d = {a1: a2 for a1, a2 in d.items() if a1 != a2}
-print(d)
+import pprint
+with open('reflect.py','w')as f:
+    f.write('reflect_data = '+pprint.pformat(d, indent=4))
+
