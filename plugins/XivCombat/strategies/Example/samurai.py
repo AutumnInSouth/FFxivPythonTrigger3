@@ -36,8 +36,8 @@ class SamuraiLogic(Strategy):
         higanbana_remain = target_effects[samurai_auras['Higanbana']].timer if samurai_auras['Higanbana'] in target_effects else 0
 
         # huh, less codes, better codes
-        def use_ability_to_target(spell_name: str):
-            return data.use_ability_to_target(samurai_spells[spell_name]['id'])
+        def use_ability_to_target(spell_name: str, ability_type: str = None):
+            return data.use_ability_to_target(samurai_spells[spell_name]['id'], ability_type)
 
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
@@ -61,7 +61,7 @@ class SamuraiLogic(Strategy):
                     return use_ability_to_target('MidareSetsugekka')
                 if samurai_auras['Kaiten'] not in effects and jinpu_remain > 0:
                     if kenki >= 20:
-                        return use_ability_to_target('HissatsuKaiten')
+                        return use_ability_to_target('HissatsuKaiten', 'oGCD')
                     else:
                         # TODO: to collect kenki, we'd better consider player's facing
                         return use_ability_to_target('Hakaze')
@@ -75,7 +75,7 @@ class SamuraiLogic(Strategy):
                 if samurai_auras['Kaiten'] in effects:
                     return use_ability_to_target('MidareSetsugekka')
                 if kenki >= 20:
-                    return use_ability_to_target('HissatsuKaiten')
+                    return use_ability_to_target('HissatsuKaiten', 'oGCD')
                 # sadly, we do not have enough kenki, go get some!
                 elif combo_id == samurai_spells['Shifu']['id']:
                     return use_ability_to_target('Kasha')
@@ -93,7 +93,7 @@ class SamuraiLogic(Strategy):
             if samurai_auras['Kaiten'] in effects:
                 return use_ability_to_target('Higanbana')
             if kenki >= 20:
-                return use_ability_to_target('HissatsuKaiten')
+                return use_ability_to_target('HissatsuKaiten', 'oGCD')
             elif combo_id == samurai_spells['Shifu']['id']:
                 return use_ability_to_target('Kasha')
             elif combo_id == samurai_spells['Jinpu']['id']:

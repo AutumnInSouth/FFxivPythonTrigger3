@@ -218,6 +218,10 @@ class XivCombat(PluginBase):
                     return to_use[0]
                 if to_use is not None: return to_use
             if process_non_gcd:
+                # TODO: predict once per gcd
+                predict = strategy.global_cool_down_ability(data)
+                if predict.ability_type == 'oGCD':
+                    return predict
                 return strategy.non_global_cool_down_ability(data)
 
     def process(self) -> float:

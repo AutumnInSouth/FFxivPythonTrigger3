@@ -17,9 +17,11 @@ class _Using(object):
 
 
 class UseAbility(_Using):
-    def __init__(self, ability_id: int, target_id: int = None):
+    # TODO: ENUM ability_type
+    def __init__(self, ability_id: int, target_id: int = None, ability_type: str = None):
         self.ability_id = ability_id
         self.target_id = target_id
+        self.ability_type = ability_type
 
 
 class UseItem(_Using):
