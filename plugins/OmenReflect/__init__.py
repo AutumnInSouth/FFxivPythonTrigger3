@@ -2,7 +2,7 @@ from ctypes import *
 from FFxivPythonTrigger import PluginBase
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR, read_uint
-from .reflect2 import reflect_data
+from .reflect import reflect_data
 
 
 class OmenReflect(PluginBase):
