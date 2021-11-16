@@ -131,7 +131,7 @@ class SamuraiLogic(Strategy):
         kenki = data.gauge.kenki
         gcd = data.gcd
 
-        if kenki < 50 and skill_cd('Ikishoten'):
+        if kenki < 50 and skill_cd('Ikishoten') == 0:
             return use_ability_to_target('Ikishoten')
 
         if gauge.meditation > 2:
