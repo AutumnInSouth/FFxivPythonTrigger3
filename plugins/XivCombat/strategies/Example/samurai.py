@@ -17,8 +17,6 @@ class SamuraiLogic(Strategy):
     fight_only = False
     job = 'Samurai'
     default_data = {}
-    KaeshiSetsugekka_flag = False
-    HissatsuKaiten_flag = False
 
     def global_cool_down_ability(self, data: 'LogicData'):
 
@@ -37,6 +35,12 @@ class SamuraiLogic(Strategy):
         def use_ability_to_target(spell_name: str):
             return data.use_ability_to_target(samurai_spells[spell_name]['id'])
 
+        def skill_cd(skill_name: str):
+            return data.skill_cd(samurai_spells[skill_name]['id'])
+        
+        if gauge.prev_kaeshi_lv == 3 and skill_cd('Tsubamegaeshi') == 0:
+            return use_ability_to_target('Tsubamegaeshi')
+
         # in case we have MeikyoShisui aura -- a rather simple situation
         if samurai_auras['MeikyoShisui'] in effects:
             execution_left = effects[samurai_auras['MeikyoShisui']].param
@@ -53,8 +57,7 @@ class SamuraiLogic(Strategy):
                     return use_ability_to_target('MidareSetsugekka')
                 if samurai_auras['Kaiten'] not in effects and samurai_auras['Jinpu'] in effects:
                     if kenki >= 20:
-                        self.HissatsuKaiten_flag = True
-                        return use_ability_to_target('HissatsuKaiten')
+                        return [use_ability_to_target('HissatsuKaiten'), use_ability_to_target('MidareSetsugekka')]
                     else:
                         # TODO: to collect kenki, we'd better consider player's facing
                         return use_ability_to_target('Hakaze')
@@ -68,8 +71,7 @@ class SamuraiLogic(Strategy):
                 if samurai_auras['Kaiten'] in effects:
                     return use_ability_to_target('MidareSetsugekka')
                 if kenki >= 20:
-                    self.HissatsuKaiten_flag = True
-                    return use_ability_to_target('HissatsuKaiten')
+                    return [use_ability_to_target('HissatsuKaiten'), use_ability_to_target('MidareSetsugekka')]
                 # sadly, we do not have enough kenki, go get some!
                 elif combo_id == samurai_spells['Shifu']['id']:
                     return use_ability_to_target('Kasha')
@@ -121,7 +123,29 @@ class SamuraiLogic(Strategy):
         def use_ability_to_target(spell_name: str):
             return data.use_ability_to_target(samurai_spells[spell_name]['id'])
 
+        def skill_cd(skill_name: str):
+            return data.skill_cd(samurai_spells[skill_name]['id'])
+
+        gauge = data.gauge
+        effects = data.effects
+        kenki = data.gauge.kenki
+        gcd = data.gcd
+
+        if kenki < 50 and skill_cd('Ikishoten'):
+            return use_ability_to_target('Ikishoten')
+
+        if gauge.meditation > 2:
+            return use_ability_to_target('Shoha')
+
+        if samurai_auras['Jinpu'] in effects and kenki >= 70 and skill_cd('HissatsuSenei') == 0:
+            return use_ability_to_target('HissatsuSenei')
+
+        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd('HissatsuSenei') > 6 * gcd or kenki >= 85) and \
+            kenki >= 35 and \
+            samurai_auras['Kaiten'] in effects:
+            return use_ability_to_target('HissatsuSeigan')
+
+        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd('HissatsuSenei') > 6 * gcd or kenki >= 95) and kenki >= 45:
+            return use_ability_to_target('HissatsuShinten')
         # To make a decision, we need quit a lot information
-        if self.HissatsuKaiten_flag:
-            return use_ability_to_target('HissatsuKaiten')
 
