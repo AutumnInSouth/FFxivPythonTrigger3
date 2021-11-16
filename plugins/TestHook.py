@@ -31,7 +31,7 @@ class TestHook(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def cast_hook2(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
-        return hook.original(source_actor_ptr, skill_type, 22129, pos, facing, a6)
+        return hook.original(source_actor_ptr, skill_type, 22474, pos, facing, a6)
 
     """void __fastcall sub_1406EDF70(__int64 *source_actor, unsigned __int16 *pos_ptr, __int64 action_omen, float a4)"""
 

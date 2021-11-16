@@ -6,6 +6,9 @@ black_lists = {
 white_list = {
     22748: 229,  # 空无的恶意e12s
     22129: 2,  # 闪光e11s
+    16524: 1,
+    16525: 1,  # 赤烈风rdm
+    16526: 1,  # 赤震雷rdm
 }
 realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 action_sheet = realm.game_data.get_sheet('Action')
