@@ -10,9 +10,11 @@ class OmenReflect(PluginBase):
 
     def __init__(self):
         super().__init__()
-        self.omen_hook(self, BASE_ADDR + 0x6E8CA0)
+        self.omen_data_hook(self, BASE_ADDR + 0x6764B0)
 
-    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
-    def omen_hook(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
-        action_id = reflect_data.get(action_id, action_id) if read_uint(source_actor_ptr + 0x74) > 0x20000000 else action_id
-        return hook.original(source_actor_ptr, skill_type, reflect_data.get(action_id, action_id), pos, facing, a6)
+    @PluginHook.decorator(c_int64, [c_int64], True)
+    def omen_data_hook(self, hook, action_id):
+        ans = hook.original(action_id)
+        if action_id in reflect_data:
+            cast(ans, POINTER(c_ubyte))[24] = reflect_data[action_id]
+        return ans

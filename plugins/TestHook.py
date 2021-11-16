@@ -18,7 +18,7 @@ class TestHook(PluginBase):
         # self.omen_hook1(self, BASE_ADDR + 0x6EDF70)
         # self.omen_hook1(self, BASE_ADDR + 0x6EDF79)
         # self.omen_hook2(self, BASE_ADDR + 0x6EE2B0)
-        # self.omen_data_hook(self, BASE_ADDR + 0x6764B0)
+        #self.omen_data_hook(self, BASE_ADDR + 0x6764B0)
         self.cast_omen_reflect = {}
 
     @PluginHook.decorator(c_int64, [c_uint, c_int64], True)
@@ -31,18 +31,7 @@ class TestHook(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def cast_hook2(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
-        action_id = 3889
-        # if action_id in {3615,16555}:
-        #     action_id = 4157
-        # n_facing = math.degrees(facing) - 90
-        # if n_facing > 180:n_facing -= 360
-        # elif n_facing < -180:n_facing += 360
-        # facing = math.radians(n_facing)
-        ans = hook.original(source_actor_ptr, skill_type, action_id, pos, facing, a6)
-        _pos = ','.join(f"{pos[i] * 0.0305 - 1000:.2f}" for i in range(3))
-        self.logger('cast_hook2', hex(ans), '<-', hex(source_actor_ptr), action_names.get(action_id), hex(skill_type), action_id, _pos,
-                    math.degrees(facing), a6)
-        return ans
+        return hook.original(source_actor_ptr, skill_type, 22129, pos, facing, a6)
 
     """void __fastcall sub_1406EDF70(__int64 *source_actor, unsigned __int16 *pos_ptr, __int64 action_omen, float a4)"""
 
@@ -65,22 +54,9 @@ class TestHook(PluginBase):
     @PluginHook.decorator(c_int64, [c_int64], True)
     @err_catch
     def omen_data_hook(self, hook, action_id):
-        self.cnt += 1
-        if self.cnt > 10: hook.uninstall()
-        if action_id not in self.omen_data:
-            data = (c_ubyte * 112).from_buffer(read_ubytes(hook.original(action_id), 112))
-            match data[35]:
-                case t if 0 < t < 8:
-                    data[24] = 1
-                case 8:
-                    data[24] = 2
-                case 10:
-                    data[24] = 15
-                case 12:
-                    data[24] = 2
-                case 13:
-                    data[24] = 3
-            self.omen_data[action_id] = data
-        data = self.omen_data[action_id]
-        self.logger(action_id, data[35], data[34])
-        return byref(self.omen_data[action_id])
+        ans=hook.original(action_id)
+        data = cast(ans, POINTER(c_ubyte))
+        match data[35]:
+            case t if 0 < t < 8:
+                data[24] = c_ubyte(1)
+        return ans
