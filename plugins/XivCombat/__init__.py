@@ -203,7 +203,7 @@ class XivCombat(PluginBase):
 
     def get_to_use(self, data: logic_data.LogicData, strategy: strategies.Strategy):
         if data.gcd < 0.2: self.ability_cnt = 0
-        process_non_gcd = data.gcd > 0.8 and self.ability_cnt < (data.gcd_total // 0.6) - 1 or data.gcd == 0
+        process_non_gcd = data.gcd > 0.8 and self.ability_cnt < (data.gcd_total // 0.65) - 1 or data.gcd == 0
         if strategy is not None and (not strategy.fight_only or data.valid_enemies):
             to_use = strategy.common_ability(data)
             if to_use is not None:
