@@ -13,6 +13,14 @@ samurai_auras = {
 }
 
 
+def at_most_N_gcds_in_time_period(time_period, N, gcd):
+    return N * gcd <= time_period < (N + 1) * gcd
+
+
+def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
+    return A * gcd <= time_period < B * gcd
+
+
 class SamuraiLogic(Strategy):
     name = "samurai_logic"
     fight_only = False
@@ -41,6 +49,16 @@ class SamuraiLogic(Strategy):
 
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
+
+        def next_combo():
+            if combo_id == samurai_spells['Shifu']['id']:
+                return use_ability_to_target('Kasha')
+            elif combo_id == samurai_spells['Jinpu']['id']:
+                return use_ability_to_target('Gekko')
+            elif combo_id == samurai_spells['Hakaze']['id']:
+                return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
+            else:
+                return use_ability_to_target('Hakaze')
         
         if gauge.prev_kaeshi_lv == 3 and skill_cd('Tsubamegaeshi') == 0:
             return use_ability_to_target('Tsubamegaeshi')
@@ -63,45 +81,38 @@ class SamuraiLogic(Strategy):
                     if kenki >= 20:
                         return use_ability_to_target('HissatsuKaiten', 'oGCD')
                     else:
-                        # TODO: to collect kenki, we'd better consider player's facing
-                        return use_ability_to_target('Hakaze')
+                        return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
 
         # second, if now we got 3 sens, consider using midare setsugekka
         if num_sen == 3:
+            # special cases, kaeshi setsugekka very close but not ready
+            if time_period_between_A_and_B_times_of_gcd(skill_cd('Tsubamegaeshi'), 1, 3, self.gcd):
+                return next_combo()
             # if we got Jinpu aura
             if jinpu_remain > 0:
-                # TODO: in some special case, we may wait for kaeshi setsugekka
                 # if kenki is enough for Kaiten, Midare Setsugekka!
                 if samurai_auras['Kaiten'] in effects:
                     return use_ability_to_target('MidareSetsugekka')
                 if kenki >= 20:
                     return use_ability_to_target('HissatsuKaiten', 'oGCD')
                 # sadly, we do not have enough kenki, go get some!
-                elif combo_id == samurai_spells['Shifu']['id']:
-                    return use_ability_to_target('Kasha')
-                elif combo_id == samurai_spells['Jinpu']['id']:
-                    return use_ability_to_target('Gekko')
-                elif combo_id == samurai_spells['Hakaze']['id']:
-                    return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
                 else:
-                    return use_ability_to_target('Hakaze')
+                    return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
             # if we do not have Jinpu aura, go get it!
             else:
                 return use_ability_to_target('Jinpu' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
 
-        if num_sen == 1 and jinpu_remain > 0 and higanbana_remain < self.gcd * 2:
-            if samurai_auras['Kaiten'] in effects:
-                return use_ability_to_target('Higanbana')
-            if kenki >= 20:
-                return use_ability_to_target('HissatsuKaiten', 'oGCD')
-            elif combo_id == samurai_spells['Shifu']['id']:
-                return use_ability_to_target('Kasha')
-            elif combo_id == samurai_spells['Jinpu']['id']:
-                return use_ability_to_target('Gekko')
-            elif combo_id == samurai_spells['Hakaze']['id']:
-                return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
-            else:
-                return use_ability_to_target('Hakaze')
+        if num_sen == 1:
+            if time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd):
+                if jinpu_remain > 0:
+                    if samurai_auras['Kaiten'] in effects:
+                        return use_ability_to_target('Higanbana')
+                    if kenki >= 20:
+                        return use_ability_to_target('HissatsuKaiten', 'oGCD')
+                    else:
+                        return next_combo()
+            elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 3, 5, self.gcd):
+                return use_ability_to_target('Hagakure', 'oGCD')
         
         # third, in general, if we are in middle of a combo, we finish it
         if combo_id == samurai_spells['Shifu']['id']:
@@ -120,6 +131,8 @@ class SamuraiLogic(Strategy):
             return use_ability_to_target('Hakaze')
 
         if skill_cd('MeikyoShisui') == 0:
+            if time_period_between_A_and_B_times_of_gcd(skill_cd('Tsubamegaeshi'), 4 - num_sen, 6 - num_sen, self.gcd):
+                return next_combo()
             return use_ability_to_target('MeikyoShisui', 'oGCD')
         # special case: catch up with kaeshi setsugekka
 
@@ -129,7 +142,7 @@ class SamuraiLogic(Strategy):
 
         # basically, go get sens
         if combo_id == samurai_spells['Hakaze']['id']:
-            # consider use yukikaze first
+            # consider to use yukikaze first
             if not gauge.snow:
                 return use_ability_to_target('Yukikaze')
             if not gauge.moon:
