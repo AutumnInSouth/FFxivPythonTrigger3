@@ -1,0 +1,1 @@
+from .samurai import SamuraiLogic

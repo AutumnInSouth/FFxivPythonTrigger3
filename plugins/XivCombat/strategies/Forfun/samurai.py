@@ -161,6 +161,7 @@ class SamuraiLogic(Strategy):
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
 
+        # To make a decision, we need quit a lot information
         gauge = data.gauge
         effects = data.effects
         kenki = data.gauge.kenki
@@ -183,5 +184,5 @@ class SamuraiLogic(Strategy):
 
         if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd('HissatsuSenei') > 6 * self.gcd or kenki >= 95) and kenki >= 45:
             return use_ability_to_target('HissatsuShinten')
-        # To make a decision, we need quit a lot information
+
 

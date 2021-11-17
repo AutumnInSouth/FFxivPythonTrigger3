@@ -59,6 +59,7 @@ action_type_check_interface = CFUNCTYPE(c_bool, c_int64, c_int64, c_uint64)
 action_distance_check_interface = CFUNCTYPE(c_int64, c_uint, c_int64, c_int64)
 action_data_interface = CFUNCTYPE(c_int64, c_int64)
 all_strategies = {}
+# TODO: User defined strategy folder
 for file in (Path(__file__).parent / 'strategies').iterdir():
     if file.is_dir() and (file / '__init__.py').exists() or file.is_file() and file.suffix == '.py':
         module = import_module(f'{__package__}.strategies.{file.stem}')
