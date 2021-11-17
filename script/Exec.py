@@ -125,9 +125,8 @@ print(plugins.XivMemory.targets.current.pos)
 print(plugins.XivMemory.actor_table.me.pos)
 """
 c20="""
-import b
-import importlib
-importlib.reload(b)
+from FFxivPythonTrigger import saint_coinach
+saint_coinach.territory_type_names = {row.key: row['PlaceName'] for row in saint_coinach.territory_type_sheet}
 """
 t = requests.post("http://127.0.0.1:2019/exec", c20.encode('utf-8')).text
 

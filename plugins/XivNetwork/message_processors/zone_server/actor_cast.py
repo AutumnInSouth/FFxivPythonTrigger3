@@ -1,8 +1,13 @@
 from ctypes import *
+from typing import TYPE_CHECKING
+
 from FFxivPythonTrigger import plugins
 from FFxivPythonTrigger.saint_coinach import action_names
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
+
+if TYPE_CHECKING:
+    from XivMemory.struct.actor import Actor
 
 
 class ServerActorCast(OffsetStruct({
@@ -36,8 +41,8 @@ class ServerActorCast(OffsetStruct({
 class ServerActorCastEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'actor_cast'
     struct_message: ServerActorCast
-    target_actor: any
-    source_actor: any
+    target_actor: 'Actor|None'
+    source_actor: 'Actor|None'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
