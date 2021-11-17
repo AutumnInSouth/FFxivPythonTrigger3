@@ -1,7 +1,7 @@
 from ctypes import *
 from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger import PluginBase, plugins
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager
 from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
@@ -39,7 +39,9 @@ class OmenReflect(PluginBase):
 
     def __init__(self):
         super().__init__()
-        self.hook = self.omen_data_hook(self, BASE_ADDR + 0x6764B0)
+        self.hook = self.omen_data_hook(self, AddressManager(self.name, self.logger).scan_point(
+            'omen_data_hook', 'E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4'
+        ))
         self.log_record = set()
 
     @PluginHook.decorator(c_int64, [c_int64], True)
