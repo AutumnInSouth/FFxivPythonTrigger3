@@ -5,6 +5,7 @@ black_lists = {
 }
 white_list = {
     22748: 229,  # 空无的恶意e12s
+    22710: 229,  # 拒绝之手e12s
     22129: 2,  # 闪光e11s
     16524: 1,
     16525: 1,  # 赤烈风rdm
@@ -18,10 +19,13 @@ white_list = {
     22099: 114,  # 游末邦监狱|绝命战士|22099|火燃爆
     24522: 0,  # 钻石神兵ex|光子爆发
     24544: 0,  # 钻石神兵|光子爆发
-    24509: 0,  # 钻石神兵ex|敖龙厄运
-    24536: 0,  # 钻石神兵|敖龙厄运
     24516: 0,  # 钻石神兵ex|自控导弹
     24539: 0,  # 钻石神兵|自控导弹
+    21966: 188,  # 绿宝石神兵|恩惠终结：叁
+    21963: 188,  # 绿宝石神兵|恩惠终结：贰
+    21950: 203,  # 绿宝石神兵|魔导加农炮
+    19658: 1,  # 瓦厉斯·耶·加尔乌斯|19658|更高
+    19681: 1,  # 瓦厉斯·耶·加尔乌斯|19681|更高
 
 }
 realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
@@ -42,6 +46,20 @@ for action in action_with_omen:
         action_idx.setdefault(key, []).append(action)
     action_name_idx.setdefault(action['Name'], {}).setdefault(key, []).append(action)
 
+translate = {
+    110: 1,
+    104: 1,
+    290: 1,
+    59: 1,
+    181: 1,
+    170: 243,
+    173: 243,
+    169: 1,
+    172: 1,
+    171: 2,
+    174: 2,
+}
+
 
 def find_reflect(action_id):
     if not action_id % 1000: print(action_id)
@@ -55,7 +73,7 @@ def find_reflect(action_id):
     if not allow_action: return 0
     select = min(allow_action, key=lambda a: (-sum(a[f] == action_data[f] for f in compare_field), a['Omen'].key))
     # print(action_id, action_data, select, ';', ','.join(a['Name'] for a in allow_action))
-    return select['Omen'].key
+    return translate.get(select['Omen'].key, select['Omen'].key)
 
 
 # print(find_reflect(22294))

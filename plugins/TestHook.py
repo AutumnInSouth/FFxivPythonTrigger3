@@ -21,4 +21,4 @@ class TestHook(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def cast_hook2(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
-        return hook.original(source_actor_ptr, skill_type, 23335, pos, facing, a6)
+        return hook.original(source_actor_ptr, skill_type, 11057, pos, facing, a6)

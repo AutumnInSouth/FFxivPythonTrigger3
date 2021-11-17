@@ -18,9 +18,20 @@ if TYPE_CHECKING:
 # 3：小扇形
 # 4：中扇形
 # 5：大扇形
+# 12：内13月环
+# 13：内5月环
+# 12：内3月环
+# 170：内11月环(o8s)
+# 219：内20月环
+# 220：内15月环
+# 227：内10月环
+# 228：内9月环
+# 233：内25月环
+# 243：内11月环
 # 229：纵向击退
 # 203：圆心击退
 # 114：直线两侧击退
+# 188: 十字
 
 class OmenReflect(PluginBase):
     name = "OmenReflect"
@@ -50,4 +61,4 @@ class OmenReflect(PluginBase):
                 except KeyError:
                     return
                 self.logger.debug(f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|{evt.action_id}|"
-                                  f"{action['Name']}|{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}")
+                                  f"{action['Name']}|{evt.cast_time:.2f}s|{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}")
