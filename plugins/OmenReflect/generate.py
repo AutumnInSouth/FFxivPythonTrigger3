@@ -16,6 +16,13 @@ white_list = {
     22306: 0,  # 影之沼泽e10s
     8075: 229,  # 神龙巨浪->击退
     22099: 114,  # 游末邦监狱|绝命战士|22099|火燃爆
+    24522: 0,  # 钻石神兵ex|光子爆发
+    24544: 0,  # 钻石神兵|光子爆发
+    24509: 0,  # 钻石神兵ex|敖龙厄运
+    24536: 0,  # 钻石神兵|敖龙厄运
+    24516: 0,  # 钻石神兵ex|自控导弹
+    24539: 0,  # 钻石神兵|自控导弹
+
 }
 realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 action_sheet = realm.game_data.get_sheet('Action')
