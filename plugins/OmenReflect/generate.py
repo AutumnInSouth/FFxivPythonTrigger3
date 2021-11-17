@@ -26,7 +26,9 @@ white_list = {
     21950: 203,  # 绿宝石神兵|魔导加农炮
     19658: 1,  # 瓦厉斯·耶·加尔乌斯|19658|更高
     19681: 1,  # 瓦厉斯·耶·加尔乌斯|19681|更高
-
+    9232: 2,  # 德尔塔幻境4|新生艾克斯迪司|9232|外围暗黑光
+    9292: 2,  # 德尔塔幻境4|新生艾克斯迪司|9292|中核暗黑光
+    15952: 244,  # 伊甸甲板|虚无行者|15952|末日虚无切
 }
 realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 action_sheet = realm.game_data.get_sheet('Action')
@@ -40,7 +42,7 @@ action_name_idx = {}
 for action in action_with_omen:
     key = action['CastType'], action['EffectRange'], action['XAxisModifier']
     if action['Omen'].key not in {
-        203, 278,  # 击退
+        203, 278, 139, 229, 314,  # 击退
         27, 152, 165, 251  # 扩散
     }:
         action_idx.setdefault(key, []).append(action)
@@ -58,6 +60,7 @@ translate = {
     172: 1,
     171: 2,
     174: 2,
+    326: 2,
 }
 
 
