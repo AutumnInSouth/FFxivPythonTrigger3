@@ -116,6 +116,11 @@ class SamuraiLogic(Strategy):
             if samurai_auras['Jinpu'] not in effects:
                 return use_ability_to_target('Jinpu')
 
+        if shifu_remain == 0 or jinpu_remain == 0:
+            return use_ability_to_target('Hakaze')
+
+        if skill_cd('MeikyoShisui') == 0:
+            return use_ability_to_target('MeikyoShisui', 'oGCD')
         # special case: catch up with kaeshi setsugekka
 
         # special case: in rush to catch up with higanbana
