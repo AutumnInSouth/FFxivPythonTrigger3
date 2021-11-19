@@ -93,12 +93,12 @@ class Solver(SolverBase):
             cache_data[self.card_event.event_id][1] -= 0.5
 
     def get_deck(self):
-        # if self.card_event.event_id in cache_data:
-        #     deck, score = cache_data[self.card_event.event_id]
-        #     if score < 0:
-        #         del cache_data[self.card_event.event_id]
-        #     else:
-        #         return deck
+        if self.card_event.event_id in cache_data:
+            deck, score = cache_data[self.card_event.event_id]
+            if score < 0:
+                del cache_data[self.card_event.event_id]
+            else:
+                return deck
         cards = {i: list() for i in range(1, 6)}
         cardsT = {t: {i: list() for i in range(1, 6)} for t in types}
         same = 12 in self.current_rules
