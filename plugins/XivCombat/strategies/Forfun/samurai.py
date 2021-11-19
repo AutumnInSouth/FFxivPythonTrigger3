@@ -1,7 +1,5 @@
-from FFxivPythonTrigger.utils.shape import sector
 from .. import *
 from .samurai_meta import *
-from ... import define, logic_data
 
 samurai_auras = {
     'MeikyoShisui': 1233,
@@ -66,6 +64,13 @@ class SamuraiLogic(Strategy):
         # in case we have MeikyoShisui aura -- a rather simple situation
         if samurai_auras['MeikyoShisui'] in effects:
             execution_left = effects[samurai_auras['MeikyoShisui']].param
+            if num_sen == 1 and \
+                time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd) and \
+                jinpu_remain > 0:
+                if samurai_auras['Kaiten'] in effects:
+                    return use_ability_to_target('Higanbana')
+                if kenki >= 40:
+                    return use_ability_to_target('HissatsuKaiten', 'oGCD')
 
             # in meikyoshisu, we try to use Gekko/Kasha first
             if not gauge.moon:

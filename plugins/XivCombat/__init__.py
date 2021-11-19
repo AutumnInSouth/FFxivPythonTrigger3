@@ -216,7 +216,9 @@ class XivCombat(PluginBase):
                     self.right_after_gcd_ability = True
                     return to_use
             if process_non_gcd:
-                if self.right_after_gcd_ability:
+                # TODO: Here, it's a workaround to wait for the last gcd spell take effect
+                # NOTE: suppose the effect take 1 second to appear
+                if self.right_after_gcd_ability and data.gcd < data.gcd_total - 1:
                     self.right_after_gcd_ability = False
                     predict = strategy.global_cool_down_ability(data)
                     if predict.ability_type == 'oGCD':
