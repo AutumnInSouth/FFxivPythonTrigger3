@@ -5,7 +5,30 @@ black_lists = {
 }
 white_list = {
     22748: 229,  # 空无的恶意e12s
+    22710: 229,  # 拒绝之手e12s
     22129: 2,  # 闪光e11s
+    16524: 1,
+    16525: 1,  # 赤烈风rdm
+    16526: 1,  # 赤震雷rdm
+    21998: 1,  # 暗黑领域|暗黑之云|暗黑森林
+    21999: 1,  # 暗黑天空|暗黑之云|暗黑森林
+    22332: 0,  # 凋零爆发e10s
+    22333: 0,  # 凋零爆发e10s
+    22306: 0,  # 影之沼泽e10s
+    8075: 229,  # 神龙巨浪->击退
+    22099: 114,  # 游末邦监狱|绝命战士|22099|火燃爆
+    24522: 0,  # 钻石神兵ex|光子爆发
+    24544: 0,  # 钻石神兵|光子爆发
+    24516: 0,  # 钻石神兵ex|自控导弹
+    24539: 0,  # 钻石神兵|自控导弹
+    21966: 188,  # 绿宝石神兵|恩惠终结：叁
+    21963: 188,  # 绿宝石神兵|恩惠终结：贰
+    21950: 203,  # 绿宝石神兵|魔导加农炮
+    19658: 1,  # 瓦厉斯·耶·加尔乌斯|19658|更高
+    19681: 1,  # 瓦厉斯·耶·加尔乌斯|19681|更高
+    9232: 2,  # 德尔塔幻境4|新生艾克斯迪司|9232|外围暗黑光
+    9292: 2,  # 德尔塔幻境4|新生艾克斯迪司|9292|中核暗黑光
+    15952: 244,  # 伊甸甲板|虚无行者|15952|末日虚无切
 }
 realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 action_sheet = realm.game_data.get_sheet('Action')
@@ -19,11 +42,26 @@ action_name_idx = {}
 for action in action_with_omen:
     key = action['CastType'], action['EffectRange'], action['XAxisModifier']
     if action['Omen'].key not in {
-        203, 278,  # 击退
+        203, 278, 139, 229, 314,  # 击退
         27, 152, 165, 251  # 扩散
     }:
         action_idx.setdefault(key, []).append(action)
     action_name_idx.setdefault(action['Name'], {}).setdefault(key, []).append(action)
+
+translate = {
+    110: 1,
+    104: 1,
+    290: 1,
+    59: 1,
+    181: 1,
+    170: 243,
+    173: 243,
+    169: 1,
+    172: 1,
+    171: 2,
+    174: 2,
+    326: 2,
+}
 
 
 def find_reflect(action_id):
@@ -38,13 +76,13 @@ def find_reflect(action_id):
     if not allow_action: return 0
     select = min(allow_action, key=lambda a: (-sum(a[f] == action_data[f] for f in compare_field), a['Omen'].key))
     # print(action_id, action_data, select, ';', ','.join(a['Name'] for a in allow_action))
-    return select['Omen'].key
+    return translate.get(select['Omen'].key, select['Omen'].key)
 
 
 # print(find_reflect(22294))
 
 
-d = {action.key: white_list.get(action.key) or find_reflect(action.key) for action in action_sheet}
+d = {action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key)) for action in action_sheet}
 d = {a1: a2 for a1, a2 in d.items() if a2 and a1 != a2}
 import pprint
 

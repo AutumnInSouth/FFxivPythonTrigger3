@@ -22,9 +22,9 @@ class ActionEffect(object):
                     if effect_entry.param1 & 1: self.tags.add('critical')
                     if effect_entry.param1 & 2: self.tags.add('direct')
                     main_type = effect_entry.param2 & 0xf
-                    self.tags |= ABILITY_TYPE[main_type] if main_type in ABILITY_TYPE else {f"unk_main_type_{effect_entry.param3}"}
+                    self.tags |= ABILITY_TYPE[main_type] if main_type in ABILITY_TYPE else {f"unk_main_type_{main_type}"}
                     sub_type = effect_entry.param2 >> 4
-                    self.tags |= ABILITY_SUB_TYPE[sub_type] if sub_type in ABILITY_TYPE else {f"unk_sub_type_{effect_entry.param3}"}
+                    self.tags |= ABILITY_SUB_TYPE[sub_type] if sub_type in ABILITY_TYPE else {f"unk_sub_type_{sub_type}"}
                 elif 'healing' in self.tags:
                     if effect_entry.param2 & 1: self.tags.add('critical')
         else:
@@ -32,7 +32,7 @@ class ActionEffect(object):
             # self.tags.add(hex(self.raw_flag)[2:].zfill(8)+"-"+hex(self.raw_amount)[2:].zfill(8))
 
     def __str__(self):
-        return f"{self.param}{self.tags}"  # + str(self.raw_entry.get_data())
+        return f"{self.param}{self.tags}"  + str(self.raw_entry.get_data())
 
 
 class ActionEffectEvent(NetworkZoneServerEvent):
