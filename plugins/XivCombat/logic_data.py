@@ -270,5 +270,5 @@ class LogicData(object):
     def is_pvp(self):
         return utils.is_pvp()
 
-    def use_ability_to_target(self, ability_id):
-        return UseAbility(ability_id, (self.target.id if self.target is not None else self.me.id))
+    def use_ability_to_target(self, ability_id, ability_type: str = None):
+        return UseAbility(ability_id, (self.target.id if self.target is not None else self.me.id), ability_type)

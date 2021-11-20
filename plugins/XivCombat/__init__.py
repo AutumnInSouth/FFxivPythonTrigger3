@@ -59,6 +59,7 @@ action_type_check_interface = CFUNCTYPE(c_bool, c_int64, c_int64, c_uint64)
 action_distance_check_interface = CFUNCTYPE(c_int64, c_uint, c_int64, c_int64)
 action_data_interface = CFUNCTYPE(c_int64, c_int64)
 all_strategies = {}
+# TODO: User defined strategy folder
 for file in (Path(__file__).parent / 'strategies').iterdir():
     if file.is_dir() and (file / '__init__.py').exists() or file.is_file() and file.suffix == '.py':
         module = import_module(f'{__package__}.strategies.{file.stem}')
@@ -94,6 +95,7 @@ class XivCombat(PluginBase):
         self.work_lock = Lock()
         self.ability_cnt = 0
         self.err_count = 0
+        self.right_after_gcd_ability = False
 
         self.register_command()
 
@@ -210,8 +212,17 @@ class XivCombat(PluginBase):
                 return to_use
             if data.gcd < 0.2:
                 to_use = strategy.global_cool_down_ability(data)
-                if to_use is not None: return to_use
+                if to_use is not None:
+                    self.right_after_gcd_ability = True
+                    return to_use
             if process_non_gcd:
+                # TODO: Here, it's a workaround to wait for the last gcd spell take effect
+                # NOTE: suppose the effect take 1 second to appear
+                if self.right_after_gcd_ability and data.gcd < data.gcd_total - 1:
+                    self.right_after_gcd_ability = False
+                    predict = strategy.global_cool_down_ability(data)
+                    if predict.ability_type == 'oGCD':
+                        return predict
                 return strategy.non_global_cool_down_ability(data)
 
     def process(self) -> float:
