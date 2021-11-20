@@ -13,8 +13,8 @@ if TYPE_CHECKING:
 class ServerActorCast(OffsetStruct({
     'action_id': c_ushort,
     'skill_type': c_ubyte,
-    'unk0': c_ubyte,
-    'unk1': c_uint,
+    'display_delay': c_ubyte,
+    'display_action_id': c_uint,
     'cast_time': c_float,
     'target_id': c_uint,
     'rotation': c_float,
@@ -26,8 +26,8 @@ class ServerActorCast(OffsetStruct({
 })):
     action_id: int
     skill_type: int
-    unk0: int
-    unk1: int
+    display_delay: int
+    display_action_id: int
     cast_time: float
     target_id: int
     rotation: float

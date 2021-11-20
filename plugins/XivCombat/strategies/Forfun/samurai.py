@@ -21,7 +21,7 @@ def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
 
 class SamuraiLogic(Strategy):
     name = "samurai_logic"
-    fight_only = False
+    #fight_only = False
     job = 'Samurai'
     default_data = {}
     gcd = 0
@@ -57,7 +57,7 @@ class SamuraiLogic(Strategy):
                 return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
             else:
                 return use_ability_to_target('Hakaze')
-        
+
         if gauge.prev_kaeshi_lv == 3 and skill_cd('Tsubamegaeshi') == 0:
             return use_ability_to_target('Tsubamegaeshi')
 
@@ -118,7 +118,7 @@ class SamuraiLogic(Strategy):
                         return next_combo()
             elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 3, 5, self.gcd):
                 return use_ability_to_target('Hagakure', 'oGCD')
-        
+
         # third, in general, if we are in middle of a combo, we finish it
         if combo_id == samurai_spells['Shifu']['id']:
             return use_ability_to_target('Kasha')

@@ -1,11 +1,11 @@
 from ctypes import *
 from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException
 from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
-from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_names
+from FFxivPythonTrigger.saint_coinach import action_sheet, action_names, territory_type_names
 from .reflect import reflect_data
 
 if TYPE_CHECKING:
@@ -21,6 +21,7 @@ if TYPE_CHECKING:
 # 12：内13月环
 # 13：内5月环
 # 12：内3月环
+# 27：扩散伤害
 # 139：浪柱
 # 170：内11月环(o8s)
 # 219：内20月环
@@ -43,6 +44,7 @@ class OmenReflect(PluginBase):
             'omen_data_hook', 'E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4'
         ))
         self.log_record = set()
+        self.register_makeup()
 
     @PluginHook.decorator(c_int64, [c_int64], True)
     def omen_data_hook(self, hook, action_id):
@@ -52,16 +54,33 @@ class OmenReflect(PluginBase):
             ptr[0] = reflect_data[action_id]
         return ans
 
+    @event("plugin_load:XivNetwork")
+    def register_makeup(self, _=None):
+        try:
+            plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
+        except PluginNotFoundException:
+            self.logger.warning("XivNetwork is not found")
+
+    def make_up(self, bundle_header, message_header, raw_message, struct_message):
+        struct_message.display_delay = 0
+        return struct_message
+
     @event('network/zone/server/actor_cast')
     def on_cast(self, evt: 'ServerActorCastEvent'):
         if evt.source_actor.type.value != 'player':
             zone_id = plugins.XivMemory.zone_id
-            key = (zone_id, evt.source_actor.name, evt.action_id)
+            msg = evt.struct_message
+            key = (zone_id, evt.source_actor.name, evt.action_id, msg.display_action_id)
             if key not in self.log_record:
                 self.log_record.add(key)
                 try:
                     action = action_sheet[evt.action_id]
                 except KeyError:
                     return
-                self.logger.debug(f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|{evt.action_id}|"
-                                  f"{action['Name']}|{evt.cast_time:.2f}s|{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}")
+                self.logger.debug(
+                    f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|"
+                    f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
+                    f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|"
+                    f"{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}|",
+                    '\n',msg
+                )

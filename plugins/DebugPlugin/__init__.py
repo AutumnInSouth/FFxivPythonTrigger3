@@ -8,34 +8,33 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        plugins.XivNetwork.register_packet_fixer(self,'zone',True,'ActorCast',self.make_up)
+        plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
 
+    def make_up(self, bundle_header, message_header, raw_message, struct_message):
+        struct_message.unk0 = 0
+        return struct_message
 
-    def make_up(self,bundle_header,message_header,raw_message,struct_message):
-        self.logger(struct_message.__class__.x.offset ,struct_message)
-        return raw_message
-
-    #@re_event(r"^network/")
+    # @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
 
-    @re_event(r"^network/")
+    # @re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
-        self.logger.debug(evt.id, evt,len(evt.raw_message))
+        self.logger.debug(evt.id, evt, len(evt.raw_message))
 
-    #@event("network/zone/server/action_effect")
-    def discover_event3(self,evt):
-        if evt.action_id<10:return
-        s=[]
-        for t,d in evt.targets.items():
-            n,e = d
+    # @event("network/zone/server/action_effect")
+    def discover_event3(self, evt):
+        if evt.action_id < 10: return
+        s = []
+        for t, d in evt.targets.items():
+            n, e = d
             for _e in e:
                 if 'ability' in _e.tags:
                     s.append(f"{n.name}:{_e.raw_entry.param3}")
                     break
         if s:
-            self.logger(evt.action_name,' '.join(s))
+            self.logger(evt.action_name, ' '.join(s))
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

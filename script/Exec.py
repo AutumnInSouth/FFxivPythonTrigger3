@@ -128,7 +128,12 @@ c20="""
 from FFxivPythonTrigger import saint_coinach
 saint_coinach.territory_type_names = {row.key: row['PlaceName'] for row in saint_coinach.territory_type_sheet}
 """
-t = requests.post("http://127.0.0.1:2019/exec", c20.encode('utf-8')).text
+c21 = """
+from script import omen_data
+import importlib
+importlib.reload(omen_data).main()
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c21.encode('utf-8')).text
 
 
 d = json.loads(t)
