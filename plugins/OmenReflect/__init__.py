@@ -62,8 +62,8 @@ class OmenReflect(PluginBase):
             self.logger.warning("XivNetwork is not found")
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
-        struct_message.display_delay = int(struct_message.display_delay/5)
-        struct_message.unk3 = 0
+        struct_message.display_delay = int(struct_message.display_delay / 5)
+        # struct_message.unk3 = 0
         return struct_message
 
     @event('network/zone/server/actor_cast')
@@ -83,5 +83,5 @@ class OmenReflect(PluginBase):
                     f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
                     f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|"
                     f"{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}|",
-                    '\n',msg
+                    '\n', msg
                 )
