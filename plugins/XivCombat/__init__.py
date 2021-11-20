@@ -221,7 +221,7 @@ class XivCombat(PluginBase):
                 if self.right_after_gcd_ability and data.gcd < data.gcd_total - 1:
                     self.right_after_gcd_ability = False
                     predict = strategy.global_cool_down_ability(data)
-                    if predict.ability_type == 'oGCD':
+                    if predict and predict.ability_type == 'oGCD':
                         return predict
                 return strategy.non_global_cool_down_ability(data)
 
