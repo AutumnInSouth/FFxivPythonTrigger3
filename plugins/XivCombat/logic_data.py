@@ -251,7 +251,7 @@ class LogicData(object):
     def actor_distance_effective(self, target_actor):
         """effective distance between user and a target"""
         if self.config['use_builtin_effective_distance']:
-            return target_actor.effectiveDistanceX
+            return target_actor.effective_distance_x
         else:
             t_pos = target_actor.pos
             m_pos = self.coordinate

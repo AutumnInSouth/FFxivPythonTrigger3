@@ -21,7 +21,7 @@ def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
 
 class SamuraiLogic(Strategy):
     name = "samurai_logic"
-    fight_only = False
+    #fight_only = False
     job = 'Samurai'
     default_data = {}
     gcd = 0

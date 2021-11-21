@@ -124,7 +124,16 @@ c19="""
 print(plugins.XivMemory.targets.current.pos)
 print(plugins.XivMemory.actor_table.me.pos)
 """
-t = requests.post("http://127.0.0.1:2019/exec", c19.encode('utf-8')).text
+c20="""
+from FFxivPythonTrigger import saint_coinach
+saint_coinach.territory_type_names = {row.key: row['PlaceName'] for row in saint_coinach.territory_type_sheet}
+"""
+c21 = """
+from script import omen_data
+import importlib
+importlib.reload(omen_data).main()
+"""
+t = requests.post("http://127.0.0.1:2019/exec", c21.encode('utf-8')).text
 
 
 d = json.loads(t)

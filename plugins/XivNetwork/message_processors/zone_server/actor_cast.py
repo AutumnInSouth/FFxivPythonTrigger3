@@ -1,15 +1,20 @@
 from ctypes import *
+from typing import TYPE_CHECKING
+
 from FFxivPythonTrigger import plugins
 from FFxivPythonTrigger.saint_coinach import action_names
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
+if TYPE_CHECKING:
+    from XivMemory.struct.actor import Actor
+
 
 class ServerActorCast(OffsetStruct({
     'action_id': c_ushort,
     'skill_type': c_ubyte,
-    'unk0': c_ubyte,
-    'unk1': c_uint,
+    'display_delay': c_ubyte,
+    'display_action_id': c_uint,
     'cast_time': c_float,
     'target_id': c_uint,
     'rotation': c_float,
@@ -21,8 +26,8 @@ class ServerActorCast(OffsetStruct({
 })):
     action_id: int
     skill_type: int
-    unk0: int
-    unk1: int
+    display_delay: int
+    display_action_id: int
     cast_time: float
     target_id: int
     rotation: float
@@ -36,8 +41,8 @@ class ServerActorCast(OffsetStruct({
 class ServerActorCastEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'actor_cast'
     struct_message: ServerActorCast
-    target_actor: any
-    source_actor: any
+    target_actor: 'Actor|None'
+    source_actor: 'Actor|None'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
