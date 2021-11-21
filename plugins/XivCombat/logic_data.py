@@ -28,7 +28,14 @@ class LogicData(object):
         self.config = config
         self.ability_cnt = 0
 
-    @property
+    def refresh_cache(self, key: str):
+        try:
+            del self.__dict__[key]
+        except KeyError:
+            pass
+        return getattr(self, key)
+
+    @cached_property
     def me(self):
         return api.get_me_actor()
 
@@ -182,7 +189,7 @@ class LogicData(object):
     def combo_remain(self):
         return self.combo_state.remain
 
-    @property
+    @cached_property
     def effects(self):
         return self.me.effects.get_dict()
 
@@ -272,8 +279,8 @@ class LogicData(object):
         return utils.is_pvp()
 
     def use_ability_to_target(self, ability_id, ability_type: str = None,
-                              callback: Callable = None):
+                              wait_until: Callable = None):
         return UseAbility(ability_id=ability_id,
                           target_id=(self.target.id if self.target is not None else self.me.id),
                           ability_type=ability_type,
-                          callback=callback)
+                          wait_until=wait_until)

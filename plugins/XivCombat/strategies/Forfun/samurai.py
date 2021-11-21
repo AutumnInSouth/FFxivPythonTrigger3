@@ -44,8 +44,8 @@ class SamuraiLogic(Strategy):
 
         # huh, less codes, better codes
         def use_ability_to_target(spell_name: str, ability_type: str = None,
-                                  callback: Callable = None):
-            return data.use_ability_to_target(samurai_spells[spell_name]['id'], ability_type, callback)
+                                  wait_until: Callable = None):
+            return data.use_ability_to_target(samurai_spells[spell_name]['id'], ability_type, wait_until)
 
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
@@ -131,9 +131,9 @@ class SamuraiLogic(Strategy):
 
         if combo_id == samurai_spells['Hakaze']['id']:
             if samurai_auras['Shifu'] not in effects:
-                return use_ability_to_target('Shifu', 'GCD', lambda: samurai_auras['Shifu'] in data.effects)
+                return use_ability_to_target('Shifu', 'GCD', lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             if samurai_auras['Jinpu'] not in effects:
-                return use_ability_to_target('Jinpu', 'GCD', lambda: samurai_auras['Jinpu'] in data.effects)
+                return use_ability_to_target('Jinpu', 'GCD', lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
 
         if shifu_remain == 0 or jinpu_remain == 0:
             return use_ability_to_target('Hakaze')

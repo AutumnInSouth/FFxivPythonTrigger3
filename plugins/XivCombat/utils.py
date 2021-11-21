@@ -1,6 +1,5 @@
 import time
 from functools import cache
-from typing import TYPE_CHECKING, Callable
 from time import perf_counter
 
 from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
@@ -41,9 +40,9 @@ def use_ability(to_use: strategies.UseAbility):
             api.use_area_action(to_use.ability_id, actor.pos.x, actor.pos.y, actor.pos.z, actor.id)
     else:
         api.use_action(to_use.ability_id, to_use.target_id)
-        if isinstance(to_use.callback, Callable):
+        if to_use.wait_until:
             prev = perf_counter()
-            while not to_use.callback() and perf_counter() - prev < 2:
+            while not to_use.wait_until() and perf_counter() - prev < 2:
                 time.sleep(0.1)
 
 

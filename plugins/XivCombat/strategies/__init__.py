@@ -19,11 +19,11 @@ class _Using(object):
 class UseAbility(_Using):
     # TODO: ENUM ability_type
     def __init__(self, ability_id: int, target_id: int = None, ability_type: str = None,
-                 callback: Callable = None):
+                 wait_until: Callable = None):
         self.ability_id = ability_id
         self.target_id = target_id
         self.ability_type = ability_type
-        self.callback = callback
+        self.wait_until = wait_until
 
 
 class UseItem(_Using):
