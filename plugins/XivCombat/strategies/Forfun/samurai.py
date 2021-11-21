@@ -1,8 +1,10 @@
 from .. import *
 from .samurai_meta import *
+from ...define import AbilityType
 
 samurai_auras = {
     'MeikyoShisui': 1233,
+    'EnhancedEnpi': 1236,
     'Jinpu': 1298,
     'Shifu': 1299,
     'Higanbana': 1228,
@@ -39,11 +41,13 @@ class SamuraiLogic(Strategy):
         kenki = gauge.kenki
         jinpu_remain = effects[samurai_auras['Jinpu']].timer if samurai_auras['Jinpu'] in effects else 0
         shifu_remain = effects[samurai_auras['Shifu']].timer if samurai_auras['Shifu'] in effects else 0
-        higanbana_remain = target_effects[samurai_auras['Higanbana']].timer if samurai_auras['Higanbana'] in target_effects else 0
+        higanbana_remain = target_effects[samurai_auras['Higanbana']].timer if samurai_auras[
+                                                                                   'Higanbana'] in target_effects else 0
 
         # huh, less codes, better codes
-        def use_ability_to_target(spell_name: str, ability_type: str = None):
-            return data.use_ability_to_target(samurai_spells[spell_name]['id'], ability_type)
+        def use_ability_to_target(spell_name: str, ability_type: AbilityType = None,
+                                  wait_until: Callable = None):
+            return data.use_ability_to_target(samurai_spells[spell_name]['id'], ability_type, wait_until)
 
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
@@ -54,7 +58,12 @@ class SamuraiLogic(Strategy):
             elif combo_id == samurai_spells['Jinpu']['id']:
                 return use_ability_to_target('Gekko')
             elif combo_id == samurai_spells['Hakaze']['id']:
-                return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
+                if jinpu_remain <= shifu_remain:
+                    return use_ability_to_target('Jinpu', AbilityType.GCD,
+                                                 lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                else:
+                    return use_ability_to_target('Shifu', AbilityType.GCD,
+                                                 lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             else:
                 return use_ability_to_target('Hakaze')
 
@@ -65,12 +74,12 @@ class SamuraiLogic(Strategy):
         if samurai_auras['MeikyoShisui'] in effects:
             execution_left = effects[samurai_auras['MeikyoShisui']].param
             if num_sen == 1 and \
-                time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd) and \
-                jinpu_remain > 0:
+                    time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd) and \
+                    jinpu_remain > 0:
                 if samurai_auras['Kaiten'] in effects:
                     return use_ability_to_target('Higanbana')
                 if kenki >= 40:
-                    return use_ability_to_target('HissatsuKaiten', 'oGCD')
+                    return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
 
             # in meikyoshisu, we try to use Gekko/Kasha first
             if not gauge.moon:
@@ -84,9 +93,10 @@ class SamuraiLogic(Strategy):
                     return use_ability_to_target('MidareSetsugekka')
                 if samurai_auras['Kaiten'] not in effects and jinpu_remain > 0:
                     if kenki >= 20:
-                        return use_ability_to_target('HissatsuKaiten', 'oGCD')
+                        return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                     else:
-                        return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
+                        return use_ability_to_target(
+                            'Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
 
         # second, if now we got 3 sens, consider using midare setsugekka
         if num_sen == 3:
@@ -99,13 +109,17 @@ class SamuraiLogic(Strategy):
                 if samurai_auras['Kaiten'] in effects:
                     return use_ability_to_target('MidareSetsugekka')
                 if kenki >= 20:
-                    return use_ability_to_target('HissatsuKaiten', 'oGCD')
+                    return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                 # sadly, we do not have enough kenki, go get some!
                 else:
                     return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
             # if we do not have Jinpu aura, go get it!
             else:
-                return use_ability_to_target('Jinpu' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
+                if combo_id == samurai_spells['Hakaze']['id']:
+                    return use_ability_to_target('Jinpu', AbilityType.GCD,
+                                                 lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                else:
+                    return use_ability_to_target('Hakaze')
 
         if num_sen == 1:
             if time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd):
@@ -113,11 +127,11 @@ class SamuraiLogic(Strategy):
                     if samurai_auras['Kaiten'] in effects:
                         return use_ability_to_target('Higanbana')
                     if kenki >= 20:
-                        return use_ability_to_target('HissatsuKaiten', 'oGCD')
+                        return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                     else:
                         return next_combo()
-            elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 3, 5, self.gcd):
-                return use_ability_to_target('Hagakure', 'oGCD')
+            elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 2, 4, self.gcd):
+                return use_ability_to_target('Hagakure', AbilityType.oGCD)
 
         # third, in general, if we are in middle of a combo, we finish it
         if combo_id == samurai_spells['Shifu']['id']:
@@ -128,9 +142,9 @@ class SamuraiLogic(Strategy):
 
         if combo_id == samurai_spells['Hakaze']['id']:
             if samurai_auras['Shifu'] not in effects:
-                return use_ability_to_target('Shifu')
+                return use_ability_to_target('Shifu', AbilityType.GCD, lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             if samurai_auras['Jinpu'] not in effects:
-                return use_ability_to_target('Jinpu')
+                return use_ability_to_target('Jinpu', AbilityType.GCD, lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
 
         if shifu_remain == 0 or jinpu_remain == 0:
             return use_ability_to_target('Hakaze')
@@ -138,7 +152,7 @@ class SamuraiLogic(Strategy):
         if skill_cd('MeikyoShisui') == 0:
             if time_period_between_A_and_B_times_of_gcd(skill_cd('Tsubamegaeshi'), 4 - num_sen, 6 - num_sen, self.gcd):
                 return next_combo()
-            return use_ability_to_target('MeikyoShisui', 'oGCD')
+            return use_ability_to_target('MeikyoShisui', AbilityType.oGCD)
         # special case: catch up with kaeshi setsugekka
 
         # special case: in rush to catch up with higanbana
@@ -151,9 +165,9 @@ class SamuraiLogic(Strategy):
             if not gauge.snow:
                 return use_ability_to_target('Yukikaze')
             if not gauge.moon:
-                return use_ability_to_target('Jinpu')
+                return use_ability_to_target('Jinpu', AbilityType.GCD, lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
             if not gauge.flower:
-                return use_ability_to_target('Shifu')
+                return use_ability_to_target('Shifu', AbilityType.GCD, lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
 
         return use_ability_to_target('Hakaze')
 
@@ -182,12 +196,15 @@ class SamuraiLogic(Strategy):
         if jinpu_remain > 0 and kenki >= 70 and skill_cd('HissatsuSenei') == 0:
             return use_ability_to_target('HissatsuSenei')
 
-        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd('HissatsuSenei') > 6 * self.gcd or kenki >= 85) and \
-            kenki >= 35 and \
-            samurai_auras['OpenEyes'] in effects:
+        if samurai_auras['MeikyoShisui'] not in effects and samurai_auras['EnhancedEnpi'] in effects:
+            return use_ability_to_target('Enpi')
+
+        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd(
+                'HissatsuSenei') > 6 * self.gcd or kenki >= 85) and \
+                kenki >= 35 and \
+                samurai_auras['OpenEyes'] in effects:
             return use_ability_to_target('HissatsuSeigan')
 
-        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd('HissatsuSenei') > 6 * self.gcd or kenki >= 95) and kenki >= 45:
+        if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd(
+                'HissatsuSenei') > 6 * self.gcd or kenki >= 95) and kenki >= 45:
             return use_ability_to_target('HissatsuShinten')
-
-

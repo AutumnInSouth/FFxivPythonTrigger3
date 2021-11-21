@@ -1,5 +1,6 @@
 from functools import cached_property
-from typing import Optional, Union, Tuple, TYPE_CHECKING
+from typing import Optional, Union, Tuple, Callable, TYPE_CHECKING
+from ..define import AbilityType
 
 from XivCombat import api
 from XivCombat.define import HQ_FIRST
@@ -17,11 +18,12 @@ class _Using(object):
 
 
 class UseAbility(_Using):
-    # TODO: ENUM ability_type
-    def __init__(self, ability_id: int, target_id: int = None, ability_type: str = None):
+    def __init__(self, ability_id: int, target_id: int = None, ability_type: AbilityType = None,
+                 wait_until: Callable = None):
         self.ability_id = ability_id
         self.target_id = target_id
         self.ability_type = ability_type
+        self.wait_until = wait_until
 
 
 class UseItem(_Using):

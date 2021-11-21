@@ -15,6 +15,7 @@ from FFxivPythonTrigger.saint_coinach import action_names
 from FFxivPythonTrigger.text_pattern import find_unique_signature_point, find_unique_signature_address
 
 from . import define, strategies, api, logic_data, utils
+from .define import AbilityType
 from .utils import is_area_action, use_ability
 
 command = "@acombat"
@@ -216,12 +217,10 @@ class XivCombat(PluginBase):
                     self.right_after_gcd_ability = True
                     return to_use
             if process_non_gcd:
-                # TODO: Here, it's a workaround to wait for the last gcd spell take effect
-                # NOTE: suppose the effect take 1 second to appear
-                if self.right_after_gcd_ability and data.gcd < data.gcd_total - 1:
+                if self.right_after_gcd_ability:
                     self.right_after_gcd_ability = False
                     predict = strategy.global_cool_down_ability(data)
-                    if predict and predict.ability_type == 'oGCD':
+                    if predict and predict.ability_type == AbilityType.oGCD:
                         return predict
                 return strategy.non_global_cool_down_ability(data)
 
