@@ -15,6 +15,7 @@ from FFxivPythonTrigger.saint_coinach import action_names
 from FFxivPythonTrigger.text_pattern import find_unique_signature_point, find_unique_signature_address
 
 from . import define, strategies, api, logic_data, utils
+from .define import AbilityType
 from .utils import is_area_action, use_ability
 
 command = "@acombat"
@@ -219,7 +220,7 @@ class XivCombat(PluginBase):
                 if self.right_after_gcd_ability:
                     self.right_after_gcd_ability = False
                     predict = strategy.global_cool_down_ability(data)
-                    if predict and predict.ability_type == 'oGCD':
+                    if predict and predict.ability_type == AbilityType.oGCD:
                         return predict
                 return strategy.non_global_cool_down_ability(data)
 

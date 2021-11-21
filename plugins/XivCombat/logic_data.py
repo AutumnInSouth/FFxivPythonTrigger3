@@ -5,7 +5,8 @@ from FFxivPythonTrigger.saint_coinach import action_sheet
 
 from . import api, define, utils
 from .strategies import UseAbility
-from typing import Optional, Union, Callable
+from typing import Callable
+from .define import AbilityType
 
 invincible_effects = {325, 394, 529, 656, 671, 775, 776, 895, 969, 981, 1570, 1697, 1829, 1302, }
 invincible_actor = set()
@@ -278,7 +279,7 @@ class LogicData(object):
     def is_pvp(self):
         return utils.is_pvp()
 
-    def use_ability_to_target(self, ability_id, ability_type: str = None,
+    def use_ability_to_target(self, ability_id, ability_type: AbilityType = None,
                               wait_until: Callable = None):
         return UseAbility(ability_id=ability_id,
                           target_id=(self.target.id if self.target is not None else self.me.id),

@@ -1,3 +1,5 @@
+from enum import Enum
+
 # 目标选择范围
 ONLY_SELECTED = 0  # 仅当前选择目标
 ENEMY_LIST = 1  # 敌人列表（上限8）
@@ -35,3 +37,8 @@ NQ_FIRST = 4  # 先使用NQ
 ALWAYS_MOVING = -1  # 始终移动
 ALWAYS_CASTING = 1  # 始终咏唱
 CAST_MOVE_AUTO = 0  # 自动判断
+
+
+class AbilityType(Enum):
+    GCD = 1
+    oGCD = 2
