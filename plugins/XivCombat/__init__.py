@@ -293,8 +293,8 @@ class XivCombat(PluginBase):
                 match args[1]:
                     case 'pair':
                         self.current_strategy = args[2]
-                    case 'common' | 'strategy':
-                        config = self.common_config if args[1] == 'common' else self.strategy_config
+                    case 'common' | 'strategy' as t:
+                        config = self.common_config if t == 'common' else self.strategy_config
                         old = config.get(args[2])
                         try:
                             new = eval(' '.join(args[3:]), {}, define.__dict__)
