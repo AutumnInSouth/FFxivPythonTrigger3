@@ -8,7 +8,7 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
+        #plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.unk0 = 0
@@ -23,8 +23,9 @@ class DebugPlugin(PluginBase):
     def discover_event2(self, evt, match: re.Match):
         self.logger.debug(evt.id, evt, len(evt.raw_message))
 
-    # @event("network/zone/server/action_effect")
+    @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
+        self.logger(evt)
         if evt.action_id < 10: return
         s = []
         for t, d in evt.targets.items():

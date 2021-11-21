@@ -107,7 +107,7 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None, max_pad_length:
         d_type, offset = _(data)
         if offset < 0: offset = current_size
         if current_size > offset:
-            raise Exception("block [%s] is invalid" % name)
+            raise Exception(f"block [{name}] is invalid {current_size}/{offset}")
         while current_size < offset:
             t, s, n = pad_unk(current_size, offset, max_pad_length)
             set_fields.append((f"_{n}_{hex(current_size)}", t))

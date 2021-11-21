@@ -277,7 +277,8 @@ class XivCombat(PluginBase):
 
     def process_cmd(self, args):
         try:
-            self._process_cmd(args)
+            cmd = self._process_cmd(args)
+            if cmd is not None: self.logger.info(cmd)
         except Exception as e:
             self.logger.error(str(e))
             self.logger.error(traceback.format_exc())
@@ -290,16 +291,15 @@ class XivCombat(PluginBase):
                 match args[1]:
                     case 'pair':
                         self.current_strategy = args[2]
-                    case 'common':
+                    case 'common' | 'strategy' as t:
+                        config = self.common_config if t == 'common' else self.strategy_config
+                        old = config.get(args[2])
                         try:
-                            self.common_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
+                            new = eval(' '.join(args[3:]), {}, define.__dict__)
                         except:
-                            self.common_config[args[2]] = ' '.join(args[3:])
-                    case 'strategy':
-                        try:
-                            self.strategy_config[args[2]] = eval(' '.join(args[3:]), {}, define.__dict__)
-                        except:
-                            self.strategy_config[args[2]] = ' '.join(args[3:])
+                            new = ' '.join(args[3:])
+                        config[args[2]] = new
+                        return f"{old} => {new}"
                     case unk:
                         self.logger.error(f"unknown arg: {unk}")
             case unk:
