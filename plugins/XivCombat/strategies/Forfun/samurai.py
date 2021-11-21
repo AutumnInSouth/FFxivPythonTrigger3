@@ -23,7 +23,7 @@ def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
 
 class SamuraiLogic(Strategy):
     name = "samurai_logic"
-    #fight_only = False
+    # fight_only = False
     job = 'Samurai'
     default_data = {}
     gcd = 0
@@ -54,9 +54,10 @@ class SamuraiLogic(Strategy):
 
         def next_combo():
             if combo_id == samurai_spells['Shifu']['id']:
-                return use_ability_to_target('Kasha')
+                return use_ability_to_target('Kasha', AbilityType.GCD,
+                                             lambda: data.refresh_cache('gauge').flower)
             elif combo_id == samurai_spells['Jinpu']['id']:
-                return use_ability_to_target('Gekko')
+                return use_ability_to_target('Gekko', AbilityType.GCD, lambda: data.refresh_cache('gauge').moon)
             elif combo_id == samurai_spells['Hakaze']['id']:
                 if jinpu_remain <= shifu_remain:
                     return use_ability_to_target('Jinpu', AbilityType.GCD,
@@ -83,11 +84,11 @@ class SamuraiLogic(Strategy):
 
             # in meikyoshisu, we try to use Gekko/Kasha first
             if not gauge.moon:
-                return use_ability_to_target('Gekko')
+                return use_ability_to_target('Gekko', AbilityType.GCD, lambda: data.refresh_cache('gauge').moon)
             elif not gauge.flower:
-                return use_ability_to_target('Kasha')
+                return use_ability_to_target('Kasha', AbilityType.GCD, lambda: data.refresh_cache('gauge').flower)
             elif not gauge.snow:
-                return use_ability_to_target('Yukikaze')
+                return use_ability_to_target('Yukikaze', AbilityType.GCD, lambda: data.refresh_cache('gauge').snow)
             else:
                 if samurai_auras['Kaiten'] in effects and jinpu_remain > 0:
                     return use_ability_to_target('MidareSetsugekka')
@@ -95,8 +96,11 @@ class SamuraiLogic(Strategy):
                     if kenki >= 20:
                         return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                     else:
-                        return use_ability_to_target(
-                            'Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
+                        if combo_id == samurai_spells['Hakaze']['id']:
+                            return use_ability_to_target(
+                                'Yukikaze', AbilityType.GCD, lambda x=kenki: data.refresh_cache('gauge').kenki > x)
+                        else:
+                            return use_ability_to_target('Hakaze')
 
         # second, if now we got 3 sens, consider using midare setsugekka
         if num_sen == 3:
@@ -112,7 +116,11 @@ class SamuraiLogic(Strategy):
                     return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                 # sadly, we do not have enough kenki, go get some!
                 else:
-                    return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
+                    if combo_id == samurai_spells['Hakaze']['id']:
+                        return use_ability_to_target(
+                            'Yukikaze', AbilityType.GCD, lambda x=kenki: data.refresh_cache('gauge').kenki > x)
+                    else:
+                        return use_ability_to_target('Hakaze')
             # if we do not have Jinpu aura, go get it!
             else:
                 if combo_id == samurai_spells['Hakaze']['id']:
@@ -135,16 +143,18 @@ class SamuraiLogic(Strategy):
 
         # third, in general, if we are in middle of a combo, we finish it
         if combo_id == samurai_spells['Shifu']['id']:
-            return use_ability_to_target('Kasha')
+            return use_ability_to_target('Kasha', AbilityType.GCD, lambda: data.refresh_cache('gauge').flower)
 
         if combo_id == samurai_spells['Jinpu']['id']:
-            return use_ability_to_target('Gekko')
+            return use_ability_to_target('Gekko', AbilityType.GCD, lambda: data.refresh_cache('gauge').moon)
 
         if combo_id == samurai_spells['Hakaze']['id']:
             if samurai_auras['Shifu'] not in effects:
-                return use_ability_to_target('Shifu', AbilityType.GCD, lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
+                return use_ability_to_target('Shifu', AbilityType.GCD,
+                                             lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             if samurai_auras['Jinpu'] not in effects:
-                return use_ability_to_target('Jinpu', AbilityType.GCD, lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                return use_ability_to_target('Jinpu', AbilityType.GCD,
+                                             lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
 
         if shifu_remain == 0 or jinpu_remain == 0:
             return use_ability_to_target('Hakaze')
@@ -163,11 +173,13 @@ class SamuraiLogic(Strategy):
         if combo_id == samurai_spells['Hakaze']['id']:
             # consider to use yukikaze first
             if not gauge.snow:
-                return use_ability_to_target('Yukikaze')
+                return use_ability_to_target('Yukikaze', AbilityType.GCD, lambda: data.refresh_cache('gauge').snow)
             if not gauge.moon:
-                return use_ability_to_target('Jinpu', AbilityType.GCD, lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                return use_ability_to_target('Jinpu', AbilityType.GCD,
+                                             lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
             if not gauge.flower:
-                return use_ability_to_target('Shifu', AbilityType.GCD, lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
+                return use_ability_to_target('Shifu', AbilityType.GCD,
+                                             lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
 
         return use_ability_to_target('Hakaze')
 
