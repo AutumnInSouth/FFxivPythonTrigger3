@@ -57,7 +57,12 @@ class SamuraiLogic(Strategy):
             elif combo_id == samurai_spells['Jinpu']['id']:
                 return use_ability_to_target('Gekko')
             elif combo_id == samurai_spells['Hakaze']['id']:
-                return use_ability_to_target('Jinpu' if jinpu_remain <= shifu_remain else 'Shifu')
+                if jinpu_remain <= shifu_remain:
+                    return use_ability_to_target('Jinpu', 'GCD',
+                                                 lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                else:
+                    return use_ability_to_target('Shifu', 'GCD',
+                                                 lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             else:
                 return use_ability_to_target('Hakaze')
 
@@ -109,7 +114,11 @@ class SamuraiLogic(Strategy):
                     return use_ability_to_target('Yukikaze' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
             # if we do not have Jinpu aura, go get it!
             else:
-                return use_ability_to_target('Jinpu' if combo_id == samurai_spells['Hakaze']['id'] else 'Hakaze')
+                if combo_id == samurai_spells['Hakaze']['id']:
+                    return use_ability_to_target('Jinpu', 'GCD',
+                                                 lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
+                else:
+                    return use_ability_to_target('Hakaze')
 
         if num_sen == 1:
             if time_period_between_A_and_B_times_of_gcd(higanbana_remain, 0, 2, self.gcd):
@@ -155,9 +164,9 @@ class SamuraiLogic(Strategy):
             if not gauge.snow:
                 return use_ability_to_target('Yukikaze')
             if not gauge.moon:
-                return use_ability_to_target('Jinpu')
+                return use_ability_to_target('Jinpu', 'GCD', lambda: samurai_auras['Jinpu'] in data.refresh_cache('effects'))
             if not gauge.flower:
-                return use_ability_to_target('Shifu')
+                return use_ability_to_target('Shifu', 'GCD', lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
 
         return use_ability_to_target('Hakaze')
 
