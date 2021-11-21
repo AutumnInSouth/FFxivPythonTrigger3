@@ -157,6 +157,11 @@ sigs = {
         'call': find_unique_signature_point,
         'param': "48 8d ? * * * * 84 c0 75 ? 48 8d ? ? ? ? ? 80 79 66 ? 74 ? e8 ? ? ? ? c6 87 f4 03 ? ?",
         'add': BASE_ADDR + 0x10,
+    },
+    "buddy_list": {
+        'call': find_unique_signature_point,
+        'param': "48 8D 0D * * * * E8 ? ? ? ? 45 84 E4 75 1A F6 45 12 04",
+        'add': BASE_ADDR,
     }
 }
 

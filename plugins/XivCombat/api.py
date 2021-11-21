@@ -169,3 +169,7 @@ def get_coordinate() -> 'Position':
 
 def get_zone_id() -> int:
     return plugins.XivMemory.zone_id
+
+
+def get_pet_id() -> int:
+    return plugins.XivMemory.buddy.pet.data_id

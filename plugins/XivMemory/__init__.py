@@ -16,13 +16,14 @@ except ModuleNotFoundError:
 from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable, Actor
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
-from .struct.inventory import InventoryPagePtr,InventoryPage
+from .struct.inventory import InventoryPagePtr, InventoryPage
 from .struct.job_gauge import gauges
 from .struct.markings import Markings
 from .struct.others import Target, Movement
 from .struct.party import PartyList
 from .struct.player_info import Player
 from .struct.coordinate import Coordinate
+from .struct.buddy import Buddy
 from .hook import ValueBindHook
 from .hook.mo_ui_entity import MoUiEntityHook
 from .hook.world_id import WorldIdHook
@@ -48,6 +49,7 @@ class XivMemory(PluginBase):
     pvp_action: PvpAction
     world_id: int
     markings: Markings
+    buddy: Buddy
 
     def __init__(self):
         super().__init__()
@@ -68,6 +70,7 @@ class XivMemory(PluginBase):
         self._mission_info = read_memory(POINTER(MissionInfo), self._address['mission_info'])
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
         self.markings = read_memory(Markings, self._address['markings'])
+        self.buddy = read_memory(Buddy, self._address['buddy_list'])
         self.coordinate = Coordinate(self._address)
         self.value_bind_hooks = {
             'world_id': WorldIdHook(self, self._address["world_id_hook"]),
