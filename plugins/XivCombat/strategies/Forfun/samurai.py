@@ -3,6 +3,7 @@ from .samurai_meta import *
 
 samurai_auras = {
     'MeikyoShisui': 1233,
+    'EnhancedEnpi': 1236,
     'Jinpu': 1298,
     'Shifu': 1299,
     'Higanbana': 1228,
@@ -184,6 +185,9 @@ class SamuraiLogic(Strategy):
 
         if jinpu_remain > 0 and kenki >= 70 and skill_cd('HissatsuSenei') == 0:
             return use_ability_to_target('HissatsuSenei')
+
+        if samurai_auras['MeikyoShisui'] not in effects and samurai_auras['EnhancedEnpi'] in effects:
+            return use_ability_to_target('Enpi')
 
         if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd(
                 'HissatsuSenei') > 6 * self.gcd or kenki >= 85) and \
