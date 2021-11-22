@@ -60,7 +60,7 @@ action_type_check_interface = CFUNCTYPE(c_bool, c_int64, c_int64, c_uint64)
 action_distance_check_interface = CFUNCTYPE(c_int64, c_uint, c_int64, c_int64)
 action_data_interface = CFUNCTYPE(c_int64, c_int64)
 all_strategies = {}
-# TODO: User defined strategy folder
+
 for file in (Path(__file__).parent / 'strategies').iterdir():
     if file.is_dir() and (file / '__init__.py').exists() or file.is_file() and file.suffix == '.py':
         module = import_module(f'{__package__}.strategies.{file.stem}')
@@ -96,7 +96,6 @@ class XivCombat(PluginBase):
         self.work_lock = Lock()
         self.ability_cnt = 0
         self.err_count = 0
-        self.right_after_gcd_ability = False
 
         self.register_command()
 
@@ -214,14 +213,11 @@ class XivCombat(PluginBase):
             if data.gcd < 0.2:
                 to_use = strategy.global_cool_down_ability(data)
                 if to_use is not None:
-                    self.right_after_gcd_ability = True
                     return to_use
             if process_non_gcd:
-                if self.right_after_gcd_ability:
-                    self.right_after_gcd_ability = False
-                    predict = strategy.global_cool_down_ability(data)
-                    if predict and predict.ability_type == AbilityType.oGCD:
-                        return predict
+                predict = strategy.global_cool_down_ability(data)
+                if predict and predict.ability_type == AbilityType.oGCD:
+                    return predict
                 return strategy.non_global_cool_down_ability(data)
 
     def process(self) -> float:

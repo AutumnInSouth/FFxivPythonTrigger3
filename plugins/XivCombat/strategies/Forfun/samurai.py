@@ -9,7 +9,8 @@ samurai_auras = {
     'Shifu': 1299,
     'Higanbana': 1228,
     'Kaiten': 1229,
-    'OpenEyes': 1252
+    'OpenEyes': 1252,
+    'TrueNorth': 1250
 }
 
 
@@ -25,7 +26,9 @@ class SamuraiLogic(Strategy):
     name = "samurai_logic"
     # fight_only = False
     job = 'Samurai'
-    default_data = {}
+    default_data = {
+        'auto_true_north': True,
+    }
     gcd = 0
 
     def global_cool_down_ability(self, data: 'LogicData'):
@@ -39,6 +42,7 @@ class SamuraiLogic(Strategy):
         num_sen = sum([gauge.moon, gauge.flower, gauge.snow])
         combo_id = data.combo_id
         kenki = gauge.kenki
+        target = data.target
         jinpu_remain = effects[samurai_auras['Jinpu']].timer if samurai_auras['Jinpu'] in effects else 0
         shifu_remain = effects[samurai_auras['Shifu']].timer if samurai_auras['Shifu'] in effects else 0
         higanbana_remain = target_effects[samurai_auras['Higanbana']].timer if samurai_auras[
@@ -52,11 +56,24 @@ class SamuraiLogic(Strategy):
         def skill_cd(skill_name: str):
             return data.skill_cd(samurai_spells[skill_name]['id'])
 
+        auto_true_north = data.config['auto_true_north'] and lv >= samurai_spells['TrueNorth'][
+            'lv'] and target.is_positional and skill_cd('TrueNorth') < 45
+
         def next_combo():
             if combo_id == samurai_spells['Shifu']['id']:
+                if auto_true_north and \
+                        target.target_position(data.me) != 'SIDE' and \
+                        samurai_auras['TrueNorth'] not in effects and \
+                        data.target_distance <= 5:
+                    return use_ability_to_target('TrueNorth', AbilityType.oGCD)
                 return use_ability_to_target('Kasha', AbilityType.GCD,
                                              lambda: data.refresh_cache('gauge').flower)
             elif combo_id == samurai_spells['Jinpu']['id']:
+                if auto_true_north and \
+                        target.target_position(data.me) != 'BACK' and \
+                        samurai_auras['TrueNorth'] not in effects and \
+                        data.target_distance <= 5:
+                    return use_ability_to_target('TrueNorth', AbilityType.oGCD)
                 return use_ability_to_target('Gekko', AbilityType.GCD, lambda: data.refresh_cache('gauge').moon)
             elif combo_id == samurai_spells['Hakaze']['id']:
                 if jinpu_remain <= shifu_remain:
@@ -143,9 +160,19 @@ class SamuraiLogic(Strategy):
 
         # third, in general, if we are in middle of a combo, we finish it
         if combo_id == samurai_spells['Shifu']['id']:
+            if auto_true_north and \
+                    target.target_position(data.me) != 'SIDE' and \
+                    samurai_auras['TrueNorth'] not in effects and \
+                    data.target_distance <= 5:
+                return use_ability_to_target('TrueNorth', AbilityType.oGCD)
             return use_ability_to_target('Kasha', AbilityType.GCD, lambda: data.refresh_cache('gauge').flower)
 
         if combo_id == samurai_spells['Jinpu']['id']:
+            if auto_true_north and \
+                    target.target_position(data.me) != 'BACK' and \
+                    samurai_auras['TrueNorth'] not in effects and \
+                    data.target_distance <= 5:
+                return use_ability_to_target('TrueNorth', AbilityType.oGCD)
             return use_ability_to_target('Gekko', AbilityType.GCD, lambda: data.refresh_cache('gauge').moon)
 
         if combo_id == samurai_spells['Hakaze']['id']:
