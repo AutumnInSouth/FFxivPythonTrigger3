@@ -37,6 +37,6 @@ class ServerUpdateHpMpTpEvent(NetworkZoneServerEvent):
 
 
 class ActorUpdateHpMpTp(BaseProcessors):
-    opcode = "ActorUpdateHpMpTp"
+    opcode = "UpdateHpMpTp"
     struct = ServerUpdateHpMpTp
     event = ServerUpdateHpMpTpEvent

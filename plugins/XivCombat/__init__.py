@@ -1,10 +1,11 @@
-import time
 import traceback
 from ctypes import *
-from pathlib import Path
 from importlib import import_module
 from inspect import isclass
+from pathlib import Path
 from threading import Lock
+
+import time
 
 from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException
 from FFxivPythonTrigger.decorator import event
@@ -13,7 +14,6 @@ from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.saint_coinach import action_names
 from FFxivPythonTrigger.text_pattern import find_unique_signature_point, find_unique_signature_address
-
 from . import define, strategies, api, logic_data, utils
 from .define import AbilityType
 from .utils import is_area_action, use_ability
@@ -135,13 +135,9 @@ class XivCombat(PluginBase):
     def strategy_config(self) -> dict:
         strategy = self.current_strategy
         if strategy is None: return {}
-        return self.storage.data.setdefault(
-            'strategy_config', {}
-        ).setdefault(
-            utils.job_name(), {}
-        ).setdefault(
-            strategy.name, strategy.default_data
-        )
+        job_data = self.storage.data.setdefault('strategy_config', {}).setdefault(utils.job_name(), {})
+        job_data[strategy.name] = strategy.default_data | job_data.get(strategy.name, {})
+        return job_data[strategy.name]
 
     @strategy_config.setter
     def strategy_config(self, value):
