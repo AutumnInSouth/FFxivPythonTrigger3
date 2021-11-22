@@ -73,7 +73,7 @@ class UnknownOpcodeEvent(_NetworkEvent):
             class _UnknownOpcodeEvent(cls):
                 scope = _scope_name
                 is_server = _is_server
-                id = f"{_NetworkEvent.id}unknown/{_scope_name}/{'client' if _is_server else 'server'}/{message_header.msg_type}"
+                id = f"{_NetworkEvent.id}unknown/{_scope_name}/{'server' if _is_server else 'client'}/{message_header.msg_type}"
                 scope_idx = _scope_idx
                 opcode = message_header.msg_type
                 msg_len = len(raw_message)

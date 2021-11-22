@@ -1,0 +1,5 @@
+action_effect_process
+40 55 53 56 57 41 54 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B 3D ? ? ? ?
+void __fastcall sub_14081C470(__int64 a1, _BYTE *a2, __int64 a3, unsigned int a4, int a5, unsigned int a6, __int64 a7, int a8, char a9)
+
+
