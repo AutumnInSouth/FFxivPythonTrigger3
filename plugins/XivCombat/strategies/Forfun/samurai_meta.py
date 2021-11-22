@@ -130,5 +130,9 @@ samurai_spells = {
     "Shoha": {
         "id": 16487,
         "lv": 80
+    },
+    "TrueNorth": {
+        "id": 7546,
+        "lv": 50
     }
 }
