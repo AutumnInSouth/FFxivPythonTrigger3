@@ -155,7 +155,7 @@ class SamuraiLogic(Strategy):
                         return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD)
                     else:
                         return next_combo()
-            elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 2, 4, self.gcd):
+            elif time_period_between_A_and_B_times_of_gcd(higanbana_remain, 3, 5, self.gcd):
                 return use_ability_to_target('Hagakure', AbilityType.oGCD)
 
         # third, in general, if we are in middle of a combo, we finish it
