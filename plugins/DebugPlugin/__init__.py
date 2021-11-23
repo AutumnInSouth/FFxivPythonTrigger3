@@ -21,14 +21,25 @@ class DebugPlugin(PluginBase):
         if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
 
-    @event('network/unknown/zone/client/399')
+    #@event('network/unknown/zone/client/399')
     def craft_action(self, evt):
+        """
+        normal action _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:9|_uint_0xc:action_id|_uint_0x10:0|_uint_0x14:0
+        craft action _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:a|_uint_0xc:action_id|_uint_0x10:0|_uint_0x14:0
+        finish craft _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:b|_uint_0xc:0|_uint_0x10:0|_uint_0x14:0
+
+        next craft _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:4|_uint_0xc:recipe_id|_uint_0x10:0|_uint_0x14:0
+
+        end craft1 _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:7|_uint_0xc:0 if in craft else 1|_uint_0x10:0|_uint_0x14:0
+        end craft2 _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:8|_uint_0xc:0|_uint_0x10:0|_uint_0x14:0
+
+        """
         struct = OffsetStruct({
 
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k,v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
@@ -36,6 +47,10 @@ class DebugPlugin(PluginBase):
             'network/unknown/zone/server/533',
         ]:return
         self.logger.debug(evt.id, evt, len(evt.raw_message))
+
+    @event("network/zone/server/status_effect_list")
+    def status_effect(self, evt):
+        self.logger(evt.id, evt, len(evt.raw_message))
 
     #@event("network/zone/server/action_effect")
     def discover_event3(self, evt):
