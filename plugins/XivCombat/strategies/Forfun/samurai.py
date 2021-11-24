@@ -19,7 +19,7 @@ samurai_auras = {
 # Note that there is a discipline when calling this one: if wanna use this to determine an oGCD spell,
 # it's necessary to consider current GCD spent
 def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
-    return True if A == 0 else A * gcd <= time_period < B * gcd
+    return A * gcd <= time_period < B * gcd
 
 
 circle_aoe = NearCircle(5)
