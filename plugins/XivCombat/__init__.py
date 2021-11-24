@@ -29,7 +29,7 @@ default_common_config = {
     'target_priority': [define.CURRENT_SELECTED, define.FOCUSED, define.DISTANCE_NEAREST],
     'load_targets_distance': 50,
     'resource': define.RESOURCE_AUTO,
-    'single': define.FORCE_MULTI,
+    'single': define.SINGLE_AUTO,
     'use_builtin_effective_distance': False,
     'cast_move': define.CAST_MOVE_AUTO,
     'auto_set_current_target': False,
