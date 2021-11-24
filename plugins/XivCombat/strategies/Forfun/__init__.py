@@ -1,2 +1,2 @@
 from .samurai import SamuraiLogic
-# from .summoner import SummonerLogic
+from .summoner import SummonerLogic
