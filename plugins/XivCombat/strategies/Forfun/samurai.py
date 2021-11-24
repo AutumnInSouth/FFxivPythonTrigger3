@@ -1,6 +1,8 @@
+from math import radians
 from .. import *
 from .samurai_meta import *
-from ...define import AbilityType
+from XivCombat.multi_enemy_selector import NearCircle, Sector, select
+from ...define import AbilityType, FORCE_SINGLE, FORCE_MULTI
 
 samurai_auras = {
     'MeikyoShisui': 1233,
@@ -13,10 +15,26 @@ samurai_auras = {
     'TrueNorth': 1250
 }
 
+
 # Note that there is a discipline when calling this one: if wanna use this to determine an oGCD spell,
 # it's necessary to consider current GCD spent
 def time_period_between_A_and_B_times_of_gcd(time_period, A, B, gcd):
-    return A * gcd <= time_period < B * gcd
+    return True if A == 0 else A * gcd <= time_period < B * gcd
+
+
+circle_aoe = NearCircle(5)
+sector_aoe = Sector(8, radians(90))
+
+
+def count_enemy(data: 'LogicData', aoe_shape):
+    if data.config['single'] == FORCE_SINGLE:
+        return data.target, 1
+    selected, cnt = select(data, data.valid_enemies, aoe_shape)
+    if not cnt:
+        return data.target, 0
+    if data.config['single'] == FORCE_MULTI:
+        return selected, 3
+    return selected, cnt
 
 
 class SamuraiLogic(Strategy):
@@ -25,6 +43,7 @@ class SamuraiLogic(Strategy):
     job = 'Samurai'
     default_data = {
         'auto_true_north': True,
+        'use_hissatsu_guren': True
     }
     gcd = 0
 
@@ -81,6 +100,47 @@ class SamuraiLogic(Strategy):
                                                  lambda: samurai_auras['Shifu'] in data.refresh_cache('effects'))
             else:
                 return use_ability_to_target('Hakaze')
+
+        # deal with multiple enemies
+        if combo_id == samurai_spells['Fuga']['id']:
+            aoe_target, enemy_cnt = count_enemy(data, circle_aoe)
+            if enemy_cnt >= 3 and num_sen < 2:
+                if 0 < shifu_remain < self.gcd * 2:
+                    return UseAbility(ability_id=samurai_spells['Oka']['id'], target_id=aoe_target.id)
+                if 0 < jinpu_remain < self.gcd * 2:
+                    return UseAbility(ability_id=samurai_spells['Mangetsu']['id'], target_id=aoe_target.id)
+                if not gauge.flower and not gauge.moon:
+                    return UseAbility(
+                        ability_id=samurai_spells['Mangetsu' if jinpu_remain < shifu_remain else 'Oka']['id'],
+                        target_id=aoe_target.id)
+                if not gauge.flower:
+                    return UseAbility(ability_id=samurai_spells['Oka']['id'], target_id=aoe_target.id)
+                if not gauge.moon:
+                    return UseAbility(ability_id=samurai_spells['Mangetsu']['id'], target_id=aoe_target.id)
+        aoe_target, enemy_cnt = count_enemy(data, sector_aoe)
+        if enemy_cnt >= 3:
+            if gauge.prev_kaeshi_lv == 2 and skill_cd('Tsubamegaeshi') < 0.2:
+                return UseAbility(ability_id=samurai_spells['Tsubamegaeshi']['id'], target_id=aoe_target.id)
+            if num_sen == 2:
+                if kenki >= 20 and samurai_auras['Kaiten'] not in effects:
+                    return use_ability_to_target('HissatsuKaiten', AbilityType.oGCD,
+                                                 lambda: samurai_auras['Kaiten'] in data.refresh_cache('effects'))
+                return UseAbility(ability_id=samurai_spells['TenkaGoken']['id'], target_id=aoe_target.id)
+            if combo_id == samurai_spells['Shifu']['id'] and not gauge.flower:
+                return UseAbility(ability_id=samurai_spells['Kasha']['id'], target_id=aoe_target.id)
+            if combo_id == samurai_spells['Jinpu']['id'] and not gauge.moon:
+                return UseAbility(ability_id=samurai_spells['Gekko']['id'], target_id=aoe_target.id)
+            if combo_id == samurai_spells['Hakaze']['id']:
+                if shifu_remain < self.gcd:
+                    return UseAbility(ability_id=samurai_spells['Shifu']['id'], target_id=aoe_target.id)
+                if jinpu_remain < self.gcd:
+                    return UseAbility(ability_id=samurai_spells['Jinpu']['id'], target_id=aoe_target.id)
+            if shifu_remain < self.gcd * 2 or jinpu_remain < self.gcd * 2:
+                return UseAbility(ability_id=samurai_spells['Hakaze']['id'], target_id=aoe_target.id)
+            if num_sen < 2:
+                return UseAbility(ability_id=samurai_spells['Fuga']['id'], target_id=aoe_target.id)
+            if num_sen > 2:
+                return UseAbility(ability_id=samurai_spells['MidareSetsugekka']['id'], target_id=aoe_target.id)
 
         if gauge.prev_kaeshi_lv == 3 and skill_cd('Tsubamegaeshi') < 0.2:
             return use_ability_to_target('Tsubamegaeshi')
@@ -187,7 +247,8 @@ class SamuraiLogic(Strategy):
             return use_ability_to_target('Hakaze')
 
         if skill_cd('MeikyoShisui') < self.gcd / 2:
-            if time_period_between_A_and_B_times_of_gcd(max(0, skill_cd('Tsubamegaeshi') - data.gcd), 4 - num_sen, 6 - num_sen,
+            if time_period_between_A_and_B_times_of_gcd(max(0, skill_cd('Tsubamegaeshi') - data.gcd), 4 - num_sen,
+                                                        6 - num_sen,
                                                         self.gcd):
                 return next_combo()
             return use_ability_to_target('MeikyoShisui', AbilityType.oGCD)
@@ -230,14 +291,23 @@ class SamuraiLogic(Strategy):
         if kenki < 50 and skill_cd('Ikishoten') < self.gcd / 2:
             return use_ability_to_target('Ikishoten')
 
+        if samurai_auras['MeikyoShisui'] not in effects and samurai_auras['EnhancedEnpi'] in effects:
+            return use_ability_to_target('Enpi')
+
         if gauge.meditation > 2:
             return use_ability_to_target('Shoha')
 
+        aoe_target, enemy_cnt = count_enemy(data, circle_aoe)
+        if enemy_cnt >= 3:
+            if data.config['use_hissatsu_guren'] and skill_cd('HissatsuGuren') < self.gcd / 2:
+                return UseAbility(ability_id=samurai_spells['HissatsuGuren']['id'], target_id=aoe_target.id)
+            if kenki >= 45 and (not data.config['use_hissatsu_guren'] or skill_cd('HissatsuGuren') > skill_cd(
+                    'Ikishoten') or skill_cd('HissatsuGuren') > 4 * self.gcd or kenki >= 95):
+                return UseAbility(ability_id=samurai_spells['HissatsuKyuten']['id'], target_id=aoe_target.id)
+            return None
+
         if jinpu_remain > 0 and kenki >= 70 and skill_cd('HissatsuSenei') < self.gcd / 2:
             return use_ability_to_target('HissatsuSenei')
-
-        if samurai_auras['MeikyoShisui'] not in effects and samurai_auras['EnhancedEnpi'] in effects:
-            return use_ability_to_target('Enpi')
 
         if (skill_cd('HissatsuSenei') > skill_cd('Ikishoten') or skill_cd(
                 'HissatsuSenei') > 6 * self.gcd or kenki >= 85) and \
