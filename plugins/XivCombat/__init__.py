@@ -233,7 +233,6 @@ class XivCombat(PluginBase):
             return default_period
         data = self.get_logic_data()
 
-        # self.logger.debug(data.gauge)
         # 获取决策行为
         to_use = self.get_to_use(data, strategy)
         if to_use is not None:
