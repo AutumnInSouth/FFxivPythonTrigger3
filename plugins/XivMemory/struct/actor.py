@@ -41,16 +41,24 @@ class Effects(Effect * 30):
             if effect.buff_id and (source is None or effect.actor_id == source):
                 yield effect.buff_id, effect
 
+    def has(self, status_id: int, source: Optional[int] = None):
+        for effect in self:
+            if effect.buff_id == status_id and (source is None or effect.actor_id == source):
+                return True
+        return False
+
+
 class ActorPosition(OffsetStruct({
     'x': c_float,
     'z': c_float,
     'y': c_float,
-    'r': (c_float,16)
+    'r': (c_float, 16)
 })):
     x: float
     y: float
     z: float
     r: float
+
 
 class Actor(OffsetStruct({
     '_name': (c_char * 68, 0x30),
