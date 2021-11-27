@@ -74,11 +74,14 @@ combo_buff = {802, 803, 1863}
 combo_lv = {75: 4, 78: 26, 87: 50}
 
 
-def job_priority(actor):
-    if actor.job.is_dps: return 3
-    if actor.job.is_tank: return 2
-    if actor.job.is_healer: return 1
-    return 0
+def job_priority(data: 'LogicData', actor):
+    if actor.job.is_dps:
+        return 3, data.dps(actor)
+    if actor.job.is_tank:
+        return 2, data.dps(actor)
+    if actor.job.is_healer:
+        return 1, data.dps(actor)
+    return 0, data.dps(actor)
 
 
 class DragoonLogic(Strategy):
@@ -131,7 +134,7 @@ class DragoonLogic(Strategy):
             if not members:
                 target = data.me
             else:
-                target = max(members, key=lambda a: (job_priority(a), -data.actor_distance_effective(a)))
+                target = max(members, key=lambda a: (job_priority(data, a), -data.actor_distance_effective(a)))
             return UseAbility(7398, target.id)
         jump_distance = data.config['jump_distance']
         if 1243 in data.effects: return UseAbility(7399)

@@ -5,8 +5,11 @@ from FFxivPythonTrigger.saint_coinach import action_sheet
 
 from . import api, define, utils
 from .strategies import UseAbility
-from typing import Callable
+from typing import Callable, TYPE_CHECKING
 from .define import AbilityType
+
+if TYPE_CHECKING:
+    from . import XivCombat
 
 invincible_effects = {325, 394, 529, 656, 671, 775, 776, 895, 969, 981, 1570, 1697, 1829, 1302, }
 invincible_actor = set()
@@ -25,7 +28,8 @@ def is_actor_status_can_damage(actor):
 
 
 class LogicData(object):
-    def __init__(self, config: dict):
+    def __init__(self, config: dict, plugin: 'XivCombat'):
+        self.plugin = plugin
         self.config = config
         self.ability_cnt = 0
 
@@ -137,46 +141,33 @@ class LogicData(object):
                 raise Exception(f'invalid targets {k}')
         return sorted(all_enemy, key=self.actor_distance_effective)
 
-    # @lru_cache
-    # def dps(self, actor_id):
-    #     """
-    #     get dps of an actor
-    #     """
-    #     return api.get_actor_dps(actor_id)
-    #
-    # @lru_cache
-    # def tdps(self, actor_id):
-    #     """
-    #     get tdps of an actor
-    #     """
-    #     return api.get_actor_tdps(actor_id)
-    #
-    # @lru_cache
-    # def ttk(self, actor_id):
-    #     """
-    #     get time to kill of an actor
-    #     """
-    #     t = api.get_actor_by_id(actor_id)
-    #     if t is None:
-    #         return -1
-    #     else:
-    #         tdps = self.tdps(actor_id)
-    #         return (t.currentHP / tdps) if tdps else 1e+99
-    # @property
-    # def time_to_kill_target(self):
-    #     """
-    #     the time to kill of chosen target
-    #     """
-    #     if self.target is None: return 1e+99
-    #     return self.ttk(self.target.id)
-    #
-    # @cached_property
-    # def max_ttk(self):
-    #     """
-    #     the largest time to kill in valid enemies
-    #     """
-    #     if not len(self.valid_enemies): return 1e+99
-    #     return max(self.ttk(e.id) for e in self.valid_enemies)
+    @cached_property
+    def monitor(self):
+        return self.plugin.get_monitor()
+
+    @lru_cache
+    def dps(self, actor):
+        return self.monitor.dps(actor.id)
+
+    @lru_cache
+    def tdps(self, actor):
+        return self.monitor.dtps(actor.id)
+
+    @lru_cache
+    def ttk(self, actor):
+        dtps = self.tdps(actor)
+        if dtps == 0: return -1
+        return actor.current_hp / dtps
+
+    @property
+    def time_to_kill_target(self):
+        if self.target is None: return 1e+99
+        return self.ttk(self.target)
+
+    @cached_property
+    def max_ttk(self):
+        if not len(self.valid_enemies): return 1e+99
+        return max(self.ttk(e) for e in self.valid_enemies)
 
     @cached_property
     def combo_state(self):
