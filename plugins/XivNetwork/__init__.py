@@ -236,7 +236,6 @@ class XivNetwork(PluginBase):
         opcode = get_opcode(scope, is_server, opcode)
         scope= scope * 2 + is_server
         self._packet_fixer[scope].setdefault(opcode, set()).add(method)
-        self.logger(self._packet_fixer)
 
     def unregister_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)
@@ -248,7 +247,6 @@ class XivNetwork(PluginBase):
                 del self._packet_fixer[scope][opcode]
         except (ValueError, KeyError):
             pass
-        self.logger(self._packet_fixer)
 
     def send_messages(self, scope: int | str, messages: send_message_interface | List[send_message_interface],
                       response: allow_response_interface | List[allow_response_interface] = None,
