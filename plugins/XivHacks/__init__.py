@@ -103,7 +103,9 @@ class XivHacks(PluginBase):
             self.afix_work = False
             self.register_afix()
 
-        self.register_moving_swing()  # moving swing
+        # moving swing
+        if hack_move_swing:
+            self.register_moving_swing()
 
         self.storage.save()
 
