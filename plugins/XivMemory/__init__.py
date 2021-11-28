@@ -73,7 +73,7 @@ class XivMemory(PluginBase):
         self.buddy = read_memory(Buddy, self._address['buddy_list'])
         self.coordinate = Coordinate(self._address)
         self.value_bind_hooks = {
-            'world_id': WorldIdHook(self, self._address["world_id_hook"]),
+            # 'world_id': WorldIdHook(self, self._address["world_id_hook"]),
             'mo_ui_entity': MoUiEntityHook(self, self._address["mo_ui_entity_hook"]),
         }
         self.hooks = {

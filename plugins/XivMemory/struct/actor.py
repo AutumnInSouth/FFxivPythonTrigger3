@@ -90,6 +90,8 @@ class Actor(OffsetStruct({
     'pc_target_id_2': (c_uint, 0x230),
     'npc_target_id': (c_uint, 0x1818),
     'b_npc_target_id': (c_uint, 0x18d8),
+    'current_world':(c_ushort,0x195c),
+    'home_world':(c_ushort,0x195e),
     'shield_percent': (c_ubyte, 0x1997),
     '_status_flags': (c_ubyte, 0x19a0),
     '_status_flags_2': (c_ubyte, 0x19a5),
@@ -130,6 +132,8 @@ class Actor(OffsetStruct({
     pc_target_id_2: int
     npc_target_id: int
     b_npc_target_id: int
+    current_world: int
+    home_world: int
     shield_percent: int
     _status_flags: int
     _status_flags_2: int
@@ -145,12 +149,15 @@ class Actor(OffsetStruct({
         return self.id | self.b_npc_id
 
     def __eq__(self, other):
-        if type(other) == Actor:
-            return self.id == other.id
-        if type(other) == int:
-            return self.id == other
-        if type(other) == str:
-            return self.name == other
+        match other:
+            case int():
+                return self.id == other
+            case str():
+                return self.name == other
+            case Actor():
+                return self.id == other.id
+            case unexpected:
+                raise TypeError(f'unexpected type: {unexpected}')
 
     def hitbox(self):
         return circle(self.pos.x, self.pos.y, self.hitbox_radius)

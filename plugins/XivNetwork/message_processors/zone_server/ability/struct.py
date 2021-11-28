@@ -152,6 +152,7 @@ SWING_TYPES = {
     0xF: {'buff', 'to_source'},
     0x18: {'threat'},
     0x19: {'threat'},
+    0x1B: {'combo'},
     0x20: {'knock_back'},
     0x21: {'absorb'},
     0x33: {'instant_death'},

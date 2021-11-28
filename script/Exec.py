@@ -122,7 +122,7 @@ print(plugins.XivMemory.skill_queue)
 """
 c19="""
 from ctypes import *
-print(hex(addressof(plugins.XivMemory.targets.current.effects)))
+print(hex(addressof(plugins.XivMemory.actor_table.me)))
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach

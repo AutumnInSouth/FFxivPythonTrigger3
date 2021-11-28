@@ -48,23 +48,24 @@ class DebugPlugin(PluginBase):
         ]:return
         self.logger.debug(evt.id, evt, len(evt.raw_message))
 
-    @event("network/zone/server/status_effect_list")
+    #@event("network/zone/server/status_effect_list")
     def status_effect(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message))
 
-    #@event("network/zone/server/action_effect")
+    @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
+
+        #if evt.action_id < 10: return
         self.logger(evt)
-        if evt.action_id < 10: return
-        s = []
-        for t, d in evt.targets.items():
-            n, e = d
-            for _e in e:
-                if 'ability' in _e.tags:
-                    s.append(f"{n.name}:{_e.raw_entry.param3}")
-                    break
-        if s:
-            self.logger(evt.action_name, ' '.join(s))
+        # s = []
+        # for t, d in evt.targets.items():
+        #     n, e = d
+        #     for _e in e:
+        #         if 'ability' in _e.tags:
+        #             s.append(f"{n.name}:{_e.raw_entry.param3}")
+        #             break
+        # if s:
+        #     self.logger(evt.action_name, ' '.join(s))
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

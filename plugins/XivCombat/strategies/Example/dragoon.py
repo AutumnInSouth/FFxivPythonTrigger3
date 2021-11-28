@@ -108,16 +108,17 @@ class DragoonLogic(Strategy):
         if 802 in data.effects: return UseAbility(3554)
         if 803 in data.effects: return UseAbility(3556)
         if data.combo_id == 78 and data.me.level >= 26: return UseAbility(84)
-        if data.combo_id == 87 and data.me.level >= 50: return UseAbility(88)
+        if data.combo_id == 87 and data.me.level >= 50:
+            return UseAbility(88)
         if (data.combo_id == 75 or data.combo_id == 16479) and data.me.level >= 4:
             if data.me.level >= 18:
                 t = 11 if data.me.level >= 26 else 6
                 if 1914 not in data.effects or data.effects[1914].timer < t:
-                    return UseAbility(88)
+                    return UseAbility(87)
                 if data.me.level >= 50:
                     t_effect = data.target.effects.get_dict(source=data.me.id)
-                    if 118 not in t_effect or t_effect[118].timer < t:
-                        return UseAbility(88)
+                    if (118 not in t_effect or t_effect[118].timer < t) and data.time_to_kill_target > 15:
+                        return UseAbility(87)
             return UseAbility(78)
         return UseAbility(75)
 
@@ -130,7 +131,9 @@ class DragoonLogic(Strategy):
         if not data[3557] and data[85] > 80:
             return UseAbility(3557)
         if not data[7398] and data[85]:
-            members = [member for member in data.valid_party if data.actor_distance_effective(member) <= 12]
+            members = [member for member in data.valid_party if (
+                    member.current_mp and data.actor_distance_effective(member) <= 12 and member.id != data.me.id
+            )]
             if not members:
                 target = data.me
             else:

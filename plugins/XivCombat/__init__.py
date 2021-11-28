@@ -378,6 +378,7 @@ class XivCombat(PluginBase):
                 members = [me]
             m = self.get_monitor()
             return {
+                'period': int(m.last_record - m.first_record),
                 'zone': m.zone_id,
                 'members': [{'name': actor.name, 'dps': int(m.dps(actor.id)), } for actor in members]
             }

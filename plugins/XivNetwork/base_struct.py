@@ -36,7 +36,7 @@ class BundleHeader(OffsetStruct({
 
     @cached_property
     def message_time(self):
-        return datetime.fromtimestamp(self.epoch)
+        return datetime.fromtimestamp(self.epoch/1000)
 
 
 class MessageHeader(OffsetStruct({

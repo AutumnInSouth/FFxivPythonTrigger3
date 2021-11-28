@@ -229,7 +229,7 @@ class WanaHome(PluginBase):
 
     def goto(self, territory_id, ward_id, house_id, world_id=None):
         if world_id is None:
-            world_id = plugins.XivMemory.world_id
+            world_id = plugins.XivMemory.actor_table.me.current_world
         plugins.XivNetwork.send_messages('zone', ('ClientTrigger', GotoStruct(a=0xd3, l=territory_id, wo=world_id, h=house_id, w=ward_id, m=0x60)))
         return True
 
