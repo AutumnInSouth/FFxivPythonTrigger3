@@ -328,4 +328,4 @@ class XivHacks(PluginBase):
                 me = plugins.XivMemory.actor_table.me
                 if me and self.moving_swing_time > me.casting_time - me.casting_progress > 0.3:  # TODO: flag check
                     return None
-            return struct_message
+            return raw_message

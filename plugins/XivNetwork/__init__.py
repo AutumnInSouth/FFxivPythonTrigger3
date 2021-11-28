@@ -118,7 +118,7 @@ class XivNetwork(PluginBase):
         self.response_waiting = {}
         self.response_listens = [{} for _ in range(3)]
         self._socket_guessing_cache = {}
-        self._packet_fixer = [dict()] * 6
+        self._packet_fixer = [dict() for _ in range(6)]
         self.magic_backup = [BundleHeader() for _ in range(3)]
         self.header_backup = [MessageHeader() for _ in range(3)]
 
@@ -234,17 +234,21 @@ class XivNetwork(PluginBase):
     def register_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)
         opcode = get_opcode(scope, is_server, opcode)
+        scope= scope * 2 + is_server
         self._packet_fixer[scope].setdefault(opcode, set()).add(method)
+        self.logger(self._packet_fixer)
 
     def unregister_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)
         opcode = get_opcode(scope, is_server, opcode)
+        scope = scope * 2 + is_server
         try:
             self._packet_fixer[scope][opcode].remove(method)
             if not self._packet_fixer[scope][opcode]:
                 del self._packet_fixer[scope][opcode]
         except (ValueError, KeyError):
             pass
+        self.logger(self._packet_fixer)
 
     def send_messages(self, scope: int | str, messages: send_message_interface | List[send_message_interface],
                       response: allow_response_interface | List[allow_response_interface] = None,
