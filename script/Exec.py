@@ -103,12 +103,7 @@ c15 = """
 for i in range(3):plugins.XivMemory.calls.do_text_command('/@fpt eval self.logger(1)')
 """
 c16="""
-import test_mutex
-import importlib
-import time
-test_mutex=importlib.reload(test_mutex)
-
-print(test_mutex.close_mutex())
+from script import a;import importlib;importlib.reload(a).main()
 """
 c17="""
 plugins.XivNetwork.send_messages('zone',[('ClientTrigger',{
@@ -133,7 +128,7 @@ import importlib
 import script.action_effect
 importlib.reload(script.action_effect).main()
 """
-t = requests.post("http://127.0.0.1:2019/exec", c19.encode('utf-8')).text
+t = requests.post("http://127.0.0.1:2019/exec", c16.encode('utf-8')).text
 
 
 d = json.loads(t)

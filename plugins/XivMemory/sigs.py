@@ -162,6 +162,16 @@ sigs = {
         'call': find_unique_signature_point,
         'param': "48 8D 0D * * * * E8 ? ? ? ? 45 84 E4 75 1A F6 45 12 04",
         'add': BASE_ADDR,
+    },
+    "quest_manager": {
+        'call': find_unique_signature_point,
+        'param': "48 8D 0D * * * * E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 83 7C 24 ? ?",
+        'add': BASE_ADDR,
+    },
+    "is_quest_finished":{
+        'call': find_unique_signature_address,
+        'param': "40 53 48 83 EC ? 8B DA 48 8B D1 81 FB ? ? ? ?",
+        'add': BASE_ADDR,
     }
 }
 

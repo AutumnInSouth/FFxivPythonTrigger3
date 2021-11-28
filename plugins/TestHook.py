@@ -14,15 +14,23 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.knock_back(self, BASE_ADDR + 0x81DF40)
+        self.test(3596)
+        self.action_check(self, BASE_ADDR + 0x8047D0).install_and_enable()
+        self.test(3596)
 
-    """_int64 __fastcall sub_14081DF40(__int64 a1, __int64 a2, __int64 a3, unsigned int a4)"""
 
-    @PluginHook.decorator(c_int64, [c_int64, c_int64, c_int64, c_uint], True)
-    def knock_back(self, hook, a1, a2, a3, a4):
-        return 1
-        ans = hook.original(a1, a2, a3, a4)
-        self.logger(f"{ans:x} {a1:x} {a2:x} {a3:x} {a4:x}")
+
+    def test(self, test_action):
+        sub_14080B1F0 = CFUNCTYPE(c_int64, c_int64, c_uint, c_uint, c_uint, c_ubyte, c_ubyte)(BASE_ADDR + 0x80B1F0)
+        self.logger(sub_14080B1F0(BASE_ADDR + 0x1d60580, 1, test_action, 0xe0000000, 1, 1))
+
+    """bool __fastcall sub_1408047D0(unsigned int a1, unsigned int a2)"""
+    @PluginHook.decorator(c_ubyte, [c_uint, c_uint])
+    def action_check(self, hook, a1, a2):
+        self.cnt += 1
+        if self.cnt > 10: PluginHook.uninstall(hook)
+        ans = hook.original(a1, a2)
+        self.logger(f"{ans:x} {a1} {a2}")
         return ans
 
         #     self.cast_hook2(self, BASE_ADDR + 0x6E8CA0)

@@ -8,11 +8,6 @@ from FFxivPythonTrigger.exceptions import NeedRequirementError, PluginNotFoundEx
 from FFxivPythonTrigger.memory import read_memory, read_uint, read_float, write_float
 from FFxivPythonTrigger.memory.struct_factory import PointerStruct, OffsetStruct
 
-try:
-    from aiohttp import web
-except ModuleNotFoundError:
-    raise NeedRequirementError('aiohttp')
-
 from .sigs import sigs, enemies_shifts, mission_info_shifts
 from .struct.actor import ActorTable, Actor
 from .struct.combat import ComboState, SkillQueue, CoolDownGroups, Enemies, MissionInfo, PvpAction
@@ -32,7 +27,13 @@ from .calls.do_action import DoAction, DoActionLocation
 from .calls.do_text_command import DoTextCommand
 from .calls.head_mark import HeadMark
 from .calls.way_mark import WayMark
+from .calls.is_quest_finished import IsQuestFinished
 from .utils import Utils
+
+try:
+    from aiohttp import web
+except ModuleNotFoundError:
+    raise NeedRequirementError('aiohttp')
 
 
 class XivMemory(PluginBase):
@@ -88,6 +89,7 @@ class XivMemory(PluginBase):
             'way_mark': WayMark(self._address['way_mark_set'], self._address['way_mark_clear'],
                                 self._address['way_mark_clear_all'],
                                 self._address['marking_controller'], self._address['action_manager']),
+            'is_quest_finished': IsQuestFinished(self._address['is_quest_finished'], self._address['quest_manager']),
         })
         self.utils = Utils(self)
         self.register_http_api_route()

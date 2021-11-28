@@ -161,6 +161,7 @@ class FrontRpc(RpcFuncHandler):
         shellcode = f"""
 import sys
 import os
+import threading
 from os import chdir,environ
 from traceback import format_exc
 init_modules = set(sys.modules.keys())
@@ -174,9 +175,15 @@ try:
     from FFxivPythonTrigger import logger
     logger.print_log_level = logger.DEBUG
     try:
-        init()
-        register_modules({init_plugins})
-        run()
+        t=threading.Thread(target=init)
+        t.start()
+        t.join()
+        t=threading.Thread(target=register_modules,args=({init_plugins},))
+        t.start()
+        t.join()
+        t=threading.Thread(target=run)
+        t.start()
+        t.join()
     except Exception:
         pass
     finally:

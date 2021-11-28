@@ -39,6 +39,27 @@ module.exports = vue.defineComponent({
              <el-switch v-model="value.value" />
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="afix_enable" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="afix enable">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="afix_distance" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="afix effective distance">
+             <el-slider v-model="value.value" :step="0.1" :min="0" :max="10" show-input/>
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="moving_swing_enable" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="moving swing enable">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="moving_swing_time" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="moving swing time">
+             <el-slider v-model="value.value" :step="0.1" :min="0" :max="5" show-input/>
+        </el-form-item>
+    </fpt-bind-item>
+
     <el-divider/>
     <h4>Zoom</h4>
     <fpt-bind-item attr="zoom_cam_distance_reset"  :plugin="plugin" v-slot="{value}">

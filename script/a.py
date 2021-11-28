@@ -1,9 +1,5 @@
-match 1:
-    case 'Actor':
-        print('Actor')
-    case int():
-        print('int')
-    case str():
-        print('str')
-    case unexpected:
-        raise TypeError(f'unexpected type: {unexpected}')
+from FFxivPythonTrigger import *
+
+def main():
+    print(plugins.XivMemory.calls.is_quest_finished.is_action_unlocked(7448))
+    print(plugins.XivMemory.calls.is_quest_finished.is_action_unlocked(3610))
