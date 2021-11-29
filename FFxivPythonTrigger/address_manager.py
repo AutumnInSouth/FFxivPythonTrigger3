@@ -4,7 +4,7 @@ from . import game_version
 from .storage import ModuleStorage, BASE_PATH
 from .memory import BASE_ADDR
 from .logger import Logger
-from .text_pattern import find_unique_signature_point, find_unique_signature_address
+from .text_pattern import find_signature_point, find_signature_address
 
 _storage = ModuleStorage(BASE_PATH / "Address")
 _storage_data = _storage.data.setdefault(game_version, {})
@@ -18,10 +18,10 @@ class AddressManager(object):
         self.force_search = force_search
 
     def scan_address(self, key: str, sig: str, add=0):
-        return self.get(key, find_unique_signature_address, sig, add=BASE_ADDR + add)
+        return self.get(key, find_signature_address, sig, add=BASE_ADDR + add)
 
     def scan_point(self, key: str, sig: str, add=0):
-        return self.get(key, find_unique_signature_point, sig, add=BASE_ADDR + add)
+        return self.get(key, find_signature_point, sig, add=BASE_ADDR + add)
 
     def get(self, key: str, call: Callable, param: any = None, add=0, **kwargs):
         if key in self.storage and not self.force_search:
@@ -44,6 +44,6 @@ class AddressManager(object):
 
     def load(self, sig_data: dict[str, dict]):
         return {
-            key: self.get(key, _sig_data['call'], _sig_data['param'], add=_sig_data.get('add', 0))
+            key: self.get(key, _sig_data['call'], _sig_data['param'], add=_sig_data.get('add', 0), **_sig_data.get('kwargs', {}))
             for key, _sig_data in sig_data.items()
         }

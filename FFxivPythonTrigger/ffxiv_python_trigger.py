@@ -533,6 +533,9 @@ def init():
     for path in _storage.data.setdefault('paths', list()):
         _logger.debug("add plugin path:%s" % path)
         sys.path.insert(0, path)
+    res_path = Path(os.getcwd()) / 'res'
+    res_path.mkdir(exist_ok=True)
+    os.add_dll_directory(str(res_path))
     _event_process_mission.start()
     frame_inject.install_and_enable()
 

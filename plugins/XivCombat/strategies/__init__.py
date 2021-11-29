@@ -18,11 +18,15 @@ class _Using(object):
 
 
 class UseAbility(_Using):
-    def __init__(self, ability_id: int, target_id: int = None, ability_type: AbilityType = None,
+    def __init__(self, ability_id: int,
+                 target_id: int = None,
+                 ability_type: AbilityType = None,
+                 target_position: Tuple[float, float, float] = None,
                  wait_until: Callable = None):
         self.ability_id = ability_id
         self.target_id = target_id
         self.ability_type = ability_type
+        self.target_position = target_position
         self.wait_until = wait_until
 
 
@@ -45,14 +49,14 @@ class Strategy(object):
     fight_only: bool = True
     default_data = {}
 
-    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         pass
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         pass
 
-    def common_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def common_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         pass
 
-    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
         pass

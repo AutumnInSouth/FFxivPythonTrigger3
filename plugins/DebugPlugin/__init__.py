@@ -39,7 +39,7 @@ class DebugPlugin(PluginBase):
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k,v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    #@re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",

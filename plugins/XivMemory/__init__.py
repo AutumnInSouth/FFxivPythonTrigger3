@@ -28,6 +28,7 @@ from .calls.do_text_command import DoTextCommand
 from .calls.head_mark import HeadMark
 from .calls.way_mark import WayMark
 from .calls.is_quest_finished import IsQuestFinished
+from .calls.screen_to_world import ScreenToWorld
 from .utils import Utils
 
 try:
@@ -90,6 +91,7 @@ class XivMemory(PluginBase):
                                 self._address['way_mark_clear_all'],
                                 self._address['marking_controller'], self._address['action_manager']),
             'is_quest_finished': IsQuestFinished(self._address['is_quest_finished'], self._address['quest_manager']),
+            'screen_to_world': ScreenToWorld(self._address['screen_to_world'], self._address['get_camera_matrix']),
         })
         self.utils = Utils(self)
         self.register_http_api_route()

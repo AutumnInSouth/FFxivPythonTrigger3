@@ -289,6 +289,7 @@ class XivHacks(PluginBase):
             if not self.afix_work or evt.source_id != plugins.XivMemory.player_info.id or evt.action_type != 'action':
                 return
             self.goto(stop=True)
+            self.afix_work = False
 
         @event("plugin_load:XivNetwork")
         def register_afix(self, _=None):

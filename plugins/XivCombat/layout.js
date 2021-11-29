@@ -14,8 +14,17 @@ module.exports = vue.defineComponent({
         return {plugin, dps_data, ttk_data}
     },
     template: `
-{{dps_data}}<br/>
-{{ttk_data}}
+{{dps_data.zone}}
+<el-table :data="dps_data.members" style="width: 100%" :default-sort = "{prop: 'dps', order: 'descending'}" >
+    <el-table-column prop="job" label="职业" sortable width="200"/>
+    <el-table-column prop="name" label="名字"/>
+    <el-table-column prop="dps" label="dps" width="200" sortable/>
+</el-table>
+<el-divider></el-divider>
+<el-table :data="ttk_data" style="width: 100%" :default-sort = "{prop: 'ttk', order: 'ascending'}" >
+    <el-table-column prop="name" label="名字"/>
+    <el-table-column prop="ttk" label="ttk" sortable/>
+</el-table>
 `
 
 })

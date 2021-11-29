@@ -230,12 +230,12 @@ class MachinistGauge(OffsetStruct({
 
 AstCard = EnumStruct(c_ubyte, {
     0: '',
-    1: 'balance',
-    2: 'bole',
-    3: 'arrow',
-    4: 'spear',
-    5: 'ewer',
-    6: 'spire',
+    1: 'balance',  # 1
+    2: 'bole',  # 1
+    3: 'arrow',  # 2
+    4: 'spear',  # 3
+    5: 'ewer',  # 2
+    6: 'spire',  # 3
 }, name="AstCard")
 
 AstArcanum = EnumStruct(c_ubyte, {

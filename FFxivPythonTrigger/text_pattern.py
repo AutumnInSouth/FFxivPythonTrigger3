@@ -72,16 +72,16 @@ def search_from_text(sig: str):
     ) for address, groups in _search_from_text(pattern)]
 
 
-def find_unique_signature_address(signature: str):
+def find_signature_address(signature: str, unique=True):
     data = search_from_text(signature)
-    if len(data) != 1:
+    if unique and len(data) != 1:
         raise ValueError(f"Signature is not unique, {len(data)} results found")
     return data[0][0]
 
 
-def find_unique_signature_point(signature: str):
+def find_signature_point(signature: str, unique=True):
     data = search_from_text(signature)
-    if len(data) != 1:
+    if unique and len(data) != 1:
         raise ValueError(f"Signature is not unique, {len(data)} results found")
     address, offsets = data[0]
     if len(offsets) != 1:

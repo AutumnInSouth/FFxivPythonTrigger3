@@ -208,11 +208,18 @@ class LogicData(object):
         api.reset_cd(action_sheet[action_id]['CooldownGroup'])
 
     @cache
+    def skill_unlocked(self, action_id: int):
+        """
+        check if the skill is unlocked
+        """
+        return api.is_action_unlocked(action_id)
+
+    @cache
     def skill_cd(self, action_id: int):
         """remain time of an action cool down"""
 
         row = action_sheet[action_id]
-        if self.me.level < row['ClassJobLevel']:
+        if self.me.level < row['ClassJobLevel'] or not self.skill_unlocked(action_id):
             return 1e+99
         else:
             return api.get_cd_group(row['CooldownGroup']).remain

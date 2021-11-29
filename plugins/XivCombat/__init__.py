@@ -1,5 +1,6 @@
 import traceback
 from ctypes import *
+from functools import lru_cache
 from importlib import import_module
 from inspect import isclass
 from pathlib import Path
@@ -14,7 +15,7 @@ from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.saint_coinach import action_names
-from FFxivPythonTrigger.text_pattern import find_unique_signature_point, find_unique_signature_address
+from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
 from . import define, strategies, api, logic_data, utils
 from .define import AbilityType
 from .utils import is_area_action, use_ability
@@ -42,22 +43,22 @@ default_common_config = {
 }
 sigs = {
     "hot_bar_process": {
-        'call': find_unique_signature_address,
+        'call': find_signature_address,
         'param': "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 0F B6 82 ? ? ? ?",
         'add': BASE_ADDR,
     },
     "action_type_check": {
-        'call': find_unique_signature_address,
+        'call': find_signature_address,
         'param': "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B 2D ? ? ? ? 49 8B D8",
         'add': BASE_ADDR,
     },
     "action_distance_check": {
-        'call': find_unique_signature_address,
+        'call': find_signature_address,
         'param': "48 89 5C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 89 4C 24 ?",
         'add': BASE_ADDR,
     },
     "action_data_sig": {
-        'call': find_unique_signature_point,
+        'call': find_signature_point,
         'param': "E8 * * * * 48 8B F0 48 85 C0 0F 84 ? ? ? ? BA ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8B 0D ? ? ? ?",
         'add': BASE_ADDR,
     },
@@ -275,9 +276,13 @@ class XivCombat(PluginBase):
                         action_id = block.param
                         data = self.get_logic_data()
                         to_use = strategy.process_ability_use(data, block.param, t_id)
-                        if to_use is not None: action_id, t_id = to_use
+                        if to_use is not None:
+                            if not isinstance(to_use, strategies.UseAbility):
+                                to_use = strategies.UseAbility(*to_use)
+                        else:
+                            to_use = strategies.UseAbility(action_id, t_id)
                         self.ability_cnt += 1
-                        use_ability(strategies.UseAbility(action_id, t_id))
+                        use_ability(to_use)
                         return 1
                     elif block.type == 2 or block.type == 10:
                         api.reset_ani_lock()
@@ -370,7 +375,8 @@ class XivCombat(PluginBase):
 
     # layout
     if 1:
-        def layout_team_dps(self):
+        @lru_cache(1)
+        def _layout_team_dps(self, last_time: float):
             members = [member for member in api.get_party_list()]
             if not members:
                 me = api.get_me_actor()
@@ -380,8 +386,11 @@ class XivCombat(PluginBase):
             return {
                 'period': int(m.last_record - m.first_record),
                 'zone': m.zone_id,
-                'members': [{'name': actor.name, 'dps': int(m.dps(actor.id)), } for actor in members]
+                'members': [{'name': actor.name, 'dps': int(m.dps(actor.id)), 'job': actor.job.value} for actor in members]
             }
+
+        def layout_team_dps(self):
+            return self._layout_team_dps(self.get_monitor().last_record)
 
         def layout_enemies_ttk(self):
             return [{

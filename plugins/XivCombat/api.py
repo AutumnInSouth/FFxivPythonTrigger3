@@ -1,6 +1,6 @@
 from ctypes import addressof
 from functools import cache
-from typing import TYPE_CHECKING, Iterable
+from typing import TYPE_CHECKING, Iterable, Tuple
 
 from FFxivPythonTrigger import plugins
 
@@ -69,6 +69,10 @@ def get_focus_target() -> 'None |Actor':
 
 def get_mo_target() -> 'None |Actor':
     return plugins.XivMemory.utils.mo_entity
+
+
+def get_mo_location() -> None | Tuple[float, float, float]:
+    return plugins.XivMemory.utils.mo_location
 
 
 def set_current_target(actor):
@@ -173,3 +177,7 @@ def get_zone_id() -> int:
 
 def get_pet_id() -> int:
     return plugins.XivMemory.buddy.pet.data_id
+
+
+def is_action_unlocked(action_id: int) -> bool:
+    return plugins.XivMemory.calls.is_quest_finished.is_action_unlocked(action_id)

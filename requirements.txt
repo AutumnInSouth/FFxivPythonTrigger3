@@ -2,3 +2,4 @@ aiohttp
 Pillow
 pefile
 requests
+PyGLM

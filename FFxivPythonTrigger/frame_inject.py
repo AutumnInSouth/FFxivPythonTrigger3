@@ -6,13 +6,13 @@ from inspect import getfile, getsourcelines
 
 from .logger import Logger
 from .hook import Hook
-from .text_pattern import find_unique_signature_address
+from .text_pattern import find_signature_address
 from .memory import BASE_ADDR
 
 MISSION_TIME_LIMIT = 0.05
 
 sig = {
-    'call': find_unique_signature_address,
+    'call': find_signature_address,
     'param': "4C 8B DC 53 56 48 81 EC 18 02 00 00 48 8B 05",
     'add': BASE_ADDR,
 }
