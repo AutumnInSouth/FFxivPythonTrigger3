@@ -35,7 +35,7 @@ class ActionEffect(object):
             # self.tags.add(hex(self.raw_flag)[2:].zfill(8)+"-"+hex(self.raw_amount)[2:].zfill(8))
 
     def __str__(self):
-        return f"{self.param}{self.tags}" + str(self.raw_entry.get_data())
+        return f"{self.param}{self.tags}"# + str(self.raw_entry.get_data())
 
 
 class ActionEffectEvent(NetworkZoneServerEvent):

@@ -156,7 +156,7 @@ class LogicData(object):
     @lru_cache
     def ttk(self, actor):
         dtps = self.tdps(actor)
-        if dtps == 0: return -1
+        if dtps == 0: return 1e+99
         return actor.current_hp / dtps
 
     @property
