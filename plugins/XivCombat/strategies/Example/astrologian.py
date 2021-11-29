@@ -123,12 +123,14 @@ class AstrologianLogic(Strategy):
         if data.me.level >= 4:
             dot_status = 838 if data.me.level < 46 else 843 if data.me.level < 72 else 1881
             for enemy in data.valid_enemies:
-                if data.actor_distance_effective(enemy) <= 25 and not enemy.effects.has(dot_status, data.me.id):
+                if data.actor_distance_effective(enemy) <= 25 and data.ttk(enemy) > 20 and not enemy.effects.has(dot_status, data.me.id):
                     return UseAbility(3599, enemy.id)
         if can_swing and data.target_distance <= 25:
             return UseAbility(3596)
 
     def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
+        if data.me.level>=30 and 839 not in data.effects and 840 not in data.effects:
+            return UseAbility(3604)
         res = res_lv(data)
         arcs = {arc.raw_value for arc in data.gauge.arcanums}
         if res and not data[16552] and 0 not in arcs and data.max_ttk >= 30:
@@ -152,5 +154,4 @@ class AstrologianLogic(Strategy):
                 return UseAbility(3590)
             elif not data[7448]:
                 return UseAbility(7448)
-        if data.me.current_mp <= 7000 and not data[7562]:
-            return UseAbility(7562)
+        if not data[7562] and data.me.current_mp < 7000: return UseAbility(7562)  # 醒梦
