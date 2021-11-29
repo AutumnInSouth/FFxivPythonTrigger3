@@ -64,7 +64,16 @@ module.exports = vue.defineComponent({
              <el-slider v-model="value.value" :step="0.1" :min="0" :max="5" show-input/>
         </el-form-item>
     </fpt-bind-item>
-
+    <fpt-bind-item attr="moving_no_fall" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="moving no fall">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="moving_z_modify" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="moving z modify">
+             <el-slider v-model="value.value" :step="0.5" :min="-20" :max="20" show-input/>
+        </el-form-item>
+    </fpt-bind-item>
     <el-divider/>
     <h4>Zoom</h4>
     <fpt-bind-item attr="zoom_cam_distance_reset"  :plugin="plugin" v-slot="{value}">

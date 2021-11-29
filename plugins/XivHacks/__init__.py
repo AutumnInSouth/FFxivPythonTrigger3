@@ -40,7 +40,7 @@ hack_swing_reduce = True
 hack_ninja_stiff = True
 hack_speed = True
 hack_afix = True
-hack_move_swing = True
+hack_network_moving = True
 hack_knock_ani_lock = True
 hack_hit_box = True
 
@@ -104,7 +104,7 @@ class XivHacks(PluginBase):
             self.register_afix()
 
         # moving swing
-        if hack_move_swing:
+        if hack_network_moving:
             self.register_moving_swing()
 
         self.storage.save()
@@ -322,22 +322,38 @@ class XivHacks(PluginBase):
                                 self.goto(*xy, new_r)
             return struct_message
 
-    # moving swing
-    if hack_move_swing:
+    # moving swing & movement hacks
+    if hack_network_moving:
         moving_swing_enable = BindValue(default=False, auto_save=True)
         moving_swing_time = BindValue(default=1.5, auto_save=True)
+        moving_z_modify = BindValue(default=0, auto_save=True)
+        moving_no_fall = BindValue(default=False, auto_save=True)
 
         @event("plugin_load:XivNetwork")
         def register_moving_swing(self, _=None):
             try:
-                plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionInstance', self.makeup_moving)
-                plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving)
+                plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionInstance', self.makeup_moving_instance)
+                plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving_handler)
             except PluginNotFoundException:
                 self.logger.warning("XivNetwork is not found")
 
-        def makeup_moving(self, bundle_header, message_header, raw_message, struct_message):
+        def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
             if self.moving_swing_enable:
                 me = plugins.XivMemory.actor_table.me
                 if me and self.moving_swing_time > me.casting_time - me.casting_progress > 0.3:  # TODO: flag check
                     return None
-            return raw_message
+            if self.moving_no_fall: struct_message.unk0 &= 0xf000
+            if self.moving_z_modify: struct_message.pos.z += self.moving_z_modify
+            return struct_message
+
+        def makeup_moving_instance(self, bundle_header, message_header, raw_message, struct_message):
+            if self.moving_swing_enable:
+                me = plugins.XivMemory.actor_table.me
+                if me and self.moving_swing_time > me.casting_time - me.casting_progress > 0.3:  # TODO: flag check
+                    return None
+            if self.moving_no_fall:
+                struct_message.unk0 &= 0xf000
+            if self.moving_z_modify:
+                struct_message.new_pos.z += self.moving_z_modify
+                struct_message.old_pos.z += self.moving_z_modify
+            return struct_message

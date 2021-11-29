@@ -19,7 +19,7 @@ def get_coordinate() -> 'Coordinate':
 def tp_rxy(angle, dis):
     coordinate = get_coordinate()
     coordinate.x += math.sin(angle) * dis
-    coordinate.y += (math.cos(angle) * dis)
+    coordinate.y += math.cos(angle) * dis
 
 
 def tp_rz(dis):
