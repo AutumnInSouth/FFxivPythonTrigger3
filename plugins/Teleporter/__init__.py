@@ -13,7 +13,7 @@ command = '@tp'
 
 
 def get_coordinate() -> 'Coordinate':
-    return plugins.XivMemory.get_coordinate
+    return plugins.XivMemory.coordinate
 
 
 def tp_rxy(angle, dis):
