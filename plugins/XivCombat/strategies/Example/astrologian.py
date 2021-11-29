@@ -44,10 +44,9 @@ class AstrologianLogic(Strategy):
     job = "Astrologian"
 
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int):
-        data.plugin.logger(action_id,data[action_id])
         match action_id:
             case 17055 | 7443:
-                return action_id, card_target(data, data.gauge.held_card.raw_value)
+                return action_id, card_target(data, data.gauge.held_card.raw_value).id
             case 7439:
                 if 1224 not in data.effects and 1248 not in data.effects:
                     return UseAbility(7439, target_position=api.get_mo_location())
