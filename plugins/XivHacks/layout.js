@@ -24,6 +24,11 @@ module.exports = vue.defineComponent({
              <el-slider v-model="value.value" :step="0.01" :min="0" :max="1" show-input/>
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="skill_animation_lock_local" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="skill ani lock local">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
     <fpt-bind-item attr="hit_box_adjust" :plugin="plugin" v-slot="{value}">
         <el-form-item label="hit box adjust">
              <el-slider v-model="value.value" :step="0.5" :min="-5" :max="5" show-input/>

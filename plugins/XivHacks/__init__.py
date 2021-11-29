@@ -1,15 +1,15 @@
 import base64
-import math
 from ctypes import *
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import math
+
 from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version
 from FFxivPythonTrigger.decorator import BindValue, event
+from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import read_memory, write_float, read_int, read_ubytes, write_ubytes, write_ubyte
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
-from FFxivPythonTrigger.hook import PluginHook
-
 from . import afix
 from .sigs import sigs
 from .struct import MinMax, ActionParam, ActionEffectEntry
@@ -168,11 +168,23 @@ class XivHacks(PluginBase):
     if hack_knock_ani_lock:
         anti_knock = BindValue(default=False, auto_save=True)
 
+        def set_local_ani_lock(self, new_val=None):
+            address = self._address["skill_animation_lock_local"]
+            if new_val is None:
+                write_float(address + 4, DEFAULT_SALOCK_FIX1)
+                write_float(address + 14, DEFAULT_SALOCK_FIX2)
+            else:
+                write_float(address + 4, min(new_val, DEFAULT_SALOCK_FIX1))
+                write_float(address + 14, min(new_val, DEFAULT_SALOCK_FIX2))
+
+        @BindValue.decorator(default=True, auto_save=True)
+        def skill_animation_lock_local(self, new_val, old_val):
+            self.set_local_ani_lock(self.skill_animation_lock_time if new_val else None)
+            return True
+
         @BindValue.decorator(default=.5, init_set=True, auto_save=True)
         def skill_animation_lock_time(self, new_val, old_val):
-            address = self._address["skill_animation_lock_local"]
-            write_float(address + 4, min(new_val, DEFAULT_SALOCK_FIX1))
-            write_float(address + 14, min(new_val, DEFAULT_SALOCK_FIX2))
+            if self.skill_animation_lock_local: self.set_local_ani_lock(new_val)
             return True
 
         @PluginHook.decorator(c_int64, action_hook_args_type, True)
