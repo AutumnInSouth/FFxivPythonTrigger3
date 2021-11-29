@@ -1,5 +1,6 @@
 import traceback
 import typing
+
 import math
 
 from FFxivPythonTrigger import plugins, PluginBase, PluginNotFoundException
@@ -27,6 +28,10 @@ def tp_rz(dis):
 
 class Teleporter(PluginBase):
     name = "Teleporter"
+
+    def __init__(self):
+        super().__init__()
+        self.register_command()
 
     def get_zone_data(self):
         zid = plugins.XivMemory.zone_id
@@ -95,7 +100,7 @@ class Teleporter(PluginBase):
                 return f"unknown command {unk}"
 
     @event("plugin_load:Command")
-    def register_command(self, _):
+    def register_command(self, _=None):
         try:
             plugins.Command.register(self, command, self.process_cmd)
         except PluginNotFoundException:
