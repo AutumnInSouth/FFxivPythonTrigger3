@@ -44,8 +44,8 @@ class Effects(Effect * 30):
     def has(self, status_id: int, source: Optional[int] = None):
         for effect in self:
             if effect.buff_id == status_id and (source is None or effect.actor_id == source):
-                return True
-        return False
+                return effect.timer
+        return 0
 
 
 class ActorPosition(OffsetStruct({
@@ -90,8 +90,8 @@ class Actor(OffsetStruct({
     'pc_target_id_2': (c_uint, 0x230),
     'npc_target_id': (c_uint, 0x1818),
     'b_npc_target_id': (c_uint, 0x18d8),
-    'current_world':(c_ushort,0x195c),
-    'home_world':(c_ushort,0x195e),
+    'current_world': (c_ushort, 0x195c),
+    'home_world': (c_ushort, 0x195e),
     'shield_percent': (c_ubyte, 0x1997),
     '_status_flags': (c_ubyte, 0x19a0),
     '_status_flags_2': (c_ubyte, 0x19a5),

@@ -281,6 +281,9 @@ class XivCombat(PluginBase):
                                 to_use = strategies.UseAbility(*to_use)
                         else:
                             to_use = strategies.UseAbility(action_id, t_id)
+                        if to_use.target_id is None:
+                            target = data.target
+                            to_use.target_id = data.me.id if target is None else target.id
                         self.ability_cnt += 1
                         use_ability(to_use)
                         return 1
