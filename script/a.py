@@ -5,12 +5,9 @@ from FFxivPythonTrigger import plugins
 
 
 def main():
-    for i in range(200):
-        try:
-            plugins.XivMemory.calls.way_mark('b', plugins.XivMemory.utils.mo_location)
-        except Exception as e:
-            print(e)
-        sleep(0.1)
+    data = {plugins.XivMemory.actor_table.me:0}
+    data[plugins.XivMemory.actor_table.me.id] = 1
+    print(data)
 
 
 if __name__ == '__main__':

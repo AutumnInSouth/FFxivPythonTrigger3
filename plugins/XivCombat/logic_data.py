@@ -93,11 +93,11 @@ class LogicData(object):
 
     @cached_property
     def valid_party(self):
-        return [actor for actor in api.get_party_list() if actor.can_select]
+        return [actor for actor in api.get_party_list() if actor.can_select] or [self.me]
 
     @cached_property
     def valid_alliance(self):
-        return [actor for actor in api.get_party_list(True) if actor.can_select]
+        return [actor for actor in api.get_party_list(True) if actor.can_select] or [self.me]
 
     @cached_property
     def valid_players(self):

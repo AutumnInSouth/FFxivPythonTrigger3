@@ -169,13 +169,14 @@ class AstrologianLogic(Strategy):
 
         can_use_3614 = data[3614] <= (30 if data.me.level >= 78 else 0)
         target_mapping = map_enemy_targets(data)
-        member_sort_with_target_count_desc = sorted(data.valid_party, key=lambda member: len(target_mapping[member]))
+        member_sort_with_target_count_desc = sorted(data.valid_party, key=lambda member: len(target_mapping[member]),reverse=True)
         can_use_single_status = data.me.level >= 34 and (is_white or is_black)
         single_status_id = 835 if is_white else 837
+        #data.plugin.logger(','.join(f"{m.name}:{target_mapping[m]}" for m in member_sort_with_target_count_desc))
         for member in member_sort_with_target_count_desc:
             if not len(target_mapping[member]): break
             if data.actor_distance_effective(member) > 25 or avg(target_mapping[member]) < 20: continue
-            if can_use_single_status and member.effects.has(single_status_id) < 3:
+            if can_use_single_status and member.job.is_tank and member.effects.has(single_status_id) < 3:
                 return UseAbility(3595, member.id)
             if not can_use_3614 and hp_percent(member) < 0.5:
                 if data.me.level >= 26:
