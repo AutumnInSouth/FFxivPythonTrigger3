@@ -5,16 +5,14 @@ class Actions:
 
     class TrueThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：(source.job==22?(source.level>=76?290:210):210)
-
+        Delivers an attack with a potency of (source.job==22?(source.level>=76?290:210):210).(source.job==22?(source.level>=76? ※Action changes to Raiden Thrust when Raiden Thrust Ready.:):)
         """
         id = 75
         name = {"True Thrust", "精准刺"}
 
     class VorpalThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：(source.job==22?(source.level>=76?140:100):100) 连击条件：精准刺 连击中威力：(source.job==22?(source.level>=76?350:310):310)
-
+        Delivers an attack with a potency of (source.job==22?(source.level>=76?140:100):100). Combo Action: True Thrust Combo Potency: (source.job==22?(source.level>=76?350:310):310)
         """
         id = 78
         name = {"Vorpal Thrust", "贯通刺"}
@@ -22,18 +20,16 @@ class Actions:
 
     class LifeSurge(ActionBase):
         """
-        效果时间内，自身发动的1次战技必定打出暴击，并且恢复自身体力 该效果不适用于持续伤害等状态 持续时间：5秒
-
-        116, 龙剑, Life Surge, 下次发动的战技必定打出暴击，并且附带吸收体力的效果
-        2175, 龙剑, Life Surge, 下次发动的战技造成的伤害提高
+        Ensures critical damage for first weaponskill used while Life Surge is active. Duration: 5s Effect cannot be applied to damage over time. Additional Effect: Absorbs a portion of damage dealt as HP
+        116, Life Surge, Life Surge, Next weaponskill will result in a critical hit with a portion of the resulting damage being absorbed as HP.
+        2175, Life Surge, Life Surge, Next weaponskill will deal increased damage.
         """
         id = 83
         name = {"Life Surge", "龙剑"}
 
     class FullThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：贯通刺 连击中威力：530(source.level>=56?(source.job==22? (source.level>=70?(source.job==22?“苍天龙血”或“红莲龙血”状态中连击成功：:“苍天龙血”状态中连击成功：):“苍天龙血”状态中连击成功：)龙牙龙爪效果提高 持续时间：10秒:):)
-
+        Delivers an attack with a potency of 100. Combo Action: Vorpal Thrust Combo Potency: 530(source.level>=56?(source.job==22? Combo Bonus: Grants Sharper Fang and Claw if under the effect of (source.level>=70?(source.job==22?Blood of the Dragon or Life of the Dragon:Blood of the Dragon):Blood of the Dragon) Duration: 10s:):)
         """
         id = 84
         name = {"Full Thrust", "直刺"}
@@ -41,27 +37,24 @@ class Actions:
 
     class LanceCharge(ActionBase):
         """
-        一定时间内，自身发动攻击造成的伤害提高15% 持续时间：20秒
-
-        1864, 猛枪, Lance Charge, 攻击所造成的伤害提高
+        Increases damage dealt by 15%. Duration: 20s
+        1864, Lance Charge, Lance Charge, Damage dealt is increased.
         """
         id = 85
         name = {"Lance Charge", "猛枪"}
 
     class DoomSpike(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：170
-
+        Delivers an attack with a potency of 170 to all enemies in a straight line before you.
         """
         id = 86
         name = {"Doom Spike", "死天枪"}
 
     class Disembowel(ActionBase):
         """
-        对目标发动物理攻击 威力：(source.job==22?(source.level>=76?150:100):100) 连击条件：精准刺 连击中威力：(source.job==22?(source.level>=76?320:270):270) 连击成功：攻击伤害提高10% 持续时间：30秒
-
-        121, 开膛枪, Disembowel, 突刺耐性降低
-        1914, 开膛枪, Disembowel, 攻击所造成的伤害提高
+        Delivers an attack with a potency of (source.job==22?(source.level>=76?150:100):100). Combo Action: True Thrust Combo Potency: (source.job==22?(source.level>=76?320:270):270) Combo Bonus: Increases damage dealt by 10% Duration: 30s
+        121, Disembowel, Disembowel, Piercing resistance is reduced.
+        1914, Disembowel, Disembowel, Damage dealt is increased.
         """
         id = 87
         name = {"Disembowel", "开膛枪"}
@@ -69,10 +62,9 @@ class Actions:
 
     class ChaosThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：100 背面攻击威力：140 连击条件：开膛枪 连击中威力：290 连击中背面攻击威力：330 连击成功：持续伤害 威力：50 持续时间：24秒(source.level>=58?(source.job==22? (source.level>=70?(source.job==22?“苍天龙血”或“红莲龙血”状态中连击成功：:“苍天龙血”状态中连击成功：):“苍天龙血”状态中连击成功：)龙尾大回旋效果提高 持续时间：10秒:):)
-
-        118, 樱花怒放, Chaos Thrust, 体力逐渐减少
-        1312, 樱花怒放, Chaos Thrust, 受到持续伤害，持续时间中受到为自己附加此状态的玩家的攻击时伤害增加
+        Delivers an attack with a potency of 100. 140 when executed from a target's rear. Combo Action: Disembowel Combo Potency: 290 Rear Combo Potency: 330 Combo Bonus: Damage over time Potency: 50 Duration: 24s(source.level>=58?(source.job==22? Combo Bonus: Grants Enhanced Wheeling Thrust if under the effect of (source.level>=70?(source.job==22?Blood of the Dragon or Life of the Dragon:Blood of the Dragon):Blood of the Dragon) Duration: 10s:):)
+        118, Chaos Thrust, Chaos Thrust, Wounds are bleeding, causing damage over time.
+        1312, Chaos Thrust, Chaos Thrust, Sustaining damage over time, as well as increased damage from target who executed <UIForeground(500)><UIGlow(501)>Chaos Thrust</UIGlow></UIForeground>.
         """
         id = 88
         name = {"Chaos Thrust", "樱花怒放"}
@@ -80,91 +72,80 @@ class Actions:
 
     class PiercingTalon(ActionBase):
         """
-        对目标发动远程物理攻击 威力：150
-
+        Delivers a ranged attack with a potency of 150.
         """
         id = 90
         name = {"Piercing Talon", "贯穿尖"}
 
     class Jump(ActionBase):
         """
-        跳起接近目标并发动物理攻击 威力：310 攻击之后回到原位 (source.level>=68?(source.job==22?追加效果：幻象冲预备 持续时间：15秒 :):)止步状态下无法发动
-
+        Delivers a jumping attack with a potency of 310. Returns you to your original position after the attack is made. (source.level>=68?(source.job==22?Additional Effect: Grants Dive Ready Duration: 15s :):)Cannot be executed while bound.
         """
         id = 92
         name = {"Jump", "跳跃"}
 
     class ElusiveJump(ActionBase):
         """
-        向身后跳出15米距离 止步状态下无法发动
-
+        Executes a jump to a location 15 yalms behind you. Cannot be executed while bound.
         """
         id = 94
         name = {"Elusive Jump", "回避跳跃"}
 
     class SpineshatterDive(ActionBase):
         """
-        跳起接近目标并发动物理攻击 威力：240 止步状态下无法发动
-
+        Delivers a jumping attack with a potency of 240. Cannot be executed while bound.
         """
         id = 95
         name = {"Spineshatter Dive", "破碎冲"}
 
     class DragonfireDive(ActionBase):
         """
-        跳起接近目标并发动火属性范围攻击 威力：380 止步状态下无法发动
-
+        Delivers a jumping fire-based attack with a potency of 380 to target and all enemies nearby it. Cannot be executed while bound.
         """
         id = 96
         name = {"Dragonfire Dive", "龙炎冲"}
 
     class BloodOfTheDragon(ActionBase):
         """
-        (source.job==22?(source.level>=74?一定时间内，高跳和破碎冲的威力提高30% 持续时间：(source.job==22?(source.level>=78?30:20):20)秒:一定时间内，跳跃和破碎冲的威力提高30% 持续时间：(source.job==22?(source.level>=78?30:20):20)秒):一定时间内，跳跃和破碎冲的威力提高30% 持续时间：(source.job==22?(source.level>=78?30:20):20)秒)(source.job==22?(source.level>=56?(source.level>=58? 直刺成功时追加效果：龙牙龙爪效果提高 持续时间：10秒 樱花怒放成功时追加效果：龙尾大回旋效果提高 持续时间：10秒 以上两种状态在苍天龙血状态消失或执行了其他战技时自动解除: 直刺成功时追加效果：龙牙龙爪效果提高 持续时间：10秒 龙牙龙爪效果提高状态在苍天龙血状态消失或执行了龙牙龙爪以外的其他战技时自动解除):):)(source.level>=70?(source.job==22? 发动条件：非红莲龙血状态中:):)
-
-        736, 苍天龙血, Blood of the Dragon, 跳跃和破碎冲的威力提高
+        (source.job==22?(source.level>=74?Increases potency of High Jump and Spineshatter Dive by 30%. Duration: (source.job==22?(source.level>=78?30:20):20)s:Increases potency of Jump and Spineshatter Dive by 30%. Duration: (source.job==22?(source.level>=78?30:20):20)s):Increases potency of Jump and Spineshatter Dive by 30%. Duration: (source.job==22?(source.level>=78?30:20):20)s)(source.job==22?(source.level>=56?(source.level>=58? Additional Effect: Grants Sharper Fang and Claw upon successfully executing Full Thrust, or Enhanced Wheeling Thrust upon successfully executing Chaos Thrust Duration: 10s Effects end upon use or upon using a weaponskill other than Fang and Claw or Wheeling Thrust.: Additional Effect: Grants Sharper Fang and Claw upon successfully executing Full Thrust Duration: 10s Effect ends upon use or upon using a weaponskill other than Fang and Claw.):):)(source.level>=70?(source.job==22? Cannot be executed while under the effect of Life of the Dragon.:):)
+        736, Blood of the Dragon, Blood of the Dragon, Potency of <UIForeground(500)><UIGlow(501)>Jump</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Spineshatter Dive</UIGlow></UIForeground> are increased.
         """
         id = 3553
         name = {"Blood of the Dragon", "苍天龙血"}
 
     class FangAndClaw(ActionBase):
         """
-        对目标发动物理攻击 威力：340 侧面攻击威力：380 追加效果：苍天龙血的持续时间延长10秒 最多可延长至30秒 发动条件：(source.level>=70?(source.job==22?苍天龙血或红莲龙血:苍天龙血):苍天龙血)及龙牙龙爪效果提高状态中
-
+        Delivers an attack with a potency of 340. 380 when executed from a target's flank. Can only be executed while under the effects of Sharper Fang and Claw (source.level>=70?(source.job==22?and either Blood of the Dragon or Life of the Dragon:and Blood of the Dragon):and Blood of the Dragon). Additional Effect: Extends Blood of the Dragon duration by 10s to a maximum of 30s
         """
         id = 3554
         name = {"Fang and Claw", "龙牙龙爪"}
 
     class Geirskogul(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：300 发动条件：苍天龙血状态中(source.level>=70?(source.job==22? 追加效果：苍天龙血变为红莲龙血 发动条件：龙眼2档:):)
-
+        Delivers an attack with a potency of 300 to all enemies in a straight line before you. Can only be executed while under the effect of Blood of the Dragon.(source.level>=70?(source.job==22? Additional Effect: Changes Blood of the Dragon to Life of the Dragon while under the full gaze of the first brood ※Action changes to Nastrond while under the effect of Life of the Dragon.:):)
         """
         id = 3555
         name = {"Geirskogul", "武神枪"}
 
     class WheelingThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：340 背面攻击威力：380 追加效果：苍天龙血的持续时间延长10秒 最多可延长至30秒 发动条件：(source.level>=70?(source.job==22?苍天龙血或红莲龙血:苍天龙血):苍天龙血)及龙尾大回旋效果提高状态中
-
+        Delivers an attack with a potency of 340. 380 when executed from a target's rear. Can only be executed while under the effects of Enhanced Wheeling Thrust (source.level>=70?(source.job==22?and either Blood of the Dragon or Life of the Dragon:and Blood of the Dragon):and Blood of the Dragon). Additional Effect: Extends Blood of the Dragon duration by 10s to a maximum of 30s
         """
         id = 3556
         name = {"Wheeling Thrust", "龙尾大回旋"}
 
     class BattleLitany(ActionBase):
         """
-        一定时间内，自身与周围队员的暴击发动率提高10% 持续时间：20秒
-
-        786, 战斗连祷, Battle Litany, 暴击发动率提高
-        1414, 战斗连祷, Battle Litany, 造成的伤害提高
+        Increases critical hit rate of self and nearby party members by 10%. Duration: 20s
+        786, Battle Litany, Battle Litany, Critical hit rate is increased.
+        1414, Battle Litany, Battle Litany, Damage dealt is increased.
         """
         id = 3557
         name = {"Battle Litany", "战斗连祷"}
 
     class SonicThrust(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：100 连击条件：死天枪 连击中威力：200 连击成功：苍天龙血的持续时间延长10秒 最多可延长至30秒
-
+        Delivers an attack with a potency of 100 to all enemies in a straight line before you. Combo Action: Doom Spike Combo Potency: 200 Combo Bonus: Extends Blood of the Dragon duration by 10s to a maximum of 30s
         """
         id = 7397
         name = {"Sonic Thrust", "音速刺"}
@@ -172,32 +153,28 @@ class Actions:
 
     class DragonSight(ActionBase):
         """
-        为自身附加巨龙右眼状态 当指定一名队员为目标时，为自身附加巨龙右眼状态，为目标附加巨龙左眼状态 巨龙右眼效果：攻击伤害提高10% 巨龙左眼效果：攻击伤害提高5% 持续时间：20秒 与目标的距离超过12米无法发动巨龙左眼的效果
-
+        Grants Right Eye to self, increasing damage dealt by 10%. Also grants target party member Left Eye, increasing damage dealt by 5% as long as target remains within 12 yalms. Duration: 20s
         """
         id = 7398
         name = {"Dragon Sight", "巨龙视线"}
 
     class MirageDive(ActionBase):
         """
-        对目标发动物理攻击 威力：300 (source.level>=70?(source.job==22?“苍天龙血”或“红莲龙血”状态中追加效果：龙眼 :):)发动条件：发动(source.job==22?(source.level>=74?跳跃、高跳:跳跃):跳跃)后对自身附加的幻象冲预备状态中
-
+        Delivers an attack with a potency of 300. (source.level>=70?(source.job==22?Additional Effect: Strengthens the gaze of your Dragon Gauge by 1 if under the effect of Blood of the Dragon or Life of the Dragon :):)Can only be executed when Dive Ready.
         """
         id = 7399
         name = {"Mirage Dive", "幻象冲"}
 
     class Nastrond(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：400 发动条件：红莲龙血状态中 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 400 to all enemies in a straight line before you. Can only be executed while under the effect of Life of the Dragon. ※This action cannot be assigned to a hotbar.
         """
         id = 7400
         name = {"Nastrond", "死者之岸"}
 
     class CoerthanTorment(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：100 连击条件：音速刺 连击中威力：230 连击成功：苍天龙血的持续时间延长10秒 最多可延长至30秒 
-
+        Delivers an attack with a potency of 100 to all enemies in a straight line before you. Combo Action: Sonic Thrust Combo Potency: 230 Combo Bonus: Extends Blood of the Dragon duration by 10s to a maximum of 30s
         """
         id = 16477
         name = {"Coerthan Torment", "山境酷刑"}
@@ -205,24 +182,21 @@ class Actions:
 
     class HighJump(ActionBase):
         """
-        跳起接近目标并发动物理攻击 威力：400 攻击之后回到原位 追加效果：幻象冲预备 持续时间：15秒 止步状态下无法发动
-
+        Delivers a jumping attack with a potency of 400. Returns you to your original position after the attack is made. Additional Effect: Grants Dive Ready Duration: 15s Cannot be executed while bound.
         """
         id = 16478
         name = {"High Jump", "高跳"}
 
     class RaidenThrust(ActionBase):
         """
-        对目标发动物理攻击 威力：330 发动条件：龙眼雷电预备状态中 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 330. Can only be executed when Raiden Thrust Ready. ※This action cannot be assigned to a hotbar.
         """
         id = 16479
         name = {"Raiden Thrust", "龙眼雷电"}
 
     class Stardiver(ActionBase):
         """
-        跳起接近目标并发动火属性范围物理攻击 威力：600 攻击复数敌人时，对目标之外的敌人威力降低30% 止步状态下无法发动 发动条件：红莲龙血状态中
-
+        Delivers a jumping fire-based attack to target and all enemies nearby it with a potency of 600 for the first enemy, and 30% less for all remaining enemies. Can only be executed while under the effect of Life of the Dragon. Cannot be executed while bound.
         """
         id = 16480
         name = {"Stardiver", "坠星冲"}

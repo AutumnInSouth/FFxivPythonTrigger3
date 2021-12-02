@@ -5,17 +5,15 @@ class Actions:
 
     class Hakaze(ActionBase):
         """
-        对目标发动物理攻击 威力：200(source.level>=62?(source.job==34? 追加效果：获得5点剑气:):)
-
+        Delivers an attack with a potency of 200.(source.level>=62?(source.job==34? Additional Effect: Increases Kenki Gauge by 5:):)
         """
         id = 7477
         name = {"Hakaze", "刃风"}
 
     class Jinpu(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：刃风 连击中威力：320 连击成功：攻击伤害提高(source.job==34?(source.level>=78?13:10):10)% 持续时间：40秒(source.level>=62?(source.job==34? 连击成功：获得5点剑气:):)
-
-        1298, 阵风, Jinpu, 攻击所造成的伤害提高
+        Delivers an attack with a potency of 100. Combo Action: Hakaze Combo Potency: 320 Combo Bonus: Increases damage dealt by (source.job==34?(source.level>=78?13:10):10)% Duration: 40s(source.level>=62?(source.job==34? Combo Bonus: Increases Kenki Gauge by 5:):)
+        1298, Jinpu, Jinpu, Damage dealt is increased.
         """
         id = 7478
         name = {"Jinpu", "阵风"}
@@ -23,9 +21,8 @@ class Actions:
 
     class Shifu(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：刃风 连击中威力：320 连击成功：自身的自动攻击间隔、战技与魔法的咏唱及复唱时间缩短(source.job==34?(source.level>=78?13:10):10)% 持续时间：40秒(source.level>=62?(source.job==34? 连击成功：获得5点剑气:):)
-
-        1299, 士风, Shifu, 自动攻击间隔、战技与魔法的咏唱及复唱时间缩短
+        Delivers an attack with a potency of 100. Combo Action: Hakaze Combo Potency: 320 Combo Bonus: Reduces weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay by (source.job==34?(source.level>=78?13:10):10)% Duration: 40s(source.level>=62?(source.job==34? Combo Bonus: Increases Kenki Gauge by 5:):)
+        1299, Shifu, Shifu, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 7479
         name = {"Shifu", "士风"}
@@ -33,10 +30,9 @@ class Actions:
 
     class Yukikaze(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：刃风 连击中威力：360 (source.level>=52?(source.job==34?连击成功：获得雪之闪与(source.level>=62?(source.job==34?15:10):10)点剑气:连击成功：雪之闪):连击成功：雪之闪)
-
-        1227, 雪风, Yukikaze, 斩击耐性降低
-        1318, 雪风, Yukikaze, 受到附加此效果的玩家攻击的伤害增加
+        Delivers an attack with a potency of 100. Combo Action: Hakaze Combo Potency: 360(source.level>=52?(source.job==34? Combo Bonus: Increases Kenki Gauge by (source.level>=62?(source.job==34?15:10):10) Combo Bonus: Grants Setsu: Combo Bonus: Grants Setsu): Combo Bonus: Grants Setsu)
+        1227, Yukikaze, Yukikaze, Slashing resistance is reduced.
+        1318, Yukikaze, Yukikaze, Sustaining increased damage from target who executed <UIForeground(500)><UIGlow(501)>Yukikaze</UIGlow></UIForeground>.
         """
         id = 7480
         name = {"Yukikaze", "雪风"}
@@ -44,8 +40,7 @@ class Actions:
 
     class Gekko(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：阵风 连击中威力：480 (source.level>=52?(source.job==34?连击中背面攻击追加效果：获得5点剑气 :):)(source.level>=62?(source.job==34?连击成功：获得月之闪与5点剑气:连击成功：月之闪):连击成功：月之闪)
-
+        Delivers an attack with a potency of 100. Combo Action: Jinpu Combo Potency: 480(source.level>=52?(source.job==34? Rear Combo Bonus: Increases Kenki Gauge by 5:):)(source.level>=62?(source.job==34? Combo Bonus: Increases Kenki Gauge by 5 Combo Bonus: Grants Getsu: Combo Bonus: Grants Getsu): Combo Bonus: Grants Getsu)
         """
         id = 7481
         name = {"Gekko", "月光"}
@@ -53,8 +48,7 @@ class Actions:
 
     class Kasha(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：士风 连击中威力：480 (source.level>=52?(source.job==34?连击中侧面攻击追加效果：获得5点剑气 :):)(source.level>=62?(source.job==34?连击成功：获得花之闪与5点剑气:连击成功：花之闪):连击成功：花之闪)
-
+        Delivers an attack with a potency of 100. Combo Action: Shifu Combo Potency: 480(source.level>=52?(source.job==34? Flank Combo Bonus: Increases Kenki Gauge by 5:):)(source.level>=62?(source.job==34? Combo Bonus: Increases Kenki Gauge by 5 Combo Bonus: Grants Ka: Combo Bonus: Grants Ka): Combo Bonus: Grants Ka)
         """
         id = 7482
         name = {"Kasha", "花车"}
@@ -62,16 +56,14 @@ class Actions:
 
     class Fuga(ActionBase):
         """
-        向目标所在方向发出扇形范围物理攻击 威力：100(source.level>=62?(source.job==34? 追加效果：获得5点剑气:):)
-
+        Delivers an attack with a potency of 100 to all enemies in a cone before you.(source.level>=62?(source.job==34? Additional Effect: Increases Kenki Gauge by 5:):)
         """
         id = 7483
         name = {"Fuga", "风雅"}
 
     class Mangetsu(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 连击条件：风雅 连击中威力：160 连击成功：阵风的持续时间延长15秒 最多可延长至40秒 (source.level>=52?(source.job==34?连击成功：获得月之闪与(source.level>=62?(source.job==34?10:5):5)点剑气:连击成功：月之闪):连击成功：月之闪)
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Combo Action: Fuga Combo Potency: 160 Combo Bonus: Extends Jinpu duration by 15s to a maximum of 40s(source.level>=52?(source.job==34? Combo Bonus: Increases Kenki Gauge by (source.level>=62?(source.job==34?10:5):5) Combo Bonus: Grants Getsu: Combo Bonus: Grants Getsu): Combo Bonus: Grants Getsu)
         """
         id = 7484
         name = {"Mangetsu", "满月"}
@@ -79,8 +71,7 @@ class Actions:
 
     class Oka(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 连击条件：风雅 连击中威力：160 连击成功：士风的持续时间延长15秒 最多可延长至40秒 (source.level>=52?(source.job==34?连击成功：获得花之闪与(source.level>=62?(source.job==34?10:5):5)点剑气:连击成功：花之闪):连击成功：花之闪)
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Combo Action: Fuga Combo Potency: 160 Combo Bonus: Extends Shifu duration by 15s to a maximum of 40s(source.level>=52?(source.job==34? Combo Bonus: Increases Kenki Gauge by (source.level>=62?(source.job==34?10:5):5) Combo Bonus: Grants Ka: Combo Bonus: Grants Ka): Combo Bonus: Grants Ka)
         """
         id = 7485
         name = {"Oka", "樱花"}
@@ -88,199 +79,174 @@ class Actions:
 
     class Enpi(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：100(source.level>=56?(source.job==34? “燕飞效果提高”状态中威力：320:):)(source.level>=52?(source.job==34? 追加效果：获得(source.level>=62?(source.job==34?10:5):5)点剑气:):)
-
+        Delivers a ranged attack with a potency of 100.(source.level>=56?(source.job==34? Enhanced Enpi Bonus Potency: 320:):)(source.level>=52?(source.job==34? Additional Effect: Increases Kenki Gauge by (source.level>=62?(source.job==34?10:5):5):):)
         """
         id = 7486
         name = {"Enpi", "燕飞"}
 
     class MidareSetsugekka(ActionBase):
         """
-        对目标发动物理攻击 威力：800 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):) ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 800. (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):) ※This action cannot be assigned to a hotbar.
         """
         id = 7487
         name = {"Midare Setsugekka", "纷乱雪月花"}
 
     class TenkaGoken(ActionBase):
         """
-        向目标所在方向发出扇形范围物理攻击 威力：360 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):) ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 360 to all enemies in a cone before you. (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):) ※This action cannot be assigned to a hotbar.
         """
         id = 7488
         name = {"Tenka Goken", "天下五剑"}
 
     class Higanbana(ActionBase):
         """
-        对目标发动物理攻击 威力：250 追加效果：持续伤害 威力：40 持续时间：60秒 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):) ※该技能无法设置到热键栏
-
-        1228, 彼岸花, Higanbana, 体力逐渐减少
-        1319, 彼岸花, Higanbana, 受到持续伤害，同时自身所受的体力恢复效果降低
+        Delivers an attack with a potency of 250. Additional Effect: Damage over time Potency: 40 Duration: 60s (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):) ※This action cannot be assigned to a hotbar.
+        1228, Higanbana, Higanbana, Open wounds are bleeding, causing damage over time.
+        1319, Higanbana, Higanbana, Open wounds are bleeding, causing damage over time. HP recovery is reduced.
         """
         id = 7489
         name = {"Higanbana", "彼岸花"}
 
     class HissatsuShinten(ActionBase):
         """
-        对目标发动物理攻击 威力：320 发动条件：剑气25点
-
+        Delivers an attack with a potency of 320. Kenki Gauge Cost: 25
         """
         id = 7490
         name = {"Hissatsu: Shinten", "必杀剑·震天"}
 
     class HissatsuKyuten(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：150 发动条件：剑气25点
-
+        Delivers an attack with a potency of 150 to all nearby enemies. Kenki Gauge Cost: 25
         """
         id = 7491
         name = {"Hissatsu: Kyuten", "必杀剑·九天"}
 
     class HissatsuGyoten(ActionBase):
         """
-        冲向目标并发动物理攻击 威力：100 发动条件：剑气10点 止步状态下无法发动
-
+        Rushes target and delivers an attack with a potency of 100. Kenki Gauge Cost: 10 Cannot be executed while bound.
         """
         id = 7492
         name = {"Hissatsu: Gyoten", "必杀剑·晓天"}
 
     class HissatsuYaten(ActionBase):
         """
-        对目标发动物理攻击 威力：100 追加效果：后跳10米距离 追加效果：燕飞效果提高 持续时间：15秒 发动条件：剑气10点 止步状态下无法发动
-
+        Delivers an attack with a potency of 100. Additional Effect: 10-yalm backstep Additional Effect: Grants Enhanced Enpi Duration: 15s Kenki Gauge Cost: 10 Cannot be executed while bound.
         """
         id = 7493
         name = {"Hissatsu: Yaten", "必杀剑·夜天"}
 
     class HissatsuKaiten(ActionBase):
         """
-        效果时间内发动的第1个战技威力提高50% 持续时间：10秒 发动条件：剑气20点
-
-        1229, 必杀剑·回天, Kaiten, 下次发动战技造成的伤害提高
+        Increases potency of next weaponskill by 50%. Duration: 10s Kenki Gauge Cost: 20
         """
         id = 7494
         name = {"Hissatsu: Kaiten", "必杀剑·回天"}
 
     class Hagakure(ActionBase):
         """
-        将闪转换为剑气 每一道闪可转换10点剑气 发动条件：雪之闪或月之闪或花之闪状态中
-
+        Converts Setsu, Getsu, and Ka into Kenki. Each Sen converted increases your Kenki Gauge by 10. Can only be executed if under the effect of at least one of the three statuses.
         """
         id = 7495
         name = {"Hagakure", "叶隐"}
 
     class HissatsuGuren(ActionBase):
         """
-        向目标所在方向发出直线范围物理攻击 威力：850 发动条件：剑气50点(source.job==34?(source.level>=72? 与必杀剑·闪影共享复唱时间:):)
-
+        Delivers an attack with a potency of 850 to all enemies in a straight line before you. Kenki Gauge Cost: 50(source.job==34?(source.level>=72? Shares a recast timer with Hissatsu: Senei.:):)
         """
         id = 7496
         name = {"Hissatsu: Guren", "必杀剑·红莲"}
 
     class Meditate(ActionBase):
         """
-        进入默想状态持续获得剑气 持续时间：15秒 (source.job==34?(source.level>=80?追加效果：连续叠加剑压状态 最大档数：3档 持续时间：永久 :):)效果时间内发动技能或进行移动、转身都会立即解除默想 发动之后会停止自动攻击 (source.job==34?(source.level>=80?非战斗中无法获得剑气，也不会附加剑压状态:非战斗中无法获得剑气):非战斗中无法获得剑气) 该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间
-
-        1231, 默想, Meditate, 持续获得剑气
+        Gradually increases your Kenki Gauge. Duration: 15s (source.job==34?(source.level>=80?Additional Effect: Grants stacks of Meditation when used in combat, up to a maximum of 3 :):)Kenki Gauge not affected when used outside battle. Effect ends upon using another action or moving (including facing a different direction). Cancels auto-attack upon execution. Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills.
+        1231, Meditate, Meditate, Storing <UIForeground(500)><UIGlow(501)>Kenki</UIGlow></UIForeground>.
         """
         id = 7497
         name = {"Meditate", "默想"}
 
     class ThirdEye(ActionBase):
         """
-        一定时间内，受到的第一次攻击伤害减轻10% 持续时间：3秒(source.level>=58?(source.job==34? 追加效果：成功减轻伤害后对自身附加开眼状态 持续时间：15秒:):)
-
-        1232, 心眼, Third Eye, 下次受到攻击时所受到的伤害减轻
+        Reduces the amount of damage taken by the next attack by 10%. Duration: 3s(source.level>=58?(source.job==34? Additional Effect: Grants Eyes Open when hit Duration: 15s:):)
+        1232, Third Eye, Third Eye, Next damage taken is reduced.
         """
         id = 7498
         name = {"Third Eye", "心眼"}
 
     class MeikyoShisui(ActionBase):
         """
-        一定时间内，战技无需连击条件即可连击成功 持续时间结束或发动3次居合术之外的战技后取消该状态 持续时间：15秒
-
-        1233, 明镜止水, Meikyo Shisui, 达成战技连击的条件
-        1320, 明镜止水, Meikyo Shisui, 将战技的连击置换到最终阶段
+        Execute up to 3 weaponskill combos without meeting combo prerequisites. Does not affect Iaijutsu. Duration: 15s
+        1233, Meikyo Shisui, Meikyo Shisui, Combo prerequisites are met.
+        1320, Meikyo Shisui, Meikyo Shisui, Final combo prerequisite is met.
         """
         id = 7499
         name = {"Meikyo Shisui", "明镜止水"}
 
     class HissatsuSeigan(ActionBase):
         """
-        对目标发动物理攻击 威力：220 发动条件：剑气15点 发动条件：开眼状态中 与慈眼共享复唱时间
-
+        Delivers an attack with a potency of 220. Kenki Gauge Cost: 15 Can only be executed while under the effect of Eyes Open. Shares a recast timer with Merciful Eyes.
         """
         id = 7501
         name = {"Hissatsu: Seigan", "必杀剑·星眼"}
 
     class MercifulEyes(ActionBase):
         """
-        恢复自身体力 恢复力：200 发动条件：开眼状态中 与必杀剑·星眼共享复唱时间
-
+        Instantly restores own HP. Cure Potency: 200 Can only be executed while under the effect of Eyes Open. Shares a recast timer with Hissatsu: Seigan.
         """
         id = 7502
         name = {"Merciful Eyes", "慈眼"}
 
     class Iaijutsu(ActionBase):
         """
-        根据闪的数量发动居合术 1闪：彼岸花 2闪：天下五剑 3闪：纷乱雪月花
-
+        Executes a weaponskill depending on current number of Sen stored in Sen Gauge. 1 Sen: Higanbana 2 Sen: Tenka Goken 3 Sen: Midare Setsugekka
         """
         id = 7867
         name = {"Iaijutsu", "居合术"}
 
     class HissatsuSenei(ActionBase):
         """
-        对目标发动物理攻击 威力：1100 发动条件：剑气50点 与必杀剑·红莲共享复唱时间
-
+        Delivers an attack with a potency of 1,100. Kenki Gauge Cost: 50 Shares a recast timer with Hissatsu: Guren.
         """
         id = 16481
         name = {"Hissatsu: Senei", "必杀剑·闪影"}
 
     class Ikishoten(ActionBase):
         """
-        获得50点剑气 发动条件：自身处于战斗状态
-
+        Increases Kenki Gauge by 50. Can only be executed while in combat.
         """
         id = 16482
         name = {"Ikishoten", "意气冲天"}
 
     class TsubameGaeshi(ActionBase):
         """
-        发动上一次使用的居合术 发动条件：居合术使用完毕 该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间
-
+        Repeats the previously executed iaijutsu with increased potency. Can only be executed immediately following Iaijutsu. Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills.
         """
         id = 16483
         name = {"Tsubame-gaeshi", "燕回返"}
 
     class KaeshiHiganbana(ActionBase):
         """
-        对目标发动物理攻击 威力：375 追加效果：持续伤害 威力：60 持续时间：60秒 无法与彼岸花的持续伤害叠加 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):)该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 375. Additional Effect: Damage over time Potency: 60 Duration: 60s (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):)Effect cannot be stacked with Higanbana. Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills. ※This action cannot be assigned to a hotbar.
         """
         id = 16484
         name = {"Kaeshi: Higanbana", "回返彼岸花"}
 
     class KaeshiGoken(ActionBase):
         """
-        向目标所在方向发出扇形范围物理攻击 威力：540 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):)该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 540 to all enemies in a cone before you. (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):)Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills. ※This action cannot be assigned to a hotbar.
         """
         id = 16485
         name = {"Kaeshi: Goken", "回返五剑"}
 
     class KaeshiSetsugekka(ActionBase):
         """
-        对目标发动物理攻击 威力：1200 (source.job==34?(source.level>=80?追加效果：剑压 最大档数：3档 持续时间：永久 :):)该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 1,200. (source.job==34?(source.level>=80?Additional Effect: Grants a stack of Meditation, up to a maximum of 3 :):)Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills. ※This action cannot be assigned to a hotbar.
         """
         id = 16486
         name = {"Kaeshi: Setsugekka", "回返雪月花"}
 
     class Shoha(ActionBase):
         """
-        对目标发动物理攻击 威力：400 发动时会消耗全部的剑压 发动条件：剑压3档 自身处于战斗状态时使用默想、居合术、燕回返技能，可以获得剑压 最大档数：3档 持续时间：永久
-
+        Delivers an attack with a potency of 400. Can only be executed after accumulating three stacks of Meditation by executing Iaijutsu, Tsubame-gaeshi, or Meditate while in combat. Meditation effect fades upon execution.
         """
         id = 16487
         name = {"Shoha", "照破"}

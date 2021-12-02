@@ -5,73 +5,64 @@ class Actions:
 
     class Jolt(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：180 追加效果：获得3点黑魔元与3点白魔元
-
+        Deals unaspected damage with a potency of 180. Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 7503
         name = {"Jolt", "摇荡"}
 
     class Riposte(ActionBase):
         """
-        对目标发动物理攻击 威力：130(source.level>=2?(source.job==35? 平衡量谱中黑魔元与白魔元都在30点以上时，该技能变为魔回刺:):)
-
+        Delivers an attack with a potency of 130.(source.level>=2?(source.job==35? Action upgraded to Enchanted Riposte if both Black Mana and White Mana are at 30 or more.:):)
         """
         id = 7504
         name = {"Riposte", "回刺"}
 
     class Verthunder(ActionBase):
         """
-        对目标发动雷属性魔法攻击 威力：(source.job==35?(source.level>=62?370:310):310) 追加效果：获得11点黑魔元(source.level>=26?(source.job==35? 追加效果（发动几率50%）：赤火炎预备 持续时间：30秒:):)
-
+        Deals lightning damage with a potency of (source.job==35?(source.level>=62?370:310):310). Additional Effect: Increases Black Mana by 11(source.level>=26?(source.job==35? Additional Effect: 50% chance of becoming Verfire Ready Duration: 30s:):)
         """
         id = 7505
         name = {"Verthunder", "赤闪雷"}
 
     class CorpsACorps(ActionBase):
         """
-        冲向目标并发动物理攻击 威力：130 止步状态下无法发动
-
-        2012, 短兵相接, Corps-a-corps, 抵消一定伤害
+        Rushes target and delivers an attack with a potency of 130. Cannot be executed while bound.
+        2012, Corps-a-corps, Corps-a-corps, A barrier is preventing damage.
         """
         id = 7506
         name = {"Corps-a-corps", "短兵相接"}
 
     class Veraero(ActionBase):
         """
-        对目标发动风属性魔法攻击 威力：(source.job==35?(source.level>=62?370:310):310) 追加效果：获得11点白魔元(source.level>=30?(source.job==35? 追加效果（发动几率50%）：赤飞石预备 持续时间：30秒:):)
-
+        Deals wind damage with a potency of (source.job==35?(source.level>=62?370:310):310). Additional Effect: Increases White Mana by 11(source.level>=30?(source.job==35? Additional Effect: 50% chance of becoming Verstone Ready Duration: 30s:):)
         """
         id = 7507
         name = {"Veraero", "赤疾风"}
 
     class Scatter(ActionBase):
         """
-        对目标及其周围的敌人发动无属性范围魔法攻击 威力：120 追加效果：获得3点黑魔元与3点白魔元
-
+        Deals unaspected damage with a potency of 120 to target and all enemies nearby it. Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 7509
         name = {"Scatter", "散碎"}
 
     class Verfire(ActionBase):
         """
-        对目标发动火属性魔法攻击 威力：(source.job==35?(source.level>=62?310:270):270) 追加效果：获得9点黑魔元 发动条件：赤火炎预备状态中
-
+        Deals fire damage with a potency of (source.job==35?(source.level>=62?310:270):270). Additional Effect: Increases Black Mana by 9 Can only be executed while Verfire Ready is active.
         """
         id = 7510
         name = {"Verfire", "赤火炎"}
 
     class Verstone(ActionBase):
         """
-        对目标发动土属性魔法攻击 威力：(source.job==35?(source.level>=62?310:270):270) 追加效果：获得9点白魔元 发动条件：赤飞石预备状态中
-
+        Deals earth damage with a potency of (source.job==35?(source.level>=62?310:270):270). Additional Effect: Increases White Mana by 9 Can only be executed while Verstone Ready is active.
         """
         id = 7511
         name = {"Verstone", "赤飞石"}
 
     class Zwerchhau(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：回刺或魔回刺 连击中威力：150 平衡量谱中黑魔元与白魔元都在25点以上时，该技能变为魔交击斩
-
+        Delivers an attack with a potency of 100. Combo Action: Riposte or Enchanted Riposte Combo Potency: 150 Action upgraded to Enchanted Zwerchhau if both Black Mana and White Mana are at 25 or more.
         """
         id = 7512
         name = {"Zwerchhau", "交击斩"}
@@ -79,33 +70,29 @@ class Actions:
 
     class Moulinet(ActionBase):
         """
-        向目标所在方向发出扇形范围物理攻击 威力：60 平衡量谱中黑魔元与白魔元都在20点以上时，该技能变为魔划圆斩
-
+        Delivers an attack with a potency of 60 to all enemies in a cone before you. Action upgraded to Enchanted Moulinet if both Black Mana and White Mana are at 20 or more.
         """
         id = 7513
         name = {"Moulinet", "划圆斩"}
 
     class Vercure(ActionBase):
         """
-        恢复目标的体力 恢复力：350
-
+        Restores target's HP. Cure Potency: 350
         """
         id = 7514
         name = {"Vercure", "赤治疗"}
 
     class Displacement(ActionBase):
         """
-        对目标发动物理攻击 威力：(source.job==35?(source.level>=72?200:130):130) 追加效果：后跳15米距离 止步状态下无法发动(source.job==35?(source.level>=72? 与交剑共享复唱时间:):)
-
-        2013, 移转, Displacement, 自身发动的下一个魔法造成的伤害提高
+        Delivers an attack with a potency of (source.job==35?(source.level>=72?200:130):130). Additional Effect: 15-yalm backstep Cannot be executed while bound.(source.job==35?(source.level>=72? Shares a recast timer with Engagement.:):)
+        2013, Displacement, Displacement, Next spell cast will deal increased damage.
         """
         id = 7515
         name = {"Displacement", "移转"}
 
     class Redoublement(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：交击斩或魔交击斩 连击中威力：230 平衡量谱中黑魔元与白魔元都在25点以上时，该技能变为魔连攻
-
+        Delivers an attack with a potency of 100. Combo Action: Zwerchhau or Enchanted Zwerchhau Combo Potency: 230 Action upgraded to Enchanted Redoublement if both Black Mana and White Mana are at 25 or more.
         """
         id = 7516
         name = {"Redoublement", "连攻"}
@@ -113,70 +100,61 @@ class Actions:
 
     class Fleche(ActionBase):
         """
-        对目标发动物理攻击 威力：440
-
+        Delivers an attack with a potency of 440.
         """
         id = 7517
         name = {"Fleche", "飞刺"}
 
     class Acceleration(ActionBase):
         """
-        一定时间内，前3次能附加赤火炎预备状态与赤飞石预备状态的技能追加效果发动率变为100% 持续时间：20秒
-
-        1238, 促进, Acceleration, 发动附加赤火炎预备或赤飞石预备的魔法时必定发动追加效果
+        Ensures the next three casts of Verthunder/Verflare or Veraero/Verholy will, for their first hits, trigger Verfire Ready or Verstone Ready respectively. Duration: 20s
+        1238, Acceleration, Acceleration, Additional effects of <UIForeground(500)><UIGlow(501)>Verthunder</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Verflare</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Veraero</UIGlow></UIForeground>, or <UIForeground(500)><UIGlow(501)>Verholy</UIGlow></UIForeground> will trigger.
         """
         id = 7518
         name = {"Acceleration", "促进"}
 
     class ContreSixte(ActionBase):
         """
-        对目标及其周围敌人发动范围物理攻击 威力：400
-
+        Delivers an attack with a potency of 400 to target and all enemies nearby it.
         """
         id = 7519
         name = {"Contre Sixte", "六分反击"}
 
     class Embolden(ActionBase):
         """
-        一定时间内，自身发动魔法攻击造成的伤害提高10% 持续时间：20秒 此效果每4秒降低2% 追加效果：令周围队员发动物理攻击造成的伤害提高10% 持续时间：20秒 此效果每4秒降低2%
-
-        1239, 鼓励, Embolden, 魔法攻击所造成的伤害提高
-        1297, 鼓励, Embolden, 物理攻击所造成的伤害提高
-        2282, 鼓励, Embolden, 攻击所造成的伤害提高
+        Increases own magic damage dealt by 10% and physical damage dealt by nearby party members by 10%. Both effects are reduced by 20% every 4s. Duration: 20s
+        1239, Embolden, Embolden, Magic damage dealt is increased.
+        1297, Embolden, Embolden, Physical damage dealt is increased.
+        2282, Embolden, Embolden, Damage dealt is increased.
         """
         id = 7520
         name = {"Embolden", "鼓励"}
 
     class Manafication(ActionBase):
         """
-        当前平衡量谱中积累的量值翻倍 追加效果：重置短兵相接和移转(source.job==35?(source.level>=72?以及交剑:):)的复唱时间(source.job==35?(source.level>=74? 追加效果：自身发动魔法攻击造成的伤害提高5% 持续时间：10秒:):) 此技能会中断连击
-
-        1971, 倍增, Manafication, 魔法攻击所造成的伤害提高
+        Doubles current Black Mana and White Mana levels. Additional Effect: Resets (source.job==35?(source.level>=72?Corps-a-corps, Displacement, and Engagement:Corps-a-corps and Displacement):Corps-a-corps and Displacement) recast timers(source.job==35?(source.level>=74? Additional Effect: Increases magic damage dealt by 5% Duration: 10s:):) All combos are canceled upon execution of Manafication.
+        1971, Manafication, Manafication, Magic damage dealt is increased.
         """
         id = 7521
         name = {"Manafication", "倍增"}
 
     class Verraise(ActionBase):
         """
-        令无法战斗的目标以衰弱状态重新振作起来
-
+        Resurrects target to a weakened state.
         """
         id = 7523
         name = {"Verraise", "赤复活"}
 
     class JoltIi(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：290 追加效果：获得3点黑魔元与3点白魔元
-
-        1498, 震荡, Shocked, 受到了强烈冲击，偶尔会无法行动，体力逐渐流失
+        Deals unaspected damage with a potency of 290. Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 7524
         name = {"Jolt II", "震荡"}
 
     class Verflare(ActionBase):
         """
-        对目标发动火属性魔法攻击 威力：600 连击条件：魔连攻 追加效果：获得21点黑魔元 追加效果（发动几率20%）：赤火炎预备 持续时间：30秒 发动时白魔元高于黑魔元则100%发动追加效果 发动条件：魔连攻成功时 若满足发动条件，则赤闪雷变为赤核爆 ※该技能无法设置到热键栏
-
+        Deals fire damage with a potency of 600. Combo Action: Enchanted Redoublement Additional Effect: Increases Black Mana by 21 Additional Effect: 20% chance of becoming Verfire Ready Duration: 30s Chance to become Verfire Ready increases to 100% if White Mana is higher than Black Mana at time of execution. Verthunder is changed to Verflare upon landing Enchanted Redoublement as a combo action. ※This action cannot be assigned to a hotbar.
         """
         id = 7525
         name = {"Verflare", "赤核爆"}
@@ -184,8 +162,7 @@ class Actions:
 
     class Verholy(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：600 连击条件：魔连攻 追加效果：获得21点白魔元 追加效果（发动几率20%）：赤飞石预备 持续时间：30秒 发动时黑魔元高于白魔元则100%发动追加效果 发动条件：魔连攻成功时 若满足发动条件，则赤疾风变为赤神圣 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 600. Combo Action: Enchanted Redoublement Additional Effect: Increases White Mana by 21 Additional Effect: 20% chance of becoming Verstone Ready Duration: 30s Chance to become Verstone Ready increases to 100% if Black Mana is higher than White Mana at time of execution. Veraero is changed to Verholy upon landing Enchanted Redoublement as a combo action. ※This action cannot be assigned to a hotbar.
         """
         id = 7526
         name = {"Verholy", "赤神圣"}
@@ -193,16 +170,14 @@ class Actions:
 
     class EnchantedRiposte(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：220 发动条件：黑魔元、白魔元各30点 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 220. Balance Gauge Cost: 30 Black Mana Balance Gauge Cost: 30 White Mana ※This action cannot be assigned to a hotbar.
         """
         id = 7527
         name = {"Enchanted Riposte", "魔回刺"}
 
     class EnchantedZwerchhau(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：100 连击条件：回刺或魔回刺 连击中威力：290 发动条件：黑魔元、白魔元各25点 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 100. Combo Action: Riposte or Enchanted Riposte Combo Potency: 290 Balance Gauge Cost: 25 Black Mana Balance Gauge Cost: 25 White Mana ※This action cannot be assigned to a hotbar.
         """
         id = 7528
         name = {"Enchanted Zwerchhau", "魔交击斩"}
@@ -210,8 +185,7 @@ class Actions:
 
     class EnchantedRedoublement(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：100 连击条件：魔交击斩 连击中威力：470 发动条件：黑魔元、白魔元各25点 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 100. Combo Action: Enchanted Zwerchhau Combo Potency: 470 Balance Gauge Cost: 25 Black Mana Balance Gauge Cost: 25 White Mana ※This action cannot be assigned to a hotbar.
         """
         id = 7529
         name = {"Enchanted Redoublement", "魔连攻"}
@@ -219,66 +193,57 @@ class Actions:
 
     class EnchantedMoulinet(ActionBase):
         """
-        向目标所在方向发出扇形范围魔法攻击 威力：200 发动条件：黑魔元、白魔元各20点 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 200 to all enemies in a cone before you. Balance Gauge Cost: 20 Black Mana Balance Gauge Cost: 20 White Mana ※This action cannot be assigned to a hotbar.
         """
         id = 7530
         name = {"Enchanted Moulinet", "魔划圆斩"}
 
     class VerthunderIi(ActionBase):
         """
-        对目标及其周围敌人发动雷属性魔法攻击 威力：(source.job==35?(source.level>=78?120:100):100) 追加效果：获得7点黑魔元
-
+        Deals lightning damage with a potency of (source.job==35?(source.level>=78?120:100):100) to target and all enemies nearby it. Additional Effect: Increases Black Mana by 7
         """
         id = 16524
         name = {"Verthunder II", "赤震雷"}
 
     class VeraeroIi(ActionBase):
         """
-        对目标及其周围敌人发动风属性魔法攻击 威力：(source.job==35?(source.level>=78?120:100):100) 追加效果：获得7点白魔元
-
+        Deals wind damage with a potency of (source.job==35?(source.level>=78?120:100):100) to target and all enemies nearby it. Additional Effect: Increases White Mana by 7
         """
         id = 16525
         name = {"Veraero II", "赤烈风"}
 
     class Impact(ActionBase):
         """
-        对目标及其周围敌人发动无属性范围魔法攻击 威力：220 追加效果：获得3点黑魔元与3点白魔元
-
-        995, 冲击, Headache, 受到冲击，攻击所造成的伤害降低，积累档数过多会被附加脑震荡状态
+        Deals unaspected damage with a potency of 220 to target and all enemies nearby it. Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 16526
         name = {"Impact", "冲击"}
 
     class Engagement(ActionBase):
         """
-        对目标发动物理攻击 威力：150 与移转共享复唱时间
-
-        2033, 交剑, Engagement, 抵消一定伤害
+        Delivers an attack with a potency of 150. Shares a recast timer with Displacement.
+        2033, Engagement, Engagement, A barrier is preventing damage.
         """
         id = 16527
         name = {"Engagement", "交剑"}
 
     class EnchantedReprise(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：300 发动条件：黑魔元与白魔元各5点 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 300. Balance Gauge Cost: 5 Black Mana Balance Gauge Cost: 5 White Mana ※This action cannot be assigned to a hotbar.
         """
         id = 16528
         name = {"Enchanted Reprise", "魔续斩"}
 
     class Reprise(ActionBase):
         """
-        对目标发动物理攻击 威力：100 平衡量谱中黑魔元与白魔元都在5点以上时，该技能变为魔续斩
-
+        Delivers an attack with a potency of 100. Action upgraded to Enchanted Reprise if both Black Mana and White Mana are at 5 or more.
         """
         id = 16529
         name = {"Reprise", "续斩"}
 
     class Scorch(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：700 连击条件：赤核爆或赤神圣 追加效果：获得7点黑魔元与7点白魔元 发动条件：赤核爆或赤神圣成功时 满足发动条件后，震荡变为焦热 ※该技能无法设置到热键栏
-
+        Deals unaspected damage with a potency of 700. Combo Action: Verflare or Verholy Additional Effect: Increases both Black Mana and White Mana by 7 Jolt II is changed to Scorch upon landing Verflare or Verholy as a combo action. ※This action cannot be assigned to a hotbar.
         """
         id = 16530
         name = {"Scorch", "焦热"}

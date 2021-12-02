@@ -5,27 +5,25 @@ class Actions:
 
     class KeenEdge(ActionBase):
         """
-        对目标发动物理攻击 威力：200
-
+        Delivers an attack with a potency of 200.
+        1145, Keen Edge, Keen Edge, Sustaining damage over time in exchange for dealing increased damage to targets.
         """
         id = 16137
         name = {"Keen Edge", "利刃斩"}
 
     class NoMercy(ActionBase):
         """
-        一定时间内，自身发动攻击造成的伤害提高20% 持续时间：20秒
-
-        1831, 无情, No Mercy, 攻击所造成的伤害提高
+        Increases damage dealt by 20%. Duration: 20s
+        1831, No Mercy, No Mercy, Damage dealt is increased.
         """
         id = 16138
         name = {"No Mercy", "无情"}
 
     class BrutalShell(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：利刃斩 连击中威力：300 连击成功：恢复自身体力 恢复力：200(source.job==37?(source.level>=52? 同时为自身附加能够抵御一定伤害的防护罩 该防护罩能够抵消相当于恢复量100%的伤害 持续时间：30秒:):)
-
-        1898, 残暴弹, Brutal Shell, 抵消一定伤害
-        1997, 残暴弹, Brutal Shell, 抵消一定伤害
+        Delivers an attack with a potency of 100. Combo Action: Keen Edge Combo Potency: 300 Combo Bonus: Restores own HP Cure Potency: 200(source.job==37?(source.level>=52? Combo Bonus: Creates a barrier which nullifies damage equaling HP restored Duration: 30s:):)
+        1898, Brutal Shell, Brutal Shell, A highly effective defensive maneuver is nullifying damage.
+        1997, Brutal Shell, Brutal Shell, A highly effective defensive maneuver is nullifying damage.
         """
         id = 16139
         name = {"Brutal Shell", "残暴弹"}
@@ -33,52 +31,46 @@ class Actions:
 
     class Camouflage(ActionBase):
         """
-        一定时间内，自身的招架发动率提高50%，所受的伤害减轻10% 持续时间：20秒
-
-        1832, 伪装, Camouflage, 招架发动率提高，减轻所受到的伤害
+        Increases parry rate by 50% while reducing damage taken by 10%. Duration: 20s
+        1832, Camouflage, Camouflage, Parry rate is increased while damage taken is reduced.
         """
         id = 16140
         name = {"Camouflage", "伪装"}
 
     class DemonSlice(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：150
-
+        Delivers an attack with a potency of 150 to all nearby enemies.
         """
         id = 16141
         name = {"Demon Slice", "恶魔切"}
 
     class RoyalGuard(ActionBase):
         """
-        极大幅度增加战斗时获得的仇恨量 再次发动时则取消该状态 持续时间：永久
-
-        392, 王室亲卫, Royal Guard, 自身仇恨提高
-        1833, 王室亲卫, Royal Guard, 自身仇恨提高
+        Significantly increases enmity generation. Effect ends upon reuse.
+        392, Royal Guard, Royal Guard, Enmity is increased.
+        1833, Royal Guard, Royal Guard, Enmity is increased.
         """
         id = 16142
         name = {"Royal Guard", "王室亲卫"}
 
     class LightningShot(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：150 追加效果：提升仇恨
-
-        2392, 闪雷弹, Lightning Shot, 下次发动战技造成的伤害提高
+        Delivers a ranged attack with a potency of 150. Additional Effect: Increased enmity
+        2392, Lightning Shot, Lightning Shot, Next weaponskill will deal increased damage.
         """
         id = 16143
         name = {"Lightning Shot", "闪雷弹"}
 
     class DangerZone(ActionBase):
         """
-        对目标发动物理攻击 威力：350
-
+        Delivers an attack with a potency of 350.
         """
         id = 16144
         name = {"Danger Zone", "危险领域"}
 
     class SolidBarrel(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：残暴弹 连击中威力：400(source.job==37?(source.level>=30? 连击成功：晶壤:):)
-
+        Delivers an attack with a potency of 100. Combo Action: Brutal Shell Combo Potency: 400(source.job==37?(source.level>=30? Combo Bonus: Adds a Cartridge to your Powder Gauge:):)
         """
         id = 16145
         name = {"Solid Barrel", "迅连斩"}
@@ -86,16 +78,14 @@ class Actions:
 
     class GnashingFang(ActionBase):
         """
-        对目标发动物理攻击 威力：450 (source.job==37?(source.level>=70?追加效果：撕喉预备 持续时间：10秒 :):)发动条件：晶壤 该战技有单独计算的复唱时间
-
+        Delivers an attack with a potency of 450. (source.job==37?(source.level>=70?Additional Effect: Grants Ready to Rip Duration: 10s :):)Cartridge Cost: 1 This weaponskill does not share a recast timer with any other actions.
         """
         id = 16146
         name = {"Gnashing Fang", "烈牙"}
 
     class SavageClaw(ActionBase):
         """
-        对目标发动物理攻击 威力：550 连击条件：烈牙 (source.job==37?(source.level>=70?追加效果：裂膛预备 持续时间：10秒 :):)发动条件：满足连击条件
-
+        Delivers an attack with a potency of 550. Combo Action: Gnashing Fang(source.job==37?(source.level>=70? Combo Bonus: Grants Ready to Tear Duration: 10s:):)
         """
         id = 16147
         name = {"Savage Claw", "猛兽爪"}
@@ -103,17 +93,15 @@ class Actions:
 
     class Nebula(ActionBase):
         """
-        一定时间内，将自身所受的伤害减轻30% 持续时间：15秒
-
-        1834, 星云, Nebula, 减轻所受到的伤害
+        Reduces damage taken by 30%. Duration: 15s
+        1834, Nebula, Nebula, Damage taken is reduced.
         """
         id = 16148
         name = {"Nebula", "星云"}
 
     class DemonSlaughter(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 连击条件：恶魔切 连击中威力：250 连击成功：晶壤
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Combo Action: Demon Slice Combo Potency: 250 Combo Bonus: Adds a Cartridge to your Powder Gauge
         """
         id = 16149
         name = {"Demon Slaughter", "恶魔杀"}
@@ -121,8 +109,7 @@ class Actions:
 
     class WickedTalon(ActionBase):
         """
-        对目标发动物理攻击 威力：650 连击条件：猛兽爪 (source.job==37?(source.level>=70?追加效果：穿目预备 持续时间：10秒 :):)发动条件：满足连击条件
-
+        Delivers an attack with a potency of 650. Combo Action: Savage Claw(source.job==37?(source.level>=70? Combo Bonus: Grants Ready to Gouge Duration: 10s:):)
         """
         id = 16150
         name = {"Wicked Talon", "凶禽爪"}
@@ -130,128 +117,113 @@ class Actions:
 
     class Aurora(ActionBase):
         """
-        令目标体力持续恢复 恢复力：200 持续时间：18秒
-
-        1835, 极光, Aurora, 体力会随时间逐渐恢复
-        2065, 极光, Aurora, 体力会随时间逐渐恢复
+        Grants Regen to target. Cure Potency: 200 Duration: 18s
+        1835, Aurora, Aurora, Regenerating HP over time.
+        2065, Aurora, Aurora, Regenerating HP over time.
         """
         id = 16151
         name = {"Aurora", "极光"}
 
     class Superbolide(ActionBase):
         """
-        发动该技能后，自身的体力降为1，同时在持续时间内，除一部分特定攻击之外，免除自身受到的任何伤害 持续时间：8秒
-
-        1836, 超火流星, Superbolide, 除特定攻击之外其他所有攻击均无效化
+        Reduces HP to 1 and renders you impervious to most attacks. Duration: 8s
+        1836, Superbolide, Superbolide, Impervious to most attacks.
         """
         id = 16152
         name = {"Superbolide", "超火流星"}
 
     class SonicBreak(ActionBase):
         """
-        对目标发动物理攻击 威力：300 追加效果：持续伤害 威力：90 持续时间：30秒 该战技有单独计算的复唱时间
-
-        1837, 音速破, Sonic Break, 体力逐渐减少
+        Delivers an attack with a potency of 300. Additional Effect: Damage over time Potency: 90 Duration: 30s This weaponskill does not share a recast timer with any other actions.
+        1837, Sonic Break, Sonic Break, Sustaining damage over time.
         """
         id = 16153
         name = {"Sonic Break", "音速破"}
 
     class RoughDivide(ActionBase):
         """
-        跃向目标并发动物理攻击 威力：200 积蓄次数：2 止步状态下无法发动
-
+        Delivers a jumping attack with a potency of 200. Maximum Charges: 2 Cannot be executed while bound.
         """
         id = 16154
         name = {"Rough Divide", "粗分斩"}
 
     class Continuation(ActionBase):
         """
-        对目标发动追击 使用烈牙后可以发动撕喉，使用猛兽爪后可以发动裂膛，使用凶禽爪后可以发动穿目
-
+        Allows the firing of successive rounds with your gunblade. Gnashing Fang may be followed by Jugular Rip. Savage Claw may be followed by Abdomen Tear. Wicked Talon may be followed by Eye Gouge.
         """
         id = 16155
         name = {"Continuation", "续剑"}
 
     class JugularRip(ActionBase):
         """
-        对目标发动物理攻击 威力：260 发动条件：撕喉预备状态中 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 260. Can only be executed when Ready to Rip. ※This action cannot be assigned to a hotbar.
         """
         id = 16156
         name = {"Jugular Rip", "撕喉"}
 
     class AbdomenTear(ActionBase):
         """
-        对目标发动物理攻击 威力：280 发动条件：裂膛预备状态中 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 280. Can only be executed when Ready to Tear. ※This action cannot be assigned to a hotbar.
         """
         id = 16157
         name = {"Abdomen Tear", "裂膛"}
 
     class EyeGouge(ActionBase):
         """
-        对目标发动物理攻击 威力：300 发动条件：穿目预备状态中 ※该技能无法设置到热键栏
-
+        Delivers an attack with a potency of 300. Can only be executed when Ready to Gouge. ※This action cannot be assigned to a hotbar.
         """
         id = 16158
         name = {"Eye Gouge", "穿目"}
 
     class BowShock(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：200 追加效果：持续伤害 威力：90 持续时间：15秒
-
-        1838, 弓形冲波, Bow Shock, 体力逐渐减少
+        Delivers an attack with a potency of 200 to all nearby enemies. Additional Effect: Damage over time Potency: 90 Duration: 15s
+        1838, Bow Shock, Bow Shock, Sustaining damage over time.
         """
         id = 16159
         name = {"Bow Shock", "弓形冲波"}
 
     class HeartOfLight(ActionBase):
         """
-        一定时间内，令自身和周围队员所受到的魔法伤害减轻10% 持续时间：15秒
-
-        1839, 光之心, Heart of Light, 减轻所受到的魔法伤害
-        2000, 光之心, Heart of Light, 受到攻击的伤害减少
+        Reduces magic damage taken by self and nearby party members by 10%. Duration: 15s
+        1839, Heart of Light, Heart of Light, Magic damage taken is reduced.
+        2000, Heart of Light, Heart of Light, Damage taken is reduced.
         """
         id = 16160
         name = {"Heart of Light", "光之心"}
 
     class HeartOfStone(ActionBase):
         """
-        令自身或一名队员受到的伤害减轻15% 持续时间：7秒 追加效果：对队员使用时，若自身附加了残暴弹状态，则目标队员也会附加该状态 持续时间：30秒
-
-        1840, 石之心, Heart of Stone, 减轻所受到的伤害
+        Reduces damage taken by a party member or self by 15%. Duration: 7s Additional Effect: When targeting a party member while under the effect of Brutal Shell, that effect is also granted to the target Duration: 30s
+        1840, Heart of Stone, Heart of Stone, Damage taken is reduced.
         """
         id = 16161
         name = {"Heart of Stone", "石之心"}
 
     class BurstStrike(ActionBase):
         """
-        对目标发动物理攻击 威力：500 发动条件：晶壤
-
+        Delivers an attack with a potency of 500. Cartridge Cost: 1
         """
         id = 16162
         name = {"Burst Strike", "爆发击"}
 
     class FatedCircle(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：320 发动条件：晶壤
-
+        Delivers an attack with a potency of 320 to all nearby enemies. Cartridge Cost: 1
         """
         id = 16163
         name = {"Fated Circle", "命运之环"}
 
     class Bloodfest(ActionBase):
         """
-        以一名敌人为目标 对自身附加2档晶壤
-
+        Draws aetheric energy from target, adding 2 Cartridges to your Powder Gauge.
         """
         id = 16164
         name = {"Bloodfest", "血壤"}
 
     class BlastingZone(ActionBase):
         """
-        对目标发动物理攻击 威力：800
-
+        Delivers an attack with a potency of 800.
         """
         id = 16165
         name = {"Blasting Zone", "爆破领域"}

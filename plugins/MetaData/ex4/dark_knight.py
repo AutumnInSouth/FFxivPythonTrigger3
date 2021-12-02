@@ -5,24 +5,21 @@ class Actions:
 
     class HardSlash(ActionBase):
         """
-        对目标发动物理攻击 威力：200
-
+        Delivers an attack with a potency of 200.
         """
         id = 3617
         name = {"Hard Slash", "重斩"}
 
     class Unleash(ActionBase):
         """
-        对自身周围的敌人发动无属性范围魔法攻击 威力：150
-
+        Deals unaspected damage with a potency of 150 to all nearby enemies.
         """
         id = 3621
         name = {"Unleash", "释放"}
 
     class SyphonStrike(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：重斩 连击中威力：300 连击成功：恢复自身魔力
-
+        Delivers an attack with a potency of 100. Combo Action: Hard Slash Combo Potency: 300 Combo Bonus: Restores MP
         """
         id = 3623
         name = {"Syphon Strike", "吸收斩"}
@@ -30,35 +27,31 @@ class Actions:
 
     class Unmend(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：150 追加效果：提升仇恨
-
+        Deals unaspected damage with a potency of 150. Additional Effect: Increased enmity
         """
         id = 3624
         name = {"Unmend", "伤残"}
 
     class BloodWeapon(ActionBase):
         """
-        一定时间内，自身的战技及魔法命中时可以恢复魔力 (source.level>=66?(source.job==32?同时获得10点暗血 :):)当范围攻击命中复数敌人时，效果只发动1次 持续时间：10秒
-
-        742, 嗜血, Blood Weapon, 自身的战技及魔法命中时可以恢复魔力 习得暗血II后追加效果：自身的战技及魔法命中时可以获得暗血
+        (source.level>=66?(source.job==32?Increases Blood Gauge by 10 and restores MP:Restores MP):Restores MP) upon landing weaponskills or spells. Effect does not stack when hitting multiple targets with a single attack. Duration: 10s
+        742, Blood Weapon, Blood Weapon, Absorbing MP upon landing weaponskills or spells. Enhanced Blackblood Effect: Increasing <UIForeground(500)><UIGlow(501)>Blood Gauge</UIGlow></UIForeground> upon landing weaponskills or spells.
         """
         id = 3625
         name = {"Blood Weapon", "嗜血"}
 
     class Grit(ActionBase):
         """
-        极大幅度增加战斗时获得的仇恨量 再次发动时则取消该状态 持续时间：永久
-
-        743, 深恶痛绝, Grit, 自身仇恨提高
-        1397, 深恶痛绝, Grit, 以攻击力降低为代价减少自身所受到的伤害
+        Significantly increases enmity generation. Effect ends upon reuse.
+        743, Grit, Grit, Enmity is increased.
+        1397, Grit, Grit, Damage dealt and taken are reduced.
         """
         id = 3629
         name = {"Grit", "深恶痛绝"}
 
     class Souleater(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：吸收斩 连击中威力：400 连击成功：恢复自身体力 恢复力：300 (source.level>=62?(source.job==32?连击成功：获得20点暗血:):)
-
+        Delivers an attack with a potency of 100. Combo Action: Syphon Strike Combo Potency: 400 Combo Bonus: Restores own HP Cure Potency: 300(source.level>=62?(source.job==32? Combo Bonus: Increases Blood Gauge by 20:):)
         """
         id = 3632
         name = {"Souleater", "噬魂斩"}
@@ -66,120 +59,105 @@ class Actions:
 
     class DarkMind(ActionBase):
         """
-        一定时间内，令自身所受到的魔法伤害减轻20% 持续时间：10秒
-
-        746, 弃明投暗, Dark Mind, 减轻所受到的魔法伤害
+        Reduces magic vulnerability by 20%. Duration: 10s
+        746, Dark Mind, Dark Mind, Magic damage taken is reduced.
         """
         id = 3634
         name = {"Dark Mind", "弃明投暗"}
 
     class ShadowWall(ActionBase):
         """
-        一定时间内，自身受到的伤害减轻30% 持续时间：15秒
-
-        747, 暗影墙, Shadow Wall, 减轻所受到的伤害
+        Reduces damage taken by 30%. Duration: 15s
+        747, Shadow Wall, Shadow Wall, Damage taken is reduced.
         """
         id = 3636
         name = {"Shadow Wall", "暗影墙"}
 
     class LivingDead(ActionBase):
         """
-        对自身附加行尸走肉状态 效果中受到致命伤也不会陷入无法战斗状态，代价是自身体力降为1且该状态变为死而不僵状态 持续时间：10秒 死而不僵效果：所有对自身发动的攻击均无法令体力减少到1以下 效果中得到相当于自身最大体力100%的恢复量即可解除该状态 如恢复量不足以解除状态直到持续时间结束，自身将陷入无法战斗状态 持续时间：10秒 以上两种状态均对部分攻击无效
-
-        810, 行尸走肉, Living Dead, 受到致命伤害时体力减为1，并附加死而不僵状态 但是对部分攻击无效
+        Grants the effect of Living Dead. When HP is reduced to 0 while under the effect of Living Dead, instead of becoming KO'd, your status will change to Walking Dead. Living Dead Duration: 10s While under the effect of Walking Dead, most attacks will not lower your HP below 1. If, before the Walking Dead timer runs out, HP is 100% restored, the effect will fade. If 100% is not restored, you will be KO'd. Walking Dead Duration: 10s
+        810, Living Dead, Living Dead, Unable to be KO'd by most attacks. Status changed to <UIForeground(506)><UIGlow(507)>Walking Dead</UIGlow></UIForeground> in most cases when HP is reduced to 0.
         """
         id = 3638
         name = {"Living Dead", "行尸走肉"}
 
     class SaltedEarth(ActionBase):
         """
-        以指定地点为中心产生腐秽区域 所有进入该区域的目标都会受到无属性伤害 威力：60 持续时间：15秒
-
-        749, 腐秽大地, Salted Earth, 在地上产生造成无属性伤害的危险区
+        Creates a patch of salted earth, dealing unaspected damage with a potency of 60 to any enemies who enter. Duration: 15s
+        749, Salted Earth, Salted Earth, The ground is rendered void of all life, dealing unaspected damage to any who tread upon it.
         """
         id = 3639
         name = {"Salted Earth", "腐秽大地"}
 
     class Plunge(ActionBase):
         """
-        跃向目标并发动物理攻击 威力：200 (source.job==32?(source.level>=78?积蓄次数：2 :):)止步状态下无法发动
-
+        Delivers a jumping attack with a potency of 200. (source.job==32?(source.level>=78?Maximum Charges: 2 :):)Cannot be executed while bound.
         """
         id = 3640
         name = {"Plunge", "跳斩"}
 
     class AbyssalDrain(ActionBase):
         """
-        以目标为中心发动无属性范围魔法攻击 威力：200 追加效果：恢复自身体力 恢复力：200
-
+        Deals unaspected damage with a potency of 200 to target and all enemies nearby it. Additional Effect: Restores own HP Cure Potency: 200
         """
         id = 3641
         name = {"Abyssal Drain", "吸血深渊"}
 
     class CarveAndSpit(ActionBase):
         """
-        对目标发动物理攻击 威力：450 追加效果：恢复自身魔力
-
+        Delivers a threefold attack with a potency of 450. Additional Effect: Restores MP
         """
         id = 3643
         name = {"Carve and Spit", "精雕怒斩"}
 
     class Delirium(ActionBase):
         """
-        一定时间内，不需要消耗暗血就可以发动寂灭和血溅 寂灭和血溅命中时恢复自身魔力 持续时间：10秒
-
-        1972, 血乱, Delirium, 不需要消耗暗血就可以发动血溅和寂灭
-        1996, 血乱, Delirium, 不消耗暗血
+        Allows the execution of Quietus and Bloodspiller without cost, restoring MP when landing either weaponskill. Duration: 10s
+        748, Delirium, Delirium, Intelligence is reduced.
+        1972, Delirium, Delirium, Blackblood cost for <UIForeground(500)><UIGlow(501)>Bloodspiller</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Quietus</UIGlow></UIForeground> is nullified.
+        1996, Delirium, Delirium, Blackblood cost is nullified.
         """
         id = 7390
         name = {"Delirium", "血乱"}
 
     class Quietus(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：210 发动条件：暗血50点
-
+        Delivers an attack with a potency of 210 to all nearby enemies. Blood Gauge Cost: 50
         """
         id = 7391
         name = {"Quietus", "寂灭"}
 
     class Bloodspiller(ActionBase):
         """
-        对目标发动物理攻击 威力：600 发动条件：暗血50点
-
+        Delivers an attack with a potency of 600. Blood Gauge Cost: 50
         """
         id = 7392
         name = {"Bloodspiller", "血溅"}
 
     class TheBlackestNight(ActionBase):
         """
-        为自身或一名队员附加能够抵御一定伤害的防护罩 该防护罩能够抵消相当于目标最大体力25%的伤害量 持续时间：7秒 防护罩因吸收到足够的伤害而消失时，暗黑骑士自身附加暗技状态 暗技效果：用暗技代替魔力发动(source.job==32?(source.level>=74?暗影波动及暗影锋:暗黑波动及暗黑锋):暗黑波动及暗黑锋)
-
-        1178, 至黑之夜, Blackest Night, 抵消一定伤害
-        1308, 至黑之夜, Blackest Night, 抵消一定伤害
+        Creates a barrier around target that absorbs damage totaling 25% of target's maximum HP. Duration: 7s Grants Dark Arts when barrier is completely absorbed. Dark Arts Effect: Consume Dark Arts instead of MP to execute (source.job==32?(source.level>=74?Edge of Shadow or Flood of Shadow:Edge of Darkness or Flood of Darkness):Edge of Darkness or Flood of Darkness)
         """
         id = 7393
         name = {"The Blackest Night", "至黑之夜"}
 
     class FloodOfDarkness(ActionBase):
         """
-        向目标所在方向发出无属性直线范围魔法攻击 威力：250 追加效果：暗黑 持续时间：30秒 暗黑效果：攻击伤害提高10% 若自身已经附加暗黑状态，则持续时间延长30秒 最多可延长至60秒 与暗黑锋共享复唱时间
-
+        Deals unaspected damage with a potency of 250 to all enemies in a straight line before you. Additional Effect: Grants Darkside, increasing damage dealt by 10% Duration: 30s Extends Darkside duration by 30s to a maximum of 60s. Shares a recast timer with Edge of Darkness.
         """
         id = 16466
         name = {"Flood of Darkness", "暗黑波动"}
 
     class EdgeOfDarkness(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：350 追加效果：暗黑 持续时间：30秒 暗黑效果：攻击伤害提高10% 若自身已经附加暗黑状态，则持续时间延长30秒 最多可延长至60秒 与暗黑波动共享复唱时间
-
+        Deals unaspected damage with a potency of 350. Additional Effect: Grants Darkside, increasing damage dealt by 10% Duration: 30s Extends Darkside duration by 30s to a maximum of 60s. Shares a recast timer with Flood of Darkness.
         """
         id = 16467
         name = {"Edge of Darkness", "暗黑锋"}
 
     class StalwartSoul(ActionBase):
         """
-        对自身周围的敌人发动无属性范围魔法攻击 威力：100 连击条件：释放 连击中威力：160 连击成功：恢复自身魔力 连击成功：获得20点暗血
-
+        Deals unaspected damage with a potency of 100 to all nearby enemies. Combo Action: Unleash Combo Potency: 160 Combo Bonus: Restores MP Combo Bonus: Increases Blood Gauge by 20
         """
         id = 16468
         name = {"Stalwart Soul", "刚魂"}
@@ -187,36 +165,32 @@ class Actions:
 
     class FloodOfShadow(ActionBase):
         """
-        向目标所在方向发出无属性直线范围魔法攻击 威力：300 追加效果：暗黑 持续时间：30秒 暗黑效果：攻击伤害提高10% 若自身已经附加暗黑状态，则持续时间延长30秒 最多可延长至60秒 与暗影锋共享复唱时间
-
-        2170, 暗影波动, Flood of Shadow, 自身所受的体力恢复效果降低
+        Deals unaspected damage with a potency of 300 to all enemies in a straight line before you. Additional Effect: Grants Darkside, increasing damage dealt by 10% Duration: 30s Extends Darkside duration by 30s to a maximum of 60s. Shares a recast timer with Edge of Shadow.
+        2170, Flood of Shadow, Flood of Shadow, HP recovery via healing actions is reduced.
         """
         id = 16469
         name = {"Flood of Shadow", "暗影波动"}
 
     class EdgeOfShadow(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：500 追加效果：暗黑 持续时间：30秒 暗黑效果：攻击伤害提高10% 若自身已经附加暗黑状态，则持续时间延长30秒 最多可延长至60秒 与暗影波动共享复唱时间
-
-        2102, 暗影锋, Edge of Shadow, 自身所受的体力恢复效果降低
+        Deals unaspected damage with a potency of 500. Additional Effect: Grants Darkside, increasing damage dealt by 10% Duration: 30s Extends Darkside duration by 30s to a maximum of 60s. Shares a recast timer with Flood of Shadow.
+        2102, Edge of Shadow, Edge of Shadow, HP recovery is reduced.
         """
         id = 16470
         name = {"Edge of Shadow", "暗影锋"}
 
     class DarkMissionary(ActionBase):
         """
-        一定时间内，令自身和周围队员所受到的魔法伤害减轻10% 持续时间：15秒
-
-        1894, 暗黑布道, Dark Missionary, 减轻所受到的魔法伤害
-        2171, 暗黑布道, Dark Missionary, 减轻所受到的伤害，自身所受体力恢复效果提高
+        Reduces magic damage taken by self and nearby party members by 10%. Duration: 15s
+        1894, Dark Missionary, Dark Missionary, Magic damage taken is reduced.
+        2171, Dark Missionary, Dark Missionary, Damage taken is reduced while HP recovered via healing actions is increased.
         """
         id = 16471
         name = {"Dark Missionary", "暗黑布道"}
 
     class LivingShadow(ActionBase):
         """
-        令“英雄的掠影”变为实体与自身并肩作战 持续时间：24秒 英雄的掠影的攻击威力：300 发动条件：暗血50点
-
+        Conjure a simulacrum of your darkside to fight alongside you. Simulacrum Attack Potency: 300 Duration: 24s Blood Gauge Cost: 50
         """
         id = 16472
         name = {"Living Shadow", "掠影示现"}

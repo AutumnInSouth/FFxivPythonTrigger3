@@ -5,26 +5,23 @@ class Actions:
 
     class SpinningEdge(ActionBase):
         """
-        对目标发动物理攻击 威力：230(source.job==30?(source.level>=62? 追加效果：获得5点忍气:):)
-
+        Delivers an attack with a potency of 230.(source.job==30?(source.level>=62? Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2240
         name = {"Spinning Edge", "双刃旋"}
 
     class ShadeShift(ActionBase):
         """
-        抵消相当于自身最大体力20%的伤害 持续时间：20秒
-
-        488, 残影, Shade Shift, 抵消一定伤害
-        2011, 残影, Shade Shift, 抵消一定伤害
+        Create shadows that nullify damage up to 20% of maximum HP. Duration: 20s
+        488, Shade Shift, Shade Shift, Shadows are nullifying damage.
+        2011, Shade Shift, Shade Shift, Shadows are nullifying damage.
         """
         id = 2241
         name = {"Shade Shift", "残影"}
 
     class GustSlash(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：双刃旋 连击中威力：340(source.job==30?(source.level>=62? 连击成功：获得5点忍气:):)
-
+        Delivers an attack with a potency of 100. Combo Action: Spinning Edge Combo Potency: 340(source.job==30?(source.level>=62? Combo Bonus: Increases Ninki Gauge by 5:):)
         """
         id = 2242
         name = {"Gust Slash", "绝风"}
@@ -32,55 +29,43 @@ class Actions:
 
     class Hide(ActionBase):
         """
-        隐藏自己的身形，大多数敌人都无法发现自己 不过移动速度会降低50% 对比自身等级高出10级的怪物以及部分特殊怪物无效 发动除冲刺以外的其他技能会取消该状态 持续时间：永久 (source.level>=30?(source.job==30?追加效果：发动后若处于非战斗状态则重置2次忍术的复唱时间 :):)发动条件：自身处于非战斗状态
-
-        614, 隐遁, Hidden, 隐遁自己的身形，移动速度降低
-        615, 隐遁, Hidden, 隐遁自己的身形，移动速度降低
-        1108, 隐遁, Hidden, 隐遁自己的身形，移动速度降低
-        1316, 隐遁, Hidden, 隐遁自己的身形
-        1705, 隐遁, Hidden, 隐遁自己的身形，移动速度降低
-        1952, 隐遁, Hide, 隐遁自己的身形，移动速度降低
+        Blend in with your surroundings, making it impossible for most enemies to detect you, but reducing movement speed by 50%. Has no effect on enemies 10 levels higher than your own, or certain enemies with special sight. (source.level>=30?(source.job==30?Additional Effect: Restores 2 charges to all mudra :):)Cannot be executed while in combat. Effect ends upon use of any action other than Sprint, or upon reuse of Hide.
+        1952, Hide, Hide, Unable to be detected. Movement speed is severely reduced.
         """
         id = 2245
         name = {"Hide", "隐遁"}
 
     class Assassinate(ActionBase):
         """
-        对目标发动物理攻击 威力：200 该技能必定暴击并且直击 发动条件：发动梦幻三段后附加的断绝预备状态中
-
-        1314, 断绝, Assassinated, 受到持续伤害，同时受到攻击的伤害增加
+        Delivers a critical direct hit with a potency of 200. Can only be executed when Assassinate Ready.
         """
         id = 2246
         name = {"Assassinate", "断绝"}
 
     class ThrowingDagger(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：120(source.job==30?(source.level>=62? 追加效果：获得5点忍气:):)
-
+        Delivers a ranged attack with a potency of 120.(source.job==30?(source.level>=62? Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2247
         name = {"Throwing Dagger", "飞刀"}
 
     class Mug(ActionBase):
         """
-        对目标发动物理攻击 威力：150 追加效果：用该技能打倒敌人之后有可能会掉落更多的物品(source.level>=66?(source.job==30? 追加效果：获得40点忍气:):)
-
+        Delivers an attack with a potency of 150. Additional Effect: Increases the chance of additional items being dropped by target if Mug is dealt before, or as, the finishing blow(source.level>=66?(source.job==30? Additional Effect: Increases Ninki Gauge by 40:):)
         """
         id = 2248
         name = {"Mug", "夺取"}
 
     class DeathBlossom(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：120(source.job==30?(source.level>=62? 追加效果：获得5点忍气:):)
-
+        Delivers an attack with a potency of 120 to all nearby enemies.(source.job==30?(source.level>=62? Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2254
         name = {"Death Blossom", "血雨飞花"}
 
     class AeolianEdge(ActionBase):
         """
-        对目标发动物理攻击 威力：100 背面攻击威力：160 连击条件：绝风 连击中威力：420 连击中背面攻击威力：480(source.job==30?(source.level>=62? 连击成功：获得(source.job==30?(source.level>=78?10:5):5)点忍气:):)
-
+        Delivers an attack with a potency of 100. 160 when executed from a target's rear. Combo Action: Gust Slash Combo Potency: 420 Rear Combo Potency: 480(source.job==30?(source.level>=62? Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=78?10:5):5):):)
         """
         id = 2255
         name = {"Aeolian Edge", "旋风刃"}
@@ -88,143 +73,126 @@ class Actions:
 
     class ShadowFang(ActionBase):
         """
-        对目标发动物理攻击 威力：200 追加效果：持续伤害 威力：90 持续时间：30秒 (source.job==30?(source.level>=62?追加效果：获得(source.job==30?(source.level>=78?10:5):5)点忍气 :):)该战技有单独计算的复唱时间
-
-        508, 影牙, Shadow Fang, 体力逐渐减少
-        1313, 影牙, Shadow Fang, 受到持续伤害，持续时间中受到为自己附加此状态的玩家的攻击时伤害增加
+        Delivers an attack with a potency of 200. Additional Effect: Damage over time Potency: 90 Duration: 30s (source.job==30?(source.level>=62?Additional Effect: Increases Ninki Gauge by (source.job==30?(source.level>=78?10:5):5) :):)This action does not share a recast timer with any other actions.
+        508, Shadow Fang, Shadow Fang, Wounds are bleeding, causing damage over time.
+        1313, Shadow Fang, Shadow Fang, Sustaining damage over time, as well as increased damage from target who executed <UIForeground(500)><UIGlow(501)>Shadow Fang</UIGlow></UIForeground>.
         """
         id = 2257
         name = {"Shadow Fang", "影牙"}
 
     class TrickAttack(ActionBase):
         """
-        对目标发动物理攻击 威力：350 追加效果：受伤加重 持续时间：15秒 受伤加重效果：目标所受伤害提高5% 背面攻击威力：500 发动条件：隐遁
-
-        2014, 攻其不备, Trick Attack, 受到攻击的伤害增加
+        Delivers an attack with a potency of 350. 500 when executed from a target's rear. Additional Effect: Increases target's damage taken by 5% Duration: 15s Can only be executed while under the effect of Hidden.
+        2014, Trick Attack, Trick Attack, Damage taken is increased.
         """
         id = 2258
         name = {"Trick Attack", "攻其不备"}
 
     class Ten(ActionBase):
         """
-        结成天之印手势 持续时间：6秒 积蓄次数：2 此能力类技能有单独计算的复唱时间 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “heaven.” Duration: 6s Maximum Charges: 2 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2259
         name = {"Ten", "天之印"}
 
     class Ninjutsu(ActionBase):
         """
-        发动忍术，忍术的具体效果随之前结印的顺序有所不同 在结印状态下发动其他技能会导致忍术失败 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Executes a specific ninjutsu action coinciding with the combination of mudra made immediately beforehand. If any other action is used before the mudra are combined and the ninjutsu executed, Ninjutsu will fail. Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2260
         name = {"Ninjutsu", "忍术"}
 
     class Chi(ActionBase):
         """
-        结成地之印手势 持续时间：6秒 积蓄次数：2 此能力类技能有单独计算的复唱时间 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “earth.” Duration: 6s Maximum Charges: 2 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2261
         name = {"Chi", "地之印"}
 
     class Shukuchi(ActionBase):
         """
-        迅速移动到指定地点 (source.job==30?(source.level>=74?积蓄次数：2 :):)止步状态下无法发动
-
+        Move quickly to the specified location. (source.job==30?(source.level>=74?Maximum Charges: 2 :):)Cannot be executed while bound.
         """
         id = 2262
         name = {"Shukuchi", "缩地"}
 
     class Jin(ActionBase):
         """
-        结成人之印手势 持续时间：6秒 积蓄次数：2 此能力类技能有单独计算的复唱时间 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “man.” Duration: 6s Maximum Charges: 2 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2263
         name = {"Jin", "人之印"}
 
     class Kassatsu(ActionBase):
         """
-        一定时间内，可以无视天之印、地之印、人之印的积累次数发动1次忍术 在效果中发动的忍术威力提高30% 持续时间：15秒
-
-        497, 生杀予夺, Kassatsu, 可以发动忍术并且忍术的威力提升
+        Allows the execution of a single ninjutsu without consumption of mudra charges. Additional Effect: Increases damage for the next ninjutsu action by 30% Duration: 15s Recast timer of mudra is not affected by the execution of this action.
+        497, Kassatsu, Kassatsu, Able to execute a ninjutsu with increased potency.
         """
         id = 2264
         name = {"Kassatsu", "生杀予夺"}
 
     class FumaShuriken(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：500 发动条件：结成“天之印”“地之印”“人之印”任意一种印的状态下发动忍术 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers a ranged ninjutsu attack with a potency of 500. Mudra Combination: Any one of the Ten, Chi, or Jin mudra Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 2265
         name = {"Fuma Shuriken", "风魔手里剑"}
 
     class Katon(ActionBase):
         """
-        对目标及其周围的敌人发动火属性范围魔法攻击 威力：500 发动条件：按下列任意一种顺序结印后发动忍术 “地之印”→“天之印”或 “人之印”→“天之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Deals fire damage with a potency of 500 to target and all enemies nearby it. Mudra Combination: Chi→Ten or Jin→Ten Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 2266
         name = {"Katon", "火遁之术"}
 
     class Raiton(ActionBase):
         """
-        对目标发动雷属性魔法攻击 威力：800 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“地之印”或 “人之印”→“地之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Deals lightning damage with a potency of 800. Mudra Combination: Ten→Chi or Jin→Chi Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 2267
         name = {"Raiton", "雷遁之术"}
 
     class Hyoton(ActionBase):
         """
-        对目标发动冰属性魔法攻击 威力：400 追加效果：止步 持续时间：15秒 发动之后会停止自动攻击 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“人之印”或 “地之印”→“人之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Deals ice damage with a potency of 400. Additional Effect: Bind Duration: 15s Mudra Combination: Ten→Jin or Chi→Jin Cancels auto-attack upon execution. Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 2268
         name = {"Hyoton", "冰遁之术"}
 
     class Huton(ActionBase):
         """
-        自身的自动攻击间隔、战技的复唱时间缩短15% 持续时间：70秒 发动条件：按下列任意一种顺序结印后发动忍术 “人之印”→“地之印”→“天之印”或 “地之印”→“人之印”→“天之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        500, 风遁之术, Huton, 自动攻击间隔缩短，同时战技的复唱时间也会缩短
+        Reduces weaponskill recast time and auto-attack delay by 15%. Duration: 70s Mudra Combination: Jin→Chi→Ten or Chi→Jin→Ten Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        500, Huton, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 2269
         name = {"Huton", "风遁之术"}
 
     class Doton(ActionBase):
         """
-        以自身为中心产生伤害区域，范围内的敌人均会受到土属性伤害 威力：100 持续时间：24秒 追加效果：范围内所有目标附加40%加重 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“人之印”→“地之印”或 “人之印”→“天之印”→“地之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        501, 土遁之术, Doton, 产生土属性攻击区域
+        Creates a patch of corrupted earth, dealing damage with a potency of 100 to any enemies who enter. Duration: 24s Additional Effect: Heavy +40% Mudra Combination: Ten→Jin→Chi or Jin→Ten→Chi Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        501, Doton, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 2270
         name = {"Doton", "土遁之术"}
 
     class Suiton(ActionBase):
         """
-        对目标发动水属性魔法攻击 威力：600 追加效果：水遁之术 持续时间：20秒 水遁之术效果：不用隐遁身形也能够发动需要在隐遁状态下发动的技能1次 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“地之印”→“人之印”或 “地之印”→“天之印”→“人之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        507, 水遁之术, Suiton, 不用隐遁身形也能够发动需要在隐遁状态下发动的技能
+        Deals water damage with a potency of 600. Additional Effect: Grants Suiton Duration: 20s Suiton Effect: Allows execution of actions which require the effect of Hidden, without being under that effect Mudra Combination: Ten→Chi→Jin or Chi→Ten→Jin Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        507, Suiton, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the <UIForeground(506)><UIGlow(507)>Hidden</UIGlow></UIForeground> status.
         """
         id = 2271
         name = {"Suiton", "水遁之术"}
 
     class RabbitMedium(ActionBase):
         """
-        姆咕姆咕？姆咕姆咕？姆咕……
-
+        Thumpity thump thump, thumpity thump thump...
         """
         id = 2272
         name = {"Rabbit Medium", "通灵之术"}
 
     class ArmorCrush(ActionBase):
         """
-        对目标发动物理攻击 威力：100 侧面攻击威力：160 连击条件：绝风 连击中威力：400 连击中侧面攻击威力：460 连击成功：风遁之术的持续时间延长30秒 最多可延长至70秒(source.job==30?(source.level>=62? 连击成功：获得(source.job==30?(source.level>=78?10:5):5)点忍气:):)
-
+        Delivers an attack with a potency of 100. 160 when executed from a target's flank. Combo Action: Gust Slash Combo Potency: 400 Flank Combo Potency: 460 Combo Bonus: Extends Huton duration by 30s to a maximum of 70s(source.job==30?(source.level>=62? Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=78?10:5):5):):)
         """
         id = 3563
         name = {"Armor Crush", "强甲破点突"}
@@ -232,41 +200,36 @@ class Actions:
 
     class DreamWithinADream(ActionBase):
         """
-        对目标发动连续3次物理攻击 威力：200(source.job==30?(source.level>=60? 追加效果：断绝预备 持续时间：15秒:):)
-
+        Delivers a threefold attack, each hit with a potency of 200.(source.job==30?(source.level>=60? Additional Effect: Grants Assassinate Ready Duration: 15s:):)
         """
         id = 3566
         name = {"Dream Within a Dream", "梦幻三段"}
 
     class HellfrogMedium(ActionBase):
         """
-        对目标及其周围的敌人发动火属性范围魔法攻击 威力：200 发动条件：忍气50点 与六道轮回共享复唱时间
-
+        Deals fire damage with a potency of 200 to target and all enemies nearby it. Ninki Gauge Cost: 50 Shares a recast timer with Bhavacakra.
         """
         id = 7401
         name = {"Hellfrog Medium", "通灵之术·大虾蟆"}
 
     class Bhavacakra(ActionBase):
         """
-        对目标发动无属性魔法攻击 威力：300 发动条件：忍气50点 与通灵之术·大虾蟆共享复唱时间
-
+        Deals unaspected damage with a potency of 300. Ninki Gauge Cost: 50 Shares a recast timer with Hellfrog Medium.
         """
         id = 7402
         name = {"Bhavacakra", "六道轮回"}
 
     class TenChiJin(ActionBase):
         """
-        一定时间内，天之印、地之印、人之印变为忍术 每次发动忍术后会变为别的忍术，最多可发动3种忍术 持续时间：6秒 效果时间内无法发动忍术之外的技能，移动后会立即解除天地人 发动条件：非生杀予夺状态中
-
-        1186, 天地人, Ten Chi Jin, 可以连发忍术
+        Temporarily converts each of the three mudra into a ninjutsu action. Executing one of these actions will convert the remaining mudra into different ninjutsu actions until all three have been executed or the Ten Chi Jin effect expires. Duration: 6s Only ninjutsu available while active. The same ninjutsu cannot be executed twice. Cannot be executed while under the effect of Kassatsu. Effect ends upon moving.
+        1186, Ten Chi Jin, Ten Chi Jin, Able to execute ninjutsu in succession.
         """
         id = 7403
         name = {"Ten Chi Jin", "天地人"}
 
     class HakkeMujinsatsu(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 连击条件：血雨飞花 连击中威力：140 连击成功：风遁之术的持续时间延长10秒 最多可延长至70秒(source.job==30?(source.level>=62? 连击成功：获得5点忍气:):)
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Combo Action: Death Blossom Combo Potency: 140 Combo Bonus: Extends Huton duration by 10s to a maximum of 70s(source.job==30?(source.level>=62? Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 16488
         name = {"Hakke Mujinsatsu", "八卦无刃杀"}
@@ -274,133 +237,117 @@ class Actions:
 
     class Meisui(ActionBase):
         """
-        消耗自身附加的水遁之术，获得50点忍气 发动条件：自身处于战斗状态及水遁之术状态中
-
+        Dispel Suiton, increasing the Ninki Gauge by 50. Can only be executed while in combat.
         """
         id = 16489
         name = {"Meisui", "命水"}
 
     class GokaMekkyaku(ActionBase):
         """
-        对目标及其周围的敌人发动火属性范围魔法攻击 威力：750 发动条件：在生杀予夺效果时间内，按下列任意一种顺序结印后发动忍术 “地之印”→“天之印”或 “人之印”→“天之印 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Deals fire damage with a potency of 750 to target and all enemies nearby it. Mudra Combination: Chi→Ten or Jin→Ten Can only be executed while under the effect of Kassatsu. Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 16491
         name = {"Goka Mekkyaku", "劫火灭却之术"}
 
     class HyoshoRanryu(ActionBase):
         """
-        对目标发动冰属性魔法攻击 威力：1200 发动条件：在生杀予夺效果时间内，按下列任意一种顺序结印后发动忍术 “天之印”→“人之印”或 “地之印”→“人之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Deals ice damage with a potency of 1,200. Mudra Combination: Chi→Jin or Ten→Jin Can only be executed while under the effect of Kassatsu. Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 16492
         name = {"Hyosho Ranryu", "冰晶乱流之术"}
 
     class Bunshin(ActionBase):
         """
-        对自身附加5档的分身之术状态 持续时间：30秒 分身之术效果：使用战技后，自身的分身会出现并加以追击 分身不受连击影响，且攻击威力固定 近身攻击威力：200 远程攻击威力：100 范围攻击威力：100 分身的攻击命中时自身获得5点忍气 发动条件：忍气50点
-
-        1954, 分身之术, Bunshin, 自身一发动战技就会立刻进行分身攻击
-        2010, 分身之术, Bunshin, 自身发动战技后分身会跟着进行攻击
+        Grants 5 stacks of Bunshin, each stack allowing your shadow to attack enemies each time you execute a weaponskill. Shadow attack potency varies based on the attack executed, but is not affected by combo bonuses. Melee Attack Potency: 200 Ranged Attack Potency: 100 Area Attack Potency: 100 Ninki Gauge increases by 5 each time your shadow lands an attack. Duration: 30s Ninki Gauge Cost: 50
+        1954, Bunshin, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
+        2010, Bunshin, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
         """
         id = 16493
         name = {"Bunshin", "分身之术"}
 
     class Ten(ActionBase):
         """
-        结成天之印手势 持续时间：6秒 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “heaven.” Duration: 6s Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18805
         name = {"Ten", "天之印"}
 
     class Chi(ActionBase):
         """
-        结成地之印手势 持续时间：6秒 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “earth.” Duration: 6s Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18806
         name = {"Chi", "地之印"}
 
     class Jin(ActionBase):
         """
-        结成人之印手势 持续时间：6秒 此能力类技能发动时会受到公共复唱时间的影响 此能力类技能发动后会产生公共复唱时间
-
+        Make the ritual mudra hand gesture for “man.” Duration: 6s Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18807
         name = {"Jin", "人之印"}
 
     class FumaShuriken(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：500 发动条件：结成“天之印”“地之印”“人之印”任意一种印的状态下发动忍术 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers a ranged ninjutsu attack with a potency of 500. Mudra Combination: Any one of the Ten, Chi, or Jin mudra Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18873
         name = {"Fuma Shuriken", "风魔手里剑"}
 
     class FumaShuriken(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：500 发动条件：结成“天之印”“地之印”“人之印”任意一种印的状态下发动忍术 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers a ranged ninjutsu attack with a potency of 500. Mudra Combination: Any one of the Ten, Chi, or Jin mudra Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18874
         name = {"Fuma Shuriken", "风魔手里剑"}
 
     class FumaShuriken(ActionBase):
         """
-        对目标发动远距离物理攻击 威力：500 发动条件：结成“天之印”“地之印”“人之印”任意一种印的状态下发动忍术 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers a ranged ninjutsu attack with a potency of 500. Mudra Combination: Any one of the Ten, Chi, or Jin mudra Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18875
         name = {"Fuma Shuriken", "风魔手里剑"}
 
     class Katon(ActionBase):
         """
-        对目标及其周围的敌人发动火属性范围魔法攻击 威力：500 发动条件：按下列任意一种顺序结印后发动忍术 “地之印”→“天之印”或 “人之印”→“天之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers fire damage with a potency of 500 to target and all enemies nearby it. Mudra Combination: Chi→Ten or Jin→Ten Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18876
         name = {"Katon", "火遁之术"}
 
     class Raiton(ActionBase):
         """
-        对目标发动雷属性魔法攻击 威力：800 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“地之印”或 “人之印”→“地之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers lightning damage with a potency of 800. Mudra Combination: Ten→Chi or Jin→Chi Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18877
         name = {"Raiton", "雷遁之术"}
 
     class Hyoton(ActionBase):
         """
-        对目标发动冰属性魔法攻击 威力：400 追加效果：止步 持续时间：15秒 发动之后会停止自动攻击 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“人之印”或 “地之印”→“人之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
+        Delivers ice damage with a potency of 400. Additional Effect: Bind Duration: 15s Mudra Combination: Ten→Jin or Chi→Jin Cancels auto-attack upon execution. Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
         """
         id = 18878
         name = {"Hyoton", "冰遁之术"}
 
     class Huton(ActionBase):
         """
-        自身的自动攻击间隔、战技的复唱时间缩短15% 持续时间：70秒 发动条件：按下列任意一种顺序结印后发动忍术 “人之印”→“地之印”→“天之印”或 “地之印”→“人之印”→“天之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        500, 风遁之术, Huton, 自动攻击间隔缩短，同时战技的复唱时间也会缩短
+        Reduces weaponskill recast time and auto-attack delay by 15%. Duration: 70s Mudra Combination: Jin→Chi→Ten or Chi→Jin→Ten Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        500, Huton, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 18879
         name = {"Huton", "风遁之术"}
 
     class Doton(ActionBase):
         """
-        以自身为中心产生伤害区域，范围内的敌人均会受到土属性伤害 威力：100 持续时间：24秒 追加效果：范围内所有目标附加40%加重 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“人之印”→“地之印”或 “人之印”→“天之印”→“地之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        501, 土遁之术, Doton, 产生土属性攻击区域
+        Creates a patch of corrupted earth, dealing damage with a potency of 100 to any enemies who enter. Duration: 24s Additional Effect: Heavy +40% Mudra Combination: Ten→Jin→Chi or Jin→Ten→Chi Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        501, Doton, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 18880
         name = {"Doton", "土遁之术"}
 
     class Suiton(ActionBase):
         """
-        对目标发动水属性魔法攻击 威力：600 追加效果：水遁之术 持续时间：20秒 水遁之术效果：不用隐遁身形也能够发动需要在隐遁状态下发动的技能1次 发动条件：按下列任意一种顺序结印后发动忍术 “天之印”→“地之印”→“人之印”或 “地之印”→“天之印”→“人之印” 此能力类技能发动后会产生公共复唱时间 ※该技能无法设置到热键栏
-
-        507, 水遁之术, Suiton, 不用隐遁身形也能够发动需要在隐遁状态下发动的技能
+        Delivers water damage with a potency of 600. Additional Effect: Grants Suiton Duration: 20s Suiton Effect: Allows execution of an action which requires the effect of Hidden, without being under that effect Mudra Combination: Ten→Chi→Jin or Chi→Ten→Jin Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution. ※This action cannot be assigned to a hotbar.
+        507, Suiton, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the <UIForeground(506)><UIGlow(507)>Hidden</UIGlow></UIForeground> status.
         """
         id = 18881
         name = {"Suiton", "水遁之术"}

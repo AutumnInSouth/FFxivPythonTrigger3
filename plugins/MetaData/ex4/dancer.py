@@ -5,16 +5,14 @@ class Actions:
 
     class Cascade(ActionBase):
         """
-        对目标发动物理攻击 威力：250 追加效果（发动几率50%）：逆瀑泻预备 持续时间：20秒 跳舞模式中该技能变为蔷薇曲脚步
-
+        Delivers an attack with a potency of 250. Additional Effect: 50% chance of granting Flourishing Cascade Duration: 20s ※Action changes to Emboite while dancing.
         """
         id = 15989
         name = {"Cascade", "瀑泻"}
 
     class Fountain(ActionBase):
         """
-        对目标发动物理攻击 威力：100 连击条件：瀑泻 连击中威力：300 连击成功（发动几率50%）：坠喷泉预备 持续时间：20秒 跳舞模式中该技能变为小鸟交叠跳
-
+        Delivers an attack with a potency of 100. Combo Action: Cascade Combo Potency: 300 Combo Bonus: 50% chance of granting Flourishing Fountain Duration: 20s ※Action changes to Entrechat while dancing.
         """
         id = 15990
         name = {"Fountain", "喷泉"}
@@ -22,32 +20,28 @@ class Actions:
 
     class ReverseCascade(ActionBase):
         """
-        对目标发动物理攻击 威力：300 (source.job==38?(source.level>=30?追加效果（发动几率50%）：幻扇 :):)发动条件：逆瀑泻预备状态中 跳舞模式中该技能变为绿叶小踢腿
-
+        Delivers an attack with a potency of 300. (source.job==38?(source.level>=30?Additional Effect: 50% chance of granting a Fourfold Feather :):)Can only be executed while under the effect of Flourishing Cascade. ※Action changes to Jete while dancing.
         """
         id = 15991
         name = {"Reverse Cascade", "逆瀑泻"}
 
     class Fountainfall(ActionBase):
         """
-        对目标发动物理攻击 威力：350 追加效果（发动几率50%）：幻扇 发动条件：坠喷泉预备状态中 跳舞模式中该技能变为金冠趾尖转
-
+        Delivers an attack with a potency of 350. Additional Effect: 50% chance of granting a Fourfold Feather Can only be executed while under the effect of Flourishing Fountain. ※Action changes to Pirouette while dancing.
         """
         id = 15992
         name = {"Fountainfall", "坠喷泉"}
 
     class Windmill(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：150 追加效果（发动几率50%）：升风车预备 持续时间：20秒
-
+        Delivers an attack with a potency of 150 to all nearby enemies. Additional Effect: 50% chance of granting Flourishing Windmill Duration: 20s
         """
         id = 15993
         name = {"Windmill", "风车"}
 
     class Bladeshower(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 连击条件：风车 连击中威力：200 连击成功（发动几率50%）：落血雨预备 持续时间：20秒
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Combo Action: Windmill Combo Potency: 200 Combo Bonus: 50% chance of granting Flourishing Shower Duration: 20s
         """
         id = 15994
         name = {"Bladeshower", "落刃雨"}
@@ -55,242 +49,215 @@ class Actions:
 
     class RisingWindmill(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：300 攻击复数敌人时，对第一个之外的敌人威力降低50% 追加效果（发动几率50%）：幻扇 发动条件：升风车预备状态中
-
+        Delivers an attack to all nearby enemies with a potency of 300 for the first enemy, and 50% less for all remaining enemies. Additional Effect: 50% chance of granting a Fourfold Feather Can only be executed while under the effect of Flourishing Windmill.
         """
         id = 15995
         name = {"Rising Windmill", "升风车"}
 
     class Bloodshower(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：350 攻击复数敌人时，对第一个之外的敌人威力降低50% 追加效果（发动几率50%）：幻扇 发动条件：落血雨预备状态中
-
+        Delivers an attack to all nearby enemies with a potency of 350 for the first enemy, and 50% less for all remaining enemies. Additional Effect: 50% chance of granting a Fourfold Feather Can only be executed while under the effect of Flourishing Shower.
         """
         id = 15996
         name = {"Bloodshower", "落血雨"}
 
     class StandardStep(ActionBase):
         """
-        进入跳舞模式，对自身附加标准舞步状态 持续时间：15秒 跳舞模式中该技能变为标准舞步结束 此时只能使用舞步技能、标准舞步结束、前冲步、职能技能、冲刺和极限技 该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间 发动技能后，舞步技能与结束技能会产生复唱时间
-
-        1818, 标准舞步, Standard Step, 进入了跳舞模式。无法发动舞步技能和标准舞步结束、前冲步、职能技能、冲刺、极限技以外的技能
-        2023, 标准舞步, Standard Step, 进入了跳舞模式。无法发动舞步技能和标准舞步结束、前冲步、伤头、疾跑、军用恢复药、额外技能以外的技能
+        Begin dancing, granting yourself Standard Step. Duration: 15s Action changes to Standard Finish while dancing. Only Standard Finish, En Avant, step actions, role actions, Sprint, and Limit Break can be performed while dancing. Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
+        1818, Standard Step, Standard Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, <UIForeground(500)><UIGlow(501)>Standard Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
+        2023, Standard Step, Standard Step, Caught up in the dance and only able to execute step actions, additional actions, <UIForeground(500)><UIGlow(501)>Head Graze</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Bolt</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Medical Kit</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Standard Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
         """
         id = 15997
         name = {"Standard Step", "标准舞步"}
 
     class TechnicalStep(ActionBase):
         """
-        进入跳舞模式，对自身附加技巧舞步状态 持续时间：15秒 跳舞模式中该技能变为技巧舞步结束 此时只能使用舞步技能、技巧舞步结束、前冲步、职能技能、冲刺和极限技 该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间 发动技能后，舞步技能与结束技能会产生复唱时间
-
-        1819, 技巧舞步, Technical Step, 进入了跳舞模式。无法发动舞步技能和技巧舞步结束、前冲步、职能技能、冲刺、极限技以外的技能
-        2049, 技巧舞步, Technical Step, 进入了跳舞模式。无法发动舞步技能和技巧舞步结束、前冲步、伤头、疾跑、军用恢复药、额外技能以外的技能
+        Begin dancing, granting yourself Technical Step. Duration: 15s Action changes to Technical Finish while dancing. Only Technical Finish, En Avant, step actions, role actions, Sprint, and Limit Break can be performed while dancing. Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
+        1819, Technical Step, Technical Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, <UIForeground(500)><UIGlow(501)>Technical Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
+        2049, Technical Step, Technical Step, Caught up in the dance and only able to execute step actions, additional actions, <UIForeground(500)><UIGlow(501)>Technical Finish</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Head Graze</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Bolt</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>Medical Kit</UIGlow></UIForeground>.
         """
         id = 15998
         name = {"Technical Step", "技巧舞步"}
 
     class Emboite(ActionBase):
         """
-        发动蔷薇曲脚步舞步技能 成功按照舞步量谱显示的顺序发动舞步技能，可以提高结束技能的效果 发动技能后，舞步技能与结束技能会产生复唱时间 ※该技能无法设置到热键栏
-
+        Perform an emboite. When performed together with other step actions, in sequence, the potency of Standard Finish and Technical Finish is increased. Triggers the cooldown of step and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 15999
         name = {"Emboite", "蔷薇曲脚步"}
 
     class Entrechat(ActionBase):
         """
-        发动小鸟交叠跳舞步技能 成功按照舞步量谱显示的顺序发动舞步技能，可以提高结束技能的效果 发动技能后，舞步技能与结束技能会产生复唱时间 ※该技能无法设置到热键栏
-
+        Perform an entrechat. When performed together with other step actions, in sequence, the potency of Standard Finish and Technical Finish is increased. Triggers the cooldown of step and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16000
         name = {"Entrechat", "小鸟交叠跳"}
 
     class Jete(ActionBase):
         """
-        发动绿叶小踢腿舞步技能 成功按照舞步量谱显示的顺序发动舞步技能，可以提高结束技能的效果 发动技能后，舞步技能与结束技能会产生复唱时间 ※该技能无法设置到热键栏
-
+        Perform a jete. When performed together with other step actions, in sequence, the potency of Standard Finish and Technical Finish is increased. Triggers the cooldown of step and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16001
         name = {"Jete", "绿叶小踢腿"}
 
     class Pirouette(ActionBase):
         """
-        发动金冠趾尖转舞步技能 成功按照舞步量谱显示的顺序发动舞步技能，可以提高结束技能的效果 发动技能后，舞步技能与结束技能会产生复唱时间 ※该技能无法设置到热键栏
-
+        Perform a pirouette. When performed together with other step actions, in sequence, the potency of Standard Finish and Technical Finish is increased. Triggers the cooldown of step and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16002
         name = {"Pirouette", "金冠趾尖转"}
 
     class StandardFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束和伶俐状态:舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态):舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态) 持续时间：60秒 该技能的威力与标准舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为2% 成功2次时：威力1000且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
-        1821, 标准舞步结束, Standard Finish, 攻击所造成的伤害提高
-        2024, 标准舞步结束, Standard Finish, 战技与魔法的咏唱及复唱时间缩短
-        2105, 标准舞步结束, Standard Finish, 攻击所造成的伤害提高
-        2113, 标准舞步结束, Standard Finish, 战技与魔法的咏唱及复唱时间缩短
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 (source.job==38?(source.level>=76?Step Bonus: Grants Standard Finish and Esprit to self and party member designated as your Dance Partner:Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner):Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner) Damage bonus of Standard Finish varies with number of successful steps. 1 step: 2% 2 steps: 5% Duration: 60s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
+        1821, Standard Finish, Standard Finish, Damage dealt is increased.
+        2024, Standard Finish, Standard Finish, Weaponskill and spell cast and recast time are reduced.
+        2105, Standard Finish, Standard Finish, Damage dealt is increased.
+        2113, Standard Finish, Standard Finish, Weaponskill and spell cast and recast time are reduced.
         """
         id = 16003
         name = {"Standard Finish", "标准舞步结束"}
 
     class TechnicalFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束和伶俐状态 :舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 ):舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 )持续时间：20秒 该技能的威力与技巧舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为1% 成功2次时：威力1000且效果量为2% 成功3次时：威力1250且效果量为3% 成功4次时：威力1500且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
-        1822, 技巧舞步结束, Technical Finish, 攻击所造成的伤害提高
-        2050, 技巧舞步结束, Technical Finish, 战技与魔法的咏唱及复唱时间缩短
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 3 steps: 1,250 4 steps: 1,500 (source.job==38?(source.level>=76?Step Bonus: Grants Technical Finish and Esprit to self and party members:Step Bonus: Grants Technical Finish to self and party members):Step Bonus: Grants Technical Finish to self and party members) Damage bonus of Technical Finish varies with number of successful steps. 1 step: 1% 2 steps: 2% 3 steps: 3% 4 steps: 5% Duration: 20s Additional Effect: Activates the Esprit Gauge Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
+        1822, Technical Finish, Technical Finish, Damage dealt is increased.
+        2050, Technical Finish, Technical Finish, Weaponskill and spell cast and recast time are reduced.
         """
         id = 16004
         name = {"Technical Finish", "技巧舞步结束"}
 
     class SaberDance(ActionBase):
         """
-        对目标及其周围敌人发动范围物理攻击 威力：600 攻击复数敌人时，对目标之外的敌人威力降低50% 发动条件：伶俐50点
-
-        2022, 剑舞, Saber Dance, 攻击所造成的伤害提高
+        Delivers an attack to target and all enemies nearby it with a potency of 600 for the first enemy, and 50% less for all remaining enemies. Esprit Gauge Cost: 50
+        2022, Saber Dance, Saber Dance, Damage dealt is increased.
         """
         id = 16005
         name = {"Saber Dance", "剑舞"}
 
     class ClosedPosition(ActionBase):
         """
-        指定一名队员为目标，对自身附加闭式舞姿状态，对目标附加舞伴状态 在该状态下发动标准舞步结束、进攻之探戈、治疗之华尔兹时，附加舞伴状态的队员也可以获得同样的效果 再次发动时则取消该状态 持续时间：永久
-
-        1823, 闭式舞姿, Closed Position, 使用部分技能时，对指定队员发动追加效果
-        2026, 闭式舞姿, Closed Position, 使用部分技能时，对指定队员发动追加效果
+        Grants you Closed Position and designates a party member as your Dance Partner, allowing you to share the effects of Standard Finish, Devilment, and Curing Waltz with said party member. Effect ends upon reuse.
+        1823, Closed Position, Closed Position, Sharing the effects of certain actions with target party member.
+        2026, Closed Position, Closed Position, Sharing the effects of certain actions with target party member.
         """
         id = 16006
         name = {"Closed Position", "闭式舞姿"}
 
     class FanDance(ActionBase):
         """
-        对目标发动物理攻击 威力：150 追加效果（发动几率50%）：扇舞·急预备 持续时间：20秒 发动条件：幻扇
-
+        Delivers an attack with a potency of 150. Additional Effect: 50% chance of granting Flourishing Fan Dance Duration: 20s Can only be executed while in possession of Fourfold Feathers.
         """
         id = 16007
         name = {"Fan Dance", "扇舞·序"}
 
     class FanDanceIi(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 威力：100 追加效果（发动几率50%）：扇舞·急预备 持续时间：20秒 发动条件：幻扇
-
+        Delivers an attack with a potency of 100 to all nearby enemies. Additional Effect: 50% chance of granting Flourishing Fan Dance Duration: 20s Can only be executed while in possession of Fourfold Feathers.
         """
         id = 16008
         name = {"Fan Dance II", "扇舞·破"}
 
     class FanDanceIii(ActionBase):
         """
-        对目标及其周围敌人发动范围物理攻击 威力：200 攻击复数敌人时，对目标之外的敌人威力降低50% 发动条件：扇舞·急预备状态中
-
-        2052, 扇舞·急, Fan Dance III, 受到攻击的伤害减少
+        Delivers an attack to target and all enemies nearby it with a potency of 200 for the first enemy, and 50% less for all remaining enemies. Can only be executed while under the effect of Flourishing Fan Dance.
+        2052, Fan Dance III, Fan Dance III, Damage taken is reduced.
         """
         id = 16009
         name = {"Fan Dance III", "扇舞·急"}
 
     class EnAvant(ActionBase):
         """
-        迅速移动到自身前方10米处 (source.job==38?(source.level>=68?积蓄次数：(source.job==38?(source.level>=78?3:2):2) :):)止步状态下无法发动
-
-        2048, 前冲步, En Avant, 瀑泻变为逆瀑泻，喷泉变为坠喷泉，风车变为升风车，落刃雨变为落血雨
+        Quickly dash 10 yalms forward. (source.job==38?(source.level>=68?Maximum Charges: (source.job==38?(source.level>=78?3:2):2) :):)Cannot be executed while bound.
+        2048, En Avant, En Avant, <UIForeground(500)><UIGlow(501)>Cascade</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Reverse Cascade</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Fountain</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Fountainfall</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Windmill</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Rising Windmill</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>Bladeshower</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Bloodshower</UIGlow></UIForeground>.
         """
         id = 16010
         name = {"En Avant", "前冲步"}
 
     class Devilment(ActionBase):
         """
-        一定时间内，自身的暴击发动率和直击发动率提高20% 持续时间：20秒 追加效果：带有舞伴状态的队员也会附加同样的效果
-
-        1825, 进攻之探戈, Devilment, 暴击发动率和直击发动率提高
+        Increases critical hit rate and direct hit rate by 20%. Duration: 20s Additional Effect: Party member designated as your Dance Partner will also receive the effect of Devilment
+        1825, Devilment, Devilment, Critical hit rate and direct hit rate are increased.
         """
         id = 16011
         name = {"Devilment", "进攻之探戈"}
 
     class ShieldSamba(ActionBase):
         """
-        一定时间内，令自身和周围队员所受到的伤害减轻10% 持续时间：15秒 无法与吟游诗人的行吟、机工士的策动效果共存
-
-        1826, 防守之桑巴, Shield Samba, 减轻所受到的伤害
+        Reduces damage taken by self and nearby party members by 10%. Duration: 15s Effect cannot be stacked with bard's Troubadour or machinist's Tactician.
+        1826, Shield Samba, Shield Samba, Damage taken is reduced.
         """
         id = 16012
         name = {"Shield Samba", "防守之桑巴"}
 
     class Flourish(ActionBase):
         """
-        对自身附加逆瀑泻预备、坠喷泉预备、升风车预备、落血雨预备、扇舞·急预备状态
-
+        Grants you the effects of Flourishing Cascade, Flourishing Fountain, Flourishing Windmill, Flourishing Shower, and Flourishing Fan Dance.
         """
         id = 16013
         name = {"Flourish", "百花争艳"}
 
     class Improvisation(ActionBase):
         """
-        原地起舞，对自身附加即兴表演状态 持续时间：15秒 即兴表演效果：范围内的队员所受的治疗魔法效果提高10% 自身处于战斗状态时，可以持续积累伶俐 积累量随周围队员的人数而有所不同，人数越多，积累量越多 效果时间内发动技能或进行移动、转身都会立即中断即兴表演 发动之后会停止自动攻击
-
-        1827, 即兴表演, Improvisation, 即兴跳舞，处于战斗状态时会持续获得伶俐
+        Dance to the beat of your own drum, granting Improvisation to self. Improvisation Effect: Continuously increases Esprit Gauge while in combat Duration: 15s The speed at which the gauge increases varies with the number of nearby party members. Furthermore, HP recovery via healing actions for self and nearby party members is increased by 10%. Effect ends upon using another action or moving (including facing a different direction). Cancels auto-attack upon execution.
+        1827, Improvisation, Improvisation, Dancing to the beat of your own drum. Accumulates <UIForeground(506)><UIGlow(507)>Esprit</UIGlow></UIForeground> while dancing in combat.
+        1828, Improvisation, Improvisation, Healing magic potency is increased.
         """
         id = 16014
         name = {"Improvisation", "即兴表演"}
 
     class CuringWaltz(ActionBase):
         """
-        恢复自身及周围队员的体力 恢复力：300 追加效果：带有自身舞伴状态的队员也会产生同样的范围恢复效果
-
+        Restores own HP and the HP of all nearby party members. Cure Potency: 300 Additional Effect: Party member designated as your Dance Partner will also heal self and nearby party members
         """
         id = 16015
         name = {"Curing Waltz", "治疗之华尔兹"}
 
     class SingleStandardFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束和伶俐状态:舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态):舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态) 持续时间：60秒 该技能的威力与标准舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为2% 成功2次时：威力1000且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 (source.job==38?(source.level>=76?Step Bonus: Grants Standard Finish and Esprit to self and party member designated as your Dance Partner:Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner):Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner) Damage bonus of Standard Finish varies with number of successful steps. 1 step: 2% 2 steps: 5% Duration: 60s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16191
         name = {"Single Standard Finish", "单色标准舞步结束"}
 
     class DoubleStandardFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束和伶俐状态:舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态):舞步成功时追加效果：对自身以及带有自身舞伴状态的队员附加标准舞步结束状态) 持续时间：60秒 该技能的威力与标准舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为2% 成功2次时：威力1000且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 (source.job==38?(source.level>=76?Step Bonus: Grants Standard Finish and Esprit to self and party member designated as your Dance Partner:Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner):Step Bonus: Grants Standard Finish to self and party member designated as your Dance Partner) Damage bonus of Standard Finish varies with number of successful steps. 1 step: 2% 2 steps: 5% Duration: 60s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16192
         name = {"Double Standard Finish", "双色标准舞步结束"}
 
     class SingleTechnicalFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束和伶俐状态 :舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 ):舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 )持续时间：20秒 该技能的威力与技巧舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为1% 成功2次时：威力1000且效果量为2% 成功3次时：威力1250且效果量为3% 成功4次时：威力1500且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 3 steps: 1,250 4 steps: 1,500  (source.job==38?(source.level>=76?Step Bonus: Grants Technical Finish and Esprit to self and party members:Step Bonus: Grants Technical Finish to self and party members):Step Bonus: Grants Technical Finish to self and party members) Damage bonus of Technical Finish varies with number of successful steps. 1 step: 1% 2 steps: 2% 3 steps: 3% 4 steps: 5% Duration: 20s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16193
         name = {"Single Technical Finish", "单色技巧舞步结束"}
 
     class DoubleTechnicalFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束和伶俐状态 :舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 ):舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 )持续时间：20秒 该技能的威力与技巧舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为1% 成功2次时：威力1000且效果量为2% 成功3次时：威力1250且效果量为3% 成功4次时：威力1500且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 3 steps: 1,250 4 steps: 1,500  (source.job==38?(source.level>=76?Step Bonus: Grants Technical Finish and Esprit to self and party members:Step Bonus: Grants Technical Finish to self and party members):Step Bonus: Grants Technical Finish to self and party members) Damage bonus of Technical Finish varies with number of successful steps. 1 step: 1% 2 steps: 2% 3 steps: 3% 4 steps: 5% Duration: 20s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16194
         name = {"Double Technical Finish", "双色技巧舞步结束"}
 
     class TripleTechnicalFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束和伶俐状态 :舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 ):舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 )持续时间：20秒 该技能的威力与技巧舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为1% 成功2次时：威力1000且效果量为2% 成功3次时：威力1250且效果量为3% 成功4次时：威力1500且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 3 steps: 1,250 4 steps: 1,500  (source.job==38?(source.level>=76?Step Bonus: Grants Technical Finish and Esprit to self and party members:Step Bonus: Grants Technical Finish to self and party members):Step Bonus: Grants Technical Finish to self and party members) Damage bonus of Technical Finish varies with number of successful steps. 1 step: 1% 2 steps: 2% 3 steps: 3% 4 steps: 5% Duration: 20s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16195
         name = {"Triple Technical Finish", "三色技巧舞步结束"}
 
     class QuadrupleTechnicalFinish(ActionBase):
         """
-        对自身周围的敌人发动范围物理攻击 (source.job==38?(source.level>=76?舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束和伶俐状态 :舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 ):舞步成功时追加效果：对自身及周围的队员附加技巧舞步结束状态 )持续时间：20秒 该技能的威力与技巧舞步结束状态的效果量随舞步技能的成功次数而有所不同 成功0次时：威力500 成功1次时：威力750且效果量为1% 成功2次时：威力1000且效果量为2% 成功3次时：威力1250且效果量为3% 成功4次时：威力1500且效果量为5% 攻击复数敌人时，对第一个之外的敌人威力降低75% 发动技能后，战技和魔法会产生复唱时间 ※该技能无法设置到热键栏
-
+        Delivers an attack to all nearby enemies. Potency varies with number of successful steps, dealing full potency for the first enemy, and 75% less for all remaining enemies. 0 steps: 500 1 step: 750 2 steps: 1,000 3 steps: 1,250 4 steps: 1,500  (source.job==38?(source.level>=76?Step Bonus: Grants Technical Finish and Esprit to self and party members:Step Bonus: Grants Technical Finish to self and party members):Step Bonus: Grants Technical Finish to self and party members) Damage bonus of Technical Finish varies with number of successful steps. 1 step: 1% 2 steps: 2% 3 steps: 3% 4 steps: 5% Duration: 20s Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions. ※This action cannot be assigned to a hotbar.
         """
         id = 16196
         name = {"Quadruple Technical Finish", "四色技巧舞步结束"}
 
     class Ending(ActionBase):
         """
-        取消闭式舞姿状态
-
+        Ends dance with your partner.
         """
         id = 18073
         name = {"Ending", "解除闭式舞姿"}
