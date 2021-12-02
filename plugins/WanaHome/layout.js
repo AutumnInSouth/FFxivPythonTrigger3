@@ -32,6 +32,7 @@ module.exports = vue.defineComponent({
     },
     template: `
 <el-form :inline="true" :model="go_to_data" >
+    <p>公寓：129一号，130二号</p>
   <el-select v-model="go_to_data.territory_id" placeholder="地图">
       <el-option :label="k" :value="v" v-for="(v,k) in {'海': 339, '沙': 341, '森': 340, '白': 641}"></el-option>
     </el-select>
