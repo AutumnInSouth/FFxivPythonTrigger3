@@ -15,14 +15,14 @@ class ActionBase:
     cure_potency: int = 0  # 治疗威力
     damage_potency: int = 0  # 伤害威力
     aoe_scale: float = 1.  # 复数目标时副目标的伤害比利
-    combo_action: int | 'ActionBase' = None  # 连击技能
+    combo_action: int | 'ActionBase' | str = None  # 连击技能
     direction_require: int = 0  # 身位需求 1为前 2为后 3为侧
     combo_damage_potency: int = 0  # 连击正确伤害威力
     direction_damage_potency: int = 0  # 身位正确伤害威力
     combo_direction_damage_potency: int = 0  # 连击身位正确伤害威力
     attack_type: int = None  # 攻击类型
-    status_to_target: 'StatusBase|int' = None  # 对目标造成的状态
-    status_to_source: 'StatusBase|int' = None  # 对来源造成的状态
+    status_to_target: 'StatusBase|int|tuple[StatusBase|int]' = None  # 对目标造成的状态
+    status_to_source: 'StatusBase|int|tuple[StatusBase|int]' = None  # 对来源造成的状态
 
     @classmethod
     @cache
@@ -64,6 +64,8 @@ class StatusBase:
     def __hash__(self):
         return self.id
 
-    def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+    def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
         self.source = source
         self.target = target
+        self.source_action = source_action
+        self.is_main_target = is_main_target
