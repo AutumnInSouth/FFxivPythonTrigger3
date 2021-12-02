@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 7503
-        name = {'Jolt', '摇荡'}
+        name = {"Jolt", "摇荡"}
 
     class Riposte(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 7504
-        name = {'Riposte', '回刺'}
+        name = {"Riposte", "回刺"}
 
     class Verthunder(ActionBase):
         """
@@ -25,16 +25,16 @@ class Actions:
 
         """
         id = 7505
-        name = {'Verthunder', '赤闪雷'}
+        name = {"Verthunder", "赤闪雷"}
 
-    class Corps-a-corps(ActionBase):
+    class CorpsACorps(ActionBase):
         """
         冲向目标并发动物理攻击 威力：130 止步状态下无法发动
 
         2012, 短兵相接, Corps-a-corps, 抵消一定伤害
         """
         id = 7506
-        name = {'Corps-a-corps', '短兵相接'}
+        name = {"Corps-a-corps", "短兵相接"}
 
     class Veraero(ActionBase):
         """
@@ -42,7 +42,7 @@ class Actions:
 
         """
         id = 7507
-        name = {'Veraero', '赤疾风'}
+        name = {"Veraero", "赤疾风"}
 
     class Scatter(ActionBase):
         """
@@ -50,7 +50,7 @@ class Actions:
 
         """
         id = 7509
-        name = {'Scatter', '散碎'}
+        name = {"Scatter", "散碎"}
 
     class Verfire(ActionBase):
         """
@@ -58,7 +58,7 @@ class Actions:
 
         """
         id = 7510
-        name = {'Verfire', '赤火炎'}
+        name = {"Verfire", "赤火炎"}
 
     class Verstone(ActionBase):
         """
@@ -66,7 +66,7 @@ class Actions:
 
         """
         id = 7511
-        name = {'Verstone', '赤飞石'}
+        name = {"Verstone", "赤飞石"}
 
     class Zwerchhau(ActionBase):
         """
@@ -74,7 +74,7 @@ class Actions:
 
         """
         id = 7512
-        name = {'Zwerchhau', '交击斩'}
+        name = {"Zwerchhau", "交击斩"}
         combo_action = 7504
 
     class Moulinet(ActionBase):
@@ -83,7 +83,7 @@ class Actions:
 
         """
         id = 7513
-        name = {'Moulinet', '划圆斩'}
+        name = {"Moulinet", "划圆斩"}
 
     class Vercure(ActionBase):
         """
@@ -91,7 +91,7 @@ class Actions:
 
         """
         id = 7514
-        name = {'Vercure', '赤治疗'}
+        name = {"Vercure", "赤治疗"}
 
     class Displacement(ActionBase):
         """
@@ -100,7 +100,7 @@ class Actions:
         2013, 移转, Displacement, 自身发动的下一个魔法造成的伤害提高
         """
         id = 7515
-        name = {'Displacement', '移转'}
+        name = {"Displacement", "移转"}
 
     class Redoublement(ActionBase):
         """
@@ -108,7 +108,7 @@ class Actions:
 
         """
         id = 7516
-        name = {'Redoublement', '连攻'}
+        name = {"Redoublement", "连攻"}
         combo_action = 7512
 
     class Fleche(ActionBase):
@@ -117,7 +117,7 @@ class Actions:
 
         """
         id = 7517
-        name = {'Fleche', '飞刺'}
+        name = {"Fleche", "飞刺"}
 
     class Acceleration(ActionBase):
         """
@@ -126,7 +126,7 @@ class Actions:
         1238, 促进, Acceleration, 发动附加赤火炎预备或赤飞石预备的魔法时必定发动追加效果
         """
         id = 7518
-        name = {'Acceleration', '促进'}
+        name = {"Acceleration", "促进"}
 
     class ContreSixte(ActionBase):
         """
@@ -134,7 +134,7 @@ class Actions:
 
         """
         id = 7519
-        name = {'Contre Sixte', '六分反击'}
+        name = {"Contre Sixte", "六分反击"}
 
     class Embolden(ActionBase):
         """
@@ -145,7 +145,7 @@ class Actions:
         2282, 鼓励, Embolden, 攻击所造成的伤害提高
         """
         id = 7520
-        name = {'Embolden', '鼓励'}
+        name = {"Embolden", "鼓励"}
 
     class Manafication(ActionBase):
         """
@@ -154,7 +154,7 @@ class Actions:
         1971, 倍增, Manafication, 魔法攻击所造成的伤害提高
         """
         id = 7521
-        name = {'Manafication', '倍增'}
+        name = {"Manafication", "倍增"}
 
     class Verraise(ActionBase):
         """
@@ -162,7 +162,7 @@ class Actions:
 
         """
         id = 7523
-        name = {'Verraise', '赤复活'}
+        name = {"Verraise", "赤复活"}
 
     class JoltIi(ActionBase):
         """
@@ -171,7 +171,7 @@ class Actions:
         1498, 震荡, Shocked, 受到了强烈冲击，偶尔会无法行动，体力逐渐流失
         """
         id = 7524
-        name = {'Jolt II', '震荡'}
+        name = {"Jolt II", "震荡"}
 
     class Verflare(ActionBase):
         """
@@ -179,7 +179,7 @@ class Actions:
 
         """
         id = 7525
-        name = {'Verflare', '赤核爆'}
+        name = {"Verflare", "赤核爆"}
         combo_action = 7529
 
     class Verholy(ActionBase):
@@ -188,7 +188,7 @@ class Actions:
 
         """
         id = 7526
-        name = {'Verholy', '赤神圣'}
+        name = {"Verholy", "赤神圣"}
         combo_action = 7529
 
     class EnchantedRiposte(ActionBase):
@@ -197,7 +197,7 @@ class Actions:
 
         """
         id = 7527
-        name = {'Enchanted Riposte', '魔回刺'}
+        name = {"Enchanted Riposte", "魔回刺"}
 
     class EnchantedZwerchhau(ActionBase):
         """
@@ -205,7 +205,7 @@ class Actions:
 
         """
         id = 7528
-        name = {'Enchanted Zwerchhau', '魔交击斩'}
+        name = {"Enchanted Zwerchhau", "魔交击斩"}
         combo_action = 7504
 
     class EnchantedRedoublement(ActionBase):
@@ -214,7 +214,7 @@ class Actions:
 
         """
         id = 7529
-        name = {'Enchanted Redoublement', '魔连攻'}
+        name = {"Enchanted Redoublement", "魔连攻"}
         combo_action = 7512
 
     class EnchantedMoulinet(ActionBase):
@@ -223,7 +223,7 @@ class Actions:
 
         """
         id = 7530
-        name = {'Enchanted Moulinet', '魔划圆斩'}
+        name = {"Enchanted Moulinet", "魔划圆斩"}
 
     class VerthunderIi(ActionBase):
         """
@@ -231,7 +231,7 @@ class Actions:
 
         """
         id = 16524
-        name = {'Verthunder II', '赤震雷'}
+        name = {"Verthunder II", "赤震雷"}
 
     class VeraeroIi(ActionBase):
         """
@@ -239,7 +239,7 @@ class Actions:
 
         """
         id = 16525
-        name = {'Veraero II', '赤烈风'}
+        name = {"Veraero II", "赤烈风"}
 
     class Impact(ActionBase):
         """
@@ -248,7 +248,7 @@ class Actions:
         995, 冲击, Headache, 受到冲击，攻击所造成的伤害降低，积累档数过多会被附加脑震荡状态
         """
         id = 16526
-        name = {'Impact', '冲击'}
+        name = {"Impact", "冲击"}
 
     class Engagement(ActionBase):
         """
@@ -257,7 +257,7 @@ class Actions:
         2033, 交剑, Engagement, 抵消一定伤害
         """
         id = 16527
-        name = {'Engagement', '交剑'}
+        name = {"Engagement", "交剑"}
 
     class EnchantedReprise(ActionBase):
         """
@@ -265,7 +265,7 @@ class Actions:
 
         """
         id = 16528
-        name = {'Enchanted Reprise', '魔续斩'}
+        name = {"Enchanted Reprise", "魔续斩"}
 
     class Reprise(ActionBase):
         """
@@ -273,7 +273,7 @@ class Actions:
 
         """
         id = 16529
-        name = {'Reprise', '续斩'}
+        name = {"Reprise", "续斩"}
 
     class Scorch(ActionBase):
         """
@@ -281,5 +281,5 @@ class Actions:
 
         """
         id = 16530
-        name = {'Scorch', '焦热'}
+        name = {"Scorch", "焦热"}
         combo_action = 7525

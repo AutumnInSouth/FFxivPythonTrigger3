@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 53
-        name = {'Bootshine', '连击'}
+        name = {"Bootshine", "连击"}
 
     class TrueStrike(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 54
-        name = {'True Strike', '正拳'}
+        name = {"True Strike", "正拳"}
 
     class SnapPunch(ActionBase):
         """
@@ -25,7 +25,7 @@ class Actions:
 
         """
         id = 56
-        name = {'Snap Punch', '崩拳'}
+        name = {"Snap Punch", "崩拳"}
 
     class FistsOfEarth(ActionBase):
         """
@@ -35,7 +35,7 @@ class Actions:
         2006, 金刚体势, Fists of Earth, 减轻所受到的伤害
         """
         id = 60
-        name = {'Fists of Earth', '金刚体势'}
+        name = {"Fists of Earth", "金刚体势"}
 
     class TwinSnakes(ActionBase):
         """
@@ -44,7 +44,7 @@ class Actions:
         101, 双掌打, Twin Snakes, 攻击所造成的伤害提高
         """
         id = 61
-        name = {'Twin Snakes', '双掌打'}
+        name = {"Twin Snakes", "双掌打"}
 
     class ArmOfTheDestroyer(ActionBase):
         """
@@ -52,7 +52,7 @@ class Actions:
 
         """
         id = 62
-        name = {'Arm of the Destroyer', '破坏神冲'}
+        name = {"Arm of the Destroyer", "破坏神冲"}
 
     class FistsOfFire(ActionBase):
         """
@@ -62,7 +62,7 @@ class Actions:
         2005, 红莲体势, Fists of Fire, 攻击所造成的伤害提高
         """
         id = 63
-        name = {'Fists of Fire', '红莲体势'}
+        name = {"Fists of Fire", "红莲体势"}
 
     class Mantra(ActionBase):
         """
@@ -71,7 +71,7 @@ class Actions:
         102, 真言, Mantra, 自身所受的治疗效果提高
         """
         id = 65
-        name = {'Mantra', '真言'}
+        name = {"Mantra", "真言"}
 
     class Demolish(ActionBase):
         """
@@ -81,7 +81,7 @@ class Actions:
         1309, 破碎拳, Demolish, 受到持续伤害，持续时间中受到为自己附加此状态的玩家的攻击时伤害增加
         """
         id = 66
-        name = {'Demolish', '破碎拳'}
+        name = {"Demolish", "破碎拳"}
 
     class PerfectBalance(ActionBase):
         """
@@ -90,7 +90,7 @@ class Actions:
         110, 震脚, Perfect Balance, 能够打出三种身形的所有招式
         """
         id = 69
-        name = {'Perfect Balance', '震脚'}
+        name = {"Perfect Balance", "震脚"}
 
     class Rockbreaker(ActionBase):
         """
@@ -98,7 +98,7 @@ class Actions:
 
         """
         id = 70
-        name = {'Rockbreaker', '地烈劲'}
+        name = {"Rockbreaker", "地烈劲"}
 
     class ShoulderTackle(ActionBase):
         """
@@ -106,7 +106,7 @@ class Actions:
 
         """
         id = 71
-        name = {'Shoulder Tackle', '罗刹冲'}
+        name = {"Shoulder Tackle", "罗刹冲"}
 
     class FistsOfWind(ActionBase):
         """
@@ -116,7 +116,7 @@ class Actions:
         2007, 疾风体势, Fists of Wind, 战技的复唱时间缩短
         """
         id = 73
-        name = {'Fists of Wind', '疾风体势'}
+        name = {"Fists of Wind", "疾风体势"}
 
     class DragonKick(ActionBase):
         """
@@ -125,7 +125,7 @@ class Actions:
         98, 双龙脚, Dragon Kick, 打击耐性降低
         """
         id = 74
-        name = {'Dragon Kick', '双龙脚'}
+        name = {"Dragon Kick", "双龙脚"}
 
     class TornadoKick(ActionBase):
         """
@@ -133,7 +133,7 @@ class Actions:
 
         """
         id = 3543
-        name = {'Tornado Kick', '斗魂旋风脚'}
+        name = {"Tornado Kick", "斗魂旋风脚"}
 
     class ElixirField(ActionBase):
         """
@@ -141,7 +141,7 @@ class Actions:
 
         """
         id = 3545
-        name = {'Elixir Field', '苍气炮'}
+        name = {"Elixir Field", "苍气炮"}
 
     class Meditation(ActionBase):
         """
@@ -150,7 +150,7 @@ class Actions:
         793, 斗气, First Chakra, 体内积蓄着斗气
         """
         id = 3546
-        name = {'Meditation', '斗气'}
+        name = {"Meditation", "斗气"}
 
     class TheForbiddenChakra(ActionBase):
         """
@@ -158,7 +158,7 @@ class Actions:
 
         """
         id = 3547
-        name = {'the Forbidden Chakra', '阴阳斗气斩'}
+        name = {"the Forbidden Chakra", "阴阳斗气斩"}
 
     class FormShift(ActionBase):
         """
@@ -166,7 +166,7 @@ class Actions:
 
         """
         id = 4262
-        name = {'Form Shift', '演武'}
+        name = {"Form Shift", "演武"}
 
     class RiddleOfEarth(ActionBase):
         """
@@ -177,7 +177,7 @@ class Actions:
         2008, 金刚极意, Riddle of Earth, 抵消一定伤害
         """
         id = 7394
-        name = {'Riddle of Earth', '金刚极意'}
+        name = {"Riddle of Earth", "金刚极意"}
 
     class RiddleOfFire(ActionBase):
         """
@@ -187,7 +187,7 @@ class Actions:
         1413, 红莲极意, Riddle of Fire, 自身发动的下一次战技所造成的伤害提高
         """
         id = 7395
-        name = {'Riddle of Fire', '红莲极意'}
+        name = {"Riddle of Fire", "红莲极意"}
 
     class Brotherhood(ActionBase):
         """
@@ -195,15 +195,15 @@ class Actions:
 
         """
         id = 7396
-        name = {'Brotherhood', '义结金兰'}
+        name = {"Brotherhood", "义结金兰"}
 
-    class Four-pointFury(ActionBase):
+    class FourPointFury(ActionBase):
         """
         对自身周围的敌人发动范围物理攻击 威力：140 追加效果：双掌打的持续时间延长10秒 最多可延长至15秒 追加效果：猛豹身形 持续时间：15秒 发动条件：盗龙身形状态中
 
         """
         id = 16473
-        name = {'Four-point Fury', '四面脚'}
+        name = {"Four-point Fury", "四面脚"}
 
     class Enlightenment(ActionBase):
         """
@@ -211,7 +211,7 @@ class Actions:
 
         """
         id = 16474
-        name = {'Enlightenment', '万象斗气圈'}
+        name = {"Enlightenment", "万象斗气圈"}
 
     class Anatman(ActionBase):
         """
@@ -220,13 +220,13 @@ class Actions:
         1862, 无我, Anatman, 身形和双掌打的效果时间停止流逝
         """
         id = 16475
-        name = {'Anatman', '无我'}
+        name = {"Anatman", "无我"}
 
-    class Six-sidedStar(ActionBase):
+    class SixSidedStar(ActionBase):
         """
         对目标发动物理攻击 威力：540 追加效果：提高自身的移动速度 持续时间：5秒 该战技有单独计算的复唱时间，发动后其他战技与魔法会产生与该战技相同的复唱时间
 
         2514, 六合星导脚, Six-sided Star, 移动速度提高
         """
         id = 16476
-        name = {'Six-sided Star', '六合星导脚'}
+        name = {"Six-sided Star", "六合星导脚"}

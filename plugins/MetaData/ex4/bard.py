@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 97
-        name = {'Heavy Shot', '强力射击'}
+        name = {"Heavy Shot", "强力射击"}
 
     class StraightShot(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
         130, 直线射击, Straight Shot, 暴击发动率提高
         """
         id = 98
-        name = {'Straight Shot', '直线射击'}
+        name = {"Straight Shot", "直线射击"}
 
     class VenomousBite(ActionBase):
         """
@@ -27,7 +27,7 @@ class Actions:
         124, 毒咬箭, Venomous Bite, 身中剧毒，体力会逐渐减少
         """
         id = 100
-        name = {'Venomous Bite', '毒咬箭'}
+        name = {"Venomous Bite", "毒咬箭"}
 
     class RagingStrikes(ActionBase):
         """
@@ -36,7 +36,7 @@ class Actions:
         125, 猛者强击, Raging Strikes, 攻击造成的伤害提高
         """
         id = 101
-        name = {'Raging Strikes', '猛者强击'}
+        name = {"Raging Strikes", "猛者强击"}
 
     class QuickNock(ActionBase):
         """
@@ -44,7 +44,7 @@ class Actions:
 
         """
         id = 106
-        name = {'Quick Nock', '连珠箭'}
+        name = {"Quick Nock", "连珠箭"}
 
     class Barrage(ActionBase):
         """
@@ -54,7 +54,7 @@ class Actions:
         1407, 纷乱箭, Barrage, 自身发动的下一次战技会变为多次攻击
         """
         id = 107
-        name = {'Barrage', '纷乱箭'}
+        name = {"Barrage", "纷乱箭"}
 
     class Bloodletter(ActionBase):
         """
@@ -62,7 +62,7 @@ class Actions:
 
         """
         id = 110
-        name = {'Bloodletter', '失血箭'}
+        name = {"Bloodletter", "失血箭"}
 
     class RepellingShot(ActionBase):
         """
@@ -71,7 +71,7 @@ class Actions:
         2017, 后跃射击, Repelling Shot, 战技造成的伤害提高
         """
         id = 112
-        name = {'Repelling Shot', '后跃射击'}
+        name = {"Repelling Shot", "后跃射击"}
 
     class Windbite(ActionBase):
         """
@@ -80,7 +80,7 @@ class Actions:
         129, 风蚀箭, Windbite, 风属性持续伤害，体力逐渐流失
         """
         id = 113
-        name = {'Windbite', '风蚀箭'}
+        name = {"Windbite", "风蚀箭"}
 
     class MagesBallad(ActionBase):
         """
@@ -91,7 +91,7 @@ class Actions:
         2217, 贤者的叙事谣, Mage's Ballad, 攻击所造成的伤害提高
         """
         id = 114
-        name = {'Mage's Ballad', '贤者的叙事谣'}
+        name = {"Mage's Ballad", "贤者的叙事谣"}
 
     class ArmysPaeon(ActionBase):
         """
@@ -103,7 +103,7 @@ class Actions:
         2218, 军神的赞美歌, Army's Paeon, 直击发动率提高
         """
         id = 116
-        name = {'Army's Paeon', '军神的赞美歌'}
+        name = {"Army's Paeon", "军神的赞美歌"}
 
     class RainOfDeath(ActionBase):
         """
@@ -112,7 +112,7 @@ class Actions:
         247, 死亡箭雨, Rain of Death, 回避率降低
         """
         id = 117
-        name = {'Rain of Death', '死亡箭雨'}
+        name = {"Rain of Death", "死亡箭雨"}
 
     class BattleVoice(ActionBase):
         """
@@ -121,7 +121,7 @@ class Actions:
         141, 战斗之声, Battle Voice, 直击发动率提高
         """
         id = 118
-        name = {'Battle Voice', '战斗之声'}
+        name = {"Battle Voice", "战斗之声"}
 
     class EmpyrealArrow(ActionBase):
         """
@@ -129,7 +129,7 @@ class Actions:
 
         """
         id = 3558
-        name = {'Empyreal Arrow', '九天连箭'}
+        name = {"Empyreal Arrow", "九天连箭"}
 
     class TheWanderersMinuet(ActionBase):
         """
@@ -140,7 +140,7 @@ class Actions:
         2216, 放浪神的小步舞曲, The Wanderer's Minuet, 暴击发动率提高
         """
         id = 3559
-        name = {'the Wanderer's Minuet', '放浪神的小步舞曲'}
+        name = {"the Wanderer's Minuet", "放浪神的小步舞曲"}
 
     class IronJaws(ActionBase):
         """
@@ -148,7 +148,7 @@ class Actions:
 
         """
         id = 3560
-        name = {'Iron Jaws', '伶牙俐齿'}
+        name = {"Iron Jaws", "伶牙俐齿"}
 
     class TheWardensPaean(ActionBase):
         """
@@ -157,7 +157,7 @@ class Actions:
         866, 光阴神的礼赞凯歌, The Warden's Paean, 下次异常状态效果无效
         """
         id = 3561
-        name = {'the Warden's Paean', '光阴神的礼赞凯歌'}
+        name = {"the Warden's Paean", "光阴神的礼赞凯歌"}
 
     class Sidewinder(ActionBase):
         """
@@ -165,7 +165,7 @@ class Actions:
 
         """
         id = 3562
-        name = {'Sidewinder', '侧风诱导箭'}
+        name = {"Sidewinder", "侧风诱导箭"}
 
     class PitchPerfect(ActionBase):
         """
@@ -173,7 +173,7 @@ class Actions:
 
         """
         id = 7404
-        name = {'Pitch Perfect', '完美音调'}
+        name = {"Pitch Perfect", "完美音调"}
 
     class Troubadour(ActionBase):
         """
@@ -182,7 +182,7 @@ class Actions:
         1934, 行吟, Troubadour, 减轻所受到的伤害
         """
         id = 7405
-        name = {'Troubadour', '行吟'}
+        name = {"Troubadour", "行吟"}
 
     class CausticBite(ActionBase):
         """
@@ -192,7 +192,7 @@ class Actions:
         1321, 烈毒咬箭, Caustic Bite, 受到持续伤害
         """
         id = 7406
-        name = {'Caustic Bite', '烈毒咬箭'}
+        name = {"Caustic Bite", "烈毒咬箭"}
 
     class Stormbite(ActionBase):
         """
@@ -202,7 +202,7 @@ class Actions:
         1322, 狂风蚀箭, Stormbite, 受到持续伤害
         """
         id = 7407
-        name = {'Stormbite', '狂风蚀箭'}
+        name = {"Stormbite", "狂风蚀箭"}
 
     class NaturesMinne(ActionBase):
         """
@@ -212,7 +212,7 @@ class Actions:
         2178, 大地神的抒情恋歌, Nature's Minne, 减轻所受到的伤害，自身所受体力恢复效果提高
         """
         id = 7408
-        name = {'Nature's Minne', '大地神的抒情恋歌'}
+        name = {"Nature's Minne", "大地神的抒情恋歌"}
 
     class RefulgentArrow(ActionBase):
         """
@@ -220,7 +220,7 @@ class Actions:
 
         """
         id = 7409
-        name = {'Refulgent Arrow', '辉煌箭'}
+        name = {"Refulgent Arrow", "辉煌箭"}
 
     class Shadowbite(ActionBase):
         """
@@ -228,7 +228,7 @@ class Actions:
 
         """
         id = 16494
-        name = {'Shadowbite', '影噬箭'}
+        name = {"Shadowbite", "影噬箭"}
 
     class BurstShot(ActionBase):
         """
@@ -236,7 +236,7 @@ class Actions:
 
         """
         id = 16495
-        name = {'Burst Shot', '爆发射击'}
+        name = {"Burst Shot", "爆发射击"}
 
     class ApexArrow(ActionBase):
         """
@@ -244,4 +244,4 @@ class Actions:
 
         """
         id = 16496
-        name = {'Apex Arrow', '绝峰箭'}
+        name = {"Apex Arrow", "绝峰箭"}

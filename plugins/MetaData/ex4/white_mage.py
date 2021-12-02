@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 119
-        name = {'Stone', '飞石'}
+        name = {"Stone", "飞石"}
 
     class Cure(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 120
-        name = {'Cure', '治疗'}
+        name = {"Cure", "治疗"}
 
     class Aero(ActionBase):
         """
@@ -26,7 +26,7 @@ class Actions:
         143, 疾风, Aero, 风属性持续伤害，体力逐渐流失
         """
         id = 121
-        name = {'Aero', '疾风'}
+        name = {"Aero", "疾风"}
 
     class Medica(ActionBase):
         """
@@ -34,7 +34,7 @@ class Actions:
 
         """
         id = 124
-        name = {'Medica', '医治'}
+        name = {"Medica", "医治"}
 
     class Raise(ActionBase):
         """
@@ -44,7 +44,7 @@ class Actions:
         1140, 复活, Raise, 可选择在原地复活
         """
         id = 125
-        name = {'Raise', '复活'}
+        name = {"Raise", "复活"}
 
     class StoneIi(ActionBase):
         """
@@ -52,7 +52,7 @@ class Actions:
 
         """
         id = 127
-        name = {'Stone II', '坚石'}
+        name = {"Stone II", "坚石"}
 
     class CureIii(ActionBase):
         """
@@ -60,7 +60,7 @@ class Actions:
 
         """
         id = 131
-        name = {'Cure III', '愈疗'}
+        name = {"Cure III", "愈疗"}
 
     class AeroIi(ActionBase):
         """
@@ -69,7 +69,7 @@ class Actions:
         144, 烈风, Aero II, 风属性持续伤害，体力逐渐流失
         """
         id = 132
-        name = {'Aero II', '烈风'}
+        name = {"Aero II", "烈风"}
 
     class MedicaIi(ActionBase):
         """
@@ -78,7 +78,7 @@ class Actions:
         150, 医济, Medica II, 体力会随时间逐渐恢复
         """
         id = 133
-        name = {'Medica II', '医济'}
+        name = {"Medica II", "医济"}
 
     class FluidAura(ActionBase):
         """
@@ -86,7 +86,7 @@ class Actions:
 
         """
         id = 134
-        name = {'Fluid Aura', '水流环'}
+        name = {"Fluid Aura", "水流环"}
 
     class CureIi(ActionBase):
         """
@@ -94,7 +94,7 @@ class Actions:
 
         """
         id = 135
-        name = {'Cure II', '救疗'}
+        name = {"Cure II", "救疗"}
 
     class PresenceOfMind(ActionBase):
         """
@@ -103,7 +103,7 @@ class Actions:
         157, 神速咏唱, Presence of Mind, 自动攻击间隔时间缩短，魔法的咏唱时间和复唱时间缩短
         """
         id = 136
-        name = {'Presence of Mind', '神速咏唱'}
+        name = {"Presence of Mind", "神速咏唱"}
 
     class Regen(ActionBase):
         """
@@ -113,7 +113,7 @@ class Actions:
         1330, 再生, Regen, 体力会随时间逐渐恢复
         """
         id = 137
-        name = {'Regen', '再生'}
+        name = {"Regen", "再生"}
 
     class Holy(ActionBase):
         """
@@ -121,7 +121,7 @@ class Actions:
 
         """
         id = 139
-        name = {'Holy', '神圣'}
+        name = {"Holy", "神圣"}
 
     class Benediction(ActionBase):
         """
@@ -129,7 +129,7 @@ class Actions:
 
         """
         id = 140
-        name = {'Benediction', '天赐祝福'}
+        name = {"Benediction", "天赐祝福"}
 
     class StoneIii(ActionBase):
         """
@@ -137,7 +137,7 @@ class Actions:
 
         """
         id = 3568
-        name = {'Stone III', '垒石'}
+        name = {"Stone III", "垒石"}
 
     class Asylum(ActionBase):
         """
@@ -148,7 +148,7 @@ class Actions:
         1912, 庇护所, Asylum, 自身所受的治疗效果提高
         """
         id = 3569
-        name = {'Asylum', '庇护所'}
+        name = {"Asylum", "庇护所"}
 
     class Tetragrammaton(ActionBase):
         """
@@ -156,7 +156,7 @@ class Actions:
 
         """
         id = 3570
-        name = {'Tetragrammaton', '神名'}
+        name = {"Tetragrammaton", "神名"}
 
     class Assize(ActionBase):
         """
@@ -164,7 +164,7 @@ class Actions:
 
         """
         id = 3571
-        name = {'Assize', '法令'}
+        name = {"Assize", "法令"}
 
     class ThinAir(ActionBase):
         """
@@ -173,7 +173,7 @@ class Actions:
         1217, 无中生有, Thin Air, 发动技能时不会消耗魔力
         """
         id = 7430
-        name = {'Thin Air', '无中生有'}
+        name = {"Thin Air", "无中生有"}
 
     class StoneIv(ActionBase):
         """
@@ -181,7 +181,7 @@ class Actions:
 
         """
         id = 7431
-        name = {'Stone IV', '崩石'}
+        name = {"Stone IV", "崩石"}
 
     class DivineBenison(ActionBase):
         """
@@ -191,7 +191,7 @@ class Actions:
         1404, 神祝祷, Divine Benison, 抵消一定伤害
         """
         id = 7432
-        name = {'Divine Benison', '神祝祷'}
+        name = {"Divine Benison", "神祝祷"}
 
     class PlenaryIndulgence(ActionBase):
         """
@@ -199,7 +199,7 @@ class Actions:
 
         """
         id = 7433
-        name = {'Plenary Indulgence', '全大赦'}
+        name = {"Plenary Indulgence", "全大赦"}
 
     class AfflatusSolace(ActionBase):
         """
@@ -208,7 +208,7 @@ class Actions:
         2036, 安慰之心, Afflatus Solace, 体力会随时间逐渐恢复
         """
         id = 16531
-        name = {'Afflatus Solace', '安慰之心'}
+        name = {"Afflatus Solace", "安慰之心"}
 
     class Dia(ActionBase):
         """
@@ -218,7 +218,7 @@ class Actions:
         2035, 天辉, Dia, 受到攻击的伤害增加
         """
         id = 16532
-        name = {'Dia', '天辉'}
+        name = {"Dia", "天辉"}
 
     class Glare(ActionBase):
         """
@@ -226,7 +226,7 @@ class Actions:
 
         """
         id = 16533
-        name = {'Glare', '闪耀'}
+        name = {"Glare", "闪耀"}
 
     class AfflatusRapture(ActionBase):
         """
@@ -234,7 +234,7 @@ class Actions:
 
         """
         id = 16534
-        name = {'Afflatus Rapture', '狂喜之心'}
+        name = {"Afflatus Rapture", "狂喜之心"}
 
     class AfflatusMisery(ActionBase):
         """
@@ -242,7 +242,7 @@ class Actions:
 
         """
         id = 16535
-        name = {'Afflatus Misery', '苦难之心'}
+        name = {"Afflatus Misery", "苦难之心"}
 
     class Temperance(ActionBase):
         """
@@ -254,4 +254,4 @@ class Actions:
         2038, 节制, Temperance, 减轻所受到的伤害
         """
         id = 16536
-        name = {'Temperance', '节制'}
+        name = {"Temperance", "节制"}

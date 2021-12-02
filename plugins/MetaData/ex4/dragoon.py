@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 75
-        name = {'True Thrust', '精准刺'}
+        name = {"True Thrust", "精准刺"}
 
     class VorpalThrust(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 78
-        name = {'Vorpal Thrust', '贯通刺'}
+        name = {"Vorpal Thrust", "贯通刺"}
         combo_action = 75
 
     class LifeSurge(ActionBase):
@@ -28,7 +28,7 @@ class Actions:
         2175, 龙剑, Life Surge, 下次发动的战技造成的伤害提高
         """
         id = 83
-        name = {'Life Surge', '龙剑'}
+        name = {"Life Surge", "龙剑"}
 
     class FullThrust(ActionBase):
         """
@@ -36,7 +36,7 @@ class Actions:
 
         """
         id = 84
-        name = {'Full Thrust', '直刺'}
+        name = {"Full Thrust", "直刺"}
         combo_action = 78
 
     class LanceCharge(ActionBase):
@@ -46,7 +46,7 @@ class Actions:
         1864, 猛枪, Lance Charge, 攻击所造成的伤害提高
         """
         id = 85
-        name = {'Lance Charge', '猛枪'}
+        name = {"Lance Charge", "猛枪"}
 
     class DoomSpike(ActionBase):
         """
@@ -54,7 +54,7 @@ class Actions:
 
         """
         id = 86
-        name = {'Doom Spike', '死天枪'}
+        name = {"Doom Spike", "死天枪"}
 
     class Disembowel(ActionBase):
         """
@@ -64,7 +64,7 @@ class Actions:
         1914, 开膛枪, Disembowel, 攻击所造成的伤害提高
         """
         id = 87
-        name = {'Disembowel', '开膛枪'}
+        name = {"Disembowel", "开膛枪"}
         combo_action = 75
 
     class ChaosThrust(ActionBase):
@@ -75,7 +75,7 @@ class Actions:
         1312, 樱花怒放, Chaos Thrust, 受到持续伤害，持续时间中受到为自己附加此状态的玩家的攻击时伤害增加
         """
         id = 88
-        name = {'Chaos Thrust', '樱花怒放'}
+        name = {"Chaos Thrust", "樱花怒放"}
         combo_action = 87
 
     class PiercingTalon(ActionBase):
@@ -84,7 +84,7 @@ class Actions:
 
         """
         id = 90
-        name = {'Piercing Talon', '贯穿尖'}
+        name = {"Piercing Talon", "贯穿尖"}
 
     class Jump(ActionBase):
         """
@@ -92,7 +92,7 @@ class Actions:
 
         """
         id = 92
-        name = {'Jump', '跳跃'}
+        name = {"Jump", "跳跃"}
 
     class ElusiveJump(ActionBase):
         """
@@ -100,7 +100,7 @@ class Actions:
 
         """
         id = 94
-        name = {'Elusive Jump', '回避跳跃'}
+        name = {"Elusive Jump", "回避跳跃"}
 
     class SpineshatterDive(ActionBase):
         """
@@ -108,7 +108,7 @@ class Actions:
 
         """
         id = 95
-        name = {'Spineshatter Dive', '破碎冲'}
+        name = {"Spineshatter Dive", "破碎冲"}
 
     class DragonfireDive(ActionBase):
         """
@@ -116,7 +116,7 @@ class Actions:
 
         """
         id = 96
-        name = {'Dragonfire Dive', '龙炎冲'}
+        name = {"Dragonfire Dive", "龙炎冲"}
 
     class BloodOfTheDragon(ActionBase):
         """
@@ -125,7 +125,7 @@ class Actions:
         736, 苍天龙血, Blood of the Dragon, 跳跃和破碎冲的威力提高
         """
         id = 3553
-        name = {'Blood of the Dragon', '苍天龙血'}
+        name = {"Blood of the Dragon", "苍天龙血"}
 
     class FangAndClaw(ActionBase):
         """
@@ -133,7 +133,7 @@ class Actions:
 
         """
         id = 3554
-        name = {'Fang and Claw', '龙牙龙爪'}
+        name = {"Fang and Claw", "龙牙龙爪"}
 
     class Geirskogul(ActionBase):
         """
@@ -141,7 +141,7 @@ class Actions:
 
         """
         id = 3555
-        name = {'Geirskogul', '武神枪'}
+        name = {"Geirskogul", "武神枪"}
 
     class WheelingThrust(ActionBase):
         """
@@ -149,7 +149,7 @@ class Actions:
 
         """
         id = 3556
-        name = {'Wheeling Thrust', '龙尾大回旋'}
+        name = {"Wheeling Thrust", "龙尾大回旋"}
 
     class BattleLitany(ActionBase):
         """
@@ -159,7 +159,7 @@ class Actions:
         1414, 战斗连祷, Battle Litany, 造成的伤害提高
         """
         id = 3557
-        name = {'Battle Litany', '战斗连祷'}
+        name = {"Battle Litany", "战斗连祷"}
 
     class SonicThrust(ActionBase):
         """
@@ -167,7 +167,7 @@ class Actions:
 
         """
         id = 7397
-        name = {'Sonic Thrust', '音速刺'}
+        name = {"Sonic Thrust", "音速刺"}
         combo_action = 86
 
     class DragonSight(ActionBase):
@@ -176,7 +176,7 @@ class Actions:
 
         """
         id = 7398
-        name = {'Dragon Sight', '巨龙视线'}
+        name = {"Dragon Sight", "巨龙视线"}
 
     class MirageDive(ActionBase):
         """
@@ -184,7 +184,7 @@ class Actions:
 
         """
         id = 7399
-        name = {'Mirage Dive', '幻象冲'}
+        name = {"Mirage Dive", "幻象冲"}
 
     class Nastrond(ActionBase):
         """
@@ -192,7 +192,7 @@ class Actions:
 
         """
         id = 7400
-        name = {'Nastrond', '死者之岸'}
+        name = {"Nastrond", "死者之岸"}
 
     class CoerthanTorment(ActionBase):
         """
@@ -200,7 +200,7 @@ class Actions:
 
         """
         id = 16477
-        name = {'Coerthan Torment', '山境酷刑'}
+        name = {"Coerthan Torment", "山境酷刑"}
         combo_action = 7397
 
     class HighJump(ActionBase):
@@ -209,7 +209,7 @@ class Actions:
 
         """
         id = 16478
-        name = {'High Jump', '高跳'}
+        name = {"High Jump", "高跳"}
 
     class RaidenThrust(ActionBase):
         """
@@ -217,7 +217,7 @@ class Actions:
 
         """
         id = 16479
-        name = {'Raiden Thrust', '龙眼雷电'}
+        name = {"Raiden Thrust", "龙眼雷电"}
 
     class Stardiver(ActionBase):
         """
@@ -225,4 +225,4 @@ class Actions:
 
         """
         id = 16480
-        name = {'Stardiver', '坠星冲'}
+        name = {"Stardiver", "坠星冲"}

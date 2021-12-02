@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 2864
-        name = {'Rook Autoturret', '车式浮空炮塔'}
+        name = {"Rook Autoturret", "车式浮空炮塔"}
 
     class SplitShot(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 2866
-        name = {'Split Shot', '分裂弹'}
+        name = {"Split Shot", "分裂弹"}
 
     class SlugShot(ActionBase):
         """
@@ -25,7 +25,7 @@ class Actions:
 
         """
         id = 2868
-        name = {'Slug Shot', '独头弹'}
+        name = {"Slug Shot", "独头弹"}
         combo_action = 2866
 
     class SpreadShot(ActionBase):
@@ -34,7 +34,7 @@ class Actions:
 
         """
         id = 2870
-        name = {'Spread Shot', '散射'}
+        name = {"Spread Shot", "散射"}
 
     class HotShot(ActionBase):
         """
@@ -43,7 +43,7 @@ class Actions:
         855, 热弹, Hot Shot, 物理攻击所造成的伤害提高
         """
         id = 2872
-        name = {'Hot Shot', '热弹'}
+        name = {"Hot Shot", "热弹"}
 
     class CleanShot(ActionBase):
         """
@@ -51,7 +51,7 @@ class Actions:
 
         """
         id = 2873
-        name = {'Clean Shot', '狙击弹'}
+        name = {"Clean Shot", "狙击弹"}
         combo_action = 2868
 
     class GaussRound(ActionBase):
@@ -60,7 +60,7 @@ class Actions:
 
         """
         id = 2874
-        name = {'Gauss Round', '虹吸弹'}
+        name = {"Gauss Round", "虹吸弹"}
 
     class Reassemble(ActionBase):
         """
@@ -69,7 +69,7 @@ class Actions:
         851, 整备, Reassembled, 下次发动的战技必定打出暴击和直击
         """
         id = 2876
-        name = {'Reassemble', '整备'}
+        name = {"Reassemble", "整备"}
 
     class Wildfire(ActionBase):
         """
@@ -80,7 +80,7 @@ class Actions:
         1946, 野火, Wildfire, 对敌人附加了“野火”
         """
         id = 2878
-        name = {'Wildfire', '野火'}
+        name = {"Wildfire", "野火"}
 
     class Ricochet(ActionBase):
         """
@@ -88,7 +88,7 @@ class Actions:
 
         """
         id = 2890
-        name = {'Ricochet', '弹射'}
+        name = {"Ricochet", "弹射"}
 
     class HeatBlast(ActionBase):
         """
@@ -96,7 +96,7 @@ class Actions:
 
         """
         id = 7410
-        name = {'Heat Blast', '热冲击'}
+        name = {"Heat Blast", "热冲击"}
 
     class HeatedSplitShot(ActionBase):
         """
@@ -104,7 +104,7 @@ class Actions:
 
         """
         id = 7411
-        name = {'Heated Split Shot', '热分裂弹'}
+        name = {"Heated Split Shot", "热分裂弹"}
 
     class HeatedSlugShot(ActionBase):
         """
@@ -112,7 +112,7 @@ class Actions:
 
         """
         id = 7412
-        name = {'Heated Slug Shot', '热独头弹'}
+        name = {"Heated Slug Shot", "热独头弹"}
         combo_action = 2866
 
     class HeatedCleanShot(ActionBase):
@@ -121,7 +121,7 @@ class Actions:
 
         """
         id = 7413
-        name = {'Heated Clean Shot', '热狙击弹'}
+        name = {"Heated Clean Shot", "热狙击弹"}
         combo_action = 2868
 
     class BarrelStabilizer(ActionBase):
@@ -130,7 +130,7 @@ class Actions:
 
         """
         id = 7414
-        name = {'Barrel Stabilizer', '枪管加热'}
+        name = {"Barrel Stabilizer", "枪管加热"}
 
     class RookOverdrive(ActionBase):
         """
@@ -138,7 +138,7 @@ class Actions:
 
         """
         id = 7415
-        name = {'Rook Overdrive', '超档车式炮塔'}
+        name = {"Rook Overdrive", "超档车式炮塔"}
 
     class RookOverload(ActionBase):
         """
@@ -146,7 +146,7 @@ class Actions:
 
         """
         id = 7416
-        name = {'Rook Overload', '超负荷车式炮塔'}
+        name = {"Rook Overload", "超负荷车式炮塔"}
 
     class Flamethrower(ActionBase):
         """
@@ -157,7 +157,7 @@ class Actions:
         1458, 火焰喷射器, Flamethrower Flames, 受到持续伤害
         """
         id = 7418
-        name = {'Flamethrower', '火焰喷射器'}
+        name = {"Flamethrower", "火焰喷射器"}
 
     class AutoCrossbow(ActionBase):
         """
@@ -165,7 +165,7 @@ class Actions:
 
         """
         id = 16497
-        name = {'Auto Crossbow', '自动弩'}
+        name = {"Auto Crossbow", "自动弩"}
 
     class Drill(ActionBase):
         """
@@ -173,7 +173,7 @@ class Actions:
 
         """
         id = 16498
-        name = {'Drill', '钻头'}
+        name = {"Drill", "钻头"}
 
     class Bioblaster(ActionBase):
         """
@@ -183,7 +183,7 @@ class Actions:
         2019, 毒菌冲击, Bioblaster, 受到攻击的伤害增加
         """
         id = 16499
-        name = {'Bioblaster', '毒菌冲击'}
+        name = {"Bioblaster", "毒菌冲击"}
 
     class AirAnchor(ActionBase):
         """
@@ -191,7 +191,7 @@ class Actions:
 
         """
         id = 16500
-        name = {'Air Anchor', '空气锚'}
+        name = {"Air Anchor", "空气锚"}
 
     class AutomatonQueen(ActionBase):
         """
@@ -199,7 +199,7 @@ class Actions:
 
         """
         id = 16501
-        name = {'Automaton Queen', '后式自走人偶'}
+        name = {"Automaton Queen", "后式自走人偶"}
 
     class QueenOverdrive(ActionBase):
         """
@@ -207,7 +207,7 @@ class Actions:
 
         """
         id = 16502
-        name = {'Queen Overdrive', '超档后式人偶'}
+        name = {"Queen Overdrive", "超档后式人偶"}
 
     class PileBunker(ActionBase):
         """
@@ -215,7 +215,7 @@ class Actions:
 
         """
         id = 16503
-        name = {'Pile Bunker', '打桩枪'}
+        name = {"Pile Bunker", "打桩枪"}
 
     class ArmPunch(ActionBase):
         """
@@ -223,7 +223,7 @@ class Actions:
 
         """
         id = 16504
-        name = {'Arm Punch', '铁臂拳'}
+        name = {"Arm Punch", "铁臂拳"}
 
     class Detonator(ActionBase):
         """
@@ -231,7 +231,7 @@ class Actions:
 
         """
         id = 16766
-        name = {'Detonator', '起爆'}
+        name = {"Detonator", "起爆"}
 
     class Tactician(ActionBase):
         """
@@ -242,7 +242,7 @@ class Actions:
         2177, 策动, Tactician, 减轻所受到的伤害
         """
         id = 16889
-        name = {'Tactician', '策动'}
+        name = {"Tactician", "策动"}
 
     class RollerDash(ActionBase):
         """
@@ -250,7 +250,7 @@ class Actions:
 
         """
         id = 17206
-        name = {'Roller Dash', '滚轮冲'}
+        name = {"Roller Dash", "滚轮冲"}
 
     class Hypercharge(ActionBase):
         """
@@ -259,4 +259,4 @@ class Actions:
         688, 超荷, Hypercharge, 浮空炮塔系技能有所强化
         """
         id = 17209
-        name = {'Hypercharge', '超荷'}
+        name = {"Hypercharge", "超荷"}

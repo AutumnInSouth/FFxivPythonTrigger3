@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 15989
-        name = {'Cascade', '瀑泻'}
+        name = {"Cascade", "瀑泻"}
 
     class Fountain(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 15990
-        name = {'Fountain', '喷泉'}
+        name = {"Fountain", "喷泉"}
         combo_action = 15989
 
     class ReverseCascade(ActionBase):
@@ -26,7 +26,7 @@ class Actions:
 
         """
         id = 15991
-        name = {'Reverse Cascade', '逆瀑泻'}
+        name = {"Reverse Cascade", "逆瀑泻"}
 
     class Fountainfall(ActionBase):
         """
@@ -34,7 +34,7 @@ class Actions:
 
         """
         id = 15992
-        name = {'Fountainfall', '坠喷泉'}
+        name = {"Fountainfall", "坠喷泉"}
 
     class Windmill(ActionBase):
         """
@@ -42,7 +42,7 @@ class Actions:
 
         """
         id = 15993
-        name = {'Windmill', '风车'}
+        name = {"Windmill", "风车"}
 
     class Bladeshower(ActionBase):
         """
@@ -50,7 +50,7 @@ class Actions:
 
         """
         id = 15994
-        name = {'Bladeshower', '落刃雨'}
+        name = {"Bladeshower", "落刃雨"}
         combo_action = 15993
 
     class RisingWindmill(ActionBase):
@@ -59,7 +59,7 @@ class Actions:
 
         """
         id = 15995
-        name = {'Rising Windmill', '升风车'}
+        name = {"Rising Windmill", "升风车"}
 
     class Bloodshower(ActionBase):
         """
@@ -67,7 +67,7 @@ class Actions:
 
         """
         id = 15996
-        name = {'Bloodshower', '落血雨'}
+        name = {"Bloodshower", "落血雨"}
 
     class StandardStep(ActionBase):
         """
@@ -77,7 +77,7 @@ class Actions:
         2023, 标准舞步, Standard Step, 进入了跳舞模式。无法发动舞步技能和标准舞步结束、前冲步、伤头、疾跑、军用恢复药、额外技能以外的技能
         """
         id = 15997
-        name = {'Standard Step', '标准舞步'}
+        name = {"Standard Step", "标准舞步"}
 
     class TechnicalStep(ActionBase):
         """
@@ -87,7 +87,7 @@ class Actions:
         2049, 技巧舞步, Technical Step, 进入了跳舞模式。无法发动舞步技能和技巧舞步结束、前冲步、伤头、疾跑、军用恢复药、额外技能以外的技能
         """
         id = 15998
-        name = {'Technical Step', '技巧舞步'}
+        name = {"Technical Step", "技巧舞步"}
 
     class Emboite(ActionBase):
         """
@@ -95,7 +95,7 @@ class Actions:
 
         """
         id = 15999
-        name = {'Emboite', '蔷薇曲脚步'}
+        name = {"Emboite", "蔷薇曲脚步"}
 
     class Entrechat(ActionBase):
         """
@@ -103,7 +103,7 @@ class Actions:
 
         """
         id = 16000
-        name = {'Entrechat', '小鸟交叠跳'}
+        name = {"Entrechat", "小鸟交叠跳"}
 
     class Jete(ActionBase):
         """
@@ -111,7 +111,7 @@ class Actions:
 
         """
         id = 16001
-        name = {'Jete', '绿叶小踢腿'}
+        name = {"Jete", "绿叶小踢腿"}
 
     class Pirouette(ActionBase):
         """
@@ -119,7 +119,7 @@ class Actions:
 
         """
         id = 16002
-        name = {'Pirouette', '金冠趾尖转'}
+        name = {"Pirouette", "金冠趾尖转"}
 
     class StandardFinish(ActionBase):
         """
@@ -131,7 +131,7 @@ class Actions:
         2113, 标准舞步结束, Standard Finish, 战技与魔法的咏唱及复唱时间缩短
         """
         id = 16003
-        name = {'Standard Finish', '标准舞步结束'}
+        name = {"Standard Finish", "标准舞步结束"}
 
     class TechnicalFinish(ActionBase):
         """
@@ -141,7 +141,7 @@ class Actions:
         2050, 技巧舞步结束, Technical Finish, 战技与魔法的咏唱及复唱时间缩短
         """
         id = 16004
-        name = {'Technical Finish', '技巧舞步结束'}
+        name = {"Technical Finish", "技巧舞步结束"}
 
     class SaberDance(ActionBase):
         """
@@ -150,7 +150,7 @@ class Actions:
         2022, 剑舞, Saber Dance, 攻击所造成的伤害提高
         """
         id = 16005
-        name = {'Saber Dance', '剑舞'}
+        name = {"Saber Dance", "剑舞"}
 
     class ClosedPosition(ActionBase):
         """
@@ -160,7 +160,7 @@ class Actions:
         2026, 闭式舞姿, Closed Position, 使用部分技能时，对指定队员发动追加效果
         """
         id = 16006
-        name = {'Closed Position', '闭式舞姿'}
+        name = {"Closed Position", "闭式舞姿"}
 
     class FanDance(ActionBase):
         """
@@ -168,7 +168,7 @@ class Actions:
 
         """
         id = 16007
-        name = {'Fan Dance', '扇舞·序'}
+        name = {"Fan Dance", "扇舞·序"}
 
     class FanDanceIi(ActionBase):
         """
@@ -176,7 +176,7 @@ class Actions:
 
         """
         id = 16008
-        name = {'Fan Dance II', '扇舞·破'}
+        name = {"Fan Dance II", "扇舞·破"}
 
     class FanDanceIii(ActionBase):
         """
@@ -185,7 +185,7 @@ class Actions:
         2052, 扇舞·急, Fan Dance III, 受到攻击的伤害减少
         """
         id = 16009
-        name = {'Fan Dance III', '扇舞·急'}
+        name = {"Fan Dance III", "扇舞·急"}
 
     class EnAvant(ActionBase):
         """
@@ -194,7 +194,7 @@ class Actions:
         2048, 前冲步, En Avant, 瀑泻变为逆瀑泻，喷泉变为坠喷泉，风车变为升风车，落刃雨变为落血雨
         """
         id = 16010
-        name = {'En Avant', '前冲步'}
+        name = {"En Avant", "前冲步"}
 
     class Devilment(ActionBase):
         """
@@ -203,7 +203,7 @@ class Actions:
         1825, 进攻之探戈, Devilment, 暴击发动率和直击发动率提高
         """
         id = 16011
-        name = {'Devilment', '进攻之探戈'}
+        name = {"Devilment", "进攻之探戈"}
 
     class ShieldSamba(ActionBase):
         """
@@ -212,7 +212,7 @@ class Actions:
         1826, 防守之桑巴, Shield Samba, 减轻所受到的伤害
         """
         id = 16012
-        name = {'Shield Samba', '防守之桑巴'}
+        name = {"Shield Samba", "防守之桑巴"}
 
     class Flourish(ActionBase):
         """
@@ -220,7 +220,7 @@ class Actions:
 
         """
         id = 16013
-        name = {'Flourish', '百花争艳'}
+        name = {"Flourish", "百花争艳"}
 
     class Improvisation(ActionBase):
         """
@@ -229,7 +229,7 @@ class Actions:
         1827, 即兴表演, Improvisation, 即兴跳舞，处于战斗状态时会持续获得伶俐
         """
         id = 16014
-        name = {'Improvisation', '即兴表演'}
+        name = {"Improvisation", "即兴表演"}
 
     class CuringWaltz(ActionBase):
         """
@@ -237,7 +237,7 @@ class Actions:
 
         """
         id = 16015
-        name = {'Curing Waltz', '治疗之华尔兹'}
+        name = {"Curing Waltz", "治疗之华尔兹"}
 
     class SingleStandardFinish(ActionBase):
         """
@@ -245,7 +245,7 @@ class Actions:
 
         """
         id = 16191
-        name = {'Single Standard Finish', '单色标准舞步结束'}
+        name = {"Single Standard Finish", "单色标准舞步结束"}
 
     class DoubleStandardFinish(ActionBase):
         """
@@ -253,7 +253,7 @@ class Actions:
 
         """
         id = 16192
-        name = {'Double Standard Finish', '双色标准舞步结束'}
+        name = {"Double Standard Finish", "双色标准舞步结束"}
 
     class SingleTechnicalFinish(ActionBase):
         """
@@ -261,7 +261,7 @@ class Actions:
 
         """
         id = 16193
-        name = {'Single Technical Finish', '单色技巧舞步结束'}
+        name = {"Single Technical Finish", "单色技巧舞步结束"}
 
     class DoubleTechnicalFinish(ActionBase):
         """
@@ -269,7 +269,7 @@ class Actions:
 
         """
         id = 16194
-        name = {'Double Technical Finish', '双色技巧舞步结束'}
+        name = {"Double Technical Finish", "双色技巧舞步结束"}
 
     class TripleTechnicalFinish(ActionBase):
         """
@@ -277,7 +277,7 @@ class Actions:
 
         """
         id = 16195
-        name = {'Triple Technical Finish', '三色技巧舞步结束'}
+        name = {"Triple Technical Finish", "三色技巧舞步结束"}
 
     class QuadrupleTechnicalFinish(ActionBase):
         """
@@ -285,7 +285,7 @@ class Actions:
 
         """
         id = 16196
-        name = {'Quadruple Technical Finish', '四色技巧舞步结束'}
+        name = {"Quadruple Technical Finish", "四色技巧舞步结束"}
 
     class Ending(ActionBase):
         """
@@ -293,4 +293,4 @@ class Actions:
 
         """
         id = 18073
-        name = {'Ending', '解除闭式舞姿'}
+        name = {"Ending", "解除闭式舞姿"}

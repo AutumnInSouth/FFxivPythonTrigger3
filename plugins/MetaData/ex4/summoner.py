@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 163
-        name = {'Ruin', '毁灭'}
+        name = {"Ruin", "毁灭"}
 
     class Bio(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
         179, 毒菌, Bio, 体力逐渐减少
         """
         id = 164
-        name = {'Bio', '毒菌'}
+        name = {"Bio", "毒菌"}
 
     class Summon(ActionBase):
         """
@@ -26,7 +26,7 @@ class Actions:
 
         """
         id = 165
-        name = {'Summon', '召唤'}
+        name = {"Summon", "召唤"}
 
     class Miasma(ActionBase):
         """
@@ -35,7 +35,7 @@ class Actions:
         180, 瘴气, Miasma, 体力逐渐减少
         """
         id = 168
-        name = {'Miasma', '瘴气'}
+        name = {"Miasma", "瘴气"}
 
     class SummonIi(ActionBase):
         """
@@ -43,7 +43,7 @@ class Actions:
 
         """
         id = 170
-        name = {'Summon II', '召唤II'}
+        name = {"Summon II", "召唤II"}
 
     class RuinIi(ActionBase):
         """
@@ -51,7 +51,7 @@ class Actions:
 
         """
         id = 172
-        name = {'Ruin II', '毁坏'}
+        name = {"Ruin II", "毁坏"}
 
     class Bane(ActionBase):
         """
@@ -59,7 +59,7 @@ class Actions:
 
         """
         id = 174
-        name = {'Bane', '灾祸'}
+        name = {"Bane", "灾祸"}
 
     class BioIi(ActionBase):
         """
@@ -68,7 +68,7 @@ class Actions:
         189, 猛毒菌, Bio II, 体力逐渐减少
         """
         id = 178
-        name = {'Bio II', '猛毒菌'}
+        name = {"Bio II", "猛毒菌"}
 
     class SummonIii(ActionBase):
         """
@@ -76,7 +76,7 @@ class Actions:
 
         """
         id = 180
-        name = {'Summon III', '召唤III'}
+        name = {"Summon III", "召唤III"}
 
     class Fester(ActionBase):
         """
@@ -84,7 +84,7 @@ class Actions:
 
         """
         id = 181
-        name = {'Fester', '溃烂爆发'}
+        name = {"Fester", "溃烂爆发"}
 
     class Enkindle(ActionBase):
         """
@@ -92,7 +92,7 @@ class Actions:
 
         """
         id = 184
-        name = {'Enkindle', '内力迸发'}
+        name = {"Enkindle", "内力迸发"}
 
     class Gouge(ActionBase):
         """
@@ -100,7 +100,7 @@ class Actions:
 
         """
         id = 633
-        name = {'Gouge', '利爪'}
+        name = {"Gouge", "利爪"}
 
     class ShiningTopaz(ActionBase):
         """
@@ -108,7 +108,7 @@ class Actions:
 
         """
         id = 634
-        name = {'Shining Topaz', '黄宝石之光'}
+        name = {"Shining Topaz", "黄宝石之光"}
 
     class Gust(ActionBase):
         """
@@ -116,7 +116,7 @@ class Actions:
 
         """
         id = 637
-        name = {'Gust', '突风'}
+        name = {"Gust", "突风"}
 
     class Downburst(ActionBase):
         """
@@ -124,7 +124,7 @@ class Actions:
 
         """
         id = 639
-        name = {'Downburst', '下行突风'}
+        name = {"Downburst", "下行突风"}
 
     class RockBuster(ActionBase):
         """
@@ -132,7 +132,7 @@ class Actions:
 
         """
         id = 787
-        name = {'Rock Buster', '碎岩'}
+        name = {"Rock Buster", "碎岩"}
 
     class MountainBuster(ActionBase):
         """
@@ -140,7 +140,7 @@ class Actions:
 
         """
         id = 788
-        name = {'Mountain Buster', '山崩'}
+        name = {"Mountain Buster", "山崩"}
 
     class EarthenFury(ActionBase):
         """
@@ -149,7 +149,7 @@ class Actions:
         312, 大地之怒, Razed Earth, 产生土属性攻击区域
         """
         id = 791
-        name = {'Earthen Fury', '大地之怒'}
+        name = {"Earthen Fury", "大地之怒"}
 
     class WindBlade(ActionBase):
         """
@@ -157,7 +157,7 @@ class Actions:
 
         """
         id = 792
-        name = {'Wind Blade', '烈风刃'}
+        name = {"Wind Blade", "烈风刃"}
 
     class AerialSlash(ActionBase):
         """
@@ -165,7 +165,7 @@ class Actions:
 
         """
         id = 794
-        name = {'Aerial Slash', '大气风斩'}
+        name = {"Aerial Slash", "大气风斩"}
 
     class AerialBlast(ActionBase):
         """
@@ -173,7 +173,7 @@ class Actions:
 
         """
         id = 796
-        name = {'Aerial Blast', '大气爆发'}
+        name = {"Aerial Blast", "大气爆发"}
 
     class CrimsonCyclone(ActionBase):
         """
@@ -181,7 +181,7 @@ class Actions:
 
         """
         id = 797
-        name = {'Crimson Cyclone', '深红旋风'}
+        name = {"Crimson Cyclone", "深红旋风"}
 
     class BurningStrike(ActionBase):
         """
@@ -189,7 +189,7 @@ class Actions:
 
         """
         id = 798
-        name = {'Burning Strike', '燃火强袭'}
+        name = {"Burning Strike", "燃火强袭"}
 
     class FlamingCrush(ActionBase):
         """
@@ -197,7 +197,7 @@ class Actions:
 
         """
         id = 800
-        name = {'Flaming Crush', '烈焰碎击'}
+        name = {"Flaming Crush", "烈焰碎击"}
 
     class Inferno(ActionBase):
         """
@@ -206,7 +206,7 @@ class Actions:
         314, 地狱之火炎, Inferno, 火属性持续伤害，体力逐渐流失
         """
         id = 801
-        name = {'Inferno', '地狱之火炎'}
+        name = {"Inferno", "地狱之火炎"}
 
     class Painflare(ActionBase):
         """
@@ -214,7 +214,7 @@ class Actions:
 
         """
         id = 3578
-        name = {'Painflare', '痛苦核爆'}
+        name = {"Painflare", "痛苦核爆"}
 
     class RuinIii(ActionBase):
         """
@@ -222,15 +222,15 @@ class Actions:
 
         """
         id = 3579
-        name = {'Ruin III', '毁荡'}
+        name = {"Ruin III", "毁荡"}
 
-    class Tri-disaster(ActionBase):
+    class TriDisaster(ActionBase):
         """
         对目标发动无属性魔法攻击 威力：150 追加效果：对目标同时施放(source.level>=66?(source.job==27?剧毒菌和瘴暍:猛毒菌和瘴气):猛毒菌和瘴气) 持续时间：各魔法单独施放时的持续时间
 
         """
         id = 3580
-        name = {'Tri-disaster', '三重灾祸'}
+        name = {"Tri-disaster", "三重灾祸"}
 
     class DreadwyrmTrance(ActionBase):
         """
@@ -239,7 +239,7 @@ class Actions:
         808, 龙神附体, Dreadwyrm Trance, 得到了龙神巴哈姆特之力，魔法所造成的伤害提高
         """
         id = 3581
-        name = {'Dreadwyrm Trance', '龙神附体'}
+        name = {"Dreadwyrm Trance", "龙神附体"}
 
     class Deathflare(ActionBase):
         """
@@ -247,7 +247,7 @@ class Actions:
 
         """
         id = 3582
-        name = {'Deathflare', '死星核爆'}
+        name = {"Deathflare", "死星核爆"}
 
     class Aetherpact(ActionBase):
         """
@@ -255,7 +255,7 @@ class Actions:
 
         """
         id = 7423
-        name = {'Aetherpact', '以太契约'}
+        name = {"Aetherpact", "以太契约"}
 
     class BioIii(ActionBase):
         """
@@ -265,7 +265,7 @@ class Actions:
         1326, 剧毒菌, Bio III, 受到持续伤害
         """
         id = 7424
-        name = {'Bio III', '剧毒菌'}
+        name = {"Bio III", "剧毒菌"}
 
     class MiasmaIii(ActionBase):
         """
@@ -275,7 +275,7 @@ class Actions:
         1327, 瘴暍, Miasma III, 受到持续伤害，同时自身所受的体力恢复效果降低
         """
         id = 7425
-        name = {'Miasma III', '瘴暍'}
+        name = {"Miasma III", "瘴暍"}
 
     class RuinIv(ActionBase):
         """
@@ -283,7 +283,7 @@ class Actions:
 
         """
         id = 7426
-        name = {'Ruin IV', '毁绝'}
+        name = {"Ruin IV", "毁绝"}
 
     class SummonBahamut(ActionBase):
         """
@@ -291,7 +291,7 @@ class Actions:
 
         """
         id = 7427
-        name = {'Summon Bahamut', '龙神召唤'}
+        name = {"Summon Bahamut", "龙神召唤"}
 
     class Wyrmwave(ActionBase):
         """
@@ -299,7 +299,7 @@ class Actions:
 
         """
         id = 7428
-        name = {'Wyrmwave', '真龙波'}
+        name = {"Wyrmwave", "真龙波"}
 
     class EnkindleBahamut(ActionBase):
         """
@@ -307,7 +307,7 @@ class Actions:
 
         """
         id = 7429
-        name = {'Enkindle Bahamut', '龙神迸发'}
+        name = {"Enkindle Bahamut", "龙神迸发"}
 
     class AkhMorn(ActionBase):
         """
@@ -315,7 +315,7 @@ class Actions:
 
         """
         id = 7449
-        name = {'Akh Morn', '死亡轮回'}
+        name = {"Akh Morn", "死亡轮回"}
 
     class Devotion(ActionBase):
         """
@@ -324,7 +324,7 @@ class Actions:
         1213, 灵护, Devotion, 攻击所造成的伤害提高
         """
         id = 7450
-        name = {'Devotion', '灵护'}
+        name = {"Devotion", "灵护"}
 
     class Physick(ActionBase):
         """
@@ -332,7 +332,7 @@ class Actions:
 
         """
         id = 16230
-        name = {'Physick', '医术'}
+        name = {"Physick", "医术"}
 
     class EnergyDrain(ActionBase):
         """
@@ -340,7 +340,7 @@ class Actions:
 
         """
         id = 16508
-        name = {'Energy Drain', '能量吸收'}
+        name = {"Energy Drain", "能量吸收"}
 
     class EgiAssault(ActionBase):
         """
@@ -348,7 +348,7 @@ class Actions:
 
         """
         id = 16509
-        name = {'Egi Assault', '灵攻I'}
+        name = {"Egi Assault", "灵攻I"}
 
     class EnergySiphon(ActionBase):
         """
@@ -356,7 +356,7 @@ class Actions:
 
         """
         id = 16510
-        name = {'Energy Siphon', '能量抽取'}
+        name = {"Energy Siphon", "能量抽取"}
 
     class Outburst(ActionBase):
         """
@@ -364,7 +364,7 @@ class Actions:
 
         """
         id = 16511
-        name = {'Outburst', '迸裂'}
+        name = {"Outburst", "迸裂"}
 
     class EgiAssaultIi(ActionBase):
         """
@@ -372,7 +372,7 @@ class Actions:
 
         """
         id = 16512
-        name = {'Egi Assault II', '灵攻II'}
+        name = {"Egi Assault II", "灵攻II"}
 
     class FirebirdTrance(ActionBase):
         """
@@ -380,7 +380,7 @@ class Actions:
 
         """
         id = 16513
-        name = {'Firebird Trance', '不死鸟附体'}
+        name = {"Firebird Trance", "不死鸟附体"}
 
     class FountainOfFire(ActionBase):
         """
@@ -389,7 +389,7 @@ class Actions:
         2029, 灵泉之炎, Fountain of Fire, 受到持续伤害
         """
         id = 16514
-        name = {'Fountain of Fire', '灵泉之炎'}
+        name = {"Fountain of Fire", "灵泉之炎"}
 
     class BrandOfPurgatory(ActionBase):
         """
@@ -397,7 +397,7 @@ class Actions:
 
         """
         id = 16515
-        name = {'Brand of Purgatory', '炼狱之炎'}
+        name = {"Brand of Purgatory", "炼狱之炎"}
 
     class EnkindlePhoenix(ActionBase):
         """
@@ -405,7 +405,7 @@ class Actions:
 
         """
         id = 16516
-        name = {'Enkindle Phoenix', '不死鸟迸发'}
+        name = {"Enkindle Phoenix", "不死鸟迸发"}
 
     class EverlastingFlight(ActionBase):
         """
@@ -415,7 +415,7 @@ class Actions:
         2030, 不死鸟之翼, Everlasting Flight, 体力会随时间逐渐恢复
         """
         id = 16517
-        name = {'Everlasting Flight', '不死鸟之翼'}
+        name = {"Everlasting Flight", "不死鸟之翼"}
 
     class Revelation(ActionBase):
         """
@@ -423,7 +423,7 @@ class Actions:
 
         """
         id = 16518
-        name = {'Revelation', '天启'}
+        name = {"Revelation", "天启"}
 
     class ScarletFlame(ActionBase):
         """
@@ -431,7 +431,7 @@ class Actions:
 
         """
         id = 16519
-        name = {'Scarlet Flame', '赤焰'}
+        name = {"Scarlet Flame", "赤焰"}
 
     class GlitteringTopaz(ActionBase):
         """
@@ -439,7 +439,7 @@ class Actions:
 
         """
         id = 16520
-        name = {'Glittering Topaz', '黄宝石之辉'}
+        name = {"Glittering Topaz", "黄宝石之辉"}
 
     class GlitteringEmerald(ActionBase):
         """
@@ -447,7 +447,7 @@ class Actions:
 
         """
         id = 16521
-        name = {'Glittering Emerald', '绿宝石之辉'}
+        name = {"Glittering Emerald", "绿宝石之辉"}
 
     class EarthenArmor(ActionBase):
         """
@@ -455,7 +455,7 @@ class Actions:
 
         """
         id = 16522
-        name = {'Earthen Armor', '大地之铠'}
+        name = {"Earthen Armor", "大地之铠"}
 
     class Slipstream(ActionBase):
         """
@@ -464,7 +464,7 @@ class Actions:
         1869, 螺旋气流, Gale Enforcer, 产生风属性攻击区域
         """
         id = 16523
-        name = {'Slipstream', '螺旋气流'}
+        name = {"Slipstream", "螺旋气流"}
 
     class FirebirdTrance(ActionBase):
         """
@@ -472,7 +472,7 @@ class Actions:
 
         """
         id = 16549
-        name = {'Firebird Trance', '不死鸟附体'}
+        name = {"Firebird Trance", "不死鸟附体"}
 
     class AssaultIGlitteringTopaz(ActionBase):
         """
@@ -480,7 +480,7 @@ class Actions:
 
         """
         id = 16791
-        name = {'Assault I: Glittering Topaz', '灵攻I：黄宝石之辉'}
+        name = {"Assault I: Glittering Topaz", "灵攻I：黄宝石之辉"}
 
     class AssaultIiShiningTopaz(ActionBase):
         """
@@ -488,7 +488,7 @@ class Actions:
 
         """
         id = 16792
-        name = {'Assault II: Shining Topaz', '灵攻II：黄宝石之光'}
+        name = {"Assault II: Shining Topaz", "灵攻II：黄宝石之光"}
 
     class AssaultIDownburst(ActionBase):
         """
@@ -496,7 +496,7 @@ class Actions:
 
         """
         id = 16793
-        name = {'Assault I: Downburst', '灵攻I：下行突风'}
+        name = {"Assault I: Downburst", "灵攻I：下行突风"}
 
     class AssaultIiGlitteringEmerald(ActionBase):
         """
@@ -504,7 +504,7 @@ class Actions:
 
         """
         id = 16794
-        name = {'Assault II: Glittering Emerald', '灵攻II：绿宝石之辉'}
+        name = {"Assault II: Glittering Emerald", "灵攻II：绿宝石之辉"}
 
     class AssaultIEarthenArmor(ActionBase):
         """
@@ -512,7 +512,7 @@ class Actions:
 
         """
         id = 16795
-        name = {'Assault I: Earthen Armor', '灵攻I：大地之铠'}
+        name = {"Assault I: Earthen Armor", "灵攻I：大地之铠"}
 
     class AssaultIiMountainBuster(ActionBase):
         """
@@ -520,7 +520,7 @@ class Actions:
 
         """
         id = 16796
-        name = {'Assault II: Mountain Buster', '灵攻II：山崩'}
+        name = {"Assault II: Mountain Buster", "灵攻II：山崩"}
 
     class AssaultIAerialSlash(ActionBase):
         """
@@ -528,7 +528,7 @@ class Actions:
 
         """
         id = 16797
-        name = {'Assault I: Aerial Slash', '灵攻I：大气风斩'}
+        name = {"Assault I: Aerial Slash", "灵攻I：大气风斩"}
 
     class AssaultIiSlipstream(ActionBase):
         """
@@ -536,7 +536,7 @@ class Actions:
 
         """
         id = 16798
-        name = {'Assault II: Slipstream', '灵攻II：螺旋气流'}
+        name = {"Assault II: Slipstream", "灵攻II：螺旋气流"}
 
     class AssaultICrimsonCyclone(ActionBase):
         """
@@ -544,7 +544,7 @@ class Actions:
 
         """
         id = 16799
-        name = {'Assault I: Crimson Cyclone', '灵攻I：深红旋风'}
+        name = {"Assault I: Crimson Cyclone", "灵攻I：深红旋风"}
 
     class AssaultIiFlamingCrush(ActionBase):
         """
@@ -552,7 +552,7 @@ class Actions:
 
         """
         id = 16800
-        name = {'Assault II: Flaming Crush', '灵攻II：烈焰碎击'}
+        name = {"Assault II: Flaming Crush", "灵攻II：烈焰碎击"}
 
     class EnkindleEarthenFury(ActionBase):
         """
@@ -560,7 +560,7 @@ class Actions:
 
         """
         id = 16801
-        name = {'Enkindle: Earthen Fury', '内力迸发：大地之怒'}
+        name = {"Enkindle: Earthen Fury", "内力迸发：大地之怒"}
 
     class EnkindleAerialBlast(ActionBase):
         """
@@ -568,7 +568,7 @@ class Actions:
 
         """
         id = 16802
-        name = {'Enkindle: Aerial Blast', '内力迸发：大气爆发'}
+        name = {"Enkindle: Aerial Blast", "内力迸发：大气爆发"}
 
     class EnkindleInferno(ActionBase):
         """
@@ -576,4 +576,4 @@ class Actions:
 
         """
         id = 16803
-        name = {'Enkindle: Inferno', '内力迸发：地狱之火炎'}
+        name = {"Enkindle: Inferno", "内力迸发：地狱之火炎"}

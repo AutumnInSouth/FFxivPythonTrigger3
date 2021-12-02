@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 7477
-        name = {'Hakaze', '刃风'}
+        name = {"Hakaze", "刃风"}
 
     class Jinpu(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
         1298, 阵风, Jinpu, 攻击所造成的伤害提高
         """
         id = 7478
-        name = {'Jinpu', '阵风'}
+        name = {"Jinpu", "阵风"}
         combo_action = 7477
 
     class Shifu(ActionBase):
@@ -28,7 +28,7 @@ class Actions:
         1299, 士风, Shifu, 自动攻击间隔、战技与魔法的咏唱及复唱时间缩短
         """
         id = 7479
-        name = {'Shifu', '士风'}
+        name = {"Shifu", "士风"}
         combo_action = 7477
 
     class Yukikaze(ActionBase):
@@ -39,7 +39,7 @@ class Actions:
         1318, 雪风, Yukikaze, 受到附加此效果的玩家攻击的伤害增加
         """
         id = 7480
-        name = {'Yukikaze', '雪风'}
+        name = {"Yukikaze", "雪风"}
         combo_action = 7477
 
     class Gekko(ActionBase):
@@ -48,7 +48,7 @@ class Actions:
 
         """
         id = 7481
-        name = {'Gekko', '月光'}
+        name = {"Gekko", "月光"}
         combo_action = 7478
 
     class Kasha(ActionBase):
@@ -57,7 +57,7 @@ class Actions:
 
         """
         id = 7482
-        name = {'Kasha', '花车'}
+        name = {"Kasha", "花车"}
         combo_action = 7479
 
     class Fuga(ActionBase):
@@ -66,7 +66,7 @@ class Actions:
 
         """
         id = 7483
-        name = {'Fuga', '风雅'}
+        name = {"Fuga", "风雅"}
 
     class Mangetsu(ActionBase):
         """
@@ -74,7 +74,7 @@ class Actions:
 
         """
         id = 7484
-        name = {'Mangetsu', '满月'}
+        name = {"Mangetsu", "满月"}
         combo_action = 7483
 
     class Oka(ActionBase):
@@ -83,7 +83,7 @@ class Actions:
 
         """
         id = 7485
-        name = {'Oka', '樱花'}
+        name = {"Oka", "樱花"}
         combo_action = 7483
 
     class Enpi(ActionBase):
@@ -92,7 +92,7 @@ class Actions:
 
         """
         id = 7486
-        name = {'Enpi', '燕飞'}
+        name = {"Enpi", "燕飞"}
 
     class MidareSetsugekka(ActionBase):
         """
@@ -100,7 +100,7 @@ class Actions:
 
         """
         id = 7487
-        name = {'Midare Setsugekka', '纷乱雪月花'}
+        name = {"Midare Setsugekka", "纷乱雪月花"}
 
     class TenkaGoken(ActionBase):
         """
@@ -108,7 +108,7 @@ class Actions:
 
         """
         id = 7488
-        name = {'Tenka Goken', '天下五剑'}
+        name = {"Tenka Goken", "天下五剑"}
 
     class Higanbana(ActionBase):
         """
@@ -118,7 +118,7 @@ class Actions:
         1319, 彼岸花, Higanbana, 受到持续伤害，同时自身所受的体力恢复效果降低
         """
         id = 7489
-        name = {'Higanbana', '彼岸花'}
+        name = {"Higanbana", "彼岸花"}
 
     class HissatsuShinten(ActionBase):
         """
@@ -126,7 +126,7 @@ class Actions:
 
         """
         id = 7490
-        name = {'Hissatsu: Shinten', '必杀剑·震天'}
+        name = {"Hissatsu: Shinten", "必杀剑·震天"}
 
     class HissatsuKyuten(ActionBase):
         """
@@ -134,7 +134,7 @@ class Actions:
 
         """
         id = 7491
-        name = {'Hissatsu: Kyuten', '必杀剑·九天'}
+        name = {"Hissatsu: Kyuten", "必杀剑·九天"}
 
     class HissatsuGyoten(ActionBase):
         """
@@ -142,7 +142,7 @@ class Actions:
 
         """
         id = 7492
-        name = {'Hissatsu: Gyoten', '必杀剑·晓天'}
+        name = {"Hissatsu: Gyoten", "必杀剑·晓天"}
 
     class HissatsuYaten(ActionBase):
         """
@@ -150,7 +150,7 @@ class Actions:
 
         """
         id = 7493
-        name = {'Hissatsu: Yaten', '必杀剑·夜天'}
+        name = {"Hissatsu: Yaten", "必杀剑·夜天"}
 
     class HissatsuKaiten(ActionBase):
         """
@@ -159,7 +159,7 @@ class Actions:
         1229, 必杀剑·回天, Kaiten, 下次发动战技造成的伤害提高
         """
         id = 7494
-        name = {'Hissatsu: Kaiten', '必杀剑·回天'}
+        name = {"Hissatsu: Kaiten", "必杀剑·回天"}
 
     class Hagakure(ActionBase):
         """
@@ -167,7 +167,7 @@ class Actions:
 
         """
         id = 7495
-        name = {'Hagakure', '叶隐'}
+        name = {"Hagakure", "叶隐"}
 
     class HissatsuGuren(ActionBase):
         """
@@ -175,7 +175,7 @@ class Actions:
 
         """
         id = 7496
-        name = {'Hissatsu: Guren', '必杀剑·红莲'}
+        name = {"Hissatsu: Guren", "必杀剑·红莲"}
 
     class Meditate(ActionBase):
         """
@@ -184,7 +184,7 @@ class Actions:
         1231, 默想, Meditate, 持续获得剑气
         """
         id = 7497
-        name = {'Meditate', '默想'}
+        name = {"Meditate", "默想"}
 
     class ThirdEye(ActionBase):
         """
@@ -193,7 +193,7 @@ class Actions:
         1232, 心眼, Third Eye, 下次受到攻击时所受到的伤害减轻
         """
         id = 7498
-        name = {'Third Eye', '心眼'}
+        name = {"Third Eye", "心眼"}
 
     class MeikyoShisui(ActionBase):
         """
@@ -203,7 +203,7 @@ class Actions:
         1320, 明镜止水, Meikyo Shisui, 将战技的连击置换到最终阶段
         """
         id = 7499
-        name = {'Meikyo Shisui', '明镜止水'}
+        name = {"Meikyo Shisui", "明镜止水"}
 
     class HissatsuSeigan(ActionBase):
         """
@@ -211,7 +211,7 @@ class Actions:
 
         """
         id = 7501
-        name = {'Hissatsu: Seigan', '必杀剑·星眼'}
+        name = {"Hissatsu: Seigan", "必杀剑·星眼"}
 
     class MercifulEyes(ActionBase):
         """
@@ -219,7 +219,7 @@ class Actions:
 
         """
         id = 7502
-        name = {'Merciful Eyes', '慈眼'}
+        name = {"Merciful Eyes", "慈眼"}
 
     class Iaijutsu(ActionBase):
         """
@@ -227,7 +227,7 @@ class Actions:
 
         """
         id = 7867
-        name = {'Iaijutsu', '居合术'}
+        name = {"Iaijutsu", "居合术"}
 
     class HissatsuSenei(ActionBase):
         """
@@ -235,7 +235,7 @@ class Actions:
 
         """
         id = 16481
-        name = {'Hissatsu: Senei', '必杀剑·闪影'}
+        name = {"Hissatsu: Senei", "必杀剑·闪影"}
 
     class Ikishoten(ActionBase):
         """
@@ -243,15 +243,15 @@ class Actions:
 
         """
         id = 16482
-        name = {'Ikishoten', '意气冲天'}
+        name = {"Ikishoten", "意气冲天"}
 
-    class Tsubame-gaeshi(ActionBase):
+    class TsubameGaeshi(ActionBase):
         """
         发动上一次使用的居合术 发动条件：居合术使用完毕 该能力不仅有单独计算的复唱时间，还会与战技共享复唱时间
 
         """
         id = 16483
-        name = {'Tsubame-gaeshi', '燕回返'}
+        name = {"Tsubame-gaeshi", "燕回返"}
 
     class KaeshiHiganbana(ActionBase):
         """
@@ -259,7 +259,7 @@ class Actions:
 
         """
         id = 16484
-        name = {'Kaeshi: Higanbana', '回返彼岸花'}
+        name = {"Kaeshi: Higanbana", "回返彼岸花"}
 
     class KaeshiGoken(ActionBase):
         """
@@ -267,7 +267,7 @@ class Actions:
 
         """
         id = 16485
-        name = {'Kaeshi: Goken', '回返五剑'}
+        name = {"Kaeshi: Goken", "回返五剑"}
 
     class KaeshiSetsugekka(ActionBase):
         """
@@ -275,7 +275,7 @@ class Actions:
 
         """
         id = 16486
-        name = {'Kaeshi: Setsugekka', '回返雪月花'}
+        name = {"Kaeshi: Setsugekka", "回返雪月花"}
 
     class Shoha(ActionBase):
         """
@@ -283,4 +283,4 @@ class Actions:
 
         """
         id = 16487
-        name = {'Shoha', '照破'}
+        name = {"Shoha", "照破"}

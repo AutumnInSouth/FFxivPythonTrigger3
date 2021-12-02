@@ -9,15 +9,15 @@ class Actions:
 
         """
         id = 11383
-        name = {'Snort', '鼻息'}
+        name = {"Snort", "鼻息"}
 
-    class 4-tonzeWeight(ActionBase):
+    class 4TonzeWeight(ActionBase):
         """
         对指定地点发动无属性范围物理攻击 威力：200 攻击复数敌人时，对第一个之外的敌人威力降低50% 追加效果：40%加重 持续时间：30秒
 
         """
         id = 11384
-        name = {'4-tonze Weight', '4星吨'}
+        name = {"4-tonze Weight", "4星吨"}
 
     class WaterCannon(ActionBase):
         """
@@ -25,7 +25,7 @@ class Actions:
 
         """
         id = 11385
-        name = {'Water Cannon', '水炮'}
+        name = {"Water Cannon", "水炮"}
 
     class SongOfTorment(ActionBase):
         """
@@ -33,7 +33,7 @@ class Actions:
 
         """
         id = 11386
-        name = {'Song of Torment', '苦闷之歌'}
+        name = {"Song of Torment", "苦闷之歌"}
 
     class HighVoltage(ActionBase):
         """
@@ -41,7 +41,7 @@ class Actions:
 
         """
         id = 11387
-        name = {'High Voltage', '高压电流'}
+        name = {"High Voltage", "高压电流"}
 
     class BadBreath(ActionBase):
         """
@@ -49,7 +49,7 @@ class Actions:
 
         """
         id = 11388
-        name = {'Bad Breath', '臭气'}
+        name = {"Bad Breath", "臭气"}
 
     class FlyingFrenzy(ActionBase):
         """
@@ -57,7 +57,7 @@ class Actions:
 
         """
         id = 11389
-        name = {'Flying Frenzy', '狂乱'}
+        name = {"Flying Frenzy", "狂乱"}
 
     class AquaBreath(ActionBase):
         """
@@ -65,7 +65,7 @@ class Actions:
 
         """
         id = 11390
-        name = {'Aqua Breath', '水流吐息'}
+        name = {"Aqua Breath", "水流吐息"}
 
     class Plaincracker(ActionBase):
         """
@@ -73,7 +73,7 @@ class Actions:
 
         """
         id = 11391
-        name = {'Plaincracker', '平原震裂'}
+        name = {"Plaincracker", "平原震裂"}
 
     class AcornBomb(ActionBase):
         """
@@ -81,7 +81,7 @@ class Actions:
 
         """
         id = 11392
-        name = {'Acorn Bomb', '橡果炸弹'}
+        name = {"Acorn Bomb", "橡果炸弹"}
 
     class Bristle(ActionBase):
         """
@@ -90,7 +90,7 @@ class Actions:
         402, 怒发冲冠, Thrown for a Loop, 受到挑衅愤怒不已，会不停地追赶挑衅者
         """
         id = 11393
-        name = {'Bristle', '怒发冲冠'}
+        name = {"Bristle", "怒发冲冠"}
 
     class MindBlast(ActionBase):
         """
@@ -98,7 +98,7 @@ class Actions:
 
         """
         id = 11394
-        name = {'Mind Blast', '精神冲击'}
+        name = {"Mind Blast", "精神冲击"}
 
     class BloodDrain(ActionBase):
         """
@@ -106,7 +106,7 @@ class Actions:
 
         """
         id = 11395
-        name = {'Blood Drain', '吸血'}
+        name = {"Blood Drain", "吸血"}
 
     class BombToss(ActionBase):
         """
@@ -114,7 +114,7 @@ class Actions:
 
         """
         id = 11396
-        name = {'Bomb Toss', '投弹'}
+        name = {"Bomb Toss", "投弹"}
 
     class 1000Needles(ActionBase):
         """
@@ -122,7 +122,7 @@ class Actions:
 
         """
         id = 11397
-        name = {'1000 Needles', '千针刺'}
+        name = {"1000 Needles", "千针刺"}
 
     class DrillCannons(ActionBase):
         """
@@ -130,7 +130,7 @@ class Actions:
 
         """
         id = 11398
-        name = {'Drill Cannons', '钻头炮'}
+        name = {"Drill Cannons", "钻头炮"}
 
     class TheLook(ActionBase):
         """
@@ -138,7 +138,7 @@ class Actions:
 
         """
         id = 11399
-        name = {'the Look', '诡异视线'}
+        name = {"the Look", "诡异视线"}
 
     class SharpenedKnife(ActionBase):
         """
@@ -146,7 +146,7 @@ class Actions:
 
         """
         id = 11400
-        name = {'Sharpened Knife', '锋利菜刀'}
+        name = {"Sharpened Knife", "锋利菜刀"}
 
     class Loom(ActionBase):
         """
@@ -154,7 +154,7 @@ class Actions:
 
         """
         id = 11401
-        name = {'Loom', '若隐若现'}
+        name = {"Loom", "若隐若现"}
 
     class FlameThrower(ActionBase):
         """
@@ -162,7 +162,7 @@ class Actions:
 
         """
         id = 11402
-        name = {'Flame Thrower', '火炎放射'}
+        name = {"Flame Thrower", "火炎放射"}
 
     class Faze(ActionBase):
         """
@@ -170,7 +170,7 @@ class Actions:
 
         """
         id = 11403
-        name = {'Faze', '拍掌'}
+        name = {"Faze", "拍掌"}
 
     class Glower(ActionBase):
         """
@@ -178,7 +178,7 @@ class Actions:
 
         """
         id = 11404
-        name = {'Glower', '怒视'}
+        name = {"Glower", "怒视"}
 
     class Missile(ActionBase):
         """
@@ -186,7 +186,7 @@ class Actions:
 
         """
         id = 11405
-        name = {'Missile', '导弹'}
+        name = {"Missile", "导弹"}
 
     class WhiteWind(ActionBase):
         """
@@ -194,7 +194,7 @@ class Actions:
 
         """
         id = 11406
-        name = {'White Wind', '白风'}
+        name = {"White Wind", "白风"}
 
     class FinalSting(ActionBase):
         """
@@ -202,15 +202,15 @@ class Actions:
 
         """
         id = 11407
-        name = {'Final Sting', '终极针'}
+        name = {"Final Sting", "终极针"}
 
-    class Self-destruct(ActionBase):
+    class SelfDestruct(ActionBase):
         """
         对自身周围的敌人发动火属性范围魔法攻击 威力：1500 自身处于油性分泌物状态时威力提高至1800 发动后自身陷入无法战斗状态 追加效果：意志薄弱 即使进入无法战斗状态也不会解除意志薄弱 持续时间：600秒 发动条件：非意志薄弱状态中
 
         """
         id = 11408
-        name = {'Self-destruct', '自爆'}
+        name = {"Self-destruct", "自爆"}
 
     class Transfusion(ActionBase):
         """
@@ -218,7 +218,7 @@ class Actions:
 
         """
         id = 11409
-        name = {'Transfusion', '融合'}
+        name = {"Transfusion", "融合"}
 
     class ToadOil(ActionBase):
         """
@@ -227,16 +227,16 @@ class Actions:
         1737, 油性分泌物, Toad Oil, 回避率提高
         """
         id = 11410
-        name = {'Toad Oil', '油性分泌物'}
+        name = {"Toad Oil", "油性分泌物"}
 
-    class Off-guard(ActionBase):
+    class OffGuard(ActionBase):
         """
         一定时间内，目标所受伤害提高5% 持续时间：15秒 该魔法有单独计算的复唱时间，不受其他魔法复唱时间的影响 与惊奇光共享复唱时间
 
         1717, 破防, Off-guard, 受到攻击的伤害增加
         """
         id = 11411
-        name = {'Off-guard', '破防'}
+        name = {"Off-guard", "破防"}
 
     class StickyTongue(ActionBase):
         """
@@ -244,7 +244,7 @@ class Actions:
 
         """
         id = 11412
-        name = {'Sticky Tongue', '滑舌'}
+        name = {"Sticky Tongue", "滑舌"}
 
     class TailScrew(ActionBase):
         """
@@ -252,7 +252,7 @@ class Actions:
 
         """
         id = 11413
-        name = {'Tail Screw', '螺旋尾'}
+        name = {"Tail Screw", "螺旋尾"}
 
     class Level5Petrify(ActionBase):
         """
@@ -260,7 +260,7 @@ class Actions:
 
         """
         id = 11414
-        name = {'Level 5 Petrify', '5级石化'}
+        name = {"Level 5 Petrify", "5级石化"}
 
     class MoonFlute(ActionBase):
         """
@@ -268,7 +268,7 @@ class Actions:
 
         """
         id = 11415
-        name = {'Moon Flute', '月之笛'}
+        name = {"Moon Flute", "月之笛"}
 
     class Doom(ActionBase):
         """
@@ -283,7 +283,7 @@ class Actions:
         2519, 死亡宣告, Doom, 倒计时为0时会陷入无法战斗状态
         """
         id = 11416
-        name = {'Doom', '死亡宣告'}
+        name = {"Doom", "死亡宣告"}
 
     class MightyGuard(ActionBase):
         """
@@ -292,7 +292,7 @@ class Actions:
         1719, 强力守护, Mighty Guard, 令自身所受到的伤害减少，同时会以攻击力降低为代价提高自身仇恨
         """
         id = 11417
-        name = {'Mighty Guard', '强力守护'}
+        name = {"Mighty Guard", "强力守护"}
 
     class IceSpikes(ActionBase):
         """
@@ -304,7 +304,7 @@ class Actions:
         2528, 冰棘屏障, Ice Spikes, 能够发动冰属性反击，追加减速效果
         """
         id = 11418
-        name = {'Ice Spikes', '冰棘屏障'}
+        name = {"Ice Spikes", "冰棘屏障"}
 
     class TheRamsVoice(ActionBase):
         """
@@ -312,7 +312,7 @@ class Actions:
 
         """
         id = 11419
-        name = {'the Ram's Voice', '寒冰咆哮'}
+        name = {"the Ram's Voice", "寒冰咆哮"}
 
     class TheDragonsVoice(ActionBase):
         """
@@ -320,7 +320,7 @@ class Actions:
 
         """
         id = 11420
-        name = {'the Dragon's Voice', '雷电咆哮'}
+        name = {"the Dragon's Voice", "雷电咆哮"}
 
     class PeculiarLight(ActionBase):
         """
@@ -329,7 +329,7 @@ class Actions:
         1721, 惊奇光, Peculiar Light, 受到魔法攻击的伤害增加
         """
         id = 11421
-        name = {'Peculiar Light', '惊奇光'}
+        name = {"Peculiar Light", "惊奇光"}
 
     class InkJet(ActionBase):
         """
@@ -337,7 +337,7 @@ class Actions:
 
         """
         id = 11422
-        name = {'Ink Jet', '喷墨'}
+        name = {"Ink Jet", "喷墨"}
 
     class FlyingSardine(ActionBase):
         """
@@ -345,7 +345,7 @@ class Actions:
 
         """
         id = 11423
-        name = {'Flying Sardine', '投掷沙丁鱼'}
+        name = {"Flying Sardine", "投掷沙丁鱼"}
 
     class Diamondback(ActionBase):
         """
@@ -354,7 +354,7 @@ class Actions:
         1722, 超硬化, Diamondback, 无法自由活动，但受到攻击的伤害减少
         """
         id = 11424
-        name = {'Diamondback', '超硬化'}
+        name = {"Diamondback", "超硬化"}
 
     class FireAngon(ActionBase):
         """
@@ -362,7 +362,7 @@ class Actions:
 
         """
         id = 11425
-        name = {'Fire Angon', '火投枪'}
+        name = {"Fire Angon", "火投枪"}
 
     class FeatherRain(ActionBase):
         """
@@ -370,7 +370,7 @@ class Actions:
 
         """
         id = 11426
-        name = {'Feather Rain', '飞翎雨'}
+        name = {"Feather Rain", "飞翎雨"}
 
     class Eruption(ActionBase):
         """
@@ -378,7 +378,7 @@ class Actions:
 
         """
         id = 11427
-        name = {'Eruption', '地火喷发'}
+        name = {"Eruption", "地火喷发"}
 
     class MountainBuster(ActionBase):
         """
@@ -386,7 +386,7 @@ class Actions:
 
         """
         id = 11428
-        name = {'Mountain Buster', '山崩'}
+        name = {"Mountain Buster", "山崩"}
 
     class ShockStrike(ActionBase):
         """
@@ -394,7 +394,7 @@ class Actions:
 
         """
         id = 11429
-        name = {'Shock Strike', '轰雷'}
+        name = {"Shock Strike", "轰雷"}
 
     class GlassDance(ActionBase):
         """
@@ -402,7 +402,7 @@ class Actions:
 
         """
         id = 11430
-        name = {'Glass Dance', '冰雪乱舞'}
+        name = {"Glass Dance", "冰雪乱舞"}
 
     class VeilOfTheWhorl(ActionBase):
         """
@@ -412,7 +412,7 @@ class Actions:
         1724, 水神的面纱, Veil of the Whorl, 受到攻击时，攻击方将受到水属性伤害
         """
         id = 11431
-        name = {'Veil of the Whorl', '水神的面纱'}
+        name = {"Veil of the Whorl", "水神的面纱"}
 
     class AlpineDraft(ActionBase):
         """
@@ -420,7 +420,7 @@ class Actions:
 
         """
         id = 18295
-        name = {'Alpine Draft', '高山气流'}
+        name = {"Alpine Draft", "高山气流"}
 
     class ProteanWave(ActionBase):
         """
@@ -428,7 +428,7 @@ class Actions:
 
         """
         id = 18296
-        name = {'Protean Wave', '万变水波'}
+        name = {"Protean Wave", "万变水波"}
 
     class Northerlies(ActionBase):
         """
@@ -436,7 +436,7 @@ class Actions:
 
         """
         id = 18297
-        name = {'Northerlies', '狂风暴雪'}
+        name = {"Northerlies", "狂风暴雪"}
 
     class Electrogenesis(ActionBase):
         """
@@ -444,7 +444,7 @@ class Actions:
 
         """
         id = 18298
-        name = {'Electrogenesis', '生物电'}
+        name = {"Electrogenesis", "生物电"}
 
     class Kaltstrahl(ActionBase):
         """
@@ -452,7 +452,7 @@ class Actions:
 
         """
         id = 18299
-        name = {'Kaltstrahl', '寒光'}
+        name = {"Kaltstrahl", "寒光"}
 
     class AbyssalTransfixion(ActionBase):
         """
@@ -460,7 +460,7 @@ class Actions:
 
         """
         id = 18300
-        name = {'Abyssal Transfixion', '深渊贯穿'}
+        name = {"Abyssal Transfixion", "深渊贯穿"}
 
     class Chirp(ActionBase):
         """
@@ -468,7 +468,7 @@ class Actions:
 
         """
         id = 18301
-        name = {'Chirp', '唧唧咋咋'}
+        name = {"Chirp", "唧唧咋咋"}
 
     class EerieSoundwave(ActionBase):
         """
@@ -476,7 +476,7 @@ class Actions:
 
         """
         id = 18302
-        name = {'Eerie Soundwave', '怪音波'}
+        name = {"Eerie Soundwave", "怪音波"}
 
     class PomCure(ActionBase):
         """
@@ -484,7 +484,7 @@ class Actions:
 
         """
         id = 18303
-        name = {'Pom Cure', '绒绒治疗'}
+        name = {"Pom Cure", "绒绒治疗"}
 
     class Gobskin(ActionBase):
         """
@@ -493,7 +493,7 @@ class Actions:
         2114, 哥布防御, Gobskin, 抵消一定伤害
         """
         id = 18304
-        name = {'Gobskin', '哥布防御'}
+        name = {"Gobskin", "哥布防御"}
 
     class MagicHammer(ActionBase):
         """
@@ -501,7 +501,7 @@ class Actions:
 
         """
         id = 18305
-        name = {'Magic Hammer', '魔法锤'}
+        name = {"Magic Hammer", "魔法锤"}
 
     class Avail(ActionBase):
         """
@@ -511,7 +511,7 @@ class Actions:
         2117, 防御指示, Meat Shield, 被下达了防御指示，替特定队员承受伤害
         """
         id = 18306
-        name = {'Avail', '防御指示'}
+        name = {"Avail", "防御指示"}
 
     class FrogLegs(ActionBase):
         """
@@ -519,7 +519,7 @@ class Actions:
 
         """
         id = 18307
-        name = {'Frog Legs', '蛙腿'}
+        name = {"Frog Legs", "蛙腿"}
 
     class SonicBoom(ActionBase):
         """
@@ -527,7 +527,7 @@ class Actions:
 
         """
         id = 18308
-        name = {'Sonic Boom', '音爆'}
+        name = {"Sonic Boom", "音爆"}
 
     class Whistle(ActionBase):
         """
@@ -535,7 +535,7 @@ class Actions:
 
         """
         id = 18309
-        name = {'Whistle', '口笛'}
+        name = {"Whistle", "口笛"}
 
     class WhiteKnightsTour(ActionBase):
         """
@@ -543,7 +543,7 @@ class Actions:
 
         """
         id = 18310
-        name = {'White Knight's Tour', '白骑士之旅'}
+        name = {"White Knight's Tour", "白骑士之旅"}
 
     class BlackKnightsTour(ActionBase):
         """
@@ -551,7 +551,7 @@ class Actions:
 
         """
         id = 18311
-        name = {'Black Knight's Tour', '黑骑士之旅'}
+        name = {"Black Knight's Tour", "黑骑士之旅"}
 
     class Level5Death(ActionBase):
         """
@@ -559,7 +559,7 @@ class Actions:
 
         """
         id = 18312
-        name = {'Level 5 Death', '5级即死'}
+        name = {"Level 5 Death", "5级即死"}
 
     class Launcher(ActionBase):
         """
@@ -567,7 +567,7 @@ class Actions:
 
         """
         id = 18313
-        name = {'Launcher', '火箭炮'}
+        name = {"Launcher", "火箭炮"}
 
     class PerpetualRay(ActionBase):
         """
@@ -575,7 +575,7 @@ class Actions:
 
         """
         id = 18314
-        name = {'Perpetual Ray', '永恒射线'}
+        name = {"Perpetual Ray", "永恒射线"}
 
     class Cactguard(ActionBase):
         """
@@ -584,7 +584,7 @@ class Actions:
         2119, 仙人盾, Cactguard, 受到的伤害降低
         """
         id = 18315
-        name = {'Cactguard', '仙人盾'}
+        name = {"Cactguard", "仙人盾"}
 
     class RevengeBlast(ActionBase):
         """
@@ -592,7 +592,7 @@ class Actions:
 
         """
         id = 18316
-        name = {'Revenge Blast', '复仇冲击'}
+        name = {"Revenge Blast", "复仇冲击"}
 
     class AngelWhisper(ActionBase):
         """
@@ -600,7 +600,7 @@ class Actions:
 
         """
         id = 18317
-        name = {'Angel Whisper', '天使低语'}
+        name = {"Angel Whisper", "天使低语"}
 
     class Exuviation(ActionBase):
         """
@@ -608,7 +608,7 @@ class Actions:
 
         """
         id = 18318
-        name = {'Exuviation', '蜕皮'}
+        name = {"Exuviation", "蜕皮"}
 
     class Reflux(ActionBase):
         """
@@ -616,7 +616,7 @@ class Actions:
 
         """
         id = 18319
-        name = {'Reflux', '逆流'}
+        name = {"Reflux", "逆流"}
 
     class Devour(ActionBase):
         """
@@ -625,7 +625,7 @@ class Actions:
         421, 捕食, Devoured, 被吞了下去无法做出任何行动，体力逐渐减少
         """
         id = 18320
-        name = {'Devour', '捕食'}
+        name = {"Devour", "捕食"}
 
     class CondensedLibra(ActionBase):
         """
@@ -633,7 +633,7 @@ class Actions:
 
         """
         id = 18321
-        name = {'Condensed Libra', '小侦测'}
+        name = {"Condensed Libra", "小侦测"}
 
     class AetherialMimicry(ActionBase):
         """
@@ -641,7 +641,7 @@ class Actions:
 
         """
         id = 18322
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {"Aetherial Mimicry", "以太复制"}
 
     class Surpanakha(ActionBase):
         """
@@ -649,7 +649,7 @@ class Actions:
 
         """
         id = 18323
-        name = {'Surpanakha', '穿甲散弹'}
+        name = {"Surpanakha", "穿甲散弹"}
 
     class Quasar(ActionBase):
         """
@@ -657,7 +657,7 @@ class Actions:
 
         """
         id = 18324
-        name = {'Quasar', '类星体'}
+        name = {"Quasar", "类星体"}
 
     class JKick(ActionBase):
         """
@@ -665,7 +665,7 @@ class Actions:
 
         """
         id = 18325
-        name = {'J Kick', '正义飞踢'}
+        name = {"J Kick", "正义飞踢"}
 
     class AetherialMimicry(ActionBase):
         """
@@ -673,7 +673,7 @@ class Actions:
 
         """
         id = 19238
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {"Aetherial Mimicry", "以太复制"}
 
     class AetherialMimicry(ActionBase):
         """
@@ -681,7 +681,7 @@ class Actions:
 
         """
         id = 19239
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {"Aetherial Mimicry", "以太复制"}
 
     class AetherialMimicry(ActionBase):
         """
@@ -689,7 +689,7 @@ class Actions:
 
         """
         id = 19240
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {"Aetherial Mimicry", "以太复制"}
 
     class TripleTrident(ActionBase):
         """
@@ -697,7 +697,7 @@ class Actions:
 
         """
         id = 23264
-        name = {'Triple Trident', '渔叉三段'}
+        name = {"Triple Trident", "渔叉三段"}
 
     class Tingle(ActionBase):
         """
@@ -706,15 +706,15 @@ class Actions:
         2492, 哔哩哔哩, Tingling, 下一个发动的魔法属于物理攻击时威力提升
         """
         id = 23265
-        name = {'Tingle', '哔哩哔哩'}
+        name = {"Tingle", "哔哩哔哩"}
 
-    class Tatami-gaeshi(ActionBase):
+    class TatamiGaeshi(ActionBase):
         """
         向目标所在方向发出无属性直线范围魔法攻击 威力：220 追加效果：眩晕 持续时间：3秒 攻击复数敌人时，对目标之外的敌人威力降低50%
 
         """
         id = 23266
-        name = {'Tatami-gaeshi', '掀地板之术'}
+        name = {"Tatami-gaeshi", "掀地板之术"}
 
     class ColdFog(ActionBase):
         """
@@ -723,7 +723,7 @@ class Actions:
         2493, 彻骨雾寒, Cold Fog, 被彻骨雾寒包裹，受到伤害后将附加冰雾状态
         """
         id = 23267
-        name = {'Cold Fog', '彻骨雾寒'}
+        name = {"Cold Fog", "彻骨雾寒"}
 
     class WhiteDeath(ActionBase):
         """
@@ -732,7 +732,7 @@ class Actions:
         2494, 冰雾, Touch of Frost, 被冰雾包裹，可以使用青魔法“冰雾”
         """
         id = 23268
-        name = {'White Death', '冰雾'}
+        name = {"White Death", "冰雾"}
 
     class Stotram(ActionBase):
         """
@@ -740,7 +740,7 @@ class Actions:
 
         """
         id = 23269
-        name = {'Stotram', '赞歌'}
+        name = {"Stotram", "赞歌"}
 
     class SaintlyBeam(ActionBase):
         """
@@ -748,7 +748,7 @@ class Actions:
 
         """
         id = 23270
-        name = {'Saintly Beam', '圣光射线'}
+        name = {"Saintly Beam", "圣光射线"}
 
     class FeculentFlood(ActionBase):
         """
@@ -756,7 +756,7 @@ class Actions:
 
         """
         id = 23271
-        name = {'Feculent Flood', '污泥泼洒'}
+        name = {"Feculent Flood", "污泥泼洒"}
 
     class AngelsSnack(ActionBase):
         """
@@ -765,7 +765,7 @@ class Actions:
         2495, 天使的点心, Angel's Snack, 体力会随时间逐渐恢复
         """
         id = 23272
-        name = {'Angel's Snack', '天使的点心'}
+        name = {"Angel's Snack", "天使的点心"}
 
     class ChelonianGate(ActionBase):
         """
@@ -774,7 +774,7 @@ class Actions:
         2496, 玄结界, Chelonian Gate, 减轻所受到的伤害，受到一定伤害后将附加玄天武水壁状态
         """
         id = 23273
-        name = {'Chelonian Gate', '玄结界'}
+        name = {"Chelonian Gate", "玄结界"}
 
     class DivineCataract(ActionBase):
         """
@@ -783,7 +783,7 @@ class Actions:
         2497, 玄天武水壁, Auspicious Trance, 可以使用青魔法“玄天武水壁”
         """
         id = 23274
-        name = {'Divine Cataract', '玄天武水壁'}
+        name = {"Divine Cataract", "玄天武水壁"}
 
     class TheRoseOfDestruction(ActionBase):
         """
@@ -791,7 +791,7 @@ class Actions:
 
         """
         id = 23275
-        name = {'The Rose of Destruction', '斗灵弹'}
+        name = {"The Rose of Destruction", "斗灵弹"}
 
     class BasicInstinct(ActionBase):
         """
@@ -800,7 +800,7 @@ class Actions:
         2498, 斗争本能, Basic Instinct, 自身攻击造成的伤害及治疗魔法的治疗量提高并且移动速度上升，无视“强力守护”造成的伤害降低效果
         """
         id = 23276
-        name = {'Basic Instinct', '斗争本能'}
+        name = {"Basic Instinct", "斗争本能"}
 
     class Ultravibration(ActionBase):
         """
@@ -808,7 +808,7 @@ class Actions:
 
         """
         id = 23277
-        name = {'Ultravibration', '超振动'}
+        name = {"Ultravibration", "超振动"}
 
     class Blaze(ActionBase):
         """
@@ -816,7 +816,7 @@ class Actions:
 
         """
         id = 23278
-        name = {'Blaze', '冰焰'}
+        name = {"Blaze", "冰焰"}
 
     class MustardBomb(ActionBase):
         """
@@ -824,7 +824,7 @@ class Actions:
 
         """
         id = 23279
-        name = {'Mustard Bomb', '芥末爆弹'}
+        name = {"Mustard Bomb", "芥末爆弹"}
 
     class DragonForce(ActionBase):
         """
@@ -834,7 +834,7 @@ class Actions:
         2500, 龙之力, Dragon Force, 受到的伤害降低
         """
         id = 23280
-        name = {'Dragon Force', '龙之力'}
+        name = {"Dragon Force", "龙之力"}
 
     class AetherialSpark(ActionBase):
         """
@@ -842,7 +842,7 @@ class Actions:
 
         """
         id = 23281
-        name = {'Aetherial Spark', '以太火花'}
+        name = {"Aetherial Spark", "以太火花"}
 
     class HydroPull(ActionBase):
         """
@@ -850,7 +850,7 @@ class Actions:
 
         """
         id = 23282
-        name = {'Hydro Pull', '水力吸引'}
+        name = {"Hydro Pull", "水力吸引"}
 
     class MaledictionOfWater(ActionBase):
         """
@@ -858,7 +858,7 @@ class Actions:
 
         """
         id = 23283
-        name = {'Malediction of Water', '水脉诅咒'}
+        name = {"Malediction of Water", "水脉诅咒"}
 
     class ChocoMeteor(ActionBase):
         """
@@ -866,7 +866,7 @@ class Actions:
 
         """
         id = 23284
-        name = {'Choco Meteor', '陆行鸟陨石'}
+        name = {"Choco Meteor", "陆行鸟陨石"}
 
     class MatraMagic(ActionBase):
         """
@@ -874,7 +874,7 @@ class Actions:
 
         """
         id = 23285
-        name = {'Matra Magic', '马特拉魔术'}
+        name = {"Matra Magic", "马特拉魔术"}
 
     class PeripheralSynthesis(ActionBase):
         """
@@ -882,7 +882,7 @@ class Actions:
 
         """
         id = 23286
-        name = {'Peripheral Synthesis', '生成外设'}
+        name = {"Peripheral Synthesis", "生成外设"}
 
     class BothEnds(ActionBase):
         """
@@ -890,7 +890,7 @@ class Actions:
 
         """
         id = 23287
-        name = {'Both Ends', '如意大旋风'}
+        name = {"Both Ends", "如意大旋风"}
 
     class PhantomFlurry(ActionBase):
         """
@@ -899,7 +899,7 @@ class Actions:
         2502, 鬼宿脚, Phantom Flurry, 正在踢出鬼宿脚
         """
         id = 23288
-        name = {'Phantom Flurry', '鬼宿脚'}
+        name = {"Phantom Flurry", "鬼宿脚"}
 
     class PhantomFlurry(ActionBase):
         """
@@ -908,7 +908,7 @@ class Actions:
         2502, 鬼宿脚, Phantom Flurry, 正在踢出鬼宿脚
         """
         id = 23289
-        name = {'Phantom Flurry', '鬼宿脚'}
+        name = {"Phantom Flurry", "鬼宿脚"}
 
     class Nightbloom(ActionBase):
         """
@@ -916,7 +916,7 @@ class Actions:
 
         """
         id = 23290
-        name = {'Nightbloom', '月下彼岸花'}
+        name = {"Nightbloom", "月下彼岸花"}
 
     class Stotram(ActionBase):
         """
@@ -924,4 +924,4 @@ class Actions:
 
         """
         id = 23416
-        name = {'Stotram', '赞歌'}
+        name = {"Stotram", "赞歌"}

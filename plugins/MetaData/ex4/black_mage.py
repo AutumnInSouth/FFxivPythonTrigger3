@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 141
-        name = {'Fire', '火炎'}
+        name = {"Fire", "火炎"}
 
     class Blizzard(ActionBase):
         """
@@ -17,7 +17,7 @@ class Actions:
 
         """
         id = 142
-        name = {'Blizzard', '冰结'}
+        name = {"Blizzard", "冰结"}
 
     class Thunder(ActionBase):
         """
@@ -27,7 +27,7 @@ class Actions:
         1324, 闪雷, Thunder, 受到持续伤害
         """
         id = 144
-        name = {'Thunder', '闪雷'}
+        name = {"Thunder", "闪雷"}
 
     class Sleep(ActionBase):
         """
@@ -35,7 +35,7 @@ class Actions:
 
         """
         id = 145
-        name = {'Sleep', '催眠'}
+        name = {"Sleep", "催眠"}
 
     class BlizzardIi(ActionBase):
         """
@@ -43,7 +43,7 @@ class Actions:
 
         """
         id = 146
-        name = {'Blizzard II', '冰冻'}
+        name = {"Blizzard II", "冰冻"}
 
     class FireIi(ActionBase):
         """
@@ -51,7 +51,7 @@ class Actions:
 
         """
         id = 147
-        name = {'Fire II', '烈炎'}
+        name = {"Fire II", "烈炎"}
 
     class Transpose(ActionBase):
         """
@@ -59,7 +59,7 @@ class Actions:
 
         """
         id = 149
-        name = {'Transpose', '星灵移位'}
+        name = {"Transpose", "星灵移位"}
 
     class FireIii(ActionBase):
         """
@@ -67,7 +67,7 @@ class Actions:
 
         """
         id = 152
-        name = {'Fire III', '爆炎'}
+        name = {"Fire III", "爆炎"}
 
     class ThunderIii(ActionBase):
         """
@@ -76,7 +76,7 @@ class Actions:
         163, 暴雷, Thunder III, 雷属性持续伤害，体力逐渐流失
         """
         id = 153
-        name = {'Thunder III', '暴雷'}
+        name = {"Thunder III", "暴雷"}
 
     class BlizzardIii(ActionBase):
         """
@@ -84,7 +84,7 @@ class Actions:
 
         """
         id = 154
-        name = {'Blizzard III', '冰封'}
+        name = {"Blizzard III", "冰封"}
 
     class AetherialManipulation(ActionBase):
         """
@@ -92,7 +92,7 @@ class Actions:
 
         """
         id = 155
-        name = {'Aetherial Manipulation', '以太步'}
+        name = {"Aetherial Manipulation", "以太步"}
 
     class Scathe(ActionBase):
         """
@@ -100,7 +100,7 @@ class Actions:
 
         """
         id = 156
-        name = {'Scathe', '崩溃'}
+        name = {"Scathe", "崩溃"}
 
     class Manaward(ActionBase):
         """
@@ -110,7 +110,7 @@ class Actions:
         1989, 魔罩, Manaward, 抵消一定伤害
         """
         id = 157
-        name = {'Manaward', '魔罩'}
+        name = {"Manaward", "魔罩"}
 
     class Manafont(ActionBase):
         """
@@ -118,7 +118,7 @@ class Actions:
 
         """
         id = 158
-        name = {'Manafont', '魔泉'}
+        name = {"Manafont", "魔泉"}
 
     class Freeze(ActionBase):
         """
@@ -126,7 +126,7 @@ class Actions:
 
         """
         id = 159
-        name = {'Freeze', '玄冰'}
+        name = {"Freeze", "玄冰"}
 
     class Flare(ActionBase):
         """
@@ -134,7 +134,7 @@ class Actions:
 
         """
         id = 162
-        name = {'Flare', '核爆'}
+        name = {"Flare", "核爆"}
 
     class LeyLines(ActionBase):
         """
@@ -143,7 +143,7 @@ class Actions:
         737, 黑魔纹, Ley Lines, 在地上产生黑魔纹
         """
         id = 3573
-        name = {'Ley Lines', '黑魔纹'}
+        name = {"Ley Lines", "黑魔纹"}
 
     class Sharpcast(ActionBase):
         """
@@ -152,7 +152,7 @@ class Actions:
         867, 激情咏唱, Sharpcast, 下次咏唱的崩溃、火炎以及雷系魔法必定触发“崩溃的追加效果”“火苗”“雷云”
         """
         id = 3574
-        name = {'Sharpcast', '激情咏唱'}
+        name = {"Sharpcast", "激情咏唱"}
 
     class Enochian(ActionBase):
         """
@@ -161,7 +161,7 @@ class Actions:
         868, 天语, Enochian, 魔法攻击所造成的伤害提高
         """
         id = 3575
-        name = {'Enochian', '天语'}
+        name = {"Enochian", "天语"}
 
     class BlizzardIv(ActionBase):
         """
@@ -169,7 +169,7 @@ class Actions:
 
         """
         id = 3576
-        name = {'Blizzard IV', '冰澈'}
+        name = {"Blizzard IV", "冰澈"}
 
     class FireIv(ActionBase):
         """
@@ -177,7 +177,7 @@ class Actions:
 
         """
         id = 3577
-        name = {'Fire IV', '炽炎'}
+        name = {"Fire IV", "炽炎"}
 
     class BetweenTheLines(ActionBase):
         """
@@ -185,7 +185,7 @@ class Actions:
 
         """
         id = 7419
-        name = {'Between the Lines', '魔纹步'}
+        name = {"Between the Lines", "魔纹步"}
 
     class ThunderIv(ActionBase):
         """
@@ -194,7 +194,7 @@ class Actions:
         1210, 霹雷, Thunder IV, 雷属性持续伤害，体力逐渐流失
         """
         id = 7420
-        name = {'Thunder IV', '霹雷'}
+        name = {"Thunder IV", "霹雷"}
 
     class Triplecast(ActionBase):
         """
@@ -203,7 +203,7 @@ class Actions:
         1211, 三连咏唱, Triplecast, 咏唱魔法不需要咏唱时间
         """
         id = 7421
-        name = {'Triplecast', '三连咏唱'}
+        name = {"Triplecast", "三连咏唱"}
 
     class Foul(ActionBase):
         """
@@ -211,7 +211,7 @@ class Actions:
 
         """
         id = 7422
-        name = {'Foul', '秽浊'}
+        name = {"Foul", "秽浊"}
 
     class ThunderIi(ActionBase):
         """
@@ -221,7 +221,7 @@ class Actions:
         2075, 震雷, Thunder II, 受到持续伤害
         """
         id = 7447
-        name = {'Thunder II', '震雷'}
+        name = {"Thunder II", "震雷"}
 
     class Despair(ActionBase):
         """
@@ -229,7 +229,7 @@ class Actions:
 
         """
         id = 16505
-        name = {'Despair', '绝望'}
+        name = {"Despair", "绝望"}
 
     class UmbralSoul(ActionBase):
         """
@@ -237,7 +237,7 @@ class Actions:
 
         """
         id = 16506
-        name = {'Umbral Soul', '灵极魂'}
+        name = {"Umbral Soul", "灵极魂"}
 
     class Xenoglossy(ActionBase):
         """
@@ -245,4 +245,4 @@ class Actions:
 
         """
         id = 16507
-        name = {'Xenoglossy', '异言'}
+        name = {"Xenoglossy", "异言"}

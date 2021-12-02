@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 31
-        name = {'Heavy Swing', '重劈'}
+        name = {"Heavy Swing", "重劈"}
 
     class Maim(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
         85, 凶残裂, Maim, 攻击所造成的伤害提高
         """
         id = 37
-        name = {'Maim', '凶残裂'}
+        name = {"Maim", "凶残裂"}
         combo_action = 31
 
     class Berserk(ActionBase):
@@ -28,7 +28,7 @@ class Actions:
         86, 狂暴, Berserk, 自身攻击必定暴击并且直击
         """
         id = 38
-        name = {'Berserk', '狂暴'}
+        name = {"Berserk", "狂暴"}
 
     class ThrillOfBattle(ActionBase):
         """
@@ -37,7 +37,7 @@ class Actions:
         87, 战栗, Thrill of Battle, 体力最大值提高 习得战栗效果提高后追加效果：自身所受的治疗效果提高
         """
         id = 40
-        name = {'Thrill of Battle', '战栗'}
+        name = {"Thrill of Battle", "战栗"}
 
     class Overpower(ActionBase):
         """
@@ -45,7 +45,7 @@ class Actions:
 
         """
         id = 41
-        name = {'Overpower', '超压斧'}
+        name = {"Overpower", "超压斧"}
 
     class StormsPath(ActionBase):
         """
@@ -54,7 +54,7 @@ class Actions:
         408, 暴风斩, Storm's Path, 攻击所造成的伤害降低
         """
         id = 42
-        name = {'Storm's Path', '暴风斩'}
+        name = {"Storm's Path", "暴风斩"}
         combo_action = 37
 
     class Holmgang(ActionBase):
@@ -67,7 +67,7 @@ class Actions:
         1305, 死斗, Holmgang, 无法自由移动，受到伤害也不会解除
         """
         id = 43
-        name = {'Holmgang', '死斗'}
+        name = {"Holmgang", "死斗"}
 
     class Vengeance(ActionBase):
         """
@@ -76,7 +76,7 @@ class Actions:
         89, 复仇, Vengeance, 受到物理攻击时会发动反击
         """
         id = 44
-        name = {'Vengeance', '复仇'}
+        name = {"Vengeance", "复仇"}
 
     class StormsEye(ActionBase):
         """
@@ -85,7 +85,7 @@ class Actions:
         90, 暴风碎, Storm's Eye, 攻击所造成的伤害提高
         """
         id = 45
-        name = {'Storm's Eye', '暴风碎'}
+        name = {"Storm's Eye", "暴风碎"}
         combo_action = 37
 
     class Tomahawk(ActionBase):
@@ -94,7 +94,7 @@ class Actions:
 
         """
         id = 46
-        name = {'Tomahawk', '飞斧'}
+        name = {"Tomahawk", "飞斧"}
 
     class Defiance(ActionBase):
         """
@@ -104,7 +104,7 @@ class Actions:
         1396, 守护, Defiance, 以攻击力降低为代价减少自身所受到的伤害
         """
         id = 48
-        name = {'Defiance', '守护'}
+        name = {"Defiance", "守护"}
 
     class InnerBeast(ActionBase):
         """
@@ -114,7 +114,7 @@ class Actions:
         1398, 原初之魂, Inner Beast, 减轻所受到的伤害
         """
         id = 49
-        name = {'Inner Beast', '原初之魂'}
+        name = {"Inner Beast", "原初之魂"}
 
     class SteelCyclone(ActionBase):
         """
@@ -122,7 +122,7 @@ class Actions:
 
         """
         id = 51
-        name = {'Steel Cyclone', '钢铁旋风'}
+        name = {"Steel Cyclone", "钢铁旋风"}
 
     class Infuriate(ActionBase):
         """
@@ -130,7 +130,7 @@ class Actions:
 
         """
         id = 52
-        name = {'Infuriate', '战嚎'}
+        name = {"Infuriate", "战嚎"}
 
     class FellCleave(ActionBase):
         """
@@ -138,7 +138,7 @@ class Actions:
 
         """
         id = 3549
-        name = {'Fell Cleave', '裂石飞环'}
+        name = {"Fell Cleave", "裂石飞环"}
 
     class Decimate(ActionBase):
         """
@@ -146,7 +146,7 @@ class Actions:
 
         """
         id = 3550
-        name = {'Decimate', '地毁人亡'}
+        name = {"Decimate", "地毁人亡"}
 
     class RawIntuition(ActionBase):
         """
@@ -155,7 +155,7 @@ class Actions:
         735, 原初的直觉, Raw Intuition, 减轻所受到的伤害
         """
         id = 3551
-        name = {'Raw Intuition', '原初的直觉'}
+        name = {"Raw Intuition", "原初的直觉"}
 
     class Equilibrium(ActionBase):
         """
@@ -163,7 +163,7 @@ class Actions:
 
         """
         id = 3552
-        name = {'Equilibrium', '泰然自若'}
+        name = {"Equilibrium", "泰然自若"}
 
     class Onslaught(ActionBase):
         """
@@ -171,7 +171,7 @@ class Actions:
 
         """
         id = 7386
-        name = {'Onslaught', '猛攻'}
+        name = {"Onslaught", "猛攻"}
 
     class Upheaval(ActionBase):
         """
@@ -179,7 +179,7 @@ class Actions:
 
         """
         id = 7387
-        name = {'Upheaval', '动乱'}
+        name = {"Upheaval", "动乱"}
 
     class ShakeItOff(ActionBase):
         """
@@ -189,7 +189,7 @@ class Actions:
         1993, 摆脱, Shake It Off, 抵消一定伤害
         """
         id = 7388
-        name = {'Shake It Off', '摆脱'}
+        name = {"Shake It Off", "摆脱"}
 
     class InnerRelease(ActionBase):
         """
@@ -199,7 +199,7 @@ class Actions:
         1303, 原初的解放, Inner Release, 兽魂不会消耗，不受眩晕、睡眠、止步、加重、沉默、击退、吸引的效果影响
         """
         id = 7389
-        name = {'Inner Release', '原初的解放'}
+        name = {"Inner Release", "原初的解放"}
 
     class MythrilTempest(ActionBase):
         """
@@ -207,7 +207,7 @@ class Actions:
 
         """
         id = 16462
-        name = {'Mythril Tempest', '秘银暴风'}
+        name = {"Mythril Tempest", "秘银暴风"}
         combo_action = 41
 
     class ChaoticCyclone(ActionBase):
@@ -217,7 +217,7 @@ class Actions:
         2078, 混沌旋风, Chaotic Cyclone, 受到攻击的伤害增加
         """
         id = 16463
-        name = {'Chaotic Cyclone', '混沌旋风'}
+        name = {"Chaotic Cyclone", "混沌旋风"}
 
     class NascentFlash(ActionBase):
         """
@@ -228,7 +228,7 @@ class Actions:
         2227, 原初的勇猛, Nascent Flash, 自身的物理攻击命中时会吸收体力
         """
         id = 16464
-        name = {'Nascent Flash', '原初的勇猛'}
+        name = {"Nascent Flash", "原初的勇猛"}
 
     class InnerChaos(ActionBase):
         """
@@ -237,4 +237,4 @@ class Actions:
         2077, 狂魂, Inner Chaos, 受到攻击的伤害增加
         """
         id = 16465
-        name = {'Inner Chaos', '狂魂'}
+        name = {"Inner Chaos", "狂魂"}

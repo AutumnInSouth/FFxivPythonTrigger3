@@ -10,7 +10,7 @@ class Actions:
         304, 以太超流, Aetherflow, 体内的以太流动逐渐活化
         """
         id = 166
-        name = {'Aetherflow', '以太超流'}
+        name = {"Aetherflow", "以太超流"}
 
     class EnergyDrain(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
 
         """
         id = 167
-        name = {'Energy Drain', '能量吸收'}
+        name = {"Energy Drain", "能量吸收"}
 
     class Adloquium(ActionBase):
         """
@@ -26,7 +26,7 @@ class Actions:
 
         """
         id = 185
-        name = {'Adloquium', '鼓舞激励之策'}
+        name = {"Adloquium", "鼓舞激励之策"}
 
     class Succor(ActionBase):
         """
@@ -34,7 +34,7 @@ class Actions:
 
         """
         id = 186
-        name = {'Succor', '士气高扬之策'}
+        name = {"Succor", "士气高扬之策"}
 
     class SacredSoil(ActionBase):
         """
@@ -47,7 +47,7 @@ class Actions:
         2638, 野战治疗阵, Sacred Soil, 减轻所受到的伤害
         """
         id = 188
-        name = {'Sacred Soil', '野战治疗阵'}
+        name = {"Sacred Soil", "野战治疗阵"}
 
     class Lustrate(ActionBase):
         """
@@ -55,7 +55,7 @@ class Actions:
 
         """
         id = 189
-        name = {'Lustrate', '生命活性法'}
+        name = {"Lustrate", "生命活性法"}
 
     class Physick(ActionBase):
         """
@@ -63,7 +63,7 @@ class Actions:
 
         """
         id = 190
-        name = {'Physick', '医术'}
+        name = {"Physick", "医术"}
 
     class Embrace(ActionBase):
         """
@@ -71,7 +71,7 @@ class Actions:
 
         """
         id = 802
-        name = {'Embrace', '仙光的拥抱'}
+        name = {"Embrace", "仙光的拥抱"}
 
     class WhisperingDawn(ActionBase):
         """
@@ -80,7 +80,7 @@ class Actions:
         315, 仙光的低语, Whispering Dawn, 体力会随时间逐渐恢复
         """
         id = 803
-        name = {'Whispering Dawn', '仙光的低语'}
+        name = {"Whispering Dawn", "仙光的低语"}
 
     class FeyIllumination(ActionBase):
         """
@@ -89,7 +89,7 @@ class Actions:
         317, 异想的幻光, Fey Illumination, 发动治疗魔法的治疗量提高，且受到魔法攻击的伤害减少
         """
         id = 805
-        name = {'Fey Illumination', '异想的幻光'}
+        name = {"Fey Illumination", "异想的幻光"}
 
     class Indomitability(ActionBase):
         """
@@ -97,7 +97,7 @@ class Actions:
 
         """
         id = 3583
-        name = {'Indomitability', '不屈不挠之策'}
+        name = {"Indomitability", "不屈不挠之策"}
 
     class Broil(ActionBase):
         """
@@ -105,7 +105,7 @@ class Actions:
 
         """
         id = 3584
-        name = {'Broil', '气炎法'}
+        name = {"Broil", "气炎法"}
 
     class DeploymentTactics(ActionBase):
         """
@@ -113,7 +113,7 @@ class Actions:
 
         """
         id = 3585
-        name = {'Deployment Tactics', '展开战术'}
+        name = {"Deployment Tactics", "展开战术"}
 
     class EmergencyTactics(ActionBase):
         """
@@ -122,7 +122,7 @@ class Actions:
         792, 应急战术, Emergency Tactics, 下次咏唱附有鼓舞效果及激励效果的治疗魔法时，将其中的防护罩效果转化为治疗效果
         """
         id = 3586
-        name = {'Emergency Tactics', '应急战术'}
+        name = {"Emergency Tactics", "应急战术"}
 
     class Dissipation(ActionBase):
         """
@@ -132,7 +132,7 @@ class Actions:
         2069, 转化, Dissipation, 攻击所造成的伤害提高，自身发动的体力恢复效果恢复量提高
         """
         id = 3587
-        name = {'Dissipation', '转化'}
+        name = {"Dissipation", "转化"}
 
     class Excogitation(ActionBase):
         """
@@ -142,7 +142,7 @@ class Actions:
         2182, 深谋远虑之策, Excogitation, 体力降低到一定比例或持续时间结束时自动发动恢复效果
         """
         id = 7434
-        name = {'Excogitation', '深谋远虑之策'}
+        name = {"Excogitation", "深谋远虑之策"}
 
     class BroilIi(ActionBase):
         """
@@ -150,7 +150,7 @@ class Actions:
 
         """
         id = 7435
-        name = {'Broil II', '魔炎法'}
+        name = {"Broil II", "魔炎法"}
 
     class ChainStratagem(ActionBase):
         """
@@ -160,7 +160,7 @@ class Actions:
         1406, 连环计, Chain Stratagem, 受到攻击的伤害增加
         """
         id = 7436
-        name = {'Chain Stratagem', '连环计'}
+        name = {"Chain Stratagem", "连环计"}
 
     class Aetherpact(ActionBase):
         """
@@ -168,7 +168,7 @@ class Actions:
 
         """
         id = 7437
-        name = {'Aetherpact', '以太契约'}
+        name = {"Aetherpact", "以太契约"}
 
     class FeyUnion(ActionBase):
         """
@@ -178,7 +178,7 @@ class Actions:
         1223, 异想的融光, Fey Union, 受到持续恢复体力效果
         """
         id = 7438
-        name = {'Fey Union', '异想的融光'}
+        name = {"Fey Union", "异想的融光"}
 
     class DissolveUnion(ActionBase):
         """
@@ -186,7 +186,7 @@ class Actions:
 
         """
         id = 7869
-        name = {'Dissolve Union', '融光解除'}
+        name = {"Dissolve Union", "融光解除"}
 
     class WhisperingDawn(ActionBase):
         """
@@ -195,7 +195,7 @@ class Actions:
         315, 仙光的低语, Whispering Dawn, 体力会随时间逐渐恢复
         """
         id = 16537
-        name = {'Whispering Dawn', '仙光的低语'}
+        name = {"Whispering Dawn", "仙光的低语"}
 
     class FeyIllumination(ActionBase):
         """
@@ -204,7 +204,7 @@ class Actions:
         317, 异想的幻光, Fey Illumination, 发动治疗魔法的治疗量提高，且受到魔法攻击的伤害减少
         """
         id = 16538
-        name = {'Fey Illumination', '异想的幻光'}
+        name = {"Fey Illumination", "异想的幻光"}
 
     class ArtOfWar(ActionBase):
         """
@@ -212,7 +212,7 @@ class Actions:
 
         """
         id = 16539
-        name = {'Art of War', '破阵法'}
+        name = {"Art of War", "破阵法"}
 
     class Biolysis(ActionBase):
         """
@@ -222,7 +222,7 @@ class Actions:
         2039, 蛊毒法, Biolysis, 自身所受的体力恢复效果降低
         """
         id = 16540
-        name = {'Biolysis', '蛊毒法'}
+        name = {"Biolysis", "蛊毒法"}
 
     class BroilIii(ActionBase):
         """
@@ -230,7 +230,7 @@ class Actions:
 
         """
         id = 16541
-        name = {'Broil III', '死炎法'}
+        name = {"Broil III", "死炎法"}
 
     class Recitation(ActionBase):
         """
@@ -239,7 +239,7 @@ class Actions:
         1896, 秘策, Recitation, 下一次发动的鼓舞激励之策、士气高扬之策、不屈不挠之策、深谋远虑之策，无需消耗魔力和以太超流，并且必定暴击
         """
         id = 16542
-        name = {'Recitation', '秘策'}
+        name = {"Recitation", "秘策"}
 
     class FeyBlessing(ActionBase):
         """
@@ -247,7 +247,7 @@ class Actions:
 
         """
         id = 16543
-        name = {'Fey Blessing', '异想的祥光'}
+        name = {"Fey Blessing", "异想的祥光"}
 
     class FeyBlessing(ActionBase):
         """
@@ -255,7 +255,7 @@ class Actions:
 
         """
         id = 16544
-        name = {'Fey Blessing', '异想的祥光'}
+        name = {"Fey Blessing", "异想的祥光"}
 
     class SummonSeraph(ActionBase):
         """
@@ -263,7 +263,7 @@ class Actions:
 
         """
         id = 16545
-        name = {'Summon Seraph', '炽天召唤'}
+        name = {"Summon Seraph", "炽天召唤"}
 
     class Consolation(ActionBase):
         """
@@ -271,7 +271,7 @@ class Actions:
 
         """
         id = 16546
-        name = {'Consolation', '慰藉'}
+        name = {"Consolation", "慰藉"}
 
     class Consolation(ActionBase):
         """
@@ -279,7 +279,7 @@ class Actions:
 
         """
         id = 16547
-        name = {'Consolation', '慰藉'}
+        name = {"Consolation", "慰藉"}
 
     class SeraphicVeil(ActionBase):
         """
@@ -289,7 +289,7 @@ class Actions:
         2040, 炽天的幕帘, Seraphic Veil, 抵消一定伤害
         """
         id = 16548
-        name = {'Seraphic Veil', '炽天的幕帘'}
+        name = {"Seraphic Veil", "炽天的幕帘"}
 
     class AngelsWhisper(ActionBase):
         """
@@ -298,7 +298,7 @@ class Actions:
         1874, 天使的低语, Angel's Whisper, 体力会随时间逐渐恢复
         """
         id = 16550
-        name = {'Angel's Whisper', '天使的低语'}
+        name = {"Angel's Whisper", "天使的低语"}
 
     class SeraphicIllumination(ActionBase):
         """
@@ -307,7 +307,7 @@ class Actions:
         1875, 炽天的幻光, Seraphic Illumination, 发动治疗魔法的治疗量提高，且受到魔法攻击的伤害减少
         """
         id = 16551
-        name = {'Seraphic Illumination', '炽天的幻光'}
+        name = {"Seraphic Illumination", "炽天的幻光"}
 
     class SummonEos(ActionBase):
         """
@@ -315,7 +315,7 @@ class Actions:
 
         """
         id = 17215
-        name = {'Summon Eos', '朝日召唤'}
+        name = {"Summon Eos", "朝日召唤"}
 
     class SummonSelene(ActionBase):
         """
@@ -323,7 +323,7 @@ class Actions:
 
         """
         id = 17216
-        name = {'Summon Selene', '夕月召唤'}
+        name = {"Summon Selene", "夕月召唤"}
 
     class Bio(ActionBase):
         """
@@ -332,7 +332,7 @@ class Actions:
         179, 毒菌, Bio, 体力逐渐减少
         """
         id = 17864
-        name = {'Bio', '毒菌'}
+        name = {"Bio", "毒菌"}
 
     class BioIi(ActionBase):
         """
@@ -341,7 +341,7 @@ class Actions:
         189, 猛毒菌, Bio II, 体力逐渐减少
         """
         id = 17865
-        name = {'Bio II', '猛毒菌'}
+        name = {"Bio II", "猛毒菌"}
 
     class Ruin(ActionBase):
         """
@@ -349,7 +349,7 @@ class Actions:
 
         """
         id = 17869
-        name = {'Ruin', '毁灭'}
+        name = {"Ruin", "毁灭"}
 
     class RuinIi(ActionBase):
         """
@@ -357,4 +357,4 @@ class Actions:
 
         """
         id = 17870
-        name = {'Ruin II', '毁坏'}
+        name = {"Ruin II", "毁坏"}

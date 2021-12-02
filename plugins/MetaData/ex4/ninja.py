@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 2240
-        name = {'Spinning Edge', '双刃旋'}
+        name = {"Spinning Edge", "双刃旋"}
 
     class ShadeShift(ActionBase):
         """
@@ -19,7 +19,7 @@ class Actions:
         2011, 残影, Shade Shift, 抵消一定伤害
         """
         id = 2241
-        name = {'Shade Shift', '残影'}
+        name = {"Shade Shift", "残影"}
 
     class GustSlash(ActionBase):
         """
@@ -27,7 +27,7 @@ class Actions:
 
         """
         id = 2242
-        name = {'Gust Slash', '绝风'}
+        name = {"Gust Slash", "绝风"}
         combo_action = 2240
 
     class Hide(ActionBase):
@@ -42,7 +42,7 @@ class Actions:
         1952, 隐遁, Hide, 隐遁自己的身形，移动速度降低
         """
         id = 2245
-        name = {'Hide', '隐遁'}
+        name = {"Hide", "隐遁"}
 
     class Assassinate(ActionBase):
         """
@@ -51,7 +51,7 @@ class Actions:
         1314, 断绝, Assassinated, 受到持续伤害，同时受到攻击的伤害增加
         """
         id = 2246
-        name = {'Assassinate', '断绝'}
+        name = {"Assassinate", "断绝"}
 
     class ThrowingDagger(ActionBase):
         """
@@ -59,7 +59,7 @@ class Actions:
 
         """
         id = 2247
-        name = {'Throwing Dagger', '飞刀'}
+        name = {"Throwing Dagger", "飞刀"}
 
     class Mug(ActionBase):
         """
@@ -67,7 +67,7 @@ class Actions:
 
         """
         id = 2248
-        name = {'Mug', '夺取'}
+        name = {"Mug", "夺取"}
 
     class DeathBlossom(ActionBase):
         """
@@ -75,7 +75,7 @@ class Actions:
 
         """
         id = 2254
-        name = {'Death Blossom', '血雨飞花'}
+        name = {"Death Blossom", "血雨飞花"}
 
     class AeolianEdge(ActionBase):
         """
@@ -83,7 +83,7 @@ class Actions:
 
         """
         id = 2255
-        name = {'Aeolian Edge', '旋风刃'}
+        name = {"Aeolian Edge", "旋风刃"}
         combo_action = 2242
 
     class ShadowFang(ActionBase):
@@ -94,7 +94,7 @@ class Actions:
         1313, 影牙, Shadow Fang, 受到持续伤害，持续时间中受到为自己附加此状态的玩家的攻击时伤害增加
         """
         id = 2257
-        name = {'Shadow Fang', '影牙'}
+        name = {"Shadow Fang", "影牙"}
 
     class TrickAttack(ActionBase):
         """
@@ -103,7 +103,7 @@ class Actions:
         2014, 攻其不备, Trick Attack, 受到攻击的伤害增加
         """
         id = 2258
-        name = {'Trick Attack', '攻其不备'}
+        name = {"Trick Attack", "攻其不备"}
 
     class Ten(ActionBase):
         """
@@ -111,7 +111,7 @@ class Actions:
 
         """
         id = 2259
-        name = {'Ten', '天之印'}
+        name = {"Ten", "天之印"}
 
     class Ninjutsu(ActionBase):
         """
@@ -119,7 +119,7 @@ class Actions:
 
         """
         id = 2260
-        name = {'Ninjutsu', '忍术'}
+        name = {"Ninjutsu", "忍术"}
 
     class Chi(ActionBase):
         """
@@ -127,7 +127,7 @@ class Actions:
 
         """
         id = 2261
-        name = {'Chi', '地之印'}
+        name = {"Chi", "地之印"}
 
     class Shukuchi(ActionBase):
         """
@@ -135,7 +135,7 @@ class Actions:
 
         """
         id = 2262
-        name = {'Shukuchi', '缩地'}
+        name = {"Shukuchi", "缩地"}
 
     class Jin(ActionBase):
         """
@@ -143,7 +143,7 @@ class Actions:
 
         """
         id = 2263
-        name = {'Jin', '人之印'}
+        name = {"Jin", "人之印"}
 
     class Kassatsu(ActionBase):
         """
@@ -152,7 +152,7 @@ class Actions:
         497, 生杀予夺, Kassatsu, 可以发动忍术并且忍术的威力提升
         """
         id = 2264
-        name = {'Kassatsu', '生杀予夺'}
+        name = {"Kassatsu", "生杀予夺"}
 
     class FumaShuriken(ActionBase):
         """
@@ -160,7 +160,7 @@ class Actions:
 
         """
         id = 2265
-        name = {'Fuma Shuriken', '风魔手里剑'}
+        name = {"Fuma Shuriken", "风魔手里剑"}
 
     class Katon(ActionBase):
         """
@@ -168,7 +168,7 @@ class Actions:
 
         """
         id = 2266
-        name = {'Katon', '火遁之术'}
+        name = {"Katon", "火遁之术"}
 
     class Raiton(ActionBase):
         """
@@ -176,7 +176,7 @@ class Actions:
 
         """
         id = 2267
-        name = {'Raiton', '雷遁之术'}
+        name = {"Raiton", "雷遁之术"}
 
     class Hyoton(ActionBase):
         """
@@ -184,7 +184,7 @@ class Actions:
 
         """
         id = 2268
-        name = {'Hyoton', '冰遁之术'}
+        name = {"Hyoton", "冰遁之术"}
 
     class Huton(ActionBase):
         """
@@ -193,7 +193,7 @@ class Actions:
         500, 风遁之术, Huton, 自动攻击间隔缩短，同时战技的复唱时间也会缩短
         """
         id = 2269
-        name = {'Huton', '风遁之术'}
+        name = {"Huton", "风遁之术"}
 
     class Doton(ActionBase):
         """
@@ -202,7 +202,7 @@ class Actions:
         501, 土遁之术, Doton, 产生土属性攻击区域
         """
         id = 2270
-        name = {'Doton', '土遁之术'}
+        name = {"Doton", "土遁之术"}
 
     class Suiton(ActionBase):
         """
@@ -211,7 +211,7 @@ class Actions:
         507, 水遁之术, Suiton, 不用隐遁身形也能够发动需要在隐遁状态下发动的技能
         """
         id = 2271
-        name = {'Suiton', '水遁之术'}
+        name = {"Suiton", "水遁之术"}
 
     class RabbitMedium(ActionBase):
         """
@@ -219,7 +219,7 @@ class Actions:
 
         """
         id = 2272
-        name = {'Rabbit Medium', '通灵之术'}
+        name = {"Rabbit Medium", "通灵之术"}
 
     class ArmorCrush(ActionBase):
         """
@@ -227,7 +227,7 @@ class Actions:
 
         """
         id = 3563
-        name = {'Armor Crush', '强甲破点突'}
+        name = {"Armor Crush", "强甲破点突"}
         combo_action = 2242
 
     class DreamWithinADream(ActionBase):
@@ -236,7 +236,7 @@ class Actions:
 
         """
         id = 3566
-        name = {'Dream Within a Dream', '梦幻三段'}
+        name = {"Dream Within a Dream", "梦幻三段"}
 
     class HellfrogMedium(ActionBase):
         """
@@ -244,7 +244,7 @@ class Actions:
 
         """
         id = 7401
-        name = {'Hellfrog Medium', '通灵之术·大虾蟆'}
+        name = {"Hellfrog Medium", "通灵之术·大虾蟆"}
 
     class Bhavacakra(ActionBase):
         """
@@ -252,7 +252,7 @@ class Actions:
 
         """
         id = 7402
-        name = {'Bhavacakra', '六道轮回'}
+        name = {"Bhavacakra", "六道轮回"}
 
     class TenChiJin(ActionBase):
         """
@@ -261,7 +261,7 @@ class Actions:
         1186, 天地人, Ten Chi Jin, 可以连发忍术
         """
         id = 7403
-        name = {'Ten Chi Jin', '天地人'}
+        name = {"Ten Chi Jin", "天地人"}
 
     class HakkeMujinsatsu(ActionBase):
         """
@@ -269,7 +269,7 @@ class Actions:
 
         """
         id = 16488
-        name = {'Hakke Mujinsatsu', '八卦无刃杀'}
+        name = {"Hakke Mujinsatsu", "八卦无刃杀"}
         combo_action = 2254
 
     class Meisui(ActionBase):
@@ -278,7 +278,7 @@ class Actions:
 
         """
         id = 16489
-        name = {'Meisui', '命水'}
+        name = {"Meisui", "命水"}
 
     class GokaMekkyaku(ActionBase):
         """
@@ -286,7 +286,7 @@ class Actions:
 
         """
         id = 16491
-        name = {'Goka Mekkyaku', '劫火灭却之术'}
+        name = {"Goka Mekkyaku", "劫火灭却之术"}
 
     class HyoshoRanryu(ActionBase):
         """
@@ -294,7 +294,7 @@ class Actions:
 
         """
         id = 16492
-        name = {'Hyosho Ranryu', '冰晶乱流之术'}
+        name = {"Hyosho Ranryu", "冰晶乱流之术"}
 
     class Bunshin(ActionBase):
         """
@@ -304,7 +304,7 @@ class Actions:
         2010, 分身之术, Bunshin, 自身发动战技后分身会跟着进行攻击
         """
         id = 16493
-        name = {'Bunshin', '分身之术'}
+        name = {"Bunshin", "分身之术"}
 
     class Ten(ActionBase):
         """
@@ -312,7 +312,7 @@ class Actions:
 
         """
         id = 18805
-        name = {'Ten', '天之印'}
+        name = {"Ten", "天之印"}
 
     class Chi(ActionBase):
         """
@@ -320,7 +320,7 @@ class Actions:
 
         """
         id = 18806
-        name = {'Chi', '地之印'}
+        name = {"Chi", "地之印"}
 
     class Jin(ActionBase):
         """
@@ -328,7 +328,7 @@ class Actions:
 
         """
         id = 18807
-        name = {'Jin', '人之印'}
+        name = {"Jin", "人之印"}
 
     class FumaShuriken(ActionBase):
         """
@@ -336,7 +336,7 @@ class Actions:
 
         """
         id = 18873
-        name = {'Fuma Shuriken', '风魔手里剑'}
+        name = {"Fuma Shuriken", "风魔手里剑"}
 
     class FumaShuriken(ActionBase):
         """
@@ -344,7 +344,7 @@ class Actions:
 
         """
         id = 18874
-        name = {'Fuma Shuriken', '风魔手里剑'}
+        name = {"Fuma Shuriken", "风魔手里剑"}
 
     class FumaShuriken(ActionBase):
         """
@@ -352,7 +352,7 @@ class Actions:
 
         """
         id = 18875
-        name = {'Fuma Shuriken', '风魔手里剑'}
+        name = {"Fuma Shuriken", "风魔手里剑"}
 
     class Katon(ActionBase):
         """
@@ -360,7 +360,7 @@ class Actions:
 
         """
         id = 18876
-        name = {'Katon', '火遁之术'}
+        name = {"Katon", "火遁之术"}
 
     class Raiton(ActionBase):
         """
@@ -368,7 +368,7 @@ class Actions:
 
         """
         id = 18877
-        name = {'Raiton', '雷遁之术'}
+        name = {"Raiton", "雷遁之术"}
 
     class Hyoton(ActionBase):
         """
@@ -376,7 +376,7 @@ class Actions:
 
         """
         id = 18878
-        name = {'Hyoton', '冰遁之术'}
+        name = {"Hyoton", "冰遁之术"}
 
     class Huton(ActionBase):
         """
@@ -385,7 +385,7 @@ class Actions:
         500, 风遁之术, Huton, 自动攻击间隔缩短，同时战技的复唱时间也会缩短
         """
         id = 18879
-        name = {'Huton', '风遁之术'}
+        name = {"Huton", "风遁之术"}
 
     class Doton(ActionBase):
         """
@@ -394,7 +394,7 @@ class Actions:
         501, 土遁之术, Doton, 产生土属性攻击区域
         """
         id = 18880
-        name = {'Doton', '土遁之术'}
+        name = {"Doton", "土遁之术"}
 
     class Suiton(ActionBase):
         """
@@ -403,4 +403,4 @@ class Actions:
         507, 水遁之术, Suiton, 不用隐遁身形也能够发动需要在隐遁状态下发动的技能
         """
         id = 18881
-        name = {'Suiton', '水遁之术'}
+        name = {"Suiton", "水遁之术"}

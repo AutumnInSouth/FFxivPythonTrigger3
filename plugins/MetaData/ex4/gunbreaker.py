@@ -9,7 +9,7 @@ class Actions:
 
         """
         id = 16137
-        name = {'Keen Edge', '利刃斩'}
+        name = {"Keen Edge", "利刃斩"}
 
     class NoMercy(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
         1831, 无情, No Mercy, 攻击所造成的伤害提高
         """
         id = 16138
-        name = {'No Mercy', '无情'}
+        name = {"No Mercy", "无情"}
 
     class BrutalShell(ActionBase):
         """
@@ -28,7 +28,7 @@ class Actions:
         1997, 残暴弹, Brutal Shell, 抵消一定伤害
         """
         id = 16139
-        name = {'Brutal Shell', '残暴弹'}
+        name = {"Brutal Shell", "残暴弹"}
         combo_action = 16137
 
     class Camouflage(ActionBase):
@@ -38,7 +38,7 @@ class Actions:
         1832, 伪装, Camouflage, 招架发动率提高，减轻所受到的伤害
         """
         id = 16140
-        name = {'Camouflage', '伪装'}
+        name = {"Camouflage", "伪装"}
 
     class DemonSlice(ActionBase):
         """
@@ -46,7 +46,7 @@ class Actions:
 
         """
         id = 16141
-        name = {'Demon Slice', '恶魔切'}
+        name = {"Demon Slice", "恶魔切"}
 
     class RoyalGuard(ActionBase):
         """
@@ -56,7 +56,7 @@ class Actions:
         1833, 王室亲卫, Royal Guard, 自身仇恨提高
         """
         id = 16142
-        name = {'Royal Guard', '王室亲卫'}
+        name = {"Royal Guard", "王室亲卫"}
 
     class LightningShot(ActionBase):
         """
@@ -65,7 +65,7 @@ class Actions:
         2392, 闪雷弹, Lightning Shot, 下次发动战技造成的伤害提高
         """
         id = 16143
-        name = {'Lightning Shot', '闪雷弹'}
+        name = {"Lightning Shot", "闪雷弹"}
 
     class DangerZone(ActionBase):
         """
@@ -73,7 +73,7 @@ class Actions:
 
         """
         id = 16144
-        name = {'Danger Zone', '危险领域'}
+        name = {"Danger Zone", "危险领域"}
 
     class SolidBarrel(ActionBase):
         """
@@ -81,7 +81,7 @@ class Actions:
 
         """
         id = 16145
-        name = {'Solid Barrel', '迅连斩'}
+        name = {"Solid Barrel", "迅连斩"}
         combo_action = 16139
 
     class GnashingFang(ActionBase):
@@ -90,7 +90,7 @@ class Actions:
 
         """
         id = 16146
-        name = {'Gnashing Fang', '烈牙'}
+        name = {"Gnashing Fang", "烈牙"}
 
     class SavageClaw(ActionBase):
         """
@@ -98,7 +98,7 @@ class Actions:
 
         """
         id = 16147
-        name = {'Savage Claw', '猛兽爪'}
+        name = {"Savage Claw", "猛兽爪"}
         combo_action = 16146
 
     class Nebula(ActionBase):
@@ -108,7 +108,7 @@ class Actions:
         1834, 星云, Nebula, 减轻所受到的伤害
         """
         id = 16148
-        name = {'Nebula', '星云'}
+        name = {"Nebula", "星云"}
 
     class DemonSlaughter(ActionBase):
         """
@@ -116,7 +116,7 @@ class Actions:
 
         """
         id = 16149
-        name = {'Demon Slaughter', '恶魔杀'}
+        name = {"Demon Slaughter", "恶魔杀"}
         combo_action = 16141
 
     class WickedTalon(ActionBase):
@@ -125,7 +125,7 @@ class Actions:
 
         """
         id = 16150
-        name = {'Wicked Talon', '凶禽爪'}
+        name = {"Wicked Talon", "凶禽爪"}
         combo_action = 16147
 
     class Aurora(ActionBase):
@@ -136,7 +136,7 @@ class Actions:
         2065, 极光, Aurora, 体力会随时间逐渐恢复
         """
         id = 16151
-        name = {'Aurora', '极光'}
+        name = {"Aurora", "极光"}
 
     class Superbolide(ActionBase):
         """
@@ -145,7 +145,7 @@ class Actions:
         1836, 超火流星, Superbolide, 除特定攻击之外其他所有攻击均无效化
         """
         id = 16152
-        name = {'Superbolide', '超火流星'}
+        name = {"Superbolide", "超火流星"}
 
     class SonicBreak(ActionBase):
         """
@@ -154,7 +154,7 @@ class Actions:
         1837, 音速破, Sonic Break, 体力逐渐减少
         """
         id = 16153
-        name = {'Sonic Break', '音速破'}
+        name = {"Sonic Break", "音速破"}
 
     class RoughDivide(ActionBase):
         """
@@ -162,7 +162,7 @@ class Actions:
 
         """
         id = 16154
-        name = {'Rough Divide', '粗分斩'}
+        name = {"Rough Divide", "粗分斩"}
 
     class Continuation(ActionBase):
         """
@@ -170,7 +170,7 @@ class Actions:
 
         """
         id = 16155
-        name = {'Continuation', '续剑'}
+        name = {"Continuation", "续剑"}
 
     class JugularRip(ActionBase):
         """
@@ -178,7 +178,7 @@ class Actions:
 
         """
         id = 16156
-        name = {'Jugular Rip', '撕喉'}
+        name = {"Jugular Rip", "撕喉"}
 
     class AbdomenTear(ActionBase):
         """
@@ -186,7 +186,7 @@ class Actions:
 
         """
         id = 16157
-        name = {'Abdomen Tear', '裂膛'}
+        name = {"Abdomen Tear", "裂膛"}
 
     class EyeGouge(ActionBase):
         """
@@ -194,7 +194,7 @@ class Actions:
 
         """
         id = 16158
-        name = {'Eye Gouge', '穿目'}
+        name = {"Eye Gouge", "穿目"}
 
     class BowShock(ActionBase):
         """
@@ -203,7 +203,7 @@ class Actions:
         1838, 弓形冲波, Bow Shock, 体力逐渐减少
         """
         id = 16159
-        name = {'Bow Shock', '弓形冲波'}
+        name = {"Bow Shock", "弓形冲波"}
 
     class HeartOfLight(ActionBase):
         """
@@ -213,7 +213,7 @@ class Actions:
         2000, 光之心, Heart of Light, 受到攻击的伤害减少
         """
         id = 16160
-        name = {'Heart of Light', '光之心'}
+        name = {"Heart of Light", "光之心"}
 
     class HeartOfStone(ActionBase):
         """
@@ -222,7 +222,7 @@ class Actions:
         1840, 石之心, Heart of Stone, 减轻所受到的伤害
         """
         id = 16161
-        name = {'Heart of Stone', '石之心'}
+        name = {"Heart of Stone", "石之心"}
 
     class BurstStrike(ActionBase):
         """
@@ -230,7 +230,7 @@ class Actions:
 
         """
         id = 16162
-        name = {'Burst Strike', '爆发击'}
+        name = {"Burst Strike", "爆发击"}
 
     class FatedCircle(ActionBase):
         """
@@ -238,7 +238,7 @@ class Actions:
 
         """
         id = 16163
-        name = {'Fated Circle', '命运之环'}
+        name = {"Fated Circle", "命运之环"}
 
     class Bloodfest(ActionBase):
         """
@@ -246,7 +246,7 @@ class Actions:
 
         """
         id = 16164
-        name = {'Bloodfest', '血壤'}
+        name = {"Bloodfest", "血壤"}
 
     class BlastingZone(ActionBase):
         """
@@ -254,4 +254,4 @@ class Actions:
 
         """
         id = 16165
-        name = {'Blasting Zone', '爆破领域'}
+        name = {"Blasting Zone", "爆破领域"}

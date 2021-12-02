@@ -10,7 +10,7 @@ class Actions:
         826, 抽卡, Card Drawn, 抽出一张卡片
         """
         id = 3590
-        name = {'Draw', '抽卡'}
+        name = {"Draw", "抽卡"}
 
     class Redraw(ActionBase):
         """
@@ -18,7 +18,7 @@ class Actions:
 
         """
         id = 3593
-        name = {'Redraw', '重抽'}
+        name = {"Redraw", "重抽"}
 
     class Benefic(ActionBase):
         """
@@ -26,7 +26,7 @@ class Actions:
 
         """
         id = 3594
-        name = {'Benefic', '吉星'}
+        name = {"Benefic", "吉星"}
 
     class AspectedBenefic(ActionBase):
         """
@@ -35,7 +35,7 @@ class Actions:
         835, 吉星相位, Aspected Benefic, 体力会随时间逐渐恢复
         """
         id = 3595
-        name = {'Aspected Benefic', '吉星相位'}
+        name = {"Aspected Benefic", "吉星相位"}
 
     class Malefic(ActionBase):
         """
@@ -43,7 +43,7 @@ class Actions:
 
         """
         id = 3596
-        name = {'Malefic', '凶星'}
+        name = {"Malefic", "凶星"}
 
     class MaleficIi(ActionBase):
         """
@@ -51,7 +51,7 @@ class Actions:
 
         """
         id = 3598
-        name = {'Malefic II', '灾星'}
+        name = {"Malefic II", "灾星"}
 
     class Combust(ActionBase):
         """
@@ -60,7 +60,7 @@ class Actions:
         838, 烧灼, Combust, 体力逐渐减少
         """
         id = 3599
-        name = {'Combust', '烧灼'}
+        name = {"Combust", "烧灼"}
 
     class Helios(ActionBase):
         """
@@ -68,7 +68,7 @@ class Actions:
 
         """
         id = 3600
-        name = {'Helios', '阳星'}
+        name = {"Helios", "阳星"}
 
     class AspectedHelios(ActionBase):
         """
@@ -77,7 +77,7 @@ class Actions:
         836, 阳星相位, Aspected Helios, 体力会随时间逐渐恢复
         """
         id = 3601
-        name = {'Aspected Helios', '阳星相位'}
+        name = {"Aspected Helios", "阳星相位"}
 
     class Ascend(ActionBase):
         """
@@ -85,7 +85,7 @@ class Actions:
 
         """
         id = 3603
-        name = {'Ascend', '生辰'}
+        name = {"Ascend", "生辰"}
 
     class DiurnalSect(ActionBase):
         """
@@ -94,7 +94,7 @@ class Actions:
         839, 白昼学派, Diurnal Sect, 自身的一部分治疗技能会附加持续恢复体力效果
         """
         id = 3604
-        name = {'Diurnal Sect', '白昼学派'}
+        name = {"Diurnal Sect", "白昼学派"}
 
     class NocturnalSect(ActionBase):
         """
@@ -103,7 +103,7 @@ class Actions:
         840, 黑夜学派, Nocturnal Sect, 自身的一部分治疗技能会附加能够抵消一定伤害的防护罩
         """
         id = 3605
-        name = {'Nocturnal Sect', '黑夜学派'}
+        name = {"Nocturnal Sect", "黑夜学派"}
 
     class Lightspeed(ActionBase):
         """
@@ -113,7 +113,7 @@ class Actions:
         1403, 光速, Lightspeed, 咏唱魔法不需要咏唱时间，同时消耗的魔力减半
         """
         id = 3606
-        name = {'Lightspeed', '光速'}
+        name = {"Lightspeed", "光速"}
 
     class CombustIi(ActionBase):
         """
@@ -122,7 +122,7 @@ class Actions:
         843, 炽灼, Combust II, 体力逐渐减少
         """
         id = 3608
-        name = {'Combust II', '炽灼'}
+        name = {"Combust II", "炽灼"}
 
     class BeneficIi(ActionBase):
         """
@@ -130,7 +130,7 @@ class Actions:
 
         """
         id = 3610
-        name = {'Benefic II', '福星'}
+        name = {"Benefic II", "福星"}
 
     class Synastry(ActionBase):
         """
@@ -142,7 +142,7 @@ class Actions:
         1337, 星位合图, Synastry, 附加此效果的占星术士对某一队员发动单体治疗魔法时，身附此效果的队员会恢复额外的体力
         """
         id = 3612
-        name = {'Synastry', '星位合图'}
+        name = {"Synastry", "星位合图"}
 
     class CollectiveUnconscious(ActionBase):
         """
@@ -156,7 +156,7 @@ class Actions:
         2283, 命运之轮, Collective Unconscious, 产生减轻伤害的防护区域
         """
         id = 3613
-        name = {'Collective Unconscious', '命运之轮'}
+        name = {"Collective Unconscious", "命运之轮"}
 
     class EssentialDignity(ActionBase):
         """
@@ -164,7 +164,7 @@ class Actions:
 
         """
         id = 3614
-        name = {'Essential Dignity', '先天禀赋'}
+        name = {"Essential Dignity", "先天禀赋"}
 
     class Gravity(ActionBase):
         """
@@ -172,7 +172,7 @@ class Actions:
 
         """
         id = 3615
-        name = {'Gravity', '重力'}
+        name = {"Gravity", "重力"}
 
     class TheBalance(ActionBase):
         """
@@ -183,7 +183,7 @@ class Actions:
         1882, 太阳神之衡, The Balance, 攻击所造成的伤害提高
         """
         id = 4401
-        name = {'the Balance', '太阳神之衡'}
+        name = {"the Balance", "太阳神之衡"}
 
     class TheArrow(ActionBase):
         """
@@ -193,7 +193,7 @@ class Actions:
         1884, 放浪神之箭, The Arrow, 攻击所造成的伤害提高
         """
         id = 4402
-        name = {'the Arrow', '放浪神之箭'}
+        name = {"the Arrow", "放浪神之箭"}
 
     class TheSpear(ActionBase):
         """
@@ -203,7 +203,7 @@ class Actions:
         1885, 战争神之枪, The Spear, 攻击所造成的伤害提高
         """
         id = 4403
-        name = {'the Spear', '战争神之枪'}
+        name = {"the Spear", "战争神之枪"}
 
     class TheBole(ActionBase):
         """
@@ -214,7 +214,7 @@ class Actions:
         1883, 世界树之干, The Bole, 攻击所造成的伤害提高
         """
         id = 4404
-        name = {'the Bole', '世界树之干'}
+        name = {"the Bole", "世界树之干"}
 
     class TheEwer(ActionBase):
         """
@@ -225,7 +225,7 @@ class Actions:
         1886, 河流神之瓶, The Ewer, 攻击所造成的伤害提高
         """
         id = 4405
-        name = {'the Ewer', '河流神之瓶'}
+        name = {"the Ewer", "河流神之瓶"}
 
     class TheSpire(ActionBase):
         """
@@ -236,7 +236,7 @@ class Actions:
         1887, 建筑神之塔, The Spire, 攻击所造成的伤害提高
         """
         id = 4406
-        name = {'the Spire', '建筑神之塔'}
+        name = {"the Spire", "建筑神之塔"}
 
     class EarthlyStar(ActionBase):
         """
@@ -244,7 +244,7 @@ class Actions:
 
         """
         id = 7439
-        name = {'Earthly Star', '地星'}
+        name = {"Earthly Star", "地星"}
 
     class MaleficIii(ActionBase):
         """
@@ -252,7 +252,7 @@ class Actions:
 
         """
         id = 7442
-        name = {'Malefic III', '祸星'}
+        name = {"Malefic III", "祸星"}
 
     class MinorArcana(ActionBase):
         """
@@ -260,7 +260,7 @@ class Actions:
 
         """
         id = 7443
-        name = {'Minor Arcana', '小奥秘卡'}
+        name = {"Minor Arcana", "小奥秘卡"}
 
     class LordOfCrowns(ActionBase):
         """
@@ -270,7 +270,7 @@ class Actions:
         1876, 王冠之领主, Lord of Crowns, 攻击所造成的伤害提高
         """
         id = 7444
-        name = {'Lord of Crowns', '王冠之领主'}
+        name = {"Lord of Crowns", "王冠之领主"}
 
     class LadyOfCrowns(ActionBase):
         """
@@ -280,7 +280,7 @@ class Actions:
         1877, 王冠之贵妇, Lady of Crowns, 攻击所造成的伤害提高
         """
         id = 7445
-        name = {'Lady of Crowns', '王冠之贵妇'}
+        name = {"Lady of Crowns", "王冠之贵妇"}
 
     class SleeveDraw(ActionBase):
         """
@@ -289,7 +289,7 @@ class Actions:
         1926, 袖内抽卡, Sleeve Draw, 使用出卡、小奥秘卡或将奥秘卡废弃后会立即抽取一张奥秘卡
         """
         id = 7448
-        name = {'Sleeve Draw', '袖内抽卡'}
+        name = {"Sleeve Draw", "袖内抽卡"}
 
     class StellarDetonation(ActionBase):
         """
@@ -297,7 +297,7 @@ class Actions:
 
         """
         id = 8324
-        name = {'Stellar Detonation', '星体爆轰'}
+        name = {"Stellar Detonation", "星体爆轰"}
 
     class Undraw(ActionBase):
         """
@@ -305,7 +305,7 @@ class Actions:
 
         """
         id = 9629
-        name = {'Undraw', '奥秘卡废弃'}
+        name = {"Undraw", "奥秘卡废弃"}
 
     class Divination(ActionBase):
         """
@@ -315,7 +315,7 @@ class Actions:
         2034, 占卜, Divination, 攻击所造成的伤害提升 受到攻击的伤害减少
         """
         id = 16552
-        name = {'Divination', '占卜'}
+        name = {"Divination", "占卜"}
 
     class CelestialOpposition(ActionBase):
         """
@@ -323,7 +323,7 @@ class Actions:
 
         """
         id = 16553
-        name = {'Celestial Opposition', '天星冲日'}
+        name = {"Celestial Opposition", "天星冲日"}
 
     class CombustIii(ActionBase):
         """
@@ -333,7 +333,7 @@ class Actions:
         2041, 焚灼, Combust III, 发动攻击所造成的伤害及自身发动的体力恢复效果降低
         """
         id = 16554
-        name = {'Combust III', '焚灼'}
+        name = {"Combust III", "焚灼"}
 
     class MaleficIv(ActionBase):
         """
@@ -341,7 +341,7 @@ class Actions:
 
         """
         id = 16555
-        name = {'Malefic IV', '煞星'}
+        name = {"Malefic IV", "煞星"}
 
     class CelestialIntersection(ActionBase):
         """
@@ -349,7 +349,7 @@ class Actions:
 
         """
         id = 16556
-        name = {'Celestial Intersection', '天星交错'}
+        name = {"Celestial Intersection", "天星交错"}
 
     class Horoscope(ActionBase):
         """
@@ -358,7 +358,7 @@ class Actions:
         1890, 天宫图, Horoscope, 可以受到天宫图带来的治疗效果
         """
         id = 16557
-        name = {'Horoscope', '天宫图'}
+        name = {"Horoscope", "天宫图"}
 
     class Horoscope(ActionBase):
         """
@@ -367,7 +367,7 @@ class Actions:
         1890, 天宫图, Horoscope, 可以受到天宫图带来的治疗效果
         """
         id = 16558
-        name = {'Horoscope', '天宫图'}
+        name = {"Horoscope", "天宫图"}
 
     class NeutralSect(ActionBase):
         """
@@ -377,7 +377,7 @@ class Actions:
         2044, 中间学派, Neutral Sect, 魔法的咏唱时间和复唱时间缩短
         """
         id = 16559
-        name = {'Neutral Sect', '中间学派'}
+        name = {"Neutral Sect", "中间学派"}
 
     class Play(ActionBase):
         """
@@ -385,7 +385,7 @@ class Actions:
 
         """
         id = 17055
-        name = {'Play', '出卡'}
+        name = {"Play", "出卡"}
 
     class AspectedBenefic(ActionBase):
         """
@@ -394,7 +394,7 @@ class Actions:
         835, 吉星相位, Aspected Benefic, 体力会随时间逐渐恢复
         """
         id = 17151
-        name = {'Aspected Benefic', '吉星相位'}
+        name = {"Aspected Benefic", "吉星相位"}
 
     class AspectedHelios(ActionBase):
         """
@@ -403,4 +403,4 @@ class Actions:
         836, 阳星相位, Aspected Helios, 体力会随时间逐渐恢复
         """
         id = 17152
-        name = {'Aspected Helios', '阳星相位'}
+        name = {"Aspected Helios", "阳星相位"}

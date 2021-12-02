@@ -29,10 +29,10 @@ for status in status_sheet:
     status_by_name.setdefault(status['Name'], []).append(status)
 
 def to_under_line(s):
-    return re.sub(r'([A-Z]| [a-z])', lambda m: '_' + m.group(0)[-1].lower(), s).replace(' ','')
+    return re.sub(r'([A-Z]|[_ -][a-z])', lambda m: '_' + m.group(0)[-1].lower(), s).replace(' ','')
 
 def to_hump(s):
-    return re.sub(r'[_ ]([a-zA-Z])', lambda m: m.group(1).upper(), s.capitalize()).replace(' ','').replace("'",'').replace(':','')
+    return re.sub(r'[_ -]([a-zA-Z])', lambda m: m.group(1).upper(), s.capitalize()).replace(' ','').replace("'",'').replace(':','')
 
 eng_cj_sheet = realm_eng.game_data.get_sheet('ClassJob')
 for class_job in realm.game_data.get_sheet('ClassJob'):
@@ -71,7 +71,7 @@ class Actions:
                     f.write(f"""
         \"""
         id = {action.key}
-        name = {{'{action_sheet_eng[action.key]['Name']}', '{action['Name']}'}}
+        name = {{"{action_sheet_eng[action.key]['Name']}", "{action['Name']}"}}
 """)
                     if action['Action{Combo}'].key:
                         f.write(f"        combo_action = {action['Action{Combo}'].key}\n")
