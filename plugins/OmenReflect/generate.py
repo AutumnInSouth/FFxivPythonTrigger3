@@ -50,7 +50,8 @@ white_list = {
     11080: 0,  # 禁绝幻想|迦楼罗|11080|烈风刃
     24087: 0, # 扎杜诺尔高原|赫德提特|24087|碎片打击
 }
-realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
+#realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
+realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english)
 action_sheet = realm.game_data.get_sheet('Action')
 import pprint
 
