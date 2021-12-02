@@ -1,6 +1,7 @@
 from . import astrologian, bard, black_mage, blue_mage, dancer, dark_knight
 from . import dragoon, gunbreaker, machinist, monk, ninja, paladin, red_mage
 from . import samurai, scholar, summoner, warrior, white_mage
+from ..base import ActionBase
 
 
 class Action(
@@ -23,3 +24,14 @@ class Action(
     warrior.Actions,
     white_mage.Actions,
 ): pass
+
+
+actions: dict[str, ActionBase] = {}
+
+for k, v in Action.__dict__.items():
+    if isinstance(v, ActionBase):
+        for name in v.name:
+            actions[name] = v
+for action in actions.values():
+    if isinstance(action.combo_action, str):
+        action.combo_action = getattr(Action, action.combo_action).id
