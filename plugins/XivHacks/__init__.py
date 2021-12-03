@@ -39,8 +39,8 @@ hack_zoom = True
 hack_swing_reduce = True
 hack_ninja_stiff = True
 hack_speed = True
-hack_afix = False
-hack_network_moving = False
+hack_afix = True
+hack_network_moving = True
 hack_knock_ani_lock = True
 hack_hit_box = True
 

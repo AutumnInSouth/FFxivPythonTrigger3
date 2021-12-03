@@ -174,6 +174,18 @@ Can only be executed when at least 1 coda is active.
         name = {'Radiant Finale'}
         damage_modify = 1.02  # TODO: 无法获取其他人的量谱数据，无法判断准确数值
 
+    class ShadowbiteReady(StatusBase):
+        id = 3002
+        name = {'Shadowbite Ready'}
+
+    class StraightShotReady(StatusBase):
+        id = 122
+        name = {'Straight Shot Ready', '直线射击预备'}
+
+    class BlastArrowReady(StatusBase):
+        id = 2692
+        name = {'Blast Arrow Ready'}
+
 
 class Actions:
     class HeavyShot(ActionBase):

@@ -94,6 +94,7 @@ class Monitor:
         if self.first_record == 0: self.first_record = time - 1
 
     def get_belongs_to(self, actor: Actor) -> Actor:
+        if not actor: return actor
         owner_id = actor.owner_id
         return actor if not owner_id or owner_id == 0xe0000000 else self.get_actor(owner_id)
 
@@ -116,7 +117,7 @@ class Monitor:
                     to_source = 'to_source' in effect.tags
                     self.effects.append(Effect(
                         occur_time=occur_time,
-                        source_actor=target_actor if to_source and not is_heal else source_actor,
+                        source_actor=target_actor if to_source and not is_heal else None if 'limit_break' in effect.tags else source_actor,
                         target_actor=source_actor if to_source else target_actor,
                         data_id=action_event.action_id,
                         is_cure=is_heal,

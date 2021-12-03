@@ -1,4 +1,4 @@
-from FFxivPythonTrigger import game_language
+from FFxivPythonTrigger import game_ext
 
-if game_language == 'en':
-    pass
+if game_ext == 4:
+    from .bard import BardLogic

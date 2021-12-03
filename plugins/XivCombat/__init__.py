@@ -231,12 +231,15 @@ class XivCombat(PluginBase):
             if (me is None or not me.current_hp or  # 不存在角色、角色已经死亡
                     me.casting_time - me.casting_progress > 0.2  # 正在咏唱
             ):
+                self.logger(1)
                 return default_period
             if not api.skill_queue_is_empty():
+                self.logger(2)
                 return max(api.get_ani_lock(), default_period / 2)  # 队列中存在技能
 
             strategy = self.current_strategy
             if strategy is None:
+                self.logger(3)
                 return default_period
             data = self.get_logic_data()
 

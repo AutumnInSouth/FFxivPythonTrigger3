@@ -118,7 +118,7 @@ print(plugins.XivMemory.skill_queue)
 c19="""
 from pprint import pprint
 from ctypes import *
-print(plugins.XivMemory.coordinate.coordinate_main)
+print(hex(addressof(plugins.XivMemory.actor_table.me)))
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach
@@ -129,8 +129,15 @@ import importlib
 import script.a
 importlib.reload(script.a).main()
 """
-
-t = requests.post("http://127.0.0.1:2020/exec", c21.encode('utf-8')).text
+c22 = """
+import sys
+for m in list(sys.modules.keys()):
+    if m.startswith('FFxivPythonTrigger.meta_data'):
+        del sys.modules[m]
+# from FFxivPythonTrigger.meta_data import *
+# print(actions)
+"""
+t = requests.post("http://127.0.0.1:2019/exec",c22.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])

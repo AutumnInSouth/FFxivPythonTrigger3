@@ -10,7 +10,7 @@ Deals a 20-yalm knockback to all enemies in a cone before you.
         id = 11383
         name = {'鼻息', 'Snort'}
 
-    class 4TonzeWeight(ActionBase):
+    class FourTonzeWeight(ActionBase):
         """
 Drops a 4-tonze weight dealing physical damage at a designated location with a potency of 200 for the first enemy, and 50% less for all remaining enemies.
 Additional Effect: Heavy +40%
@@ -128,7 +128,7 @@ Duration: 3s
         id = 11396
         name = {'Bomb Toss', '投弹'}
 
-    class 1000Needles(ActionBase):
+    class ThousandNeedles(ActionBase):
         """
 Deals a fixed 1,000 points of physical damage which is shared by all enemies around you.
         """
