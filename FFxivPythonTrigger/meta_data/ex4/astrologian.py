@@ -9,6 +9,8 @@ Deals unaspected damage with a potency of 150.
         """
         id = 3596
         name = {'凶星', 'Malefic'}
+        attack_type = magic
+        damage_potency = 150
 
     class Benefic(ActionBase):
         """
@@ -19,6 +21,7 @@ Duration: 15s:):)
         """
         id = 3594
         name = {'Benefic', '吉星'}
+
 
     class Combust(ActionBase):
         """

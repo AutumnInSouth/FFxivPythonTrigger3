@@ -1,4 +1,4 @@
-from FFxivPythonTrigger import game_language
+from FFxivPythonTrigger import game_ext
 
-if game_language != 'chs':
+if game_ext == 4:
     from .ex4 import *

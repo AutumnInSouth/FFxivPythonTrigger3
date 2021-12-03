@@ -3,13 +3,13 @@ from importlib import import_module
 from pathlib import Path
 from traceback import format_exc
 
-from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, plugins, game_language
+from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, plugins, game_ext
 from FFxivPythonTrigger.hook import PluginHook
 
 get_icon_sig = "E8 * * * * 44 8B C0 8B D7 48 8B CB E8 ? ? ? ? 84 C0"
-is_icon_replaceable_sig = "81 F9 ?? ?? ?? ?? 7F 39 81 F9 ?? ?? ?? ??"
+is_icon_replaceable_sig = "81 F9 ? ? ? ? 7F ? 81 F9 ? ? ? ? 0F 8D ? ? ? ? 83 C1 ?"
 
-load_package = 'combos' if game_language == 'chs' else 'combos_ext4'
+load_package = 'combos' if game_ext == 3 else 'combos_ext4'
 
 
 class XivCombo(PluginBase):
@@ -23,7 +23,7 @@ class XivCombo(PluginBase):
         self.OnGetIconHook(self, am.scan_point('get_icon', get_icon_sig))
         self.OnCheckIsIconReplaceableHook(self, am.scan_address('is_icon_replaceable', is_icon_replaceable_sig))
         self.all_combo = {}
-        for f in (Path(__file__).parent / 'combos').glob('*.py'):
+        for f in (Path(__file__).parent / load_package).glob('*.py'):
             if f.stem == '__init__': continue
             module = import_module(f'.{load_package}.{f.stem}', __name__)
             if hasattr(module, 'combos') and isinstance(module.combos, list):

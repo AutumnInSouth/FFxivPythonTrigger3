@@ -1,3 +1,4 @@
+from FFxivPythonTrigger import game_ext
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, EnumStruct
 from ctypes import *
 
@@ -55,18 +56,28 @@ BardSong = EnumStruct(c_ubyte, {
     15: 'minuet',
 }, default='', name="BardSong")
 
-
-class BardGauge(OffsetStruct({
-    'song_milliseconds': (c_ushort, 0),
-    'song_procs': (c_ubyte, 2),
-    'soul_gauge': (c_ubyte, 3),
-    'song_type': (BardSong, 4)
-}, 16)):
-    song_milliseconds: int
-    song_procs: int
-    soul_gauge: int
-    song_type: BardSong
-
+if game_ext==3:
+    class BardGauge(OffsetStruct({
+        'song_milliseconds': (c_ushort, 0),
+        'song_procs': (c_ubyte, 2),
+        'soul_gauge': (c_ubyte, 3),
+        'song_type': (BardSong, 4)
+    }, 16)):
+        song_milliseconds: int
+        song_procs: int
+        soul_gauge: int
+        song_type: BardSong
+else:
+    class BardGauge(OffsetStruct({
+        'song_milliseconds': (c_ushort, 0),
+        'song_procs': (c_ubyte, 4),
+        'soul_gauge': (c_ubyte, 5),
+        'song_type': (BardSong, 6)
+    }, 16)):
+        song_milliseconds: int
+        song_procs: int
+        soul_gauge: int
+        song_type: BardSong
 
 DancerStep = EnumStruct(c_ubyte, {
     0: '',
