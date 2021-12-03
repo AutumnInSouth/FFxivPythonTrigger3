@@ -1,5 +1,11 @@
 from ..base import *
 
+class Status:
+
+    class RadiantAegis(StatusBase):
+        id = 2702
+        name = {'Radiant Aegis', '守护之光'}
+
 
 class Actions:
 
@@ -9,13 +15,15 @@ Deals unaspected damage with a potency of 240.
         """
         id = 163
         name = {'Ruin', '毁灭'}
+        damage_potency = 240
+        attack_type = magic
 
     class SummonCarbuncle(ActionBase):
         """
 Summons Carbuncle to your side.
         """
         id = 25798
-        name = {'Summon Carbuncle'}
+        name = {'Summon Carbuncle', '宝石兽召唤'}
 
     class RadiantAegis(ActionBase):
         """
@@ -27,7 +35,7 @@ Duration: 30s
 >> 2702, Radiant Aegis, A magicked barrier is nullifying damage.
         """
         id = 25799
-        name = {'Radiant Aegis'}
+        name = {'Radiant Aegis', '守护之光'}
 
     class RadiantAegis(ActionBase):
         """
@@ -37,7 +45,7 @@ Duration: 30s
 >> 2702, Radiant Aegis, A magicked barrier is nullifying damage.
         """
         id = 25841
-        name = {'Radiant Aegis'}
+        name = {'Radiant Aegis', '守护之光'}
 
     class Physick(ActionBase):
         """
@@ -55,7 +63,7 @@ Additional Effect: Grants (source.level>=22?(source.job==26?Ruby Arcanum, Topaz 
 Can only be executed in combat and while Carbuncle is summoned.
         """
         id = 25800
-        name = {'Aethercharge'}
+        name = {'Aethercharge', '以太充能'}
 
     class SummonRuby(ActionBase):
         """
@@ -67,7 +75,7 @@ Duration: 30s
 Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
         """
         id = 25802
-        name = {'Summon Ruby'}
+        name = {'Summon Ruby', '红宝石兽召唤'}
 
     class RubyRuin(ActionBase):
         """
@@ -76,7 +84,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25808
-        name = {'Ruby Ruin'}
+        name = {'Ruby Ruin', '红宝石毁灭'}
 
     class Gemshine(ActionBase):
         """
@@ -86,7 +94,7 @@ Earth Attunement Effect: Deal earth damage to a single target
 Wind Attunement Effect: Deal wind damage to a single target
         """
         id = 25883
-        name = {'Gemshine'}
+        name = {'Gemshine', '宝石之光'}
 
     class Fester(ActionBase):
         """
@@ -117,7 +125,7 @@ Duration: 30s
 Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
         """
         id = 25803
-        name = {'Summon Topaz'}
+        name = {'Summon Topaz', '黄宝石兽召唤'}
 
     class TopazRuin(ActionBase):
         """
@@ -126,7 +134,7 @@ Earth Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25809
-        name = {'Topaz Ruin'}
+        name = {'Topaz Ruin', '黄宝石毁灭'}
 
     class SummonEmerald(ActionBase):
         """
@@ -138,7 +146,7 @@ Duration: 30s
 Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
         """
         id = 25804
-        name = {'Summon Emerald'}
+        name = {'Summon Emerald', '绿宝石兽召唤'}
 
     class EmeraldRuin(ActionBase):
         """
@@ -147,7 +155,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25810
-        name = {'Emerald Ruin'}
+        name = {'Emerald Ruin', '绿宝石毁灭'}
 
     class Outburst(ActionBase):
         """
@@ -163,7 +171,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25814
-        name = {'Ruby Outburst'}
+        name = {'Ruby Outburst', '红宝石迸裂'}
 
     class TopazOutburst(ActionBase):
         """
@@ -172,7 +180,7 @@ Earth Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25815
-        name = {'Topaz Outburst'}
+        name = {'Topaz Outburst', '黄宝石迸裂'}
 
     class EmeraldOutburst(ActionBase):
         """
@@ -181,7 +189,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25816
-        name = {'Emerald Outburst'}
+        name = {'Emerald Outburst', '绿宝石迸裂'}
 
     class PreciousBrilliance(ActionBase):
         """
@@ -191,7 +199,7 @@ Earth Attunement Effect: Deal earth damage to a target and all enemies nearby it
 Wind Attunement Effect: Deal wind damage to a target and all enemies nearby it
         """
         id = 25884
-        name = {'Precious Brilliance'}
+        name = {'Precious Brilliance', '宝石之耀'}
 
     class RuinIi(ActionBase):
         """
@@ -212,7 +220,7 @@ Effect of Ifrit's Favor ends upon execution of certain summoner actions.
 :):)Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
         """
         id = 25805
-        name = {'Summon Ifrit'}
+        name = {'Summon Ifrit', '火神召唤'}
 
     class RubyRuinIi(ActionBase):
         """
@@ -221,7 +229,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25811
-        name = {'Ruby Ruin II'}
+        name = {'Ruby Ruin II', '红宝石毁坏'}
 
     class TopazRuinIi(ActionBase):
         """
@@ -230,7 +238,7 @@ Earth Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25812
-        name = {'Topaz Ruin II'}
+        name = {'Topaz Ruin II', '黄宝石毁坏'}
 
     class EmeraldRuinIi(ActionBase):
         """
@@ -239,7 +247,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25813
-        name = {'Emerald Ruin II'}
+        name = {'Emerald Ruin II', '绿宝石毁坏'}
 
     class SummonTitan(ActionBase):
         """
@@ -251,7 +259,7 @@ Duration: 30s
 Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
         """
         id = 25806
-        name = {'Summon Titan'}
+        name = {'Summon Titan', '土神召唤'}
 
     class Painflare(ActionBase):
         """
@@ -273,7 +281,7 @@ Effect of Garuda's Favor ends upon execution of certain summoner actions.
 :):)Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
         """
         id = 25807
-        name = {'Summon Garuda'}
+        name = {'Summon Garuda', '风神召唤'}
 
     class EnergySiphon(ActionBase):
         """
@@ -300,7 +308,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25817
-        name = {'Ruby Ruin III'}
+        name = {'Ruby Ruin III', '红宝石毁荡'}
 
     class TopazRuinIii(ActionBase):
         """
@@ -309,7 +317,7 @@ Earth Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25818
-        name = {'Topaz Ruin III'}
+        name = {'Topaz Ruin III', '黄宝石毁荡'}
 
     class EmeraldRuinIii(ActionBase):
         """
@@ -318,7 +326,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25819
-        name = {'Emerald Ruin III'}
+        name = {'Emerald Ruin III', '绿宝石毁荡'}
 
     class DreadwyrmTrance(ActionBase):
         """
@@ -339,7 +347,7 @@ Can only be executed while in Dreadwyrm Trance.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25820
-        name = {'Astral Impulse'}
+        name = {'Astral Impulse', '星极脉冲'}
 
     class AstralFlare(ActionBase):
         """
@@ -348,7 +356,7 @@ Can only be executed while in Dreadwyrm Trance.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25821
-        name = {'Astral Flare'}
+        name = {'Astral Flare', '星极核爆'}
 
     class Deathflare(ActionBase):
         """
@@ -369,7 +377,7 @@ Titan's Favor Effect: Action changes to Mountain Buster
 Garuda's Favor Effect: Action changes to Slipstream:):)
         """
         id = 25822
-        name = {'Astral Flow'}
+        name = {'Astral Flow' ,'星极超流'}
 
     class RuinIv(ActionBase):
         """
@@ -388,7 +396,7 @@ Can only be executed in combat and while Carbuncle is summoned.
 >> 2703, Searing Light, Damage dealt is increased.
         """
         id = 25801
-        name = {'Searing Light'}
+        name = {'Searing Light', '炽热之光'}
 
     class SearingLight(ActionBase):
         """
@@ -398,7 +406,7 @@ Duration: 30s
 >> 2703, Searing Light, Damage dealt is increased.
         """
         id = 25842
-        name = {'Searing Light'}
+        name = {'Searing Light', '炽热之光'}
 
     class SummonBahamut(ActionBase):
         """
@@ -446,7 +454,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25823
-        name = {'Ruby Rite'}
+        name = {'Ruby Rite', '红宝石之仪'}
 
     class TopazRite(ActionBase):
         """
@@ -457,7 +465,7 @@ Effect of Titan's Favor ends upon execution of certain summoner actions.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25824
-        name = {'Topaz Rite'}
+        name = {'Topaz Rite', '黄宝石之仪'}
 
     class EmeraldRite(ActionBase):
         """
@@ -466,14 +474,14 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25825
-        name = {'Emerald Rite'}
+        name = {'Emerald Rite', '绿宝石之仪'}
 
     class TriDisaster(ActionBase):
         """
 Deals unaspected damage with a potency of 120 to target and all enemies nearby it.
         """
         id = 25826
-        name = {'Tri-disaster'}
+        name = {'Tri-disaster', '三重灾祸'}
 
     class RubyDisaster(ActionBase):
         """
@@ -482,7 +490,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25827
-        name = {'Ruby Disaster'}
+        name = {'Ruby Disaster', '红宝石三重灾祸'}
 
     class TopazDisaster(ActionBase):
         """
@@ -491,7 +499,7 @@ Earth Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25828
-        name = {'Topaz Disaster'}
+        name = {'Topaz Disaster', '黄宝石三重灾祸'}
 
     class EmeraldDisaster(ActionBase):
         """
@@ -500,7 +508,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25829
-        name = {'Emerald Disaster'}
+        name = {'Emerald Disaster', '绿宝石三重灾祸'}
 
     class FountainOfFire(ActionBase):
         """
@@ -575,7 +583,7 @@ Can only be executed while in Firebird Trance.
 >> 2704, Rekindle, Undying Flame will be triggered upon HP falling below a certain level or expiration of effect duration.
         """
         id = 25830
-        name = {'Rekindle'}
+        name = {'Rekindle', '再生之炎'}
 
     class SummonPhoenix(ActionBase):
         """
@@ -588,7 +596,7 @@ Additional Effect: Grants Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum
 Can only be executed in combat and while Carbuncle is summoned.
         """
         id = 25831
-        name = {'Summon Phoenix'}
+        name = {'Summon Phoenix', '不死鸟召唤'}
 
     class RubyCatastrophe(ActionBase):
         """
@@ -597,7 +605,7 @@ Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25832
-        name = {'Ruby Catastrophe'}
+        name = {'Ruby Catastrophe', '红宝石之灾'}
 
     class TopazCatastrophe(ActionBase):
         """
@@ -608,7 +616,7 @@ Effect of Titan's Favor ends upon execution of certain summoner actions.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25833
-        name = {'Topaz Catastrophe'}
+        name = {'Topaz Catastrophe', '黄宝石之灾'}
 
     class EmeraldCatastrophe(ActionBase):
         """
@@ -617,7 +625,7 @@ Wind Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
         id = 25834
-        name = {'Emerald Catastrophe'}
+        name = {'Emerald Catastrophe', '绿宝石之灾'}
 
     class CrimsonCyclone(ActionBase):
         """
@@ -628,7 +636,7 @@ Cannot be executed while bound.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25835
-        name = {'Crimson Cyclone'}
+        name = {'Crimson Cyclone', '深红旋风'}
 
     class MountainBuster(ActionBase):
         """
@@ -637,7 +645,7 @@ Can only be executed while under the effect of Titan's Favor.
 ※This action cannot be assigned to a hotbar.
         """
         id = 25836
-        name = {'Mountain Buster'}
+        name = {'Mountain Buster', '山崩'}
 
     class Slipstream(ActionBase):
         """
@@ -650,7 +658,7 @@ Can only be executed while under the effect of Garuda's Favor.
 >> 2706, Slipstream, Maintaining a localized windstorm.
         """
         id = 25837
-        name = {'Slipstream'}
+        name = {'Slipstream', '螺旋气流'}
 
     class CrimsonStrike(ActionBase):
         """
@@ -659,7 +667,7 @@ Combo Action: Crimson Cyclone
 ※This action cannot be assigned to a hotbar.
         """
         id = 25885
-        name = {'Crimson Strike'}
+        name = {'Crimson Strike', '深红强袭'}
         combo_action = 25835
 
     class SummonIfritIi(ActionBase):
@@ -674,7 +682,7 @@ Effect of Ifrit's Favor ends upon execution of certain summoner actions.
 Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
         """
         id = 25838
-        name = {'Summon Ifrit II'}
+        name = {'Summon Ifrit II', '火神召唤II'}
 
     class SummonTitanIi(ActionBase):
         """
@@ -686,7 +694,7 @@ Earth Attunement Effect: Gemshine and Precious Brilliance become earth-aspected
 Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
         """
         id = 25839
-        name = {'Summon Titan II'}
+        name = {'Summon Titan II', '土神召唤II'}
 
     class SummonGarudaIi(ActionBase):
         """
@@ -700,4 +708,4 @@ Effect of Garuda's Favor ends upon execution of certain summoner actions.
 Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
         """
         id = 25840
-        name = {'Summon Garuda II'}
+        name = {'Summon Garuda II', '风神召唤II'}
