@@ -35,7 +35,7 @@ class ActionEffect(object):
             # self.tags.add(hex(self.raw_flag)[2:].zfill(8)+"-"+hex(self.raw_amount)[2:].zfill(8))
 
     def __str__(self):
-        return f"{self.param}{self.tags}"# + str(self.raw_entry.get_data())
+        return f"{self.param}{self.tags}"  # + str(self.raw_entry.get_data())
 
 
 class ActionEffectEvent(NetworkZoneServerEvent):
@@ -62,11 +62,10 @@ class ActionEffectEvent(NetworkZoneServerEvent):
         self.targets = {}
         self.target_actors = {}
         for i in range(effect_count):
-            effects = list()
+            effects = self.targets.setdefault(struct_message.target_id[i], [])
             for j in range(8):
                 if not struct_message.effects[i][j].type: break
                 effects.append(ActionEffect(struct_message.effects[i][j]))
-            self.targets[struct_message.target_id[i]] = effects
         match self.action_type:
             case "item":
                 if self.action_id > 1000000:
