@@ -49,7 +49,7 @@ def get_opcode(scope: str | int, is_server: bool, key: str | int):
         raise KeyError(f"{key} is not a valid opcode")
 
 
-unknown_type_event = [dict()] * 6
+unknown_type_event = [dict() for _ in range(6)]
 
 
 class UnknownOpcodeEvent(_NetworkEvent):

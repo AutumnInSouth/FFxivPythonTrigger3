@@ -23,7 +23,7 @@ class ServerStatusEffectEntry(OffsetStruct({
     unk2: int
 
 
-class ServerAddStatusEffect(OffsetStruct({
+class ServerEffectResult(OffsetStruct({
     'related_action_sequence': c_uint,
     'actor_id': c_uint,
     'current_hp': c_uint,
@@ -47,11 +47,11 @@ class ServerAddStatusEffect(OffsetStruct({
     effects: list[ServerStatusEffectEntry]
 
 
-class ServerAddStatusEffectEvent(NetworkZoneServerEvent):
-    id = NetworkZoneServerEvent.id + 'add_status_effect'
-    struct_message: ServerAddStatusEffect
+class ServerEffectResultEvent(NetworkZoneServerEvent):
+    id = NetworkZoneServerEvent.id + 'effect_result'
+    struct_message: ServerEffectResult
 
-    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerAddStatusEffect):
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerEffectResult):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.target_id = struct_message.actor_id
         self.target_name = hex(self.target_id)
@@ -69,7 +69,7 @@ class ServerAddStatusEffectEvent(NetworkZoneServerEvent):
             f"{self.struct_message.current_mp}/10000) add status effects [{e_s}]")
 
 
-class AddStatusEffect(BaseProcessors):
-    opcode = "AddStatusEffect"
-    struct = ServerAddStatusEffect
-    event = ServerAddStatusEffectEvent
+class EffectResult(BaseProcessors):
+    opcode = "EffectResult"
+    struct = ServerEffectResult
+    event = ServerEffectResultEvent

@@ -42,7 +42,7 @@ Cure Potency: (source.job==28?(source.level>=85?450:400):400)
 Summons the faerie Eos to fight at your side. When set to guard, automatically casts Embrace on party members who suffer damage.
         """
         id = 17215
-        name = {'Summon Eos', '朝日召唤'}
+        name = {'朝日召唤', 'Summon Eos'}
 
     class SummonSelene(ActionBase):
         """
@@ -111,7 +111,7 @@ Effect cannot be stacked with certain sage barrier effects.
 Deals unaspected damage with a potency of (source.job==28?(source.level>=82?220:(source.job==28?(source.level>=72?200:(source.job==28?(source.level>=64?180:(source.job==28?(source.level>=54?160:140):140)):(source.job==28?(source.level>=54?160:140):140))):(source.job==28?(source.level>=64?180:(source.job==28?(source.level>=54?160:140):140)):(source.job==28?(source.level>=54?160:140):140)))):(source.job==28?(source.level>=72?200:(source.job==28?(source.level>=64?180:(source.job==28?(source.level>=54?160:140):140)):(source.job==28?(source.level>=54?160:140):140))):(source.job==28?(source.level>=64?180:(source.job==28?(source.level>=54?160:140):140)):(source.job==28?(source.level>=54?160:140):140)))).
         """
         id = 17870
-        name = {'毁坏', 'Ruin II'}
+        name = {'Ruin II', '毁坏'}
 
     class FeyIllumination(ActionBase):
         """
@@ -122,7 +122,7 @@ Effect cannot be stacked with Seraphic Illumination.
 >> 317, Fey Illumination, Magic defense and healing magic potency are increased.
         """
         id = 805
-        name = {'Fey Illumination', '异想的幻光'}
+        name = {'异想的幻光', 'Fey Illumination'}
 
     class FeyIllumination(ActionBase):
         """
@@ -133,7 +133,7 @@ Effect cannot be stacked with Seraphic Illumination.:):)
 >> 317, Fey Illumination, Magic defense and healing magic potency are increased.
         """
         id = 16538
-        name = {'Fey Illumination', '异想的幻光'}
+        name = {'异想的幻光', 'Fey Illumination'}
 
     class Aetherflow(ActionBase):
         """
@@ -153,7 +153,7 @@ Additional Effect: Absorbs a portion of damage dealt as HP
 :):)Aetherflow Gauge Cost: 1
         """
         id = 167
-        name = {'Energy Drain', '能量吸收'}
+        name = {'能量吸收', 'Energy Drain'}
 
     class Lustrate(ActionBase):
         """
@@ -187,7 +187,7 @@ Cure Potency: 100
 >> 1944, Sacred Soil, A circle of sanctified earth is healing party members and reducing damage taken within its bounds.
         """
         id = 188
-        name = {'Sacred Soil', '野战治疗阵'}
+        name = {'野战治疗阵', 'Sacred Soil'}
 
     class Indomitability(ActionBase):
         """
@@ -197,14 +197,14 @@ Cure Potency: 400
 :):)Aetherflow Gauge Cost: 1
         """
         id = 3583
-        name = {'Indomitability', '不屈不挠之策'}
+        name = {'不屈不挠之策', 'Indomitability'}
 
     class Broil(ActionBase):
         """
 Deals unaspected damage with a potency of 220.
         """
         id = 3584
-        name = {'Broil', '气炎法'}
+        name = {'气炎法', 'Broil'}
 
     class DeploymentTactics(ActionBase):
         """
@@ -255,7 +255,7 @@ Duration: 45s
 Deals unaspected damage with a potency of 240.
         """
         id = 7435
-        name = {'Broil II', '魔炎法'}
+        name = {'魔炎法', 'Broil II'}
 
     class ChainStratagem(ActionBase):
         """
@@ -265,7 +265,7 @@ Duration: 15s
 >> 1406, Chain Stratagem, Damage taken is increased.
         """
         id = 7436
-        name = {'Chain Stratagem', '连环计'}
+        name = {'连环计', 'Chain Stratagem'}
 
     class Aetherpact(ActionBase):
         """
@@ -274,7 +274,7 @@ Faerie Gauge Cost: 10
 The Faerie Gauge increases when (source.job==28?(source.level>=80?a faerie or Seraph:a faerie):a faerie) is summoned and an Aetherflow action is successfully executed while in combat.
         """
         id = 7437
-        name = {'Aetherpact', '以太契约'}
+        name = {'以太契约', 'Aetherpact'}
 
     class FeyUnion(ActionBase):
         """
@@ -293,7 +293,7 @@ Faerie Gauge is depleted while HP is restored. Fey Union effect fades upon execu
 Dissolves current Fey Union.
         """
         id = 7869
-        name = {'Dissolve Union', '融光解除'}
+        name = {'融光解除', 'Dissolve Union'}
 
     class Biolysis(ActionBase):
         """
@@ -329,7 +329,7 @@ Fey Blessing Effect: Restores the HP of all nearby party members
 Cure Potency: 320
         """
         id = 16543
-        name = {'异想的祥光', 'Fey Blessing'}
+        name = {'Fey Blessing', '异想的祥光'}
 
     class FeyBlessing(ActionBase):
         """
@@ -338,7 +338,7 @@ Cure Potency: 320
 ※This action cannot be assigned to a hotbar.
         """
         id = 16544
-        name = {'异想的祥光', 'Fey Blessing'}
+        name = {'Fey Blessing', '异想的祥光'}
 
     class SummonSeraph(ActionBase):
         """
@@ -360,7 +360,7 @@ Duration: 30s
 Maximum Charges: 2
         """
         id = 16546
-        name = {'慰藉', 'Consolation'}
+        name = {'Consolation', '慰藉'}
 
     class Consolation(ActionBase):
         """
@@ -371,7 +371,7 @@ Duration: 30s
 ※This action cannot be assigned to a hotbar.
         """
         id = 16547
-        name = {'慰藉', 'Consolation'}
+        name = {'Consolation', '慰藉'}
 
     class SeraphicVeil(ActionBase):
         """
@@ -384,7 +384,7 @@ Duration: 30s
 >> 1917, Seraphic Veil, A holy barrier is nullifying damage.
         """
         id = 16548
-        name = {'Seraphic Veil', '炽天的幕帘'}
+        name = {'炽天的幕帘', 'Seraphic Veil'}
 
     class AngelsWhisper(ActionBase):
         """
@@ -395,7 +395,7 @@ Duration: 21s
 >> 1874, Angel's Whisper, Regenerating HP over time.
         """
         id = 16550
-        name = {"Angel's Whisper", '天使的低语'}
+        name = {'天使的低语', "Angel's Whisper"}
 
     class SeraphicIllumination(ActionBase):
         """

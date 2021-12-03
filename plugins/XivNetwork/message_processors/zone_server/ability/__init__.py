@@ -95,31 +95,31 @@ class ActionEffectEvent(NetworkZoneServerEvent):
         return f"network_ability|{self.action_type}|{self.action_id}|{self.action_name}|{self.source_actor.name if self.source_actor else ''}|" + m
 
 
-class Ability1(BaseProcessors):
-    opcode = "Ability1"
+class Effect(BaseProcessors):
+    opcode = "Effect"
     struct = ServerActionEffect1
     event = ActionEffectEvent
 
 
-class Ability8(BaseProcessors):
-    opcode = "Ability8"
+class AoeEffect8(BaseProcessors):
+    opcode = "AoeEffect8"
     struct = ServerActionEffect8
     event = ActionEffectEvent
 
 
-class Ability16(BaseProcessors):
-    opcode = "Ability16"
+class AoeEffect16(BaseProcessors):
+    opcode = "AoeEffect16"
     struct = ServerActionEffect16
     event = ActionEffectEvent
 
 
-class Ability24(BaseProcessors):
-    opcode = "Ability24"
+class AoeEffect24(BaseProcessors):
+    opcode = "AoeEffect24"
     struct = ServerActionEffect24
     event = ActionEffectEvent
 
 
-class Ability32(BaseProcessors):
-    opcode = "Ability32"
+class AoeEffect32(BaseProcessors):
+    opcode = "AoeEffect32"
     struct = ServerActionEffect32
     event = ActionEffectEvent

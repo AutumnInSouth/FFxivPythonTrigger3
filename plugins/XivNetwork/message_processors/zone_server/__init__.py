@@ -1,11 +1,11 @@
-from .ability import Ability1, Ability8, Ability16, Ability24, Ability32
+from .ability import Effect, AoeEffect8, AoeEffect16, AoeEffect24, AoeEffect32
 from .actor_cast import ActorCast
-from .actor_control_142 import ActorControl142
-from .actor_control_143 import ActorControl143
-from .actor_control_144 import ActorControl144
+from .actor_control import ActorControl
+from .actor_control_self import ActorControlSelf
+from .actor_control_target import ActorControlTarget
 from .actor_gauge import ActorGauge
 from .actor_update_hp_mp_tp import ActorUpdateHpMpTp
-from .add_status_effect import AddStatusEffect
+from .add_status_effect import EffectResult
 from .container_info import ContainerInfo
 from .craft_status import CraftStatus
 from .currency_crystal_info import CurrencyCrystalInfo

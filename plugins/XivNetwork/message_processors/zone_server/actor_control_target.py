@@ -5,7 +5,7 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
 
-class ServerActorControl144(OffsetStruct({
+class ServerActorControlTarget(OffsetStruct({
     'category': c_ushort,
     'padding0': c_ushort,
     'param1': c_uint,
@@ -27,13 +27,13 @@ class ServerActorControl144(OffsetStruct({
     padding1: int
 
 
-class ActorControl144Event(NetworkZoneServerEvent):
-    id = NetworkZoneServerEvent.id + 'actor_control/'
-    struct_message: ServerActorControl144
+class ActorControlTargetEvent(NetworkZoneServerEvent):
+    id = NetworkZoneServerEvent.id + 'actor_control_target/'
+    struct_message: ServerActorControlTarget
 
 
-class UnknownActorControl144Event(ActorControl144Event):
-    id = ActorControl144Event.id + 'unk_144'
+class UnknownActorControlTargetEvent(ActorControlTargetEvent):
+    id = ActorControlTargetEvent.id + 'unk_144'
 
     def text(self):
         return f'unknown actor control 144 category from {self.message_header.actor_id:x} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
@@ -41,8 +41,8 @@ class UnknownActorControl144Event(ActorControl144Event):
                f'{self.struct_message.target_id:x}'
 
 
-class SetTargetEvent(ActorControl144Event):
-    id = ActorControl144Event.id + 'set_target'
+class SetTargetEvent(ActorControlTargetEvent):
+    id = ActorControlTargetEvent.id + 'set_target'
     target_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -65,14 +65,14 @@ class SetTargetEvent(ActorControl144Event):
         return f"network_actor_set_target|{self.actor_name}|{self.target_name}"
 
 
-class ActorControl144(BaseProcessors):
-    opcode = "ActorControl144"
-    struct = ServerActorControl144
+class ActorControlTarget(BaseProcessors):
+    opcode = "ActorControlTarget"
+    struct = ServerActorControlTarget
 
     @staticmethod
-    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControl144):
+    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControlTarget):
         if struct_message.category == 502:
             evt = SetTargetEvent
         else:
-            evt = UnknownActorControl144Event
+            evt = UnknownActorControlTargetEvent
         return evt(bundle_header, message_header, raw_message, struct_message)

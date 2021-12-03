@@ -8,7 +8,7 @@ class Actions:
 Deals earth damage with a potency of 140.
         """
         id = 119
-        name = {'Stone', '飞石'}
+        name = {'飞石', 'Stone'}
 
     class Cure(ActionBase):
         """
@@ -20,7 +20,7 @@ Additional Effect: 15% chance next Cure II will cost no MP
 Duration: 15s:)):)
         """
         id = 120
-        name = {'治疗', 'Cure'}
+        name = {'Cure', '治疗'}
 
     class Aero(ActionBase):
         """
@@ -31,7 +31,7 @@ Duration: 18s
 >> 143, Aero, Sustaining wind damage over time.
         """
         id = 121
-        name = {'Aero', '疾风'}
+        name = {'疾风', 'Aero'}
 
     class Medica(ActionBase):
         """
@@ -39,7 +39,7 @@ Restores own HP and the HP of all nearby party members.
 Cure Potency: (source.job==24?(source.level>=85?400:300):300)
         """
         id = 124
-        name = {'医治', 'Medica'}
+        name = {'Medica', '医治'}
 
     class Raise(ActionBase):
         """
@@ -55,7 +55,7 @@ Resurrects target to a weakened state.
 Deals earth damage with a potency of 190.
         """
         id = 127
-        name = {'坚石', 'Stone II'}
+        name = {'Stone II', '坚石'}
 
     class CureIi(ActionBase):
         """
@@ -63,7 +63,7 @@ Restores target's HP.
 Cure Potency: (source.job==24?(source.level>=85?800:700):700)
         """
         id = 135
-        name = {'救疗', 'Cure II'}
+        name = {'Cure II', '救疗'}
 
     class PresenceOfMind(ActionBase):
         """
@@ -84,7 +84,7 @@ Duration: 18s
 >> 158, Regen, Regenerating HP over time.
         """
         id = 137
-        name = {'Regen', '再生'}
+        name = {'再生', 'Regen'}
 
     class CureIii(ActionBase):
         """
@@ -101,7 +101,7 @@ Additional Effect: Stun
 Duration: 4s
         """
         id = 139
-        name = {'Holy', '神圣'}
+        name = {'神圣', 'Holy'}
 
     class AeroIi(ActionBase):
         """
@@ -131,7 +131,7 @@ Duration: 15s
 Restores all of a target's HP.
         """
         id = 140
-        name = {'Benediction', '天赐祝福'}
+        name = {'天赐祝福', 'Benediction'}
 
     class Asylum(ActionBase):
         """
@@ -144,7 +144,7 @@ Additional Effect: Increases HP recovery via healing actions on party members in
 >> 1912, Asylum, HP recovery via healing actions is increased.
         """
         id = 3569
-        name = {'庇护所', 'Asylum'}
+        name = {'Asylum', '庇护所'}
 
     class AfflatusSolace(ActionBase):
         """
@@ -155,14 +155,14 @@ Healing Gauge Cost: 1 Lily
 >> 2036, Afflatus Solace, Regenerating HP over time.
         """
         id = 16531
-        name = {'Afflatus Solace', '安慰之心'}
+        name = {'安慰之心', 'Afflatus Solace'}
 
     class StoneIii(ActionBase):
         """
 Deals earth damage with a potency of 230.
         """
         id = 3568
-        name = {'Stone III', '垒石'}
+        name = {'垒石', 'Stone III'}
 
     class Assize(ActionBase):
         """
@@ -197,7 +197,7 @@ Cure Potency: 700
 Deals earth damage with a potency of 270.
         """
         id = 7431
-        name = {'Stone IV', '崩石'}
+        name = {'崩石', 'Stone IV'}
 
     class DivineBenison(ActionBase):
         """
@@ -208,7 +208,7 @@ Maximum Charges: 2:):)
 >> 1404, Divine Benison, A holy blessing from the gods is nullifying damage.
         """
         id = 7432
-        name = {'神祝祷', 'Divine Benison'}
+        name = {'Divine Benison', '神祝祷'}
 
     class PlenaryIndulgence(ActionBase):
         """
@@ -245,7 +245,7 @@ Deals unaspected damage to target and all enemies nearby it with a potency of 90
 Can only be executed when the Blood Lily is in full bloom.
         """
         id = 16535
-        name = {'苦难之心', 'Afflatus Misery'}
+        name = {'Afflatus Misery', '苦难之心'}
 
     class AfflatusRapture(ActionBase):
         """
@@ -267,7 +267,7 @@ Duration: 20s
 >> 2038, Temperance, Damage taken is reduced.
         """
         id = 16536
-        name = {'Temperance', '节制'}
+        name = {'节制', 'Temperance'}
 
     class GlareIii(ActionBase):
         """

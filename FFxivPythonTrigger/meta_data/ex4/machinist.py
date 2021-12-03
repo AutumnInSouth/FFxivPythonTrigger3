@@ -9,7 +9,7 @@ Delivers an attack with a potency of 140.(source.job==31?(source.level>=30?
 Additional Effect: Increases Heat Gauge by 5:):)
         """
         id = 2866
-        name = {'Split Shot', '分裂弹'}
+        name = {'分裂弹', 'Split Shot'}
 
     class SlugShot(ActionBase):
         """
@@ -30,7 +30,7 @@ This weaponskill does not share a recast timer with any other actions.
 >> 855, Hot Shot, Physical damage dealt is increased.
         """
         id = 2872
-        name = {'Hot Shot', '热弹'}
+        name = {'热弹', 'Hot Shot'}
 
     class Reassemble(ActionBase):
         """
@@ -48,7 +48,7 @@ Delivers an attack with a potency of 120.
 Maximum Charges: (source.job==31?(source.level>=74?3:2):2)
         """
         id = 2874
-        name = {'Gauss Round', '虹吸弹'}
+        name = {'虹吸弹', 'Gauss Round'}
 
     class SpreadShot(ActionBase):
         """
@@ -56,7 +56,7 @@ Delivers an attack with a potency of 140 to all enemies in a cone before you.(so
 Additional Effect: Increases Heat Gauge by 5:):)
         """
         id = 2870
-        name = {'Spread Shot', '散射'}
+        name = {'散射', 'Spread Shot'}
 
     class CleanShot(ActionBase):
         """
@@ -67,7 +67,7 @@ Combo Bonus: Increases Heat Gauge by 5:):)(source.job==31?(source.level>=40?
 Combo Bonus: Increases Battery Gauge by 10:):)
         """
         id = 2873
-        name = {'Clean Shot', '狙击弹'}
+        name = {'狙击弹', 'Clean Shot'}
         combo_action = 2868
 
     class Hypercharge(ActionBase):
@@ -79,7 +79,7 @@ Overheated effect only applicable to machinist job actions.
 >> 688, Hypercharge, Battle turret is overcharged.
         """
         id = 17209
-        name = {'Hypercharge', '超荷'}
+        name = {'超荷', 'Hypercharge'}
 
     class HeatBlast(ActionBase):
         """
@@ -101,7 +101,7 @@ Shuts down when time expires or upon execution of Rook Overdrive.
 Shares a recast timer with Rook Overdrive.
         """
         id = 2864
-        name = {'Rook Autoturret', '车式浮空炮塔'}
+        name = {'车式浮空炮塔', 'Rook Autoturret'}
 
     class RookOverdrive(ActionBase):
         """
@@ -122,7 +122,7 @@ The rook autoturret shuts down after execution. If this action is not used manua
 ※This action cannot be assigned to a hotbar.
         """
         id = 7416
-        name = {'Rook Overload', '超负荷车式炮塔'}
+        name = {'超负荷车式炮塔', 'Rook Overload'}
 
     class Wildfire(ActionBase):
         """
@@ -135,7 +135,7 @@ Duration: 10s
 >> 861, Wildfire, Damage is being accumulated with each weaponskill landed by the machinist who applied the effect.
         """
         id = 2878
-        name = {'野火', 'Wildfire'}
+        name = {'Wildfire', '野火'}
 
     class Detonator(ActionBase):
         """
@@ -143,7 +143,7 @@ Ends the effect of Wildfire, dealing damage to the target.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16766
-        name = {'起爆', 'Detonator'}
+        name = {'Detonator', '起爆'}
 
     class Ricochet(ActionBase):
         """
@@ -160,7 +160,7 @@ Can only be executed when firearm is Overheated.
 Recast timer cannot be affected by status effects or gear attributes.
         """
         id = 16497
-        name = {'Auto Crossbow', '自动弩'}
+        name = {'自动弩', 'Auto Crossbow'}
 
     class HeatedSplitShot(ActionBase):
         """
@@ -180,7 +180,7 @@ Effect cannot be stacked with bard's Troubadour or dancer's Shield Samba.
 >> 1951, Tactician, Damage taken is reduced.
         """
         id = 16889
-        name = {'Tactician', '策动'}
+        name = {'策动', 'Tactician'}
 
     class Drill(ActionBase):
         """
@@ -198,7 +198,7 @@ Combo Potency: (source.job==31?(source.level>=84?280:260):260)(source.job==31?(s
 Combo Bonus: Increases Heat Gauge by 5:):)
         """
         id = 7412
-        name = {'Heated Slug Shot', '热独头弹'}
+        name = {'热独头弹', 'Heated Slug Shot'}
         combo_action = 2866
 
     class HeatedCleanShot(ActionBase):
@@ -219,7 +219,7 @@ Increases Heat Gauge by 50.
 Can only be executed while in combat.
         """
         id = 7414
-        name = {'Barrel Stabilizer', '枪管加热'}
+        name = {'枪管加热', 'Barrel Stabilizer'}
 
     class Flamethrower(ActionBase):
         """
@@ -267,7 +267,7 @@ Shuts down when time expires or upon execution of Queen Overdrive.
 Shares a recast timer with Queen Overdrive.
         """
         id = 16501
-        name = {'Automaton Queen', '后式自走人偶'}
+        name = {'后式自走人偶', 'Automaton Queen'}
 
     class QueenOverdrive(ActionBase):
         """
@@ -296,7 +296,7 @@ Delivers an attack with a potency of 120.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16504
-        name = {'Arm Punch', '铁臂拳'}
+        name = {'铁臂拳', 'Arm Punch'}
 
     class RollerDash(ActionBase):
         """

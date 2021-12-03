@@ -22,7 +22,7 @@ Additional Effect: Changes form to coeurl
 Duration: 30s
         """
         id = 54
-        name = {'True Strike', '正拳'}
+        name = {'正拳', 'True Strike'}
 
     class SnapPunch(ActionBase):
         """
@@ -33,7 +33,7 @@ Additional Effect: Changes form to opo-opo
 Duration: 30s
         """
         id = 56
-        name = {'崩拳', 'Snap Punch'}
+        name = {'Snap Punch', '崩拳'}
 
     class Meditation(ActionBase):
         """
@@ -45,7 +45,7 @@ Shares a recast timer with all other weaponskills.
 >> 1865, Meditation, Deep in contemplation.
         """
         id = 3546
-        name = {'Meditation', '斗气'}
+        name = {'斗气', 'Meditation'}
 
     class SteelPeak(ActionBase):
         """
@@ -69,7 +69,7 @@ Duration: 30s
 >> 101, Twin Snakes, Damage dealt is increased.
         """
         id = 61
-        name = {'双掌打', 'Twin Snakes'}
+        name = {'Twin Snakes', '双掌打'}
 
     class ArmOfTheDestroyer(ActionBase):
         """
@@ -79,7 +79,7 @@ Additional Effect: Changes form to raptor
 Duration: 30s
         """
         id = 62
-        name = {'破坏神冲', 'Arm of the Destroyer'}
+        name = {'Arm of the Destroyer', '破坏神冲'}
 
     class Demolish(ActionBase):
         """
@@ -179,7 +179,7 @@ Duration: 30s
 Any additional effects associated with the executed action will also be applied.
         """
         id = 4262
-        name = {'Form Shift', '演武'}
+        name = {'演武', 'Form Shift'}
 
     class TheForbiddenChakra(ActionBase):
         """
@@ -214,7 +214,7 @@ Can only be executed while under the effect of three of the same Beast Chakra.
 ※This action cannot be assigned to a hotbar.
         """
         id = 3545
-        name = {'苍气炮', 'Elixir Field'}
+        name = {'Elixir Field', '苍气炮'}
 
     class MasterfulBlitz(ActionBase):
         """
@@ -266,7 +266,7 @@ Effect ends when time expires or upon execution of three weaponskills.
 >> 1310, Riddle of Earth, Contemplating the riddle of earth. Taking a certain amount of damage triggers Earth's Reply.
         """
         id = 7394
-        name = {'金刚极意', 'Riddle of Earth'}
+        name = {'Riddle of Earth', '金刚极意'}
 
     class RiddleOfFire(ActionBase):
         """
@@ -276,7 +276,7 @@ Duration: 20s
 >> 1413, Riddle of Fire, Next weaponskill will deal increased damage.
         """
         id = 7395
-        name = {'Riddle of Fire', '红莲极意'}
+        name = {'红莲极意', 'Riddle of Fire'}
 
     class Brotherhood(ActionBase):
         """
@@ -289,7 +289,7 @@ Duration: 15s
 >> 2174, Brotherhood, Damage dealt is increased.
         """
         id = 7396
-        name = {'义结金兰', 'Brotherhood'}
+        name = {'Brotherhood', '义结金兰'}
 
     class RiddleOfWind(ActionBase):
         """
@@ -309,7 +309,7 @@ Can only be executed while in combat and under the effect of the Fifth Chakra. T
 Shares a recast timer with The Forbidden Chakra.
         """
         id = 16474
-        name = {'Enlightenment', '万象斗气圈'}
+        name = {'万象斗气圈', 'Enlightenment'}
 
     class Anatman(ActionBase):
         """
@@ -320,7 +320,7 @@ Triggers the cooldown of weaponskills upon execution. Cannot be executed during 
 >> 1862, Anatman, Form and Disciplined Fist timers are suspended due to a transcendent inner calm.
         """
         id = 16475
-        name = {'无我', 'Anatman'}
+        name = {'Anatman', '无我'}
 
     class SixSidedStar(ActionBase):
         """

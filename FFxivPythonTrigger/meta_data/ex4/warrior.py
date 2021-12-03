@@ -8,7 +8,7 @@ class Actions:
 Delivers an attack with a potency of (source.job==21?(source.level>=84?200:150):150).
         """
         id = 31
-        name = {'重劈', 'Heavy Swing'}
+        name = {'Heavy Swing', '重劈'}
 
     class Maim(ActionBase):
         """
@@ -56,7 +56,7 @@ Delivers a ranged attack with a potency of 100.
 Additional Effect: Increased enmity
         """
         id = 46
-        name = {'飞斧', 'Tomahawk'}
+        name = {'Tomahawk', '飞斧'}
 
     class StormsPath(ActionBase):
         """
@@ -69,7 +69,7 @@ Combo Bonus: Increases Beast Gauge by 20:):):):)
 >> 408, Storm's Path, Damage dealt is reduced.
         """
         id = 42
-        name = {"Storm's Path", '暴风斩'}
+        name = {'暴风斩', "Storm's Path"}
         combo_action = 37
 
     class ThrillOfBattle(ActionBase):
@@ -81,7 +81,7 @@ Increases maximum HP by 20% and restores the amount increased.
 Enhanced Thrill of Battle Effect: HP recovery via healing actions is increased.
         """
         id = 40
-        name = {'Thrill of Battle', '战栗'}
+        name = {'战栗', 'Thrill of Battle'}
 
     class InnerBeast(ActionBase):
         """
@@ -149,7 +149,7 @@ Combo Bonus: Increases Beast Gauge by 10:):)
 >> 90, Storm's Eye, Damage dealt is increased.
         """
         id = 45
-        name = {'暴风碎', "Storm's Eye"}
+        name = {"Storm's Eye", '暴风碎'}
         combo_action = 37
 
     class Infuriate(ActionBase):
@@ -161,7 +161,7 @@ Duration: 30s
 Can only be executed while in combat.
         """
         id = 52
-        name = {'战嚎', 'Infuriate'}
+        name = {'Infuriate', '战嚎'}
 
     class FellCleave(ActionBase):
         """
@@ -194,7 +194,7 @@ Duration: 15s:):)
 >> 2681, Equilibrium, Regenerating HP over time.
         """
         id = 3552
-        name = {'泰然自若', 'Equilibrium'}
+        name = {'Equilibrium', '泰然自若'}
 
     class Decimate(ActionBase):
         """
@@ -220,7 +220,7 @@ Delivers an attack with a potency of 350.(source.job==21?(source.level>=86?
 Shares a recast timer with Orogeny.:):)
         """
         id = 7387
-        name = {'Upheaval', '动乱'}
+        name = {'动乱', 'Upheaval'}
 
     class ShakeItOff(ActionBase):
         """
@@ -233,7 +233,7 @@ Cure Potency: 300:):)
 >> 1993, Shake It Off, A barrier is preventing damage.
         """
         id = 7388
-        name = {'Shake It Off', '摆脱'}
+        name = {'摆脱', 'Shake It Off'}
 
     class InnerRelease(ActionBase):
         """
@@ -247,7 +247,7 @@ Duration: 30s:):)
 >> 1303, Inner Release, Beast Gauge consumption is reduced to 0. All Stun, Sleep, Bind, Heavy, Silence, knockback, and draw-in effects are nullified.
         """
         id = 7389
-        name = {'原初的解放', 'Inner Release'}
+        name = {'Inner Release', '原初的解放'}
 
     class ChaoticCyclone(ActionBase):
         """
@@ -278,7 +278,7 @@ Duration: 20s
 >> 2061, Nascent Flash, Absorbing HP with each physical attack delivered. Damage taken is also reduced.
         """
         id = 16464
-        name = {'Nascent Flash', '原初的勇猛'}
+        name = {'原初的勇猛', 'Nascent Flash'}
 
     class InnerChaos(ActionBase):
         """
@@ -290,7 +290,7 @@ Can only be executed while under the effect of Nascent Chaos. Effect fades upon 
 >> 2077, Inner Chaos, Damage taken is increased.
         """
         id = 16465
-        name = {'Inner Chaos', '狂魂'}
+        name = {'狂魂', 'Inner Chaos'}
 
     class Bloodwhetting(ActionBase):
         """

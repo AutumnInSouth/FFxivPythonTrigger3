@@ -1,5 +1,5 @@
 from functools import cache
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING,Type
 from FFxivPythonTrigger.saint_coinach import action_sheet, status_sheet
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class ActionBase:
     cure_potency: int = 0  # 治疗威力
     damage_potency: int = 0  # 伤害威力
     aoe_scale: float = 1.  # 复数目标时副目标的伤害比利
-    combo_action: int | 'ActionBase' | str = None  # 连击技能
+    combo_action:  'int | Type[ActionBase] | str' = None  # 连击技能
     direction_require: int = 0  # 身位需求 1为前 2为后 3为侧
     combo_damage_potency: int = 0  # 连击正确伤害威力
     direction_damage_potency: int = 0  # 身位正确伤害威力

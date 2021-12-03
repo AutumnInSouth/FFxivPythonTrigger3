@@ -105,7 +105,7 @@ Duration: 60s:):)(source.job==27?(source.level>=52?
 Shares a recast timer with Energy Siphon.:):)
         """
         id = 16508
-        name = {'Energy Drain', '能量吸收'}
+        name = {'能量吸收', 'Energy Drain'}
 
     class SummonTopaz(ActionBase):
         """
@@ -198,7 +198,7 @@ Wind Attunement Effect: Deal wind damage to a target and all enemies nearby it
 Deals unaspected damage with a potency of 270.
         """
         id = 172
-        name = {'毁坏', 'Ruin II'}
+        name = {'Ruin II', '毁坏'}
 
     class SummonIfrit(ActionBase):
         """
@@ -259,7 +259,7 @@ Deals unaspected damage with a potency of 150 to target and all enemies nearby i
 Aetherflow Gauge Cost: 1
         """
         id = 3578
-        name = {'痛苦核爆', 'Painflare'}
+        name = {'Painflare', '痛苦核爆'}
 
     class SummonGaruda(ActionBase):
         """
@@ -357,7 +357,7 @@ Can only be executed while in Dreadwyrm Trance.
 ※This action cannot be assigned to a hotbar.
         """
         id = 3582
-        name = {'死星核爆', 'Deathflare'}
+        name = {'Deathflare', '死星核爆'}
 
     class AstralFlow(ActionBase):
         """
@@ -411,7 +411,7 @@ Additional Effect: Grants Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum
 Can only be executed in combat and while Carbuncle is summoned.
         """
         id = 7427
-        name = {'龙神召唤', 'Summon Bahamut'}
+        name = {'Summon Bahamut', '龙神召唤'}
 
     class Wyrmwave(ActionBase):
         """
@@ -437,7 +437,7 @@ Can only be executed while Demi-Bahamut is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 7449
-        name = {'Akh Morn', '死亡轮回'}
+        name = {'死亡轮回', 'Akh Morn'}
 
     class RubyRite(ActionBase):
         """
@@ -510,7 +510,7 @@ Can only be executed while under the effect of Firebird Trance.
 >> 2029, Fountain of Fire, Sustaining fire damage over time.
         """
         id = 16514
-        name = {'灵泉之炎', 'Fountain of Fire'}
+        name = {'Fountain of Fire', '灵泉之炎'}
 
     class BrandOfPurgatory(ActionBase):
         """
@@ -529,7 +529,7 @@ Action replaces Enkindle Bahamut while Demi-Phoenix is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16516
-        name = {'Enkindle Phoenix', '不死鸟迸发'}
+        name = {'不死鸟迸发', 'Enkindle Phoenix'}
 
     class EverlastingFlight(ActionBase):
         """
@@ -559,7 +559,7 @@ Will only execute while Demi-Phoenix is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16519
-        name = {'赤焰', 'Scarlet Flame'}
+        name = {'Scarlet Flame', '赤焰'}
 
     class Rekindle(ActionBase):
         """

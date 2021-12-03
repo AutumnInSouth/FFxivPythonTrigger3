@@ -16,7 +16,7 @@ class DebugPlugin(PluginBase):
         struct_message.unk0 = 0
         return struct_message
 
-    # @re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
@@ -61,7 +61,7 @@ class DebugPlugin(PluginBase):
 
         if evt.action_id < 10: return
         self.logger(evt)
-        self.logger(evt.struct_message)
+        #self.logger(evt.struct_message)
         # s = []
         # for t, d in evt.targets.items():
         #     n, e = d

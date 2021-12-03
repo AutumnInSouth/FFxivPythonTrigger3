@@ -185,6 +185,12 @@ class LogicData(object):
     def effects(self):
         return self.me.effects.get_dict()
 
+    @cache
+    def effect_time(self, effect_id: int):
+        if effect_id in self.effects:
+            return self.effects[effect_id].timer
+        return 0
+
     @cached_property
     def gauge(self):
         return api.get_gauge()
@@ -212,17 +218,15 @@ class LogicData(object):
         """
         check if the skill is unlocked
         """
-        return api.is_action_unlocked(action_id)
+        return self.me.level >= action_sheet[action_id]['ClassJobLevel'] and api.is_action_unlocked(action_id)
 
     @cache
     def skill_cd(self, action_id: int):
         """remain time of an action cool down"""
-
-        row = action_sheet[action_id]
-        if self.me.level < row['ClassJobLevel'] or not self.skill_unlocked(action_id):
+        if not self.skill_unlocked(action_id):
             return 1e+99
         else:
-            return api.get_cd_group(row['CooldownGroup']).remain
+            return api.get_cd_group(action_sheet[action_id]['CooldownGroup']).remain
 
     @cache
     def pvp_skill_cd(self, action_id: int):

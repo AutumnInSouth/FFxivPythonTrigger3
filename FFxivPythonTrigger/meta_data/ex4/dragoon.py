@@ -9,7 +9,7 @@ Delivers an attack with a potency of (source.job==22?(source.level>=76?230:170):
 ※Action changes to Raiden Thrust while under the effect of Draconian Fire.:):)
         """
         id = 75
-        name = {'精准刺', 'True Thrust'}
+        name = {'True Thrust', '精准刺'}
 
     class VorpalThrust(ActionBase):
         """
@@ -32,14 +32,14 @@ Maximum Charges: 2:):)
 >> 2175, Life Surge, Next weaponskill will deal increased damage.
         """
         id = 83
-        name = {'龙剑', 'Life Surge'}
+        name = {'Life Surge', '龙剑'}
 
     class PiercingTalon(ActionBase):
         """
 Delivers a ranged attack with a potency of 150.
         """
         id = 90
-        name = {'贯穿尖', 'Piercing Talon'}
+        name = {'Piercing Talon', '贯穿尖'}
 
     class Disembowel(ActionBase):
         """
@@ -53,7 +53,7 @@ Duration: 30s
 >> 1914, Disembowel, Damage dealt is increased.
         """
         id = 87
-        name = {'开膛枪', 'Disembowel'}
+        name = {'Disembowel', '开膛枪'}
         combo_action = 75
 
     class FullThrust(ActionBase):
@@ -76,7 +76,7 @@ Duration: 20s
 >> 1864, Lance Charge, Damage dealt is increased.
         """
         id = 85
-        name = {'Lance Charge', '猛枪'}
+        name = {'猛枪', 'Lance Charge'}
 
     class Jump(ActionBase):
         """
@@ -86,7 +86,7 @@ Duration: 15s
 :):)Cannot be executed while bound.
         """
         id = 92
-        name = {'Jump', '跳跃'}
+        name = {'跳跃', 'Jump'}
 
     class ElusiveJump(ActionBase):
         """
@@ -94,7 +94,7 @@ Executes a jump to a location 15 yalms behind you.
 Cannot be executed while bound.
         """
         id = 94
-        name = {'回避跳跃', 'Elusive Jump'}
+        name = {'Elusive Jump', '回避跳跃'}
 
     class DoomSpike(ActionBase):
         """
@@ -102,7 +102,7 @@ Delivers an attack with a potency of 110 to all enemies in a straight line befor
 ※Action changes to Draconian Fury when under the effect of Draconian Fire.:):)
         """
         id = 86
-        name = {'Doom Spike', '死天枪'}
+        name = {'死天枪', 'Doom Spike'}
 
     class SpineshatterDive(ActionBase):
         """
@@ -130,7 +130,7 @@ Effect of Enhanced Wheeling Thrust ends upon execution of any melee weaponskill.
 >> 118, Chaos Thrust, Wounds are bleeding, causing damage over time.
         """
         id = 88
-        name = {'Chaos Thrust', '樱花怒放'}
+        name = {'樱花怒放', 'Chaos Thrust'}
         combo_action = 87
 
     class DragonfireDive(ActionBase):
@@ -139,7 +139,7 @@ Delivers a jumping fire-based attack with a potency of 300 to target and all ene
 Cannot be executed while bound.
         """
         id = 96
-        name = {'龙炎冲', 'Dragonfire Dive'}
+        name = {'Dragonfire Dive', '龙炎冲'}
 
     class BattleLitany(ActionBase):
         """
@@ -158,7 +158,7 @@ Delivers an attack with a potency of 260.
 Can only be executed while under the effect of Sharper Fang and Claw.
         """
         id = 3554
-        name = {'Fang and Claw', '龙牙龙爪'}
+        name = {'龙牙龙爪', 'Fang and Claw'}
 
     class WheelingThrust(ActionBase):
         """
@@ -167,7 +167,7 @@ Delivers an attack with a potency of 260.
 Can only be executed while under the effect of Enhanced Wheeling Thrust.
         """
         id = 3556
-        name = {'龙尾大回旋', 'Wheeling Thrust'}
+        name = {'Wheeling Thrust', '龙尾大回旋'}
 
     class Geirskogul(ActionBase):
         """
@@ -176,7 +176,7 @@ Additional Effect: Grants Life of the Dragon while under the full gaze of the fi
 ※Action changes to Nastrond while under the effect of Life of the Dragon.:):)
         """
         id = 3555
-        name = {'武神枪', 'Geirskogul'}
+        name = {'Geirskogul', '武神枪'}
 
     class SonicThrust(ActionBase):
         """
@@ -188,7 +188,7 @@ Power Surge Effect: Increases damage dealt by 10%
 Duration: 30s
         """
         id = 7397
-        name = {'Sonic Thrust', '音速刺'}
+        name = {'音速刺', 'Sonic Thrust'}
         combo_action = 86
 
     class DragonSight(ActionBase):
@@ -226,7 +226,7 @@ Combo Bonus: Grants Draconian Fire
 Duration: 30s:):)
         """
         id = 16477
-        name = {'山境酷刑', 'Coerthan Torment'}
+        name = {'Coerthan Torment', '山境酷刑'}
         combo_action = 7397
 
     class HighJump(ActionBase):
@@ -247,7 +247,7 @@ Delivers an attack with a potency of 260.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16479
-        name = {'Raiden Thrust', '龙眼雷电'}
+        name = {'龙眼雷电', 'Raiden Thrust'}
 
     class Stardiver(ActionBase):
         """
@@ -256,7 +256,7 @@ Can only be executed while under the effect of Life of the Dragon.
 Cannot be executed while bound.
         """
         id = 16480
-        name = {'Stardiver', '坠星冲'}
+        name = {'坠星冲', 'Stardiver'}
 
     class DraconianFury(ActionBase):
         """
