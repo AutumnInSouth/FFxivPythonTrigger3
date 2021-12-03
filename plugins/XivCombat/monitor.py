@@ -6,7 +6,7 @@ from .logic_data import invincible_actor, is_actor_status_can_damage
 
 if TYPE_CHECKING:
     from XivMemory.struct.actor import Actor as ActorStruct
-    from XivNetwork.message_processors.zone_server.actor_control_142 import HotEvent, DotEvent, DeathEvent
+    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
 
 split_time = 60

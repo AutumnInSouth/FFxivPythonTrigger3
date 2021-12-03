@@ -22,7 +22,7 @@ from .utils import is_area_action, use_ability
 from .monitor import Monitor
 
 if TYPE_CHECKING:
-    from XivNetwork.message_processors.zone_server.actor_control_142 import HotEvent, DotEvent, DeathEvent
+    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
 
 command = "@acombat"
