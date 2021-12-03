@@ -104,8 +104,78 @@ Effect cannot be stacked with machinist's Tactician or dancer's Shield Samba.
         name = {'Troubadour', '行吟'}
         taken_damage_modify = .9
 
-class Actions:
+    class CausticBite(StatusBase):
+        """
+Delivers an attack with a potency of 150.
+Additional Effect: Poison
+Potency: 20
+Duration: 45s(source.job==23?(source.level>=76?
+Additional Effect: 35% chance of becoming Straight Shot Ready
+Duration: 30s:):)
+>> 1200, Caustic Bite, Toxins are causing damage over time.
+>> 1321, Caustic Bite, Toxins are causing damage over time.
+        """
+        id = 1200
+        name = {'Caustic Bite', '烈毒咬箭'}
+        damage_potency = 20
 
+    class Stormbite(StatusBase):
+        """
+Deals wind damage with a potency of 100.
+Additional Effect: Wind damage over time
+Potency: 25
+Duration: 45s(source.job==23?(source.level>=76?
+Additional Effect: 35% chance of becoming Straight Shot Ready
+Duration: 30s:):)
+>> 1201, Stormbite, Wounds are exposed to the elements, causing wind damage over time.
+>> 1322, Stormbite, Wounds are exposed to the elements, causing damage over time.
+        """
+        id = 1201
+        name = {'Stormbite', '狂风蚀箭'}
+        damage_potency = 25
+
+    class NaturesMinne(StatusBase):
+        """
+Increases HP recovery via healing actions for a party member or self by 20%.
+Duration: 15s
+>> 1202, Nature's Minne, HP recovery via healing actions is increased.
+>> 2178, Nature's Minne, Damage taken is reduced while HP recovered via healing actions is increased.
+        """
+        id = 1202
+        name = {"Nature's Minne", '大地神的抒情恋歌'}
+        cure_modify = 1.2
+
+    class Barrage(StatusBase):
+        """
+Triples the number of strikes for a single-target weaponskill. Additional effects added only once.
+Duration: 10s
+(source.job==23?(source.level>=72?Additional Effect: Increases the potency of Shadowbite to 270
+:):)Additional Effect: Grants Straight Shot Ready
+Duration: 30s
+>> 128, Barrage, Striking multiple times per weaponskill.
+>> 1407, Barrage, Striking multiple times per weaponskill.
+        """
+        id = 128
+        name = {'纷乱箭', 'Barrage'}
+
+    class RadiantFinale(StatusBase):
+        """
+Increases damage dealt by self and nearby party members.
+Duration: 15s
+Effectiveness is determined by the number of different Coda active in the Song Gauge.
+1 Coda: 2%
+2 Coda: 4%
+3 Coda: 6%
+Can only be executed when at least 1 coda is active.
+>> 2722, Radiant Finale, Playing a most radiant finale.
+>> 2964, Radiant Finale, Damage dealt is increased.
+        """
+        id = 2722
+        name = {'Radiant Finale'}
+        damage_modify = 1.02  # TODO: 无法获取其他人的量谱数据，无法判断准确数值
+
+
+class Actions:
     class HeavyShot(ActionBase):
         """
 Delivers an attack with a potency of 160.(source.level>=2?(source.job==5?
@@ -236,7 +306,7 @@ Duration: 30s
         """
         id = 107
         name = {'纷乱箭', 'Barrage'}
-        # TODO: Shadowbite buff
+        status_to_target = Status.Barrage
 
     class ArmysPaeon(ActionBase):
         """
@@ -367,7 +437,9 @@ Duration: 30s:):)
         """
         id = 7406
         name = {'Caustic Bite', '烈毒咬箭'}
-
+        attack_type = physic
+        damage_potency = 150
+        status_to_target = Status.CausticBite
 
     class Stormbite(ActionBase):
         """
@@ -382,6 +454,9 @@ Duration: 30s:):)
         """
         id = 7407
         name = {'Stormbite', '狂风蚀箭'}
+        attack_type = physic
+        damage_potency = 100
+        status_to_target = Status.Stormbite
 
     class NaturesMinne(ActionBase):
         """
@@ -392,6 +467,7 @@ Duration: 15s
         """
         id = 7408
         name = {"Nature's Minne", '大地神的抒情恋歌'}
+        status_to_target = Status.NaturesMinne
 
     class RefulgentArrow(ActionBase):
         """
@@ -400,6 +476,8 @@ Can only be executed when Straight Shot Ready.
         """
         id = 7409
         name = {'辉煌箭', 'Refulgent Arrow'}
+        attack_type = physic
+        damage_potency = 280
 
     class Shadowbite(ActionBase):
         """
@@ -409,6 +487,11 @@ Can only be executed when Shadowbite Ready.
         """
         id = 16494
         name = {'影噬箭', 'Shadowbite'}
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 270 if source.effects.has(Status.Barrage.id) else 170
 
     class BurstShot(ActionBase):
         """
@@ -418,6 +501,8 @@ Duration: 30s
         """
         id = 16495
         name = {'爆发射击', 'Burst Shot'}
+        attack_type = physic
+        damage_potency = 220
 
     class ApexArrow(ActionBase):
         """
@@ -431,6 +516,8 @@ Duration: 10s
         """
         id = 16496
         name = {'Apex Arrow', '绝峰箭'}
+        attack_type = physic
+        # TODO: 无法获取其他人的量谱数据，无法判断准确数值
 
     class Ladonsbite(ActionBase):
         """
@@ -440,6 +527,8 @@ Duration: 30s
         """
         id = 25783
         name = {'Ladonsbite'}
+        attack_type = physic
+        damage_potency = 130
 
     class BlastArrow(ActionBase):
         """
@@ -449,6 +538,9 @@ Can only be executed while under the effect of Blast Arrow Ready.
         """
         id = 25784
         name = {'Blast Arrow'}
+        attack_type = physic
+        damage_potency = 600
+        aoe_scale = .4
 
     class RadiantFinale(ActionBase):
         """
@@ -464,3 +556,4 @@ Can only be executed when at least 1 coda is active.
         """
         id = 25785
         name = {'Radiant Finale'}
+        status_to_target = Status.RadiantFinale

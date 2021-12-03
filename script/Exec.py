@@ -116,8 +116,9 @@ c18="""
 print(plugins.XivMemory.skill_queue)
 """
 c19="""
+from pprint import pprint
 from ctypes import *
-print(hex(addressof(plugins.XivMemory.actor_table.me)))
+pprint(plugins.XivMemory.actor_table.me.get_data())
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach
@@ -128,8 +129,7 @@ import importlib
 import script.action_effect
 importlib.reload(script.action_effect).main()
 """
-t = requests.post("http://127.0.0.1:2019/exec", c16.encode('utf-8')).text
-
+t = requests.post("http://127.0.0.1:2020/exec", c19.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])

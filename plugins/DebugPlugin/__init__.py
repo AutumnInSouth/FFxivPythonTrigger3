@@ -61,7 +61,7 @@ class DebugPlugin(PluginBase):
 
         if evt.action_id < 10: return
         self.logger(evt)
-        self.logger(evt.struct_message)
+        #self.logger(evt.struct_message)
         # s = []
         # for t, d in evt.targets.items():
         #     n, e = d
