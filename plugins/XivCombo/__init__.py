@@ -6,7 +6,7 @@ from traceback import format_exc
 from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, plugins
 from FFxivPythonTrigger.hook import PluginHook
 
-get_icon_sig = "48 89 ? ? ? 48 89 ? ? ? 57 48 83 EC ? 8B DA BE"
+get_icon_sig = "E8 * * * * 44 8B C0 8B D7 48 8B CB E8 ? ? ? ? 84 C0"
 is_icon_replaceable_sig = "81 F9 ?? ?? ?? ?? 7F 39 81 F9 ?? ?? ?? ??"
 
 
@@ -18,7 +18,7 @@ class XivCombo(PluginBase):
         super().__init__()
         self.combos = {}
         am = AddressManager(self.name, self.logger)
-        self.OnGetIconHook(self, am.scan_address('get_icon', get_icon_sig))
+        self.OnGetIconHook(self, am.scan_point('get_icon', get_icon_sig))
         self.OnCheckIsIconReplaceableHook(self, am.scan_address('is_icon_replaceable', is_icon_replaceable_sig))
         self.all_combo = {}
         for f in (Path(__file__).parent / 'combos').glob('*.py'):

@@ -1,5 +1,6 @@
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.text_pattern import find_signature_address, find_signature_point
+from FFxivPythonTrigger import game_language
 
 sigs = {
     "actor_table": {
@@ -55,7 +56,7 @@ sigs = {
     },
     "movement": {
         'call': find_signature_point,
-        'param': "48 8D 0D * * * * E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? 0F B6 D8",
+        'param': " 48 8D 0D * * * * E8 ? ? ? ? 84 C0 75 ? B0 ? 48 8B 5C 24 ?",
         'add': BASE_ADDR,
     },
     "inventory": {
@@ -103,9 +104,14 @@ sigs = {
         'param': "48 8B 05 * * * * 48 8B D9 8B 40 14 85 C0",
         'add': BASE_ADDR,
     },
+    # "do_action": {
+    #     'call': find_signature_address,
+    #     'param': "40 53 55 57 41 54 41 57 48 83 EC ? 83 BC 24 ? ? ? ? ?",
+    #     'add': BASE_ADDR,
+    # },
     "do_action": {
-        'call': find_signature_address,
-        'param': "40 53 55 57 41 54 41 57 48 83 EC ? 83 BC 24 ? ? ? ? ?",
+        'call': find_signature_point,
+        'param': "E8 * * * * 89 9F ? ? ? ? EB ? C7 87 ? ? ? ? ? ? ? ?",
         'add': BASE_ADDR,
     },
     "do_action_location": {
@@ -120,7 +126,7 @@ sigs = {
     },
     "head_mark": {
         'call': find_signature_address,
-        'param': "48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 8D 42",
+        'param': "48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 8D 42 ? 49 8B E8",
         'add': BASE_ADDR,
     },
     "way_mark_set": {
