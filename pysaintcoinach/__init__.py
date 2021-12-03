@@ -13,7 +13,6 @@ from .pack import PackCollection
 from .indexfile import Directory
 from .file import File
 
-
 __all__ = ['ARealmReversed']
 
 
@@ -26,24 +25,31 @@ class ARealmReversed(object):
     _VERSION_FILE = 'ffxivgame.ver'
 
     @property
-    def game_directory(self): return self._game_directory
+    def game_directory(self):
+        return self._game_directory
 
     @property
-    def packs(self): return self._packs
+    def packs(self):
+        return self._packs
 
     @property
-    def game_data(self): return self._game_data
+    def game_data(self):
+        return self._game_data
 
     @property
-    def game_version(self): return self._game_version
+    def game_version(self):
+        return self._game_version
 
     @property
-    def definition_version(self): return self.game_data.definition.version
+    def definition_version(self):
+        return self.game_data.definition.version
 
     @property
-    def is_current_version(self): return self.game_version == self.definition_version
+    def is_current_version(self):
+        return self.game_version == self.definition_version
 
-    def __init__(self, game_path: str, language: Language):
+    def __init__(self, game_path: str, language: Language, def_path: Path = _DEF_PATH):
+        self.def_path = def_path
         self._game_directory = Path(game_path)
         self._packs = PackCollection(self._game_directory.joinpath('sqpack'))
         self._game_data = XivCollection(self._packs)
@@ -55,13 +61,13 @@ class ARealmReversed(object):
         self._game_data.definition.compile()
 
     def __read_definition(self) -> RelationDefinition:
-        version_path = _DEF_PATH.joinpath('game.ver')
+        version_path = self.def_path.joinpath('game.ver')
         if not version_path.exists():
-            raise RuntimeError('Definitions\\game.ver must exist.')
+            raise RuntimeError(f'{version_path} must exist.')
 
         version = version_path.read_text().strip()
         _def = RelationDefinition(version=version)
-        for sheet_file_name in _DEF_PATH.glob('*.json'):
+        for sheet_file_name in self.def_path.glob('*.json'):
             _json = sheet_file_name.read_text(encoding='utf-8-sig')
             try:
                 obj = json.loads(_json)
@@ -92,7 +98,7 @@ def get_default_xiv():
     _string_decoder.set_decoder(text.TagType.Emphasis.value, omit_tag_decoder)
     _string_decoder.set_decoder(
         text.TagType.SoftHyphen.value,
-        lambda i,t,l: text.nodes.StaticString(_string_decoder.dash))
+        lambda i, t, l: text.nodes.StaticString(_string_decoder.dash))
 
     return ARealmReversed(r"C:\Program Files (x86)\SquareEnix\FINAL FANTASY XIV - A Realm Reborn",
                           Language.english)

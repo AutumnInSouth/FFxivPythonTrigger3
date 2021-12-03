@@ -13,7 +13,7 @@ MISSION_TIME_LIMIT = 0.05
 
 sig = {
     'call': find_signature_address,
-    'param': "4C 8B DC 53 56 48 81 EC 18 02 00 00 48 8B 05",
+    'param': "4C 8B DC 53 56 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 48 83 B9 ? ? ? ? ?",
     'add': BASE_ADDR,
 }
 
