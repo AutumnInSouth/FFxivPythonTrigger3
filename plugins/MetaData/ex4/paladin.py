@@ -1,5 +1,6 @@
 from ..base import *
 
+
 class Status:
     class FightOrFlight(StatusBase):
         id = 76
@@ -32,7 +33,7 @@ class Status:
         damage_potency = 65
 
     class KnightsResolve(StatusBase):
-        id = 0  # TODO: unk id
+        id = 2675
         name = {"Knight's Resolve"}
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
@@ -47,12 +48,12 @@ class Status:
                         break
 
     class KnightsBenediction(StatusBase):
-        id = 0  # TODO: unk id
+        id = 2676
         name = {"Knight's Benediction"}
         cure_potency = 250
 
     class Requiescat(StatusBase):
-        id = 1368  # TODO: id may change
+        id = 1368
         name = {'Requiescat', '安魂祈祷'}
 
     class ArmsUp(StatusBase):
@@ -61,7 +62,7 @@ class Status:
         taken_damage_modify = .85
 
     class BladeOfValor(StatusBase):
-        id = 0  # TODO: unk id
+        id = 2721
         name = {'Blade of Valor'}
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
@@ -70,7 +71,6 @@ class Status:
 
 
 class Actions:
-
     class FastBlade(ActionBase):
         """
 Delivers an attack with a potency of (source.job==19?(source.level>=84?200:150):150).
@@ -83,7 +83,6 @@ Delivers an attack with a potency of (source.job==19?(source.level>=84?200:150):
             super().__init__(source, target)
             self.damage_potency = 200 if source.job == 'Paladin' and source.level >= 84 else 150
 
-
     class FightOrFlight(ActionBase):
         """
 Increases physical damage dealt by 25%.
@@ -93,7 +92,6 @@ Duration: 25s
         id = 20
         name = {'战逃反应', 'Fight or Flight'}
         status_to_target = Status.FightOrFlight
-
 
     class RiotBlade(ActionBase):
         """
@@ -338,7 +336,6 @@ Duration: 12s
         name = {'干预', 'Intervention'}
         status_to_target = Status.KnightsResolve, Status.KnightsBenediction
 
-
     class HolySpirit(ActionBase):
         """
 Deals unaspected damage with a potency of (source.job==19?(source.level>=84?270:250):250).(source.job==19?(source.level>=68?
@@ -399,7 +396,6 @@ Cure Potency: 400:):)
             super().__init__(source, target)
             self.damage_potency = 300 if source.effects.has(Status.Requiescat.id) else 130
 
-
     class Intervene(ActionBase):
         """
 Rushes target and delivers an attack with a potency of 150.
@@ -425,7 +421,6 @@ Can only be executed while under the effect of Sword Oath.
             super().__init__(source, target)
             self.damage_potency = 420 if source.job == 'Paladin' and source.level >= 84 else 390
 
-
     class Confiteor(ActionBase):
         """
 Deals unaspected damage with a potency of 900 to target and all enemies nearby it.
@@ -437,3 +432,75 @@ Can only be executed while under the effect of Requiescat. Effect fades upon exe
         name = {'Confiteor', '悔罪'}
         damage_potency = 900
         attack_type = magic
+
+    class HolySheltron(ActionBase):
+        """
+Block incoming attacks.
+Duration: 8s
+Additional Effect: Grants Knight's Resolve
+Knight's Resolve Effect: Reduces damage taken by 15%
+Duration: 4s
+Additional Effect: Grants Knight's Benediction
+Knight's Benediction Effect: Gradually restores HP
+Cure Potency: 250
+Duration: 12s
+Oath Gauge Cost: 50
+        """
+        id = 25746
+        name = {'Holy Sheltron'}
+        status_to_target = Status.KnightsResolve, Status.KnightsBenediction
+
+    class Expiacion(ActionBase):
+        """
+Delivers an attack to target and all enemies nearby it with a potency of 300 for the first enemy, and 50% less for all remaining enemies.
+Additional Effect: Restores MP
+        """
+        id = 25747
+        name = {'Expiacion'}
+        damage_potency = 300
+        attack_type = physic
+        aoe_scale = .5
+
+    class BladeOfFaith(ActionBase):
+        """
+Deals unaspected damage to target and all enemies nearby it with a potency of 250 for the first enemy, and 50% less for all remaining enemies.
+Combo Action: Confiteor
+Combo Bonus: Restores MP
+        """
+        id = 25748
+        name = {'Blade of Faith'}
+        damage_potency = 250
+        attack_type = magic
+        aoe_scale = .5
+        combo_action = 16459
+
+    class BladeOfTruth(ActionBase):
+        """
+Deals unaspected damage to target and all enemies nearby it with a potency of 350 for the first enemy, and 50% less for all remaining enemies.
+Combo Action: Blade of Faith
+Combo Bonus: Restores MP
+        """
+        id = 25749
+        name = {'Blade of Truth'}
+        damage_potency = 350
+        attack_type = magic
+        aoe_scale = .5
+        combo_action = 25746
+
+    class BladeOfValor(ActionBase):
+        """
+Deals unaspected damage to target and all enemies nearby it with a potency of 420 for the first enemy, and 50% less for all remaining enemies.
+Combo Action: Blade of Truth
+Combo Bonus: Restores MP
+Combo Bonus: Damage over time
+Potency: 80 for the first enemy, and 50% less for all remaining enemies
+Duration: 21s
+Damage over time effect cannot be stacked with that of Goring Blade.
+        """
+        id = 25750
+        name = {'Blade of Valor'}
+        damage_potency = 420
+        attack_type = magic
+        aoe_scale = .5
+        combo_action = 25747
+        status_to_target = Status.BladeOfValor
