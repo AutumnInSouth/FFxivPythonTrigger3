@@ -120,6 +120,8 @@ Delivers an attack with a potency of 100 to all nearby enemies.
         """
         id = 7381
         name = {'Total Eclipse', '全蚀斩'}
+        damage_potency = 100
+        attack_type = physic
 
     class ShieldBash(ActionBase):
         """
@@ -129,6 +131,8 @@ Duration: 6s
         """
         id = 16
         name = {'Shield Bash', '盾牌猛击'}
+        damage_potency = 100
+        attack_type = physic
 
     class IronWill(ActionBase):
         """
@@ -147,6 +151,8 @@ Additional Effect: Increased enmity
         """
         id = 24
         name = {'投盾', 'Shield Lob'}
+        damage_potency = 120
+        attack_type = physic
 
     class RageOfHalone(ActionBase):
         """
@@ -158,6 +164,9 @@ Combo Potency: 330
         id = 21
         name = {'战女神之怒', 'Rage of Halone'}
         combo_action = 15
+        damage_potency = 100
+        combo_damage_potency = 330
+        attack_type = physic
 
     class SpiritsWithin(ActionBase):
         """
@@ -166,6 +175,8 @@ Additional Effect: Restores MP:):)
         """
         id = 29
         name = {'Spirits Within', '深奥之灵'}
+        damage_potency = 250
+        attack_type = physic
 
     class Sheltron(ActionBase):
         """
@@ -177,6 +188,7 @@ Oath Gauge Cost: 50
         """
         id = 3542
         name = {'Sheltron', '盾阵'}
+        status_to_target = Status.Sheltron
 
     class Sentinel(ActionBase):
         """
@@ -186,6 +198,7 @@ Duration: 15s
         """
         id = 17
         name = {'预警', 'Sentinel'}
+        status_to_target = Status.Sentinel
 
     class Prominence(ActionBase):
         """
@@ -197,6 +210,9 @@ Combo Bonus: Restores MP:):)
         id = 16457
         name = {'Prominence', '日珥斩'}
         combo_action = 7381
+        damage_potency = 100
+        combo_damage_potency = 170
+        attack_type = physic
 
     class Cover(ActionBase):
         """
@@ -221,6 +237,9 @@ Duration: 15s
         """
         id = 23
         name = {'厄运流转', 'Circle of Scorn'}
+        damage_potency = 100
+        attack_type = physic
+        status_to_target = Status.CircleOfScorn
 
     class HallowedGround(ActionBase):
         """
@@ -231,6 +250,7 @@ Duration: 10s
         """
         id = 30
         name = {'神圣领域', 'Hallowed Ground'}
+        status_to_target = Status.HallowedGround
 
     class GoringBlade(ActionBase):
         """
@@ -246,6 +266,10 @@ Damage over time effect cannot be stacked with that of Blade of Valor.
         id = 3538
         name = {'沥血剑', 'Goring Blade'}
         combo_action = 15
+        damage_potency = 100
+        combo_damage_potency = 250
+        status_to_target = Status.GoringBlade
+        attack_type = physic
 
     class DivineVeil(ActionBase):
         """
@@ -263,6 +287,7 @@ Cure Potency: 400
         """
         id = 3540
         name = {'圣光幕帘', 'Divine Veil'}
+        cure_potency = 400
 
     class Clemency(ActionBase):
         """
@@ -272,6 +297,8 @@ Additional Effect: Restores to self 50% of HP restored to target if target is a 
         """
         id = 3541
         name = {'Clemency', '深仁厚泽'}
+        cure_potency = 1000
+        aoe_scale = 0.5
 
     class RoyalAuthority(ActionBase):
         """
@@ -284,6 +311,12 @@ Duration: 30s:):)
         id = 3539
         name = {'Royal Authority', '王权剑'}
         combo_action = 15
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 130 if source.job == 'Paladin' and source.level >= 84 else 100
+            self.combo_damage_potency = 420 if source.job == 'Paladin' and source.level >= 84 else 390
 
     class Intervention(ActionBase):
         """
@@ -303,6 +336,8 @@ Duration: 12s
         """
         id = 7382
         name = {'干预', 'Intervention'}
+        status_to_target = Status.KnightsResolve, Status.KnightsBenediction
+
 
     class HolySpirit(ActionBase):
         """
@@ -313,6 +348,15 @@ Cure Potency: 400:):)
         """
         id = 7384
         name = {'圣灵', 'Holy Spirit'}
+        cure_potency = 400
+        attack_type = magic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if source.effects.has(Status.Requiescat.id):
+                self.damage_potency = 540 if source.job == 'Paladin' and source.level >= 84 else 500  # TODO:original value
+            else:
+                self.damage_potency = 270 if source.job == 'Paladin' and source.level >= 84 else 250  # TODO:original value
 
     class Requiescat(ActionBase):
         """
@@ -325,6 +369,8 @@ Duration: 30s
         """
         id = 7383
         name = {'Requiescat', '安魂祈祷'}
+        damage_potency = 400
+        attack_type = magic
 
     class PassageOfArms(ActionBase):
         """
@@ -346,6 +392,13 @@ Cure Potency: 400:):)
         """
         id = 16458
         name = {'圣环', 'Holy Circle'}
+        cure_potency = 400
+        attack_type = magic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 300 if source.effects.has(Status.Requiescat.id) else 130
+
 
     class Intervene(ActionBase):
         """
@@ -355,6 +408,8 @@ Cannot be executed while bound.
         """
         id = 16461
         name = {'Intervene', '调停'}
+        damage_potency = 150
+        attack_type = physic
 
     class Atonement(ActionBase):
         """
@@ -364,6 +419,12 @@ Can only be executed while under the effect of Sword Oath.
         """
         id = 16460
         name = {'赎罪剑', 'Atonement'}
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 420 if source.job == 'Paladin' and source.level >= 84 else 390
+
 
     class Confiteor(ActionBase):
         """
@@ -374,3 +435,5 @@ Can only be executed while under the effect of Requiescat. Effect fades upon exe
         """
         id = 16459
         name = {'Confiteor', '悔罪'}
+        damage_potency = 900
+        attack_type = magic
