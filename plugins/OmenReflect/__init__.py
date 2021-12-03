@@ -1,10 +1,9 @@
 from ctypes import *
 from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException,game_ext
 from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.saint_coinach import action_sheet, action_names, territory_type_names
 from .reflect import reflect_data
 
@@ -35,6 +34,8 @@ if TYPE_CHECKING:
 # 114：直线两侧击退
 # 188: 十字
 
+offset = 24 if game_ext == 3 else 25
+
 class OmenReflect(PluginBase):
     name = "OmenReflect"
 
@@ -50,8 +51,7 @@ class OmenReflect(PluginBase):
     def omen_data_hook(self, hook, action_id):
         ans = hook.original(action_id)
         if action_id in reflect_data:
-            ptr = cast(ans + 24, POINTER(c_ushort))
-            ptr[0] = reflect_data[action_id]
+            cast(ans + offset, POINTER(c_ushort))[0] = reflect_data[action_id]
         return ans
 
     @event("plugin_load:XivNetwork")
@@ -63,6 +63,7 @@ class OmenReflect(PluginBase):
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.display_delay = int(struct_message.display_delay / 5)
+        self.logger(struct_message)
         # struct_message.unk3 = 0
         return struct_message
 

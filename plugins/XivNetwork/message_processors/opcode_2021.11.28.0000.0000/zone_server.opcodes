@@ -1,11 +1,11 @@
 Ability1|35A
-# Ability16|DF
-# Ability24|18F
-# Ability32|ED
-# Ability8|20D
-# ActorCast|116
-# ActorControl142|CA
-# ActorControl143|245
+Ability16|2CE
+Ability24|2ED
+Ability32|23A
+Ability8|1BA
+ActorCast|108
+ActorControl142|172
+ActorControl143|2e6
 # ActorControl144|17A
 # ActorGauge|198
 # ActorMove|310
