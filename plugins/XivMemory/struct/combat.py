@@ -46,11 +46,11 @@ class CoolDownGroups(CoolDownGroup * 100):
 
 
 class Enemy(OffsetStruct({
-    'id': (c_uint, 0),
-    'can_select': (c_uint, 4),
-    'hp_percent': (c_int, 8),
-    'cast_percent': (c_int, 16),
-})):
+    'hp_percent': (c_int, 0),
+    'enmity_percent': (c_int, 4),
+    'id': (c_uint, 0xc),
+    'can_select': (c_uint, 0x10),
+}, 0x18)):
     id: int
     can_select: int
     hp_percent: int

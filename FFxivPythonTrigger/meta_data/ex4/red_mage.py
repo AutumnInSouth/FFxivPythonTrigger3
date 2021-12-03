@@ -9,7 +9,7 @@ Delivers an attack with a potency of 130.(source.level>=2?(source.job==35?
 Action upgraded to Enchanted Riposte if both Black Mana and White Mana are at 20 or more.:):)
         """
         id = 7504
-        name = {'Riposte', '回刺'}
+        name = {'回刺', 'Riposte'}
 
     class EnchantedRiposte(ActionBase):
         """
@@ -38,7 +38,7 @@ Additional Effect: 50% chance of becoming Verfire Ready
 Duration: 30s:):)
         """
         id = 7505
-        name = {'Verthunder', '赤闪雷'}
+        name = {'赤闪雷', 'Verthunder'}
 
     class CorpsACorps(ActionBase):
         """
@@ -48,7 +48,7 @@ Cannot be executed while bound.
 >> 2012, Corps-a-corps, A barrier is preventing damage.
         """
         id = 7506
-        name = {'短兵相接', 'Corps-a-corps'}
+        name = {'Corps-a-corps', '短兵相接'}
 
     class Veraero(ActionBase):
         """
@@ -58,7 +58,7 @@ Additional Effect: 50% chance of becoming Verstone Ready
 Duration: 30s:):)
         """
         id = 7507
-        name = {'赤疾风', 'Veraero'}
+        name = {'Veraero', '赤疾风'}
 
     class Scatter(ActionBase):
         """
@@ -67,7 +67,7 @@ Deals unaspected damage with a potency of 120 to target and all enemies nearby i
 Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 7509
-        name = {'Scatter', '散碎'}
+        name = {'散碎', 'Scatter'}
 
     class VerthunderIi(ActionBase):
         """
@@ -101,7 +101,7 @@ Additional Effect: Increases White Mana by 5
 Can only be executed while Verstone Ready is active.
         """
         id = 7511
-        name = {'赤飞石', 'Verstone'}
+        name = {'Verstone', '赤飞石'}
 
     class Zwerchhau(ActionBase):
         """
@@ -148,14 +148,14 @@ Shares a recast timer with Displacement.
 >> 2033, Engagement, A barrier is preventing damage.
         """
         id = 16527
-        name = {'交剑', 'Engagement'}
+        name = {'Engagement', '交剑'}
 
     class Fleche(ActionBase):
         """
 Delivers an attack with a potency of 460.
         """
         id = 7517
-        name = {'飞刺', 'Fleche'}
+        name = {'Fleche', '飞刺'}
 
     class Redoublement(ActionBase):
         """
@@ -165,7 +165,7 @@ Combo Potency: 230
 Action upgraded to Enchanted Redoublement if both Black Mana and White Mana are at 15 or more.
         """
         id = 7516
-        name = {'连攻', 'Redoublement'}
+        name = {'Redoublement', '连攻'}
         combo_action = 7512
 
     class Acceleration(ActionBase):
@@ -192,7 +192,7 @@ Balance Gauge Cost: 15 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 7529
-        name = {'魔连攻', 'Enchanted Redoublement'}
+        name = {'Enchanted Redoublement', '魔连攻'}
         combo_action = 7512
 
     class Moulinet(ActionBase):
@@ -201,7 +201,7 @@ Delivers an attack with a potency of 60 to all enemies in a cone before you.
 Action upgraded to Enchanted Moulinet if both Black Mana and White Mana are at 20 or more.
         """
         id = 7513
-        name = {'Moulinet', '划圆斩'}
+        name = {'划圆斩', 'Moulinet'}
 
     class EnchantedMoulinet(ActionBase):
         """
@@ -212,7 +212,7 @@ Balance Gauge Cost: 20 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 7530
-        name = {'魔划圆斩', 'Enchanted Moulinet'}
+        name = {'Enchanted Moulinet', '魔划圆斩'}
 
     class Vercure(ActionBase):
         """
@@ -251,7 +251,7 @@ Can only be executed while in combat.
 >> 1971, Manafication, Magic damage dealt is increased.
         """
         id = 7521
-        name = {'Manafication', '倍增'}
+        name = {'倍增', 'Manafication'}
 
     class JoltIi(ActionBase):
         """
@@ -259,7 +259,7 @@ Deals unaspected damage with a potency of (source.job==35?(source.level>=84?310:
 Additional Effect: Increases both Black Mana and White Mana by 2
         """
         id = 7524
-        name = {'Jolt II', '震荡'}
+        name = {'震荡', 'Jolt II'}
 
     class Verraise(ActionBase):
         """
@@ -275,7 +275,7 @@ Acceleration Potency: (source.job==35?(source.level>=84?260:250):250)
 Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 16526
-        name = {'冲击', 'Impact'}
+        name = {'Impact', '冲击'}
 
     class Verflare(ActionBase):
         """
@@ -288,7 +288,7 @@ Mana Stack Cost: 3
 ※This action cannot be assigned to a hotbar.
         """
         id = 7525
-        name = {'Verflare', '赤核爆'}
+        name = {'赤核爆', 'Verflare'}
 
     class Verholy(ActionBase):
         """
@@ -301,7 +301,7 @@ Mana Stack Cost: 3
 ※This action cannot be assigned to a hotbar.
         """
         id = 7526
-        name = {'赤神圣', 'Verholy'}
+        name = {'Verholy', '赤神圣'}
 
     class EnchantedReprise(ActionBase):
         """
@@ -311,7 +311,7 @@ Balance Gauge Cost: 5 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 16528
-        name = {'魔续斩', 'Enchanted Reprise'}
+        name = {'Enchanted Reprise', '魔续斩'}
 
     class Reprise(ActionBase):
         """
@@ -319,7 +319,7 @@ Delivers an attack with a potency of 100.
 Action upgraded to Enchanted Reprise if both Black Mana and White Mana are at 5 or more.
         """
         id = 16529
-        name = {'续斩', 'Reprise'}
+        name = {'Reprise', '续斩'}
 
     class Scorch(ActionBase):
         """
@@ -330,7 +330,7 @@ Jolt II and Impact are changed to Scorch upon landing Verflare or Verholy as a c
 ※This action cannot be assigned to a hotbar.
         """
         id = 16530
-        name = {'Scorch', '焦热'}
+        name = {'焦热', 'Scorch'}
         combo_action = 7525
 
     class VerthunderIii(ActionBase):

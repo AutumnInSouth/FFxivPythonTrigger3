@@ -21,7 +21,6 @@ from .struct.coordinate import Coordinate
 from .struct.buddy import Buddy
 from .hook import ValueBindHook
 from .hook.mo_ui_entity import MoUiEntityHook
-from .hook.world_id import WorldIdHook
 from .hook.chat_log import ChatLogHook
 from .calls.do_action import DoAction, DoActionLocation
 from .calls.do_text_command import DoTextCommand

@@ -35,7 +35,7 @@ status_by_name = {}
 for status in realm_chs.game_data.get_sheet('Status'):
     status_by_name.setdefault(status['Name'], []).append(status)
 for status in realm_eng.game_data.get_sheet('Status'):
-    status_by_name.setdefault(status['Name'], []).append(status)
+    status_by_name.setdefault(status['Name'].lower(), []).append(status)
 
 
 def to_under_line(s):
@@ -56,7 +56,9 @@ def desc_process(desc: str):
 
 w_mode = True
 for class_job in data_realm.game_data.get_sheet('ClassJob'):
-    if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
+     if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
+    #if class_job['Abbreviation']=="AST":
+        if class_job['Abbreviation'] in {'PLD','DRK','BRD'}:continue
         print(class_job['Name'])
         with open('tmp', 'w+') if not w_mode else open(f'{to_under_line(eng_cj_sheet[class_job.key]["Name"])}.py', 'w+', encoding='utf-8') as f:
             (f.write if w_mode else print)("""from ..base import *
@@ -83,7 +85,7 @@ class Actions:
         \"""
 {desc_process(action_transient_translate_sheet[action.key]['Description'])}""")
                 status = set()
-                for name in names: status|=set(s.key for s in status_by_name.get(action['Name'], []))
+                for name in names: status|=set(s.key for s in status_by_name.get(action['Name'].lower(), []))
                 for status in status:
                     status = status_sheet_eng[status]
                     (f.write if w_mode else print)(

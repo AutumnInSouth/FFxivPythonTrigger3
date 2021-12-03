@@ -118,17 +118,7 @@ print(plugins.XivMemory.skill_queue)
 c19="""
 from pprint import pprint
 from ctypes import *
-import struct
-print(plugins.XivMemory.actor_table.me.get_data())
-print(hex(addressof(plugins.XivMemory.actor_table.me)))
-i=0
-data=bytearray(plugins.XivMemory.actor_table.me)
-d=(364).to_bytes(2,'little')
-while True:
-    i=data.index(d,i+1)
-    print(i)
-print()
-# print(plugins.XivMemory.targets.current)
+print(plugins.XivMemory.coordinate.coordinate_main)
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach

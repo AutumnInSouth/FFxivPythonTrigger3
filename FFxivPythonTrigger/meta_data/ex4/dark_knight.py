@@ -69,7 +69,7 @@ Delivers an attack with a potency of (source.job==32?(source.level>=84?170:150):
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            self.damage_potency = 170 if source.job == 'DarkKnight' and source.level >= 84 else 150
+            self.damage_potency = 170 if source and source.job == 32 and source.level >= 84 else 150
 
     class SyphonStrike(ActionBase):
         """
@@ -85,7 +85,7 @@ Combo Bonus: Restores MP
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            if source.job == 'DarkKnight' and source.level >= 84:
+            if source and source.job == 32 and source.level >= 84:
                 self.damage_potency = 120
                 self.combo_potency = 260
             else:
@@ -139,7 +139,7 @@ Combo Bonus: Increases Blood Gauge by 20:):)
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            if source.job == 'DarkKnight' and source.level >= 84:
+            if source and source.job == 32 and source.level >= 84:
                 self.damage_potency = 120
                 self.combo_potency = 340
             else:

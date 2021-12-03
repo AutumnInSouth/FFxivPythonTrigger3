@@ -93,7 +93,7 @@ Duration: 60s
 >> 1319, Higanbana, Open wounds are bleeding, causing damage over time. HP recovery is reduced.
         """
         id = 7489
-        name = {'彼岸花', 'Higanbana'}
+        name = {'Higanbana', '彼岸花'}
 
     class Iaijutsu(ActionBase):
         """
@@ -103,7 +103,7 @@ Executes a weaponskill depending on current number of Sen stored in Sen Gauge.
 3 Sen: Midare Setsugekka
         """
         id = 7867
-        name = {'Iaijutsu', '居合术'}
+        name = {'居合术', 'Iaijutsu'}
 
     class Mangetsu(ActionBase):
         """
@@ -119,7 +119,7 @@ Combo Bonus: Grants Getsu):
 Combo Bonus: Grants Getsu)
         """
         id = 7484
-        name = {'Mangetsu', '满月'}
+        name = {'满月', 'Mangetsu'}
         combo_action = 7483
 
     class Kasha(ActionBase):
@@ -133,7 +133,7 @@ Combo Bonus: Increases Kenki Gauge by (source.level>=62?(source.job==34?10:5):5)
 Combo Bonus: Grants Ka
         """
         id = 7482
-        name = {'Kasha', '花车'}
+        name = {'花车', 'Kasha'}
         combo_action = 7479
 
     class TenkaGoken(ActionBase):
@@ -160,7 +160,7 @@ Combo Bonus: Grants Ka):
 Combo Bonus: Grants Ka)
         """
         id = 7485
-        name = {'Oka', '樱花'}
+        name = {'樱花', 'Oka'}
         combo_action = 7483
 
     class Yukikaze(ActionBase):
@@ -187,7 +187,7 @@ Delivers an attack with a potency of 660.
 ※This action cannot be assigned to a hotbar.
         """
         id = 7487
-        name = {'纷乱雪月花', 'Midare Setsugekka'}
+        name = {'Midare Setsugekka', '纷乱雪月花'}
 
     class MeikyoShisui(ActionBase):
         """
@@ -229,7 +229,7 @@ Kenki Gauge Cost: 10
 Cannot be executed while bound.
         """
         id = 7493
-        name = {'必杀剑·夜天', 'Hissatsu: Yaten'}
+        name = {'Hissatsu: Yaten', '必杀剑·夜天'}
 
     class Meditate(ActionBase):
         """
@@ -243,7 +243,7 @@ Triggers the cooldown of weaponskills upon execution. Cannot be executed during 
 >> 1231, Meditate, Storing Kenki.
         """
         id = 7497
-        name = {'默想', 'Meditate'}
+        name = {'Meditate', '默想'}
 
     class HissatsuShinten(ActionBase):
         """
@@ -259,7 +259,7 @@ Delivers an attack with a potency of 110 to all nearby enemies.
 Kenki Gauge Cost: 25
         """
         id = 7491
-        name = {'Hissatsu: Kyuten', '必杀剑·九天'}
+        name = {'必杀剑·九天', 'Hissatsu: Kyuten'}
 
     class Hagakure(ActionBase):
         """
@@ -285,7 +285,7 @@ Kenki Gauge Cost: 25(source.job==34?(source.level>=72?
 Shares a recast timer with Hissatsu: Senei.:):)
         """
         id = 7496
-        name = {'必杀剑·红莲', 'Hissatsu: Guren'}
+        name = {'Hissatsu: Guren', '必杀剑·红莲'}
 
     class HissatsuSenei(ActionBase):
         """
@@ -294,7 +294,7 @@ Kenki Gauge Cost: 25
 Shares a recast timer with Hissatsu: Guren.
         """
         id = 16481
-        name = {'Hissatsu: Senei', '必杀剑·闪影'}
+        name = {'必杀剑·闪影', 'Hissatsu: Senei'}
 
     class TsubameGaeshi(ActionBase):
         """
@@ -304,7 +304,7 @@ Repeats the previously executed iaijutsu with increased potency.
 Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills.
         """
         id = 16483
-        name = {'Tsubame-gaeshi', '燕回返'}
+        name = {'燕回返', 'Tsubame-gaeshi'}
 
     class KaeshiHiganbana(ActionBase):
         """
@@ -335,7 +335,7 @@ Triggers the cooldown of weaponskills upon execution. Cannot be executed during 
 ※This action cannot be assigned to a hotbar.
         """
         id = 16486
-        name = {'回返雪月花', 'Kaeshi: Setsugekka'}
+        name = {'Kaeshi: Setsugekka', '回返雪月花'}
 
     class Shoha(ActionBase):
         """

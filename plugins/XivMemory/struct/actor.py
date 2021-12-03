@@ -142,12 +142,12 @@ else:
         '_status_flags': (c_ubyte, 0x19a0),
         '_status_flags_2': (c_ubyte, 0x19a5),
         'effects': (Effects, 0x1A38),
-        # 'is_casting_1': (c_bool, 0x1b80),
-        # 'is_casting_2': (c_bool, 0x1b82),
-        # 'casting_id': (c_uint, 0x1b84),
-        # 'casting_target_id': (c_uint, 0x1b90),
-        # 'casting_progress': (c_float, 0x1bb4),
-        # 'casting_time': (c_float, 0x1bb8),
+        'is_casting_1': (c_bool, 0x1bc0),
+        'is_casting_2': (c_bool, 0x1bc2),
+        'casting_id': (c_uint, 0x1bc4),
+        'casting_target_id': (c_uint, 0x1bd0),
+        'casting_progress': (c_float, 0x1bf4),
+        'casting_time': (c_float, 0x1bf8),
     }
 
 
