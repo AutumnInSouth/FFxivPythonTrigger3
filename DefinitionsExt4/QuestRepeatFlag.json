@@ -1,0 +1,16 @@
+{
+  "sheet": "QuestRepeatFlag",
+  "defaultColumn": "Quest",
+  "definitions": [
+    {
+      "name": "Quest",
+      "converter": {
+        "type": "multiref",
+        "targets": [
+          "ArrayEventHandler",
+          "Quest"
+        ]
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ def find_ninj_stiff_addr(sig):
 sigs = {
     "zoom_cam_ptr": {
         'call': find_signature_point,
-        'param': "48 8D 0D * * * * 45 33 C0 33 D2 C6 40 09 01",
+        'param': "48 8D 0D * * * * E8 ? ? ? ? 48 83 3D ? ? ? ? ? 74 ? E8 ? ? ? ?",
         'add': BASE_ADDR,
     },
     "zoom_cam_collision_jmp": {
@@ -44,8 +44,8 @@ sigs = {
         'add': BASE_ADDR,
     },
     "swing_read": {
-        'call': find_signature_address,
-        'param': "40 53 57 41 56 41 57 48 83 EC ? 4C 8B 35 ? ? ? ?",
+        'call': find_signature_point,
+        'param': "E8 * * * * 8B D0 48 8B CE E8 ? ? ? ? 49 8B D7",
         'add': BASE_ADDR,
     },
     "action_hook": {
@@ -63,8 +63,8 @@ sigs = {
         'param': "E8 * * * * C6 83 ? ? ? ? ? EB ? 0F 57 C9",
     },
     "speed_main": {
-        'call': find_signature_address,
-        'param': "48 83 EC ? 80 B9 04 01 00 00 ? 74",
+        'call': find_signature_point,
+        'param': "E8 * * * * 44 0F 28 D8 E9 ? ? ? ?",
         'add': BASE_ADDR,
     },
     "speed_fly": {

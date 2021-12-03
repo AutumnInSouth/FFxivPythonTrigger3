@@ -221,7 +221,7 @@ class AstrologianLogic(Strategy):
             a1 = [data.actor_distance_effective(member) < 15 for member in data.valid_party if member.current_hp]
             if a1 and all(a1): return UseAbility(16552)
         if data.gauge.held_card.raw_value:
-            send_card = res or not data[3590]
+            send_card = res or not data[3590] and data.me.is_in_combat
             send_target = card_target(data, data.gauge.held_card.raw_value) if send_card else None
             held = card_map_arc[data.gauge.held_card.raw_value]
             if 0 in arcs and held in arcs:
