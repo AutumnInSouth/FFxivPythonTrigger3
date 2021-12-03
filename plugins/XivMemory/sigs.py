@@ -56,7 +56,7 @@ sigs = {
     },
     "movement": {
         'call': find_signature_point,
-        'param': " 48 8D 0D * * * * E8 ? ? ? ? 84 C0 75 ? B0 ? 48 8B 5C 24 ?",
+        'param': "48 8D 0D * * * * E8 ? ? ? ? 84 C0 75 ? B0 ? 48 8B 5C 24 ?",
         'add': BASE_ADDR,
     },
     "inventory": {
