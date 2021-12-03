@@ -34,7 +34,7 @@ if TYPE_CHECKING:
 # 114：直线两侧击退
 # 188: 十字
 
-offset = 24 if game_ext == 3 else 25
+offset = 24 if game_ext == 3 else 26
 
 class OmenReflect(PluginBase):
     name = "OmenReflect"

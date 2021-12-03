@@ -1,4 +1,5 @@
 import pysaintcoinach
+import reflect
 
 black_lists = {
     22000: {19789},
@@ -104,7 +105,8 @@ def find_reflect(action_id):
 # print(find_reflect(22294))
 
 
-d = {action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key)) for action in action_sheet}
+d = reflect.reflect_data|{action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
+     for action in action_sheet if action.key>max(reflect.reflect_data.keys())}
 d = {a1: a2 for a1, a2 in d.items() if a2 and a1 != a2}
 import pprint
 

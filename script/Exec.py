@@ -126,10 +126,11 @@ saint_coinach.territory_type_names = {row.key: row['PlaceName'] for row in saint
 """
 c21 = """
 import importlib
-import script.action_effect
-importlib.reload(script.action_effect).main()
+import script.a
+importlib.reload(script.a).main()
 """
-t = requests.post("http://127.0.0.1:2020/exec", c19.encode('utf-8')).text
+
+t = requests.post("http://127.0.0.1:2020/exec", c21.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])
