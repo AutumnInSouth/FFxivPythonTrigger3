@@ -10,24 +10,24 @@ Cure Potency: (source.job==28?(source.level>=85?180:150):150)
 ※This action cannot be assigned to a hotbar.
         """
         id = 802
-        name = {'仙光的拥抱', 'Embrace'}
+        name = {'Embrace', '仙光的拥抱'}
 
     class Ruin(ActionBase):
         """
 Deals unaspected damage with a potency of 150.
         """
         id = 17869
-        name = {'毁灭', 'Ruin'}
+        name = {'Ruin', '毁灭'}
 
     class Bio(ActionBase):
         """
 Deals unaspected damage over time.
 Potency: 20
 Duration: 30s
-    179, Bio, Contagions are spreading, causing damage over time.
+>> 179, Bio, Contagions are spreading, causing damage over time.
         """
         id = 17864
-        name = {'Bio', '毒菌'}
+        name = {'毒菌', 'Bio'}
 
     class Physick(ActionBase):
         """
@@ -35,14 +35,14 @@ Restores target's HP.
 Cure Potency: (source.job==28?(source.level>=85?450:400):400)
         """
         id = 190
-        name = {'Physick', '医术'}
+        name = {'医术', 'Physick'}
 
     class SummonEos(ActionBase):
         """
 Summons the faerie Eos to fight at your side. When set to guard, automatically casts Embrace on party members who suffer damage.
         """
         id = 17215
-        name = {'朝日召唤', 'Summon Eos'}
+        name = {'Summon Eos', '朝日召唤'}
 
     class SummonSelene(ActionBase):
         """
@@ -57,10 +57,10 @@ Gradually restores the HP of all nearby party members.
 Cure Potency: 80
 Duration: 21s
 ※This action cannot be assigned to a hotbar.
-    315, Whispering Dawn, Regenerating HP over time.
+>> 315, Whispering Dawn, Regenerating HP over time.
         """
         id = 803
-        name = {'Whispering Dawn', '仙光的低语'}
+        name = {'仙光的低语', 'Whispering Dawn'}
 
     class WhisperingDawn(ActionBase):
         """
@@ -68,17 +68,17 @@ Orders faerie to execute Whispering Dawn.(source.job==28?(source.level>=80? If S
 Whispering Dawn(source.job==28?(source.level>=80?/Angel's Whisper:):) Effect: Gradually restores the HP of all nearby party members
 Cure Potency: 80
 Duration: 21s
-    315, Whispering Dawn, Regenerating HP over time.
+>> 315, Whispering Dawn, Regenerating HP over time.
         """
         id = 16537
-        name = {'Whispering Dawn', '仙光的低语'}
+        name = {'仙光的低语', 'Whispering Dawn'}
 
     class BioIi(ActionBase):
         """
 Deals unaspected damage over time.
 Potency: 40
 Duration: 30s
-    189, Bio II, Lungs are failing, causing damage over time.
+>> 189, Bio II, Lungs are failing, causing damage over time.
         """
         id = 17865
         name = {'猛毒菌', 'Bio II'}
@@ -92,7 +92,7 @@ Duration: 30s
 Effect cannot be stacked with certain sage barrier effects.
         """
         id = 185
-        name = {'Adloquium', '鼓舞激励之策'}
+        name = {'鼓舞激励之策', 'Adloquium'}
 
     class Succor(ActionBase):
         """
@@ -101,6 +101,7 @@ Cure Potency: 200
 Additional Effect: Erects a magicked barrier which nullifies damage equaling (source.job==28?(source.level>=85?160:115):115)% of the amount of HP restored
 Duration: 30s
 Effect cannot be stacked with certain sage barrier effects.
+>> 166, Succor, Next Succor will cost no MP.
         """
         id = 186
         name = {'士气高扬之策', 'Succor'}
@@ -118,7 +119,7 @@ Increases healing magic potency of all nearby party members by 10%, while reduci
 Duration: 20s
 Effect cannot be stacked with Seraphic Illumination.
 ※This action cannot be assigned to a hotbar.
-    317, Fey Illumination, Magic defense and healing magic potency are increased.
+>> 317, Fey Illumination, Magic defense and healing magic potency are increased.
         """
         id = 805
         name = {'Fey Illumination', '异想的幻光'}
@@ -129,7 +130,7 @@ Orders faerie to execute Fey Illumination.(source.job==28?(source.level>=80? If 
 Fey Illumination(source.job==28?(source.level>=80?/Seraphic Illumination:):) Effect: Increases healing magic potency of all nearby party members by 10%, while reducing magic damage taken by all nearby party members by 5%
 Duration: 20s(source.job==28?(source.level>=80?
 Effect cannot be stacked with Seraphic Illumination.:):)
-    317, Fey Illumination, Magic defense and healing magic potency are increased.
+>> 317, Fey Illumination, Magic defense and healing magic potency are increased.
         """
         id = 16538
         name = {'Fey Illumination', '异想的幻光'}
@@ -139,10 +140,10 @@ Effect cannot be stacked with Seraphic Illumination.:):)
 Restores 20% of maximum MP.
 Additional Effect: Aetherflow III
 Can only be executed while in combat.
-    304, Aetherflow, Aether is gathering in the body.
+>> 304, Aetherflow, Aether is gathering in the body.
         """
         id = 166
-        name = {'以太超流', 'Aetherflow'}
+        name = {'Aetherflow', '以太超流'}
 
     class EnergyDrain(ActionBase):
         """
@@ -152,7 +153,7 @@ Additional Effect: Absorbs a portion of damage dealt as HP
 :):)Aetherflow Gauge Cost: 1
         """
         id = 167
-        name = {'能量吸收', 'Energy Drain'}
+        name = {'Energy Drain', '能量吸收'}
 
     class Lustrate(ActionBase):
         """
@@ -162,14 +163,14 @@ Cure Potency: 600
 :):)Aetherflow Gauge Cost: 1
         """
         id = 189
-        name = {'生命活性法', 'Lustrate'}
+        name = {'Lustrate', '生命活性法'}
 
     class ArtOfWar(ActionBase):
         """
 Deals unaspected damage with a potency of (source.job==28?(source.level>=54?165:150):150) to all nearby enemies.
         """
         id = 16539
-        name = {'Art of War', '破阵法'}
+        name = {'破阵法', 'Art of War'}
 
     class SacredSoil(ActionBase):
         """
@@ -179,11 +180,11 @@ Duration: 15s
 Cure Potency: 100
 :):)(source.level>=70?(source.job==28?Additional Effect: Increases Faerie Gauge by 10
 :):)Aetherflow Gauge Cost: 1
-    298, Sacred Soil, An area of land has been sanctified, reducing damage taken for all who enter.
-    299, Sacred Soil, Damage taken is reduced.
-    2637, Sacred Soil, A circle of sanctified earth is healing party members and reducing damage taken within its bounds.
-    2638, Sacred Soil, Damage taken is reduced.
-    1944, Sacred Soil, A circle of sanctified earth is healing party members and reducing damage taken within its bounds.
+>> 298, Sacred Soil, An area of land has been sanctified, reducing damage taken for all who enter.
+>> 299, Sacred Soil, Damage taken is reduced.
+>> 2637, Sacred Soil, A circle of sanctified earth is healing party members and reducing damage taken within its bounds.
+>> 2638, Sacred Soil, Damage taken is reduced.
+>> 1944, Sacred Soil, A circle of sanctified earth is healing party members and reducing damage taken within its bounds.
         """
         id = 188
         name = {'Sacred Soil', '野战治疗阵'}
@@ -196,14 +197,14 @@ Cure Potency: 400
 :):)Aetherflow Gauge Cost: 1
         """
         id = 3583
-        name = {'不屈不挠之策', 'Indomitability'}
+        name = {'Indomitability', '不屈不挠之策'}
 
     class Broil(ActionBase):
         """
 Deals unaspected damage with a potency of 220.
         """
         id = 3584
-        name = {'气炎法', 'Broil'}
+        name = {'Broil', '气炎法'}
 
     class DeploymentTactics(ActionBase):
         """
@@ -218,10 +219,10 @@ No effect when target is not under the effect of Galvanize.
         """
 Transforms the next Galvanize and Catalyze statuses into HP recovery equaling the amount of damage reduction intended for the barrier.
 Duration: 15s
-    792, Emergency Tactics, The next <UIForeground(506)><UIGlow(507)>Galvanize</UIGlow></UIForeground> and <UIForeground(506)><UIGlow(507)>Catalyze</UIGlow></UIForeground> statuses are transformed into HP recovery equaling the amount of damage reduction intended for their barriers.
+>> 792, Emergency Tactics, The next Galvanize and Catalyze statuses are transformed into HP recovery equaling the amount of damage reduction intended for their barriers.
         """
         id = 3586
-        name = {'Emergency Tactics', '应急战术'}
+        name = {'应急战术', 'Emergency Tactics'}
 
     class Dissipation(ActionBase):
         """
@@ -230,8 +231,8 @@ Duration: 30s
 Current faerie will return once the effect expires.
 Summon Eos or Summon Selene cannot be executed while under the effect of Dissipation.
 Can only be executed while in combat.
-    2069, Dissipation, Damage dealt and potency of all HP restoration actions are increased.
-    791, Dissipation, Healing magic potency is increased.
+>> 2069, Dissipation, Damage dealt and potency of all HP restoration actions are increased.
+>> 791, Dissipation, Healing magic potency is increased.
         """
         id = 3587
         name = {'Dissipation', '转化'}
@@ -243,8 +244,8 @@ Cure Potency: 800
 Duration: 45s
 (source.level>=70?(source.job==28?Additional Effect: Increases Faerie Gauge by 10
 :):)Aetherflow Gauge Cost: 1
-    1220, Excogitation, HP will be restored automatically upon falling below a certain level or expiration of effect duration.
-    2182, Excogitation, HP will be restored automatically upon falling below a certain level or expiration of effect duration.
+>> 1220, Excogitation, HP will be restored automatically upon falling below a certain level or expiration of effect duration.
+>> 2182, Excogitation, HP will be restored automatically upon falling below a certain level or expiration of effect duration.
         """
         id = 7434
         name = {'Excogitation', '深谋远虑之策'}
@@ -254,14 +255,14 @@ Duration: 45s
 Deals unaspected damage with a potency of 240.
         """
         id = 7435
-        name = {'魔炎法', 'Broil II'}
+        name = {'Broil II', '魔炎法'}
 
     class ChainStratagem(ActionBase):
         """
 Increases rate at which target takes critical hits by 10%.
 Duration: 15s
-    1221, Chain Stratagem, Rate at which critical hits are taken is increased.
-    1406, Chain Stratagem, Damage taken is increased.
+>> 1221, Chain Stratagem, Rate at which critical hits are taken is increased.
+>> 1406, Chain Stratagem, Damage taken is increased.
         """
         id = 7436
         name = {'Chain Stratagem', '连环计'}
@@ -273,7 +274,7 @@ Faerie Gauge Cost: 10
 The Faerie Gauge increases when (source.job==28?(source.level>=80?a faerie or Seraph:a faerie):a faerie) is summoned and an Aetherflow action is successfully executed while in combat.
         """
         id = 7437
-        name = {'以太契约', 'Aetherpact'}
+        name = {'Aetherpact', '以太契约'}
 
     class FeyUnion(ActionBase):
         """
@@ -281,8 +282,8 @@ Gradually restores HP of party member with which faerie has a Fey Union.
 Cure Potency: 300
 Faerie Gauge is depleted while HP is restored. Fey Union effect fades upon execution of other faerie actions. Party member must be within 15 yalms.
 ※This action cannot be assigned to a hotbar.
-    1222, Fey Union, Allowing regeneration of HP over time.
-    1223, Fey Union, Regenerating HP over time.
+>> 1222, Fey Union, Allowing regeneration of HP over time.
+>> 1223, Fey Union, Regenerating HP over time.
         """
         id = 7438
         name = {'Fey Union', '异想的融光'}
@@ -292,34 +293,34 @@ Faerie Gauge is depleted while HP is restored. Fey Union effect fades upon execu
 Dissolves current Fey Union.
         """
         id = 7869
-        name = {'融光解除', 'Dissolve Union'}
+        name = {'Dissolve Union', '融光解除'}
 
     class Biolysis(ActionBase):
         """
 Deals unaspected damage over time.
 Potency: 70
 Duration: 30s
-    2039, Biolysis, Rapid decomposition of the flesh is reducing HP recovery.
-    1895, Biolysis, Sustaining damage over time.
+>> 2039, Biolysis, Rapid decomposition of the flesh is reducing HP recovery.
+>> 1895, Biolysis, Sustaining damage over time.
         """
         id = 16540
-        name = {'Biolysis', '蛊毒法'}
+        name = {'蛊毒法', 'Biolysis'}
 
     class BroilIii(ActionBase):
         """
 Deals unaspected damage with a potency of 255.
         """
         id = 16541
-        name = {'Broil III', '死炎法'}
+        name = {'死炎法', 'Broil III'}
 
     class Recitation(ActionBase):
         """
 Allows the execution of Adloquium, Succor, Indomitability, or Excogitation without consuming resources while also ensuring critical HP is restored.
 Duration: 15s
-    1896, Recitation, The next <UIForeground(500)><UIGlow(501)>Adloquium</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Succor</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Indomitability</UIGlow></UIForeground>, or <UIForeground(500)><UIGlow(501)>Excogitation</UIGlow></UIForeground> executed will cost no MP or <UIForeground(506)><UIGlow(507)>Aetherflow</UIGlow></UIForeground> stacks and will restore critical HP.
+>> 1896, Recitation, The next Adloquium, Succor, Indomitability, or Excogitation executed will cost no MP or Aetherflow stacks and will restore critical HP.
         """
         id = 16542
-        name = {'Recitation', '秘策'}
+        name = {'秘策', 'Recitation'}
 
     class FeyBlessing(ActionBase):
         """
@@ -328,7 +329,7 @@ Fey Blessing Effect: Restores the HP of all nearby party members
 Cure Potency: 320
         """
         id = 16543
-        name = {'Fey Blessing', '异想的祥光'}
+        name = {'异想的祥光', 'Fey Blessing'}
 
     class FeyBlessing(ActionBase):
         """
@@ -337,7 +338,7 @@ Cure Potency: 320
 ※This action cannot be assigned to a hotbar.
         """
         id = 16544
-        name = {'Fey Blessing', '异想的祥光'}
+        name = {'异想的祥光', 'Fey Blessing'}
 
     class SummonSeraph(ActionBase):
         """
@@ -347,7 +348,7 @@ Duration: 22s
 ※Action changes to Consolation upon execution.
         """
         id = 16545
-        name = {'炽天召唤', 'Summon Seraph'}
+        name = {'Summon Seraph', '炽天召唤'}
 
     class Consolation(ActionBase):
         """
@@ -379,8 +380,8 @@ Cure Potency: (source.job==28?(source.level>=85?180:150):150)
 Additional Effect: Erects a magicked barrier which nullifies damage equaling the amount of HP restored
 Duration: 30s
 ※This action cannot be assigned to a hotbar.
-    2040, Seraphic Veil, An aetherial barrier is preventing damage.
-    1917, Seraphic Veil, A holy barrier is nullifying damage.
+>> 2040, Seraphic Veil, An aetherial barrier is preventing damage.
+>> 1917, Seraphic Veil, A holy barrier is nullifying damage.
         """
         id = 16548
         name = {'Seraphic Veil', '炽天的幕帘'}
@@ -391,10 +392,10 @@ Gradually restores the HP of all nearby party members.
 Cure Potency: 80
 Duration: 21s
 ※This action cannot be assigned to a hotbar.
-    1874, Angel's Whisper, Regenerating HP over time.
+>> 1874, Angel's Whisper, Regenerating HP over time.
         """
         id = 16550
-        name = {'天使的低语', "Angel's Whisper"}
+        name = {"Angel's Whisper", '天使的低语'}
 
     class SeraphicIllumination(ActionBase):
         """
@@ -402,7 +403,41 @@ Increases healing magic potency of nearby party members by 10%, while reducing m
 Duration: 20s
 Effect cannot be stacked with Fey Illumination.
 ※This action cannot be assigned to a hotbar.
-    1875, Seraphic Illumination, Magic defense and healing magic potency are increased.
+>> 1875, Seraphic Illumination, Magic defense and healing magic potency are increased.
         """
         id = 16551
-        name = {'Seraphic Illumination', '炽天的幻光'}
+        name = {'炽天的幻光', 'Seraphic Illumination'}
+
+    class BroilIv(ActionBase):
+        """
+Deals unaspected damage with a potency of 295.
+        """
+        id = 25865
+        name = {'Broil IV'}
+
+    class ArtOfWarIi(ActionBase):
+        """
+Deals unaspected damage with a potency of 180 to all nearby enemies.
+        """
+        id = 25866
+        name = {'Art of War II'}
+
+    class Protraction(ActionBase):
+        """
+Increases maximum HP of a party member or self by 10% and restores the amount increased.
+Additional Effect: Increases HP recovery via healing actions by 10%
+Duration: 10s
+>> 2710, Protraction, Maximum HP is increased and HP recovery via healing actions is increased.
+        """
+        id = 25867
+        name = {'Protraction'}
+
+    class Expedient(ActionBase):
+        """
+Grants Expedience and Desperate Measures to all nearby party members.
+Expedience Effect: Increases movement speed
+Desperate Measures Effect: Reduces damage taken by 10%
+Duration: 20s
+        """
+        id = 25868
+        name = {'Expedient'}

@@ -8,65 +8,36 @@ class Actions:
 Deals unaspected damage with a potency of 240.
         """
         id = 163
-        name = {'毁灭', 'Ruin'}
+        name = {'Ruin', '毁灭'}
 
-    class Gouge(ActionBase):
+    class SummonCarbuncle(ActionBase):
         """
-Deals earth damage with a potency of 40.
-※This action cannot be assigned to a hotbar.
+Summons Carbuncle to your side.
         """
-        id = 633
-        name = {'Gouge', '利爪'}
+        id = 25798
+        name = {'Summon Carbuncle'}
 
-    class Gust(ActionBase):
+    class RadiantAegis(ActionBase):
         """
-Deals wind damage with a potency of 20 to target and all enemies nearby it.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 637
-        name = {'突风', 'Gust'}
-
-    class RockBuster(ActionBase):
-        """
-Deals earth damage with a potency of 60.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 787
-        name = {'Rock Buster', '碎岩'}
-
-    class WindBlade(ActionBase):
-        """
-Deals wind damage with a potency of 30 to target and all enemies nearby it.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 792
-        name = {'Wind Blade', '烈风刃'}
-
-    class BurningStrike(ActionBase):
-        """
-Deals fire damage with a potency of 80.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 798
-        name = {'燃火强袭', 'Burning Strike'}
-
-    class Bio(ActionBase):
-        """
-Deals unaspected damage over time.
-Potency: 20
+Orders Carbuncle to execute Radiant Aegis.
+Radiant Aegis Effect: Creates a barrier around self that absorbs damage totaling 20% of your maximum HP
 Duration: 30s
-    179, Bio, Contagions are spreading, causing damage over time.
+(source.job==27?(source.level>=88?Maximum Charges: 2
+:):)Can only be executed while Carbuncle is summoned.
+>> 2702, Radiant Aegis, A magicked barrier is nullifying damage.
         """
-        id = 164
-        name = {'Bio', '毒菌'}
+        id = 25799
+        name = {'Radiant Aegis'}
 
-    class Summon(ActionBase):
+    class RadiantAegis(ActionBase):
         """
-Summons a caster-type pet to fight at your side.
-Shares a recast timer with (source.job==27?Summon II and Summon III:Summon II).
+Creates a barrier around you that absorbs damage totaling 20% of your maximum HP.
+Duration: 30s
+※This action cannot be assigned to a hotbar.
+>> 2702, Radiant Aegis, A magicked barrier is nullifying damage.
         """
-        id = 165
-        name = {'Summon', '召唤'}
+        id = 25841
+        name = {'Radiant Aegis'}
 
     class Physick(ActionBase):
         """
@@ -74,129 +45,48 @@ Restores target's HP.
 Cure Potency: 400
         """
         id = 16230
-        name = {'Physick', '医术'}
+        name = {'医术', 'Physick'}
 
-    class Miasma(ActionBase):
+    class Aethercharge(ActionBase):
         """
-Deals unaspected damage with a potency of 20.
-Additional Effect: Unaspected damage over time
-Potency: 20
+Grants Aethercharge, increasing the potency of Ruin, Ruin II, and Ruin III by 50, and Outburst by 20.
+Duration: 15s
+Additional Effect: Grants (source.level>=22?(source.job==26?Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum:(source.job==27?Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum:(source.level>=15?(source.job==26?Ruby Arcanum and Topaz Arcanum:(source.job==27?Ruby Arcanum and Topaz Arcanum:Ruby Arcanum)):Ruby Arcanum))):(source.level>=15?(source.job==26?Ruby Arcanum and Topaz Arcanum:(source.job==27?Ruby Arcanum and Topaz Arcanum:Ruby Arcanum)):Ruby Arcanum))
+Can only be executed in combat and while Carbuncle is summoned.
+        """
+        id = 25800
+        name = {'Aethercharge'}
+
+    class SummonRuby(ActionBase):
+        """
+Summons Ruby Carbuncle, and orders it to execute Glittering Ruby.
+Glittering Ruby Effect: Rushes target and deals fire damage with a potency of 400
+Additional Effect: Grants 2 stacks of Fire Attunement
+Fire Attunement Effect: Gemshine and Precious Brilliance become fire-aspected
 Duration: 30s
-    180, Miasma, Lungs are failing, causing damage over time.
+Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
         """
-        id = 168
-        name = {'Miasma', '瘴气'}
+        id = 25802
+        name = {'Summon Ruby'}
 
-    class Downburst(ActionBase):
+    class RubyRuin(ActionBase):
         """
-Deals wind damage with a potency of 100 to target and all enemies nearby it.
+Deals fire damage with a potency of 300.
+Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
-        id = 639
-        name = {'Downburst', '下行突风'}
+        id = 25808
+        name = {'Ruby Ruin'}
 
-    class AerialSlash(ActionBase):
+    class Gemshine(ActionBase):
         """
-Deals wind damage with a potency of 150 to target and all enemies nearby it.
-※This action cannot be assigned to a hotbar.
+Channel the energies of your active elemental attunement to attack your enemy.
+Fire Attunement Effect: Deal fire damage to a single target
+Earth Attunement Effect: Deal earth damage to a single target
+Wind Attunement Effect: Deal wind damage to a single target
         """
-        id = 794
-        name = {'Aerial Slash', '大气风斩'}
-
-    class CrimsonCyclone(ActionBase):
-        """
-Deals fire damage with a potency of 250.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 797
-        name = {'Crimson Cyclone', '深红旋风'}
-
-    class EgiAssault(ActionBase):
-        """
-(source.job==27?Orders your Egi to use Aerial Slash if Garuda-Egi is summoned, Crimson Cyclone if Ifrit-Egi is summoned, or Earthen Armor if Titan-Egi is summoned.:Orders your Carbuncle to use Downburst if Emerald Carbuncle is summoned or Glittering Topaz if Topaz Carbuncle is summoned.)
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16509
-        name = {'Egi Assault', '灵攻I'}
-
-    class GlitteringTopaz(ActionBase):
-        """
-Creates a barrier around you that absorbs damage totaling 30% of your maximum HP.
-Duration: 30s
-※This action cannot be assigned to a hotbar.
-        """
-        id = 16520
-        name = {'黄宝石之辉', 'Glittering Topaz'}
-
-    class EarthenArmor(ActionBase):
-        """
-Creates a barrier around you that absorbs damage totaling 30% of your maximum HP.
-Duration: 30s
-※This action cannot be assigned to a hotbar.
-        """
-        id = 16522
-        name = {'大地之铠', 'Earthen Armor'}
-
-    class AssaultIGlitteringTopaz(ActionBase):
-        """
-Orders Topaz Carbuncle to execute Glittering Topaz.
-Glittering Topaz Effect: Creates a barrier around you that absorbs damage totaling 30% of your maximum HP
-Duration: 30s
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16791
-        name = {'Assault I: Glittering Topaz', '灵攻I：黄宝石之辉'}
-
-    class AssaultIDownburst(ActionBase):
-        """
-Orders Emerald Carbuncle to execute Downburst.
-Downburst Effect: Deals wind damage with a potency of 100 to target and all enemies nearby it
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16793
-        name = {'灵攻I：下行突风', 'Assault I: Downburst'}
-
-    class AssaultIEarthenArmor(ActionBase):
-        """
-Orders Titan-Egi to execute Earthen Armor.
-Earthen Armor Effect: Creates a barrier around you that absorbs damage totaling 30% of your maximum HP
-Duration: 30s
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16795
-        name = {'Assault I: Earthen Armor', '灵攻I：大地之铠'}
-
-    class AssaultIAerialSlash(ActionBase):
-        """
-Orders Garuda-Egi to execute Aerial Slash.
-Aerial Slash Effect: Deals wind damage with a potency of 150 to target and all enemies nearby it
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16797
-        name = {'灵攻I：大气风斩', 'Assault I: Aerial Slash'}
-
-    class AssaultICrimsonCyclone(ActionBase):
-        """
-Orders Ifrit-Egi to execute Crimson Cyclone.
-Crimson Cyclone Effect: Deals fire damage with a potency of 250
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16799
-        name = {'Assault I: Crimson Cyclone', '灵攻I：深红旋风'}
-
-    class SummonIi(ActionBase):
-        """
-Summons a support-type pet to fight at your side.
-Shares a recast timer with (source.job==27?Summon and Summon III:Summon).
-        """
-        id = 170
-        name = {'Summon II', '召唤II'}
+        id = 25883
+        name = {'Gemshine'}
 
     class Fester(ActionBase):
         """
@@ -215,37 +105,175 @@ Duration: 60s:):)(source.job==27?(source.level>=52?
 Shares a recast timer with Energy Siphon.:):)
         """
         id = 16508
-        name = {'能量吸收', 'Energy Drain'}
+        name = {'Energy Drain', '能量吸收'}
 
-    class BioIi(ActionBase):
+    class SummonTopaz(ActionBase):
         """
-Deals unaspected damage over time.
-Potency: 30
+Summons Topaz Carbuncle, and orders it to execute Glittering Topaz.
+Glittering Topaz Effect: Rushes target and deals earth damage with a potency of 400
+Additional Effect: Grants 4 stacks of Earth Attunement
+Earth Attunement Effect: Gemshine and Precious Brilliance become earth-aspected
 Duration: 30s
-    189, Bio II, Lungs are failing, causing damage over time.
+Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
         """
-        id = 178
-        name = {'猛毒菌', 'Bio II'}
+        id = 25803
+        name = {'Summon Topaz'}
 
-    class Bane(ActionBase):
+    class TopazRuin(ActionBase):
         """
-Spreads a target's Bio and Miasma effects to nearby enemies.
-Potency is reduced by 60% for all remaining enemies.
-(source.job==27?(source.level>=78?Duration: Full duration of original effects:Duration: Time remaining on original effects
-Additional Effect: 15% chance that Bio and Miasma durations reset if shorter than original effect duration):Duration: Time remaining on original effects
-Additional Effect: 15% chance that Bio and Miasma durations reset if shorter than original effect duration)
-No effect if target is not suffering from Bio or Miasma effects inflicted by you.
+Deals earth damage with a potency of 240.
+Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
         """
-        id = 174
-        name = {'灾祸', 'Bane'}
+        id = 25809
+        name = {'Topaz Ruin'}
 
-    class SummonIii(ActionBase):
+    class SummonEmerald(ActionBase):
         """
-Summons an attacker-type pet to fight at your side.
-Shares a recast timer with Summon and Summon II.
+Summons Emerald Carbuncle, and orders it to execute Glittering Emerald.
+Glittering Emerald Effect: Deals wind damage with a potency of 400
+Additional Effect: Grants 4 stacks of Wind Attunement
+Wind Attunement Effect: Gemshine and Precious Brilliance become wind-aspected
+Duration: 30s
+Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
         """
-        id = 180
-        name = {'Summon III', '召唤III'}
+        id = 25804
+        name = {'Summon Emerald'}
+
+    class EmeraldRuin(ActionBase):
+        """
+Deals wind damage with a potency of 160.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25810
+        name = {'Emerald Ruin'}
+
+    class Outburst(ActionBase):
+        """
+Deals unaspected damage with a potency of 100 to target and all enemies nearby it.
+        """
+        id = 16511
+        name = {'Outburst', '迸裂'}
+
+    class RubyOutburst(ActionBase):
+        """
+Deals fire damage with a potency of 140 to target and all enemies nearby it.
+Fire Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25814
+        name = {'Ruby Outburst'}
+
+    class TopazOutburst(ActionBase):
+        """
+Deals earth damage with a potency of 110 to target and all enemies nearby it.
+Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25815
+        name = {'Topaz Outburst'}
+
+    class EmeraldOutburst(ActionBase):
+        """
+Deals wind damage with a potency of 70 to target and all enemies nearby it.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25816
+        name = {'Emerald Outburst'}
+
+    class PreciousBrilliance(ActionBase):
+        """
+Channel the energies of your active elemental attunement to attack multiple enemies.
+Fire Attunement Effect: Deal fire damage to a target and all enemies nearby it
+Earth Attunement Effect: Deal earth damage to a target and all enemies nearby it
+Wind Attunement Effect: Deal wind damage to a target and all enemies nearby it
+        """
+        id = 25884
+        name = {'Precious Brilliance'}
+
+    class RuinIi(ActionBase):
+        """
+Deals unaspected damage with a potency of 270.
+        """
+        id = 172
+        name = {'毁坏', 'Ruin II'}
+
+    class SummonIfrit(ActionBase):
+        """
+Summons Ifrit-Egi and orders it to execute (source.job==27?(source.level>=50?Inferno:Burning Strike):Burning Strike).
+(source.job==27?(source.level>=50?Inferno Effect: Rushes forward and deals fire damage to all enemies in a 5-yalm cone before it with a potency of 600 for the first enemy, and 60% less for all remaining enemies:Burning Strike Effect: Rushes forward and deals fire damage with a potency of 500):Burning Strike Effect: Rushes forward and deals fire damage with a potency of 500)
+Additional Effect: Grants 2 stacks of Fire Attunement
+Fire Attunement Effect: Gemshine and Precious Brilliance become fire-aspected
+Duration: 30s
+(source.job==27?(source.level>=86?Additional Effect: Grants Ifrit's Favor
+Effect of Ifrit's Favor ends upon execution of certain summoner actions.
+:):)Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
+        """
+        id = 25805
+        name = {'Summon Ifrit'}
+
+    class RubyRuinIi(ActionBase):
+        """
+Deals fire damage with a potency of 340.
+Fire Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25811
+        name = {'Ruby Ruin II'}
+
+    class TopazRuinIi(ActionBase):
+        """
+Deals earth damage with a potency of 270.
+Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25812
+        name = {'Topaz Ruin II'}
+
+    class EmeraldRuinIi(ActionBase):
+        """
+Deals wind damage with a potency of 170.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25813
+        name = {'Emerald Ruin II'}
+
+    class SummonTitan(ActionBase):
+        """
+Summons Titan-Egi and orders it to execute (source.job==27?(source.level>=50?Earthen Fury:Rock Buster):Rock Buster).
+(source.job==27?(source.level>=50?Earthen Fury Effect: Rushes forward and deals earth damage to all enemies within 5 yalms with a potency of 600 for the first enemy, and 60% less for all remaining enemies:Rock Buster Effect: Rushes forward and deals earth damage with a potency of 500):Rock Buster Effect: Rushes forward and deals earth damage with a potency of 500)
+Additional Effect: Grants 4 stacks of Earth Attunement
+Earth Attunement Effect: Gemshine and Precious Brilliance become earth-aspected
+Duration: 30s
+Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
+        """
+        id = 25806
+        name = {'Summon Titan'}
+
+    class Painflare(ActionBase):
+        """
+Deals unaspected damage with a potency of 150 to target and all enemies nearby it.
+Aetherflow Gauge Cost: 1
+        """
+        id = 3578
+        name = {'痛苦核爆', 'Painflare'}
+
+    class SummonGaruda(ActionBase):
+        """
+Summons Garuda-Egi and orders it to execute (source.job==27?(source.level>=50?Aerial Blast:Aerial Slash):Aerial Slash).
+(source.job==27?(source.level>=50?Aerial Blast Effect: Deals wind damage to target and all enemies within 5 yalms with a potency of 600 for the first enemy, and 60% less for all remaining enemies:Aerial Slash Effect: Deals wind damage with a potency of 100 to target and all enemies nearby it):Aerial Slash Effect: Deals wind damage with a potency of 100 to target and all enemies nearby it)
+Additional Effect: Grants 4 stacks of Wind Attunement
+Wind Attunement Effect: Gemshine and Precious Brilliance become wind-aspected
+Duration: 30s
+(source.job==27?(source.level>=86?Additional Effect: Grants Garuda's Favor
+Effect of Garuda's Favor ends upon execution of certain summoner actions.
+:):)Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
+        """
+        id = 25807
+        name = {'Summon Garuda'}
 
     class EnergySiphon(ActionBase):
         """
@@ -258,228 +286,39 @@ Duration: 60s
         id = 16510
         name = {'Energy Siphon', '能量抽取'}
 
-    class RuinIi(ActionBase):
-        """
-Deals unaspected damage with a potency of 270.
-        """
-        id = 172
-        name = {'毁坏', 'Ruin II'}
-
-    class ShiningTopaz(ActionBase):
-        """
-Deals earth damage with a potency of 200 to all nearby enemies.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 634
-        name = {'Shining Topaz', '黄宝石之光'}
-
-    class MountainBuster(ActionBase):
-        """
-Deals earth damage with a potency of 250 to all nearby enemies.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 788
-        name = {'山崩', 'Mountain Buster'}
-
-    class FlamingCrush(ActionBase):
-        """
-Deals fire damage to all nearby enemies with a potency of 250 for the first enemy, and 50% less for all remaining enemies.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 800
-        name = {'Flaming Crush', '烈焰碎击'}
-
-    class Outburst(ActionBase):
-        """
-Deals unaspected damage with a potency of 100 to target and all enemies nearby it.
-        """
-        id = 16511
-        name = {'Outburst', '迸裂'}
-
-    class EgiAssaultIi(ActionBase):
-        """
-(source.job==27?Orders your Egi to use Slipstream if Garuda-Egi is summoned, Flaming Crush if Ifrit-Egi is summoned, or Mountain Buster if Titan-Egi is summoned.:Orders your Carbuncle to use Glittering Emerald if Emerald Carbuncle is summoned or Shining Topaz if Topaz Carbuncle is summoned.)
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16512
-        name = {'Egi Assault II', '灵攻II'}
-
-    class GlitteringEmerald(ActionBase):
-        """
-Deals wind damage with a potency of 30 to target and all enemies nearby it.
-Additional Effect: Creates a windstorm centered around the target, dealing damage to any enemies who enter
-Potency: 30
-Duration: 9s
-※This action cannot be assigned to a hotbar.
-        """
-        id = 16521
-        name = {'绿宝石之辉', 'Glittering Emerald'}
-
-    class Slipstream(ActionBase):
-        """
-Deals wind damage with a potency of 50 to target and all enemies nearby it.
-Additional Effect: Creates a windstorm centered around the target, dealing damage to any enemies who enter
-Potency: 50
-Duration: 9s
-※This action cannot be assigned to a hotbar.
-    1869, Gale Enforcer, Maintaining a localized windstorm.
-        """
-        id = 16523
-        name = {'Slipstream', '螺旋气流'}
-
-    class AssaultIiShiningTopaz(ActionBase):
-        """
-Orders Topaz Carbuncle to execute Shining Topaz.
-Shining Topaz Effect: Deals earth damage with a potency of 200 to all nearby enemies
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16792
-        name = {'Assault II: Shining Topaz', '灵攻II：黄宝石之光'}
-
-    class AssaultIiGlitteringEmerald(ActionBase):
-        """
-Orders Emerald Carbuncle to execute Glittering Emerald.
-Glittering Emerald Effect: Deals wind damage with a potency of 30 to target and all enemies nearby it
-Additional Effect: Creates a windstorm centered around the target, dealing damage to any enemies who enter
-Potency: 30
-Duration: 9s
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16794
-        name = {'Assault II: Glittering Emerald', '灵攻II：绿宝石之辉'}
-
-    class AssaultIiMountainBuster(ActionBase):
-        """
-Orders Titan-Egi to execute Mountain Buster.
-Mountain Buster Effect: Deals earth damage with a potency of 250 to all nearby enemies
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16796
-        name = {'Assault II: Mountain Buster', '灵攻II：山崩'}
-
-    class AssaultIiSlipstream(ActionBase):
-        """
-Orders Garuda-Egi to execute Slipstream.
-Slipstream Effect: Deals wind damage with a potency of 50 to target and all enemies nearby it
-Additional Effect: Creates a windstorm centered around the target, dealing damage to any enemies who enter
-Potency: 50
-Duration: 9s
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16798
-        name = {'Assault II: Slipstream', '灵攻II：螺旋气流'}
-
-    class AssaultIiFlamingCrush(ActionBase):
-        """
-Orders Ifrit-Egi to execute Flaming Crush.
-Flaming Crush Effect: Deals fire damage to all nearby enemies with a potency of 250 for the first enemy, and 50% less for all remaining enemies
-Maximum Charges: 2
-Can only be executed while in combat.
-        """
-        id = 16800
-        name = {'Assault II: Flaming Crush', '灵攻II：烈焰碎击'}
-
-    class Enkindle(ActionBase):
-        """
-Commands pet to use its signature attack.
-Can only be executed while in combat.
-        """
-        id = 184
-        name = {'内力迸发', 'Enkindle'}
-
-    class EarthenFury(ActionBase):
-        """
-Deals earth damage with a potency of 300 to all nearby targets.
-Additional Effect: Creates an area of molten earth around the caster, dealing damage to any enemies who enter
-Potency: 20 
-Duration: 15s
-※This action cannot be assigned to a hotbar.
-    312, Razed Earth, Jagged shards protrude from the ground, dealing earth damage to any who tread upon them.
-        """
-        id = 791
-        name = {'Earthen Fury', '大地之怒'}
-
-    class AerialBlast(ActionBase):
-        """
-Deals wind damage with a potency of 350 to target and all enemies nearby it.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 796
-        name = {'大气爆发', 'Aerial Blast'}
-
-    class Inferno(ActionBase):
-        """
-Deals fire damage with a potency of 300 to all enemies in a cone before it.
-Additional Effect: Fire damage over time
-Potency: 20
-Duration: 15s
-※This action cannot be assigned to a hotbar.
-    314, Inferno, Sustaining fire damage over time.
-        """
-        id = 801
-        name = {'Inferno', '地狱之火炎'}
-
-    class EnkindleEarthenFury(ActionBase):
-        """
-Orders Titan-Egi to execute Earthen Fury.
-Earthen Fury Effect: Deals earth damage with a potency of 300 to all nearby targets
-Additional Effect: Creates an area of molten earth around the caster, dealing damage to any enemies who enter
-Potency: 20 
-Duration: 15s
-Can only be executed while in combat.
-        """
-        id = 16801
-        name = {'Enkindle: Earthen Fury', '内力迸发：大地之怒'}
-
-    class EnkindleAerialBlast(ActionBase):
-        """
-Orders Garuda-Egi to execute Aerial Blast.
-Aerial Blast Effect: Deals wind damage with a potency of 350 to target and all enemies nearby it
-Can only be executed while in combat.
-        """
-        id = 16802
-        name = {'内力迸发：大气爆发', 'Enkindle: Aerial Blast'}
-
-    class EnkindleInferno(ActionBase):
-        """
-Orders Ifrit-Egi to execute Inferno.
-Inferno Effect: Deals fire damage with a potency of 300 to all enemies in a cone before it
-Additional Effect: Fire damage over time
-Potency: 20
-Duration: 15s
-Can only be executed while in combat.
-        """
-        id = 16803
-        name = {'Enkindle: Inferno', '内力迸发：地狱之火炎'}
-
-    class Painflare(ActionBase):
-        """
-Deals unaspected damage with a potency of 150 to target and all enemies nearby it.
-Aetherflow Gauge Cost: 1
-        """
-        id = 3578
-        name = {'痛苦核爆', 'Painflare'}
-
     class RuinIii(ActionBase):
         """
 Deals unaspected damage with a potency of (source.job==27?(source.level>=84?310:300):300).
         """
         id = 3579
-        name = {'毁荡', 'Ruin III'}
+        name = {'Ruin III', '毁荡'}
 
-    class TriDisaster(ActionBase):
+    class RubyRuinIii(ActionBase):
         """
-Deals unaspected damage with a potency of 150.
-Additional Effect: Afflicts target with (source.level>=66?(source.job==27?Bio III and Miasma III:Bio II and Miasma):Bio II and Miasma)
-Duration: 30s
+Deals fire damage with a potency of 360.
+Fire Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
         """
-        id = 3580
-        name = {'三重灾祸', 'Tri-disaster'}
+        id = 25817
+        name = {'Ruby Ruin III'}
+
+    class TopazRuinIii(ActionBase):
+        """
+Deals earth damage with a potency of 300.
+Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25818
+        name = {'Topaz Ruin III'}
+
+    class EmeraldRuinIii(ActionBase):
+        """
+Deals wind damage with a potency of 180.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25819
+        name = {'Emerald Ruin III'}
 
     class DreadwyrmTrance(ActionBase):
         """
@@ -488,10 +327,28 @@ Duration: 15s
 Additional Effect: Changes Ruin III to Astral Impulse and Outburst to Astral Flare
 Additional Effect: Grants Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum
 Can only be executed in combat and while Carbuncle is summoned.
-    808, Dreadwyrm Trance, Drawing on the power of Bahamut, increasing magic damage dealt.
+>> 808, Dreadwyrm Trance, Drawing on the power of Bahamut, increasing magic damage dealt.
         """
         id = 3581
         name = {'龙神附体', 'Dreadwyrm Trance'}
+
+    class AstralImpulse(ActionBase):
+        """
+Deals unaspected damage with a potency of 430.
+Can only be executed while in Dreadwyrm Trance.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25820
+        name = {'Astral Impulse'}
+
+    class AstralFlare(ActionBase):
+        """
+Deals unaspected damage with a potency of 180 to target and all enemies nearby it.
+Can only be executed while in Dreadwyrm Trance.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25821
+        name = {'Astral Flare'}
 
     class Deathflare(ActionBase):
         """
@@ -502,55 +359,46 @@ Can only be executed while in Dreadwyrm Trance.
         id = 3582
         name = {'死星核爆', 'Deathflare'}
 
+    class AstralFlow(ActionBase):
+        """
+Channel the energies of your active trance(source.job==27?(source.level>=86? or elemental favor:):) to perform one of several actions.
+Dreadwyrm Trance Effect: Action changes to Deathflare(source.job==27?(source.level>=80?
+Firebird Trance Effect: Action changes to Rekindle:):)(source.job==27?(source.level>=86?
+Ifrit's Favor Effect: Action changes to Crimson Cyclone
+Titan's Favor Effect: Action changes to Mountain Buster
+Garuda's Favor Effect: Action changes to Slipstream:):)
+        """
+        id = 25822
+        name = {'Astral Flow'}
+
     class RuinIv(ActionBase):
         """
 Deals unaspected damage to target and all enemies nearby it with a potency of 430 for the first enemy, and 60% less for all remaining enemies.
 Can only be executed while under the effect of Further Ruin.
         """
         id = 7426
-        name = {'Ruin IV', '毁绝'}
+        name = {'毁绝', 'Ruin IV'}
 
-    class Aetherpact(ActionBase):
+    class SearingLight(ActionBase):
         """
-Orders pet to execute Devotion.
-Devotion Effect: Increases damage dealt by all party members within a 15-yalm radius by 5%
-Duration: 15s
+Orders Carbuncle to execute Searing Light.
+Searing Light Effect: Increases damage dealt by self and nearby party members by 3%
+Duration: 30s
+Can only be executed in combat and while Carbuncle is summoned.
+>> 2703, Searing Light, Damage dealt is increased.
         """
-        id = 7423
-        name = {'以太契约', 'Aetherpact'}
+        id = 25801
+        name = {'Searing Light'}
 
-    class Devotion(ActionBase):
+    class SearingLight(ActionBase):
         """
-Increases damage dealt by all party members within a 15-yalm radius by 5%.
-Duration: 15s
+Increases damage dealt by self and nearby party members by 3%.
+Duration: 30s
 ※This action cannot be assigned to a hotbar.
-    1213, Devotion, Damage dealt is increased.
+>> 2703, Searing Light, Damage dealt is increased.
         """
-        id = 7450
-        name = {'Devotion', '灵护'}
-
-    class BioIii(ActionBase):
-        """
-Deals unaspected damage over time.
-Potency: 45
-Duration: 30s
-    1326, Bio III, Contagions are spreading, causing damage over time.
-    1214, Bio III, Contagions are spreading, causing damage over time.
-        """
-        id = 7424
-        name = {'剧毒菌', 'Bio III'}
-
-    class MiasmaIii(ActionBase):
-        """
-Deals unaspected damage with a potency of 45.
-Additional Effect: Unaspected damage over time
-Potency: 45
-Duration: 30s
-    1327, Miasma III, Lungs are failing, causing damage over time and reducing HP recovery.
-    1215, Miasma III, Lungs are failing, causing damage over time.
-        """
-        id = 7425
-        name = {'Miasma III', '瘴暍'}
+        id = 25842
+        name = {'Searing Light'}
 
     class SummonBahamut(ActionBase):
         """
@@ -563,7 +411,7 @@ Additional Effect: Grants Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum
 Can only be executed in combat and while Carbuncle is summoned.
         """
         id = 7427
-        name = {'Summon Bahamut', '龙神召唤'}
+        name = {'龙神召唤', 'Summon Bahamut'}
 
     class Wyrmwave(ActionBase):
         """
@@ -572,7 +420,7 @@ Will only execute while Demi-Bahamut is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 7428
-        name = {'Wyrmwave', '真龙波'}
+        name = {'真龙波', 'Wyrmwave'}
 
     class EnkindleBahamut(ActionBase):
         """
@@ -580,7 +428,7 @@ Orders Demi-Bahamut to execute Akh Morn.
 Akh Morn Effect: Deals unaspected damage to target and all enemies nearby it with a potency of 1,300 for the first enemy, and 60% less for all remaining enemies
         """
         id = 7429
-        name = {'Enkindle Bahamut', '龙神迸发'}
+        name = {'龙神迸发', 'Enkindle Bahamut'}
 
     class AkhMorn(ActionBase):
         """
@@ -589,31 +437,80 @@ Can only be executed while Demi-Bahamut is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 7449
-        name = {'死亡轮回', 'Akh Morn'}
+        name = {'Akh Morn', '死亡轮回'}
 
-    class FirebirdTrance(ActionBase):
+    class RubyRite(ActionBase):
         """
-Reduces spell casting time by 2.5 seconds.
-Duration: 20s
-Additional Effect: Resets Tri-disaster recast timer
-Additional Effect: Changes Ruin III to Fountain of Fire and Outburst to Brand of Purgatory
-Can only be executed after summoning Demi-Bahamut.
-Dreadwyrm Trance is changed to Firebird Trance upon Demi-Bahamut leaving the battlefield.
-Shares a recast timer with Dreadwyrm Trance.
+Deals fire damage with a potency of (source.job==27?(source.level>=84?430:420):420).
+Fire Attunement Cost: 1
 ※This action cannot be assigned to a hotbar.
         """
-        id = 16513
-        name = {'Firebird Trance', '不死鸟附体'}
+        id = 25823
+        name = {'Ruby Rite'}
+
+    class TopazRite(ActionBase):
+        """
+Deals earth damage with a potency of (source.job==27?(source.level>=84?330:320):320).
+(source.job==27?(source.level>=86?Additional Effect: Grants Titan's Favor
+Effect of Titan's Favor ends upon execution of certain summoner actions.
+:):)Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25824
+        name = {'Topaz Rite'}
+
+    class EmeraldRite(ActionBase):
+        """
+Deals wind damage with a potency of (source.job==27?(source.level>=84?230:220):220).
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25825
+        name = {'Emerald Rite'}
+
+    class TriDisaster(ActionBase):
+        """
+Deals unaspected damage with a potency of 120 to target and all enemies nearby it.
+        """
+        id = 25826
+        name = {'Tri-disaster'}
+
+    class RubyDisaster(ActionBase):
+        """
+Deals fire damage with a potency of 170 to target and all enemies nearby it.
+Fire Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25827
+        name = {'Ruby Disaster'}
+
+    class TopazDisaster(ActionBase):
+        """
+Deals earth damage with a potency of 130 to target and all enemies nearby it.
+Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25828
+        name = {'Topaz Disaster'}
+
+    class EmeraldDisaster(ActionBase):
+        """
+Deals wind damage with a potency of 90 to target and all enemies nearby it.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25829
+        name = {'Emerald Disaster'}
 
     class FountainOfFire(ActionBase):
         """
 Deals fire damage with a potency of 430.
 Can only be executed while under the effect of Firebird Trance.
 ※This action cannot be assigned to a hotbar.
-    2029, Fountain of Fire, Sustaining fire damage over time.
+>> 2029, Fountain of Fire, Sustaining fire damage over time.
         """
         id = 16514
-        name = {'Fountain of Fire', '灵泉之炎'}
+        name = {'灵泉之炎', 'Fountain of Fire'}
 
     class BrandOfPurgatory(ActionBase):
         """
@@ -622,24 +519,7 @@ Can only be executed while under the effect of Firebird Trance.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16515
-        name = {'Brand of Purgatory', '炼狱之炎'}
-
-    class FirebirdTrance(ActionBase):
-        """
-Summons Demi-Phoenix to fight by your side, which executes Everlasting Flight as it manifests. Each time you cast a spell on an enemy, Demi-Phoenix will execute Scarlet Flame on the same target.
-Duration: 20s
-Additional Effect: Reduces spell casting time by 2.5 seconds
-Duration: 20s
-Additional Effect: Resets Tri-disaster recast timer
-Additional Effect: Changes Ruin III to Fountain of Fire and Outburst to Brand of Purgatory
-Cannot summon Demi-Phoenix unless a pet is already summoned. Current pet will leave the battlefield while Demi-Phoenix is present, and return once gone.
-Can only be executed after summoning Demi-Bahamut.
-Dreadwyrm Trance is changed to Firebird Trance upon Demi-Bahamut leaving the battlefield.
-Shares a recast timer with Dreadwyrm Trance.
-※This action cannot be assigned to a hotbar.
-        """
-        id = 16549
-        name = {'Firebird Trance', '不死鸟附体'}
+        name = {'炼狱之炎', 'Brand of Purgatory'}
 
     class EnkindlePhoenix(ActionBase):
         """
@@ -649,7 +529,7 @@ Action replaces Enkindle Bahamut while Demi-Phoenix is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16516
-        name = {'不死鸟迸发', 'Enkindle Phoenix'}
+        name = {'Enkindle Phoenix', '不死鸟迸发'}
 
     class EverlastingFlight(ActionBase):
         """
@@ -657,8 +537,8 @@ Gradually restores own HP and the HP of all nearby party members.
 Cure Potency: 100
 Duration: 21s
 ※This action cannot be assigned to a hotbar.
-    1868, Everlasting Flight, Regenerating HP over time.
-    2030, Everlasting Flight, Regenerating HP over time.
+>> 1868, Everlasting Flight, Regenerating HP over time.
+>> 2030, Everlasting Flight, Regenerating HP over time.
         """
         id = 16517
         name = {'不死鸟之翼', 'Everlasting Flight'}
@@ -670,7 +550,7 @@ Can only be executed while Demi-Phoenix is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16518
-        name = {'Revelation', '天启'}
+        name = {'天启', 'Revelation'}
 
     class ScarletFlame(ActionBase):
         """
@@ -679,4 +559,145 @@ Will only execute while Demi-Phoenix is summoned.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16519
-        name = {'Scarlet Flame', '赤焰'}
+        name = {'赤焰', 'Scarlet Flame'}
+
+    class Rekindle(ActionBase):
+        """
+Restores own or target party member's HP.
+Cure Potency: 400
+Additional Effect: Grants Rekindle to target
+Duration: 30s
+Rekindle Effect: Healing over time when HP falls below 75% or upon effect duration expiration
+Cure Potency: 200
+Duration: 15s
+Can only be executed while in Firebird Trance.
+※This action cannot be assigned to a hotbar.
+>> 2704, Rekindle, Undying Flame will be triggered upon HP falling below a certain level or expiration of effect duration.
+        """
+        id = 25830
+        name = {'Rekindle'}
+
+    class SummonPhoenix(ActionBase):
+        """
+Enters Firebird Trance and summons Demi-Phoenix to fight by your side, which executes Everlasting Flight as it manifests.
+Demi-Phoenix will execute Scarlet Flame automatically on the targets attacked by you after summoning.
+Increases enmity in target when Demi-Phoenix is summoned.
+Duration: 15s
+Additional Effect: Changes Ruin III to Fountain of Fire and Tri-disaster to Brand of Purgatory
+Additional Effect: Grants Ruby Arcanum, Topaz Arcanum, and Emerald Arcanum
+Can only be executed in combat and while Carbuncle is summoned.
+        """
+        id = 25831
+        name = {'Summon Phoenix'}
+
+    class RubyCatastrophe(ActionBase):
+        """
+Deals fire damage with a potency of 180 to target and all enemies nearby it.
+Fire Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25832
+        name = {'Ruby Catastrophe'}
+
+    class TopazCatastrophe(ActionBase):
+        """
+Deals earth damage with a potency of 140 to target and all enemies nearby it.
+(source.job==27?(source.level>=86?Additional Effect: Grants Titan's Favor
+Effect of Titan's Favor ends upon execution of certain summoner actions.
+:):)Earth Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25833
+        name = {'Topaz Catastrophe'}
+
+    class EmeraldCatastrophe(ActionBase):
+        """
+Deals wind damage with a potency of 100 to target and all enemies nearby it.
+Wind Attunement Cost: 1
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25834
+        name = {'Emerald Catastrophe'}
+
+    class CrimsonCyclone(ActionBase):
+        """
+Rushes forward and delivers a fire attack to target and all enemies nearby it with a potency of 430 for the first enemy, and 65% less for all remaining enemies.
+Can only be executed while under the effect of Ifrit's Favor.
+Cannot be executed while bound.
+※Action changes to Crimson Strike upon execution.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25835
+        name = {'Crimson Cyclone'}
+
+    class MountainBuster(ActionBase):
+        """
+Deals earth damage to target and all enemies nearby it with a potency of 150 for the first enemy, and 70% less for all remaining enemies.
+Can only be executed while under the effect of Titan's Favor.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25836
+        name = {'Mountain Buster'}
+
+    class Slipstream(ActionBase):
+        """
+Deals wind damage to target and all enemies nearby it with a potency of 430 for the first enemy, and 65% less for all remaining enemies.
+Additional Effect: Creates a windstorm centered around the target, dealing damage to any enemies who enter
+Potency: 30
+Duration: 15s
+Can only be executed while under the effect of Garuda's Favor.
+※This action cannot be assigned to a hotbar.
+>> 2706, Slipstream, Maintaining a localized windstorm.
+        """
+        id = 25837
+        name = {'Slipstream'}
+
+    class CrimsonStrike(ActionBase):
+        """
+Deals fire damage to target and all enemies nearby it with a potency of 430 for the first enemy, and 65% less for all remaining enemies.
+Combo Action: Crimson Cyclone
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25885
+        name = {'Crimson Strike'}
+        combo_action = 25835
+
+    class SummonIfritIi(ActionBase):
+        """
+Summons Ruby Ifrit and orders it to execute Inferno.
+Inferno Effect: Deals fire damage to target and all enemies within 5 yalms with a potency of 700 for the first enemy, and 60% less for all remaining enemies
+Additional Effect: Grants 2 stacks of Fire Attunement
+Duration: 30s
+Fire Attunement Effect: Gemshine and Precious Brilliance become fire-aspected
+Additional Effect: Grants Ifrit's Favor
+Effect of Ifrit's Favor ends upon execution of certain summoner actions.
+Can only be executed while under the effect of Ruby Arcanum and Carbuncle is summoned.
+        """
+        id = 25838
+        name = {'Summon Ifrit II'}
+
+    class SummonTitanIi(ActionBase):
+        """
+Summons Topaz Titan and orders it to execute Earthen Fury.
+Earthen Fury Effect: Deals earth damage to target and all enemies within 5 yalms with a potency of 700 for the first enemy, and 60% less for all remaining enemies
+Additional Effect: Grants 4 stacks of Earth Attunement
+Duration: 30s
+Earth Attunement Effect: Gemshine and Precious Brilliance become earth-aspected
+Can only be executed while under the effect of Topaz Arcanum and Carbuncle is summoned.
+        """
+        id = 25839
+        name = {'Summon Titan II'}
+
+    class SummonGarudaIi(ActionBase):
+        """
+Summons Emerald Garuda and orders it to execute Aerial Blast.
+Aerial Blast Effect: Deals wind damage to target and all enemies within 5 yalms with a potency of 700 for the first enemy, and 60% less for all remaining enemies
+Additional Effect: Grants 4 stacks of Wind Attunement
+Duration: 30s
+Wind Attunement Effect: Gemshine and Precious Brilliance become wind-aspected
+Additional Effect: Grants Garuda's Favor
+Effect of Garuda's Favor ends upon execution of certain summoner actions.
+Can only be executed while under the effect of Emerald Arcanum and Carbuncle is summoned.
+        """
+        id = 25840
+        name = {'Summon Garuda II'}

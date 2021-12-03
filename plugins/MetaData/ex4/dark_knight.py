@@ -105,8 +105,8 @@ Deals unaspected damage with a potency of 120 to all nearby enemies.
         """
 Significantly increases enmity generation.
 Effect ends upon reuse.
-    1397, Grit, Damage dealt and taken are reduced.
-    743, Grit, Enmity is increased.
+>> 1397, Grit, Damage dealt and taken are reduced.
+>> 743, Grit, Enmity is increased.
         """
         id = 3629
         name = {'Grit', '深恶痛绝'}
@@ -164,16 +164,17 @@ Shares a recast timer with Edge of Darkness.
 (source.level>=66?(source.job==32?Increases Blood Gauge by 10 and restores MP:Restores MP):Restores MP) upon landing weaponskills or spells.
 Effect does not stack when hitting multiple targets with a single attack.
 Duration: 10s
-    742, Blood Weapon, Absorbing MP upon landing weaponskills or spells. Enhanced Blackblood Effect: Increasing <UIForeground(500)><UIGlow(501)>Blood Gauge</UIGlow></UIForeground> upon landing weaponskills or spells.
+>> 742, Blood Weapon, Absorbing MP upon landing weaponskills or spells.
+Enhanced Blackblood Effect: Increasing Blood Gauge upon landing weaponskills or spells.
         """
         id = 3625
-        name = {'嗜血', 'Blood Weapon'}
+        name = {'Blood Weapon', '嗜血'}
 
     class ShadowWall(ActionBase):
         """
 Reduces damage taken by 30%.
 Duration: 15s
-    747, Shadow Wall, Damage taken is reduced.
+>> 747, Shadow Wall, Damage taken is reduced.
         """
         id = 3636
         name = {'暗影墙', 'Shadow Wall'}
@@ -196,7 +197,7 @@ Shares a recast timer with Flood of Darkness.
         """
 Reduces magic vulnerability by 20%.
 Duration: 10s
-    746, Dark Mind, Magic damage taken is reduced.
+>> 746, Dark Mind, Magic damage taken is reduced.
         """
         id = 3634
         name = {'Dark Mind', '弃明投暗'}
@@ -208,7 +209,7 @@ Grants the effect of Living Dead. When HP is reduced to 0 while under the effect
 Living Dead Duration: 10s
 While under the effect of Walking Dead, most attacks will not lower your HP below 1. If, before the Walking Dead timer runs out, HP is 100% restored, the effect will fade. If 100% is not restored, you will be KO'd.
 Walking Dead Duration: 10s
-    810, Living Dead, Unable to be KO'd by most attacks. Status changed to <UIForeground(506)><UIGlow(507)>Walking Dead</UIGlow></UIForeground> in most cases when HP is reduced to 0.
+>> 810, Living Dead, Unable to be KO'd by most attacks. Status changed to Walking Dead in most cases when HP is reduced to 0.
         """
         id = 3638
         name = {'行尸走肉', 'Living Dead'}
@@ -218,7 +219,7 @@ Walking Dead Duration: 10s
 Creates a patch of salted earth at your feet, dealing unaspected damage with a potency of 50 to any enemies who enter.
 Duration: 15s(source.job==32?(source.level>=86?
 ※Action changes to Salt and Darkness upon execution.:):)
-    749, Salted Earth, The ground is rendered void of all life, dealing unaspected damage to any who tread upon it.
+>> 749, Salted Earth, The ground is rendered void of all life, dealing unaspected damage to any who tread upon it.
         """
         id = 3639
         name = {'腐秽大地', 'Salted Earth'}
@@ -284,11 +285,12 @@ Blood Gauge Cost: 50
         """
 Grants 3 stacks of Delirium, each stack allowing the execution of Quietus or Bloodspiller without Blackblood cost, restoring MP when landing either weaponskill.
 Duration: 15s
-    1996, Delirium, Blackblood cost is nullified.
-    1972, Delirium, Blackblood cost for <UIForeground(500)><UIGlow(501)>Bloodspiller</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Quietus</UIGlow></UIForeground> is nullified.
+>> 1972, Delirium, Blackblood cost for Bloodspiller and Quietus is nullified.
+>> 748, Delirium, Intelligence is reduced.
+>> 1996, Delirium, Blackblood cost is nullified.
         """
         id = 7390
-        name = {'Delirium', '血乱'}
+        name = {'血乱', 'Delirium'}
 
     class TheBlackestNight(ActionBase):
         """
@@ -324,7 +326,7 @@ Additional Effect: Grants Darkside, increasing damage dealt by 10%
 Duration: 30s
 Extends Darkside duration by 30s to a maximum of 60s.
 Shares a recast timer with Edge of Shadow.
-    2170, Flood of Shadow, HP recovery via healing actions is reduced.
+>> 2170, Flood of Shadow, HP recovery via healing actions is reduced.
         """
         id = 16469
         name = {'暗影波动', 'Flood of Shadow'}
@@ -338,7 +340,7 @@ Additional Effect: Grants Darkside, increasing damage dealt by 10%
 Duration: 30s
 Extends Darkside duration by 30s to a maximum of 60s.
 Shares a recast timer with Flood of Shadow.
-    2102, Edge of Shadow, HP recovery is reduced.
+>> 2102, Edge of Shadow, HP recovery is reduced.
         """
         id = 16470
         name = {'Edge of Shadow', '暗影锋'}
@@ -349,8 +351,8 @@ Shares a recast timer with Flood of Shadow.
         """
 Reduces magic damage taken by self and nearby party members by 10%.
 Duration: 15s
-    2171, Dark Missionary, Damage taken is reduced while HP recovered via healing actions is increased.
-    1894, Dark Missionary, Magic damage taken is reduced.
+>> 2171, Dark Missionary, Damage taken is reduced while HP recovered via healing actions is increased.
+>> 1894, Dark Missionary, Magic damage taken is reduced.
         """
         id = 16471
         name = {'Dark Missionary', '暗黑布道'}
@@ -364,22 +366,29 @@ Blood Gauge Cost: 50
 (source.job==32?(source.level>=90?Additional Effect: Simulacrum is able to execute Shadowbringer, delivering an attack to all enemies in a straight line before it with a potency of 450 for the first enemy, and 25% less for all remaining enemies.:):)
         """
         id = 16472
-        name = {'Living Shadow', '掠影示现'}
+        name = {'掠影示现', 'Living Shadow'}
 
     class Oblation(ActionBase):
         """
 Reduces damage taken by a party member or self by 10%.
 Duration: 10s
 Maximum Charges: 2
->> 2682 Oblation Damage taken is reduced.
+>> 2682, Oblation, Damage taken is reduced.
         """
         id = 25754
         name = {'Oblation'}
         status_to_target = Status.Oblation
 
+    class SaltAndDarkness(ActionBase):
+        """
+All enemies standing in the corrupted patch of Salted Earth take additional unaspected damage with a potency of 500 for the first enemy, and 50% less for all remaining enemies.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25755
+        name = {'Salt and Darkness'}
+
     class Shadowbringer(ActionBase):
         """
-25757 Shadowbringer
 Deals unaspected damage to all enemies in a straight line before you with a potency of 600 for the first enemy, and 50% less for all remaining enemies.
 Maximum Charges: 2
 Can only be executed while under the effect of Darkside.

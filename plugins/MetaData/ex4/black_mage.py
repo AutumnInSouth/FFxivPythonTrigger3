@@ -10,7 +10,7 @@ Additional Effect: Grants Umbral Ice or removes Astral Fire
 Duration: 15s
         """
         id = 142
-        name = {'冰结', 'Blizzard'}
+        name = {'Blizzard', '冰结'}
 
     class Fire(ActionBase):
         """
@@ -23,14 +23,14 @@ Additional Effect: 40% chance next Fire III will cost no MP and have no cast tim
 Duration: 30s:)):)
         """
         id = 141
-        name = {'Fire', '火炎'}
+        name = {'火炎', 'Fire'}
 
     class Transpose(ActionBase):
         """
 Swaps Astral Fire with a single Umbral Ice, or Umbral Ice with a single Astral Fire.
         """
         id = 149
-        name = {'Transpose', '星灵移位'}
+        name = {'星灵移位', 'Transpose'}
 
     class Thunder(ActionBase):
         """
@@ -46,29 +46,20 @@ Duration: 40s
 :
 )):
 )Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
-    161, Thunder, Sustaining lightning damage over time.
-    1324, Thunder, Sustaining lightning damage over time.
+>> 161, Thunder, Sustaining lightning damage over time.
+>> 1324, Thunder, Sustaining lightning damage over time.
         """
         id = 144
         name = {'Thunder', '闪雷'}
 
-    class Sleep(ActionBase):
-        """
-Puts target and all nearby enemies to sleep.
-Duration: 30s
-Cancels auto-attack upon execution.
-        """
-        id = 145
-        name = {'催眠', 'Sleep'}
-
     class BlizzardIi(ActionBase):
         """
-Deals ice damage with a potency of 50 to all nearby enemies.
-Additional Effect: Grants Umbral Ice or removes Astral Fire
+Deals ice damage with a potency of 100 to target and all enemies nearby it.
+Additional Effect: (source.level>=35?(source.job==7?Grants Umbral Ice III and:(source.job==25?Grants Umbral Ice III and:Grants Umbral Ice or)):Grants Umbral Ice or) removes Astral Fire
 Duration: 15s
         """
-        id = 146
-        name = {'冰冻', 'Blizzard II'}
+        id = 25793
+        name = {'Blizzard II'}
 
     class Scathe(ActionBase):
         """
@@ -103,21 +94,21 @@ Duration: 40s
 :
 )):
 )Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
-    162, Thunder II, Sustaining lightning damage over time.
-    2075, Thunder II, Sustaining lightning damage over time.
+>> 162, Thunder II, Sustaining lightning damage over time.
+>> 2075, Thunder II, Sustaining lightning damage over time.
         """
         id = 7447
-        name = {'震雷', 'Thunder II'}
+        name = {'Thunder II', '震雷'}
 
     class Manaward(ActionBase):
         """
 Creates a barrier that nullifies damage totaling up to 30% of maximum HP.
 Duration: 20s
-    168, Manaward, An aetherial barrier is preventing damage.
-    1989, Manaward, An aetherial barrier is preventing damage.
+>> 168, Manaward, An aetherial barrier is preventing damage.
+>> 1989, Manaward, An aetherial barrier is preventing damage.
         """
         id = 157
-        name = {'Manaward', '魔罩'}
+        name = {'魔罩', 'Manaward'}
 
     class Manafont(ActionBase):
         """
@@ -135,6 +126,15 @@ Duration: 15s
         id = 152
         name = {'爆炎', 'Fire III'}
 
+    class BlizzardIii(ActionBase):
+        """
+Deals ice damage with a potency of 240.
+Additional Effect: Grants Umbral Ice III and removes Astral Fire
+Duration: 15s
+        """
+        id = 154
+        name = {'冰封', 'Blizzard III'}
+
     class Freeze(ActionBase):
         """
 Deals ice damage with a potency of 120 to target and all enemies nearby it.
@@ -144,15 +144,6 @@ Umbral Heart Bonus: Nullifies Astral Fire's MP cost increase for Fire spells and
         """
         id = 159
         name = {'Freeze', '玄冰'}
-
-    class BlizzardIii(ActionBase):
-        """
-Deals ice damage with a potency of 240.
-Additional Effect: Grants Umbral Ice III and removes Astral Fire
-Duration: 15s
-        """
-        id = 154
-        name = {'Blizzard III', '冰封'}
 
     class ThunderIii(ActionBase):
         """
@@ -168,7 +159,7 @@ Duration: 40s
 :
 )):
 )Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
-    163, Thunder III, Sustaining lightning damage over time.
+>> 163, Thunder III, Sustaining lightning damage over time.
         """
         id = 153
         name = {'Thunder III', '暴雷'}
@@ -190,37 +181,26 @@ Duration: 15s
 Can only be executed while under the effect of Astral Fire.
         """
         id = 162
-        name = {'Flare', '核爆'}
+        name = {'核爆', 'Flare'}
 
     class LeyLines(ActionBase):
         """
 Connects naturally occurring ley lines to create a circle of power which, while standing within it, reduces spell cast time and recast time, and auto-attack delay by 15%.
 Duration: 30s
-    737, Ley Lines, Naturally occurring ley lines have been connected into a circle of power.
+>> 737, Ley Lines, Naturally occurring ley lines have been connected into a circle of power.
         """
         id = 3573
-        name = {'Ley Lines', '黑魔纹'}
+        name = {'黑魔纹', 'Ley Lines'}
 
     class Sharpcast(ActionBase):
         """
 Ensures the next Scathe, Fire, (source.job==25?(source.level>=90?Paradox, :):)or Thunder spell cast will, for the first hit, trigger Scathe's additional effect, Firestarter, or Thundercloud.
 Duration: 30s(source.job==25?(source.level>=88?
 Maximum Charges: 2:):)
-    867, Sharpcast, Next <UIForeground(500)><UIGlow(501)>Scathe</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Fire</UIGlow></UIForeground>, or <UIForeground(500)><UIGlow(501)>Thunder</UIGlow></UIForeground> spell cast will trigger enhanced status.
+>> 867, Sharpcast, Next Scathe, Fire, or Thunder spell cast will trigger enhanced status.
         """
         id = 3574
         name = {'Sharpcast', '激情咏唱'}
-
-    class Enochian(ActionBase):
-        """
-Increases magic damage dealt by (source.job==25?(source.level>=78?15:(source.level>=70?(source.job==25?10:5):5)):(source.level>=70?(source.job==25?10:5):5))%.(source.job==25?(source.level>=58?(source.level>=60?(source.job==25?(source.level>=76? Also allows the casting of Blizzard IV, Fire IV, Despair, and Umbral Soul.: (source.job==25?(source.level>=72? Also allows the casting of Blizzard IV,  Fire IV, and Despair.: Also allows the casting of Blizzard IV and Fire IV.): Also allows the casting of Blizzard IV and Fire IV.)): (source.job==25?(source.level>=72? Also allows the casting of Blizzard IV,  Fire IV, and Despair.: Also allows the casting of Blizzard IV and Fire IV.): Also allows the casting of Blizzard IV and Fire IV.)): Also allows the casting of Blizzard IV.):):)
-(source.level>=70?(source.job==25?Additional Effect: Grants Polyglot if Enochian is maintained for 30s
-(source.job==25?(source.level>=80?Maximum Stacks: 2
-:):):):)Can only be executed while under the effect of Astral Fire or Umbral Ice. Effect is canceled if Astral Fire or Umbral Ice ends.
-    868, Enochian, Magic damage dealt is increased.
-        """
-        id = 3575
-        name = {'Enochian', '天语'}
 
     class BlizzardIv(ActionBase):
         """
@@ -238,7 +218,7 @@ Deals fire damage with a potency of 300.
 Can only be executed while under the effect of Astral Fire.
         """
         id = 3577
-        name = {'炽炎', 'Fire IV'}
+        name = {'Fire IV', '炽炎'}
 
     class BetweenTheLines(ActionBase):
         """
@@ -257,17 +237,17 @@ Duration: 18s
 Additional Effect: 3% chance after each tick that the next Thunder spell of any grade will add its full damage over time amount to its initial damage, have no cast time, and cost no MP
 Duration: 40s
 Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
-    1210, Thunder IV, Sustaining lightning damage over time.
+>> 1210, Thunder IV, Sustaining lightning damage over time.
         """
         id = 7420
-        name = {'Thunder IV', '霹雷'}
+        name = {'霹雷', 'Thunder IV'}
 
     class Triplecast(ActionBase):
         """
 The next three spells will require no cast time.
 Duration: 15s
 Maximum Charges: 2
-    1211, Triplecast, Spells require no time to cast.
+>> 1211, Triplecast, Spells require no time to cast.
         """
         id = 7421
         name = {'Triplecast', '三连咏唱'}
@@ -288,7 +268,7 @@ Duration: 15s
 Can only be executed while under the effect of Astral Fire.
         """
         id = 16505
-        name = {'Despair', '绝望'}
+        name = {'绝望', 'Despair'}
 
     class UmbralSoul(ActionBase):
         """
@@ -306,3 +286,46 @@ Polyglot Cost: 1
         """
         id = 16507
         name = {'Xenoglossy', '异言'}
+
+    class HighFireIi(ActionBase):
+        """
+Deals fire damage with a potency of 140 to target and all enemies nearby it.
+Additional Effect: Grants Astral Fire III and removes Umbral Ice
+Duration: 15s
+Astral Fire Bonus: Grants Enhanced Flare
+Effect is canceled if Astral Fire ends.
+        """
+        id = 25794
+        name = {'High Fire II'}
+
+    class HighBlizzardIi(ActionBase):
+        """
+Deals ice damage with a potency of 140 to target and all enemies nearby it.
+Additional Effect: Grants Umbral Ice III and removes Astral Fire
+Duration: 15s
+        """
+        id = 25795
+        name = {'High Blizzard II'}
+
+    class Amplifier(ActionBase):
+        """
+Grants Polyglot.
+Can only be executed while under the effect of Astral Fire or Umbral Ice.
+        """
+        id = 25796
+        name = {'Amplifier'}
+
+    class Paradox(ActionBase):
+        """
+Deals unaspected damage with a potency of 500.
+Astral Fire Bonus: Refreshes the duration of Astral Fire and 40% chance to grant Firestarter
+Duration: 15s
+Firestarter Effect: Next Fire III will require no time to cast and cost no MP
+Duration: 30s
+Umbral Ice Bonus: Spell is cast immediately, requires no MP to cast, and refreshes the duration of Umbral Ice
+Duration: 15s
+Can only be executed while under the effect of Paradox.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25797
+        name = {'Paradox'}

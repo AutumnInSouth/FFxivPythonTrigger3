@@ -34,7 +34,7 @@ Duration: 30s
 ※Action changes to Emboite while dancing.
         """
         id = 15993
-        name = {'风车', 'Windmill'}
+        name = {'Windmill', '风车'}
 
     class StandardStep(ActionBase):
         """
@@ -43,11 +43,11 @@ Duration: 15s
 Action changes to Standard Finish while dancing.
 Only Standard Finish, En Avant, step actions, role actions, Sprint, and Limit Break can be performed while dancing.
 Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
-    1818, Standard Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, <UIForeground(500)><UIGlow(501)>Standard Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
-    2023, Standard Step, Caught up in the dance and only able to execute step actions, additional actions, <UIForeground(500)><UIGlow(501)>Head Graze</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Bolt</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Medical Kit</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Standard Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
+>> 1818, Standard Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, Standard Finish, and En Avant.
+>> 2023, Standard Step, Caught up in the dance and only able to execute step actions, additional actions, Head Graze, Bolt, Medical Kit, Standard Finish, and En Avant.
         """
         id = 15997
-        name = {'标准舞步', 'Standard Step'}
+        name = {'Standard Step', '标准舞步'}
 
     class Emboite(ActionBase):
         """
@@ -57,7 +57,7 @@ Triggers the cooldown of step and finish actions upon execution. Cannot be execu
 ※This action cannot be assigned to a hotbar.
         """
         id = 15999
-        name = {'Emboite', '蔷薇曲脚步'}
+        name = {'蔷薇曲脚步', 'Emboite'}
 
     class Entrechat(ActionBase):
         """
@@ -87,7 +87,7 @@ Triggers the cooldown of step and finish actions upon execution. Cannot be execu
 ※This action cannot be assigned to a hotbar.
         """
         id = 16002
-        name = {'Pirouette', '金冠趾尖转'}
+        name = {'金冠趾尖转', 'Pirouette'}
 
     class StandardFinish(ActionBase):
         """
@@ -102,10 +102,10 @@ Damage bonus of Standard Finish varies with number of successful steps.
 Duration: 60s
 Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
 ※This action cannot be assigned to a hotbar.
-    2113, Standard Finish, Weaponskill and spell cast and recast time are reduced.
-    2024, Standard Finish, Weaponskill and spell cast and recast time are reduced.
-    2105, Standard Finish, Damage dealt is increased.
-    1821, Standard Finish, Damage dealt is increased.
+>> 2113, Standard Finish, Weaponskill and spell cast and recast time are reduced.
+>> 2024, Standard Finish, Weaponskill and spell cast and recast time are reduced.
+>> 2105, Standard Finish, Damage dealt is increased.
+>> 1821, Standard Finish, Damage dealt is increased.
         """
         id = 16003
         name = {'标准舞步结束', 'Standard Finish'}
@@ -142,7 +142,7 @@ Triggers the cooldown of weaponskills, step actions, and finish actions upon exe
 ※This action cannot be assigned to a hotbar.
         """
         id = 16192
-        name = {'双色标准舞步结束', 'Double Standard Finish'}
+        name = {'Double Standard Finish', '双色标准舞步结束'}
 
     class ReverseCascade(ActionBase):
         """
@@ -185,7 +185,7 @@ Can only be executed while under the effect of Flourishing Symmetry.
 ※Action changes to Jete while dancing.
         """
         id = 15995
-        name = {'升风车', 'Rising Windmill'}
+        name = {'Rising Windmill', '升风车'}
 
     class Fountainfall(ActionBase):
         """
@@ -195,7 +195,7 @@ Can only be executed while under the effect of Flourishing Flow.
 ※Action changes to Pirouette while dancing.
         """
         id = 15992
-        name = {'坠喷泉', 'Fountainfall'}
+        name = {'Fountainfall', '坠喷泉'}
 
     class Bloodshower(ActionBase):
         """
@@ -222,7 +222,7 @@ Can only be executed while in possession of Fourfold Feathers.
 Quickly dash 10 yalms forward.
 (source.job==38?(source.level>=68?Maximum Charges: (source.job==38?(source.level>=78?3:2):2)
 :):)Cannot be executed while bound.
-    2048, En Avant, <UIForeground(500)><UIGlow(501)>Cascade</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Reverse Cascade</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Fountain</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Fountainfall</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Windmill</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Rising Windmill</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>Bladeshower</UIGlow></UIForeground> is upgraded to <UIForeground(500)><UIGlow(501)>Bloodshower</UIGlow></UIForeground>.
+>> 2048, En Avant, Cascade is upgraded to Reverse Cascade, Fountain is upgraded to Fountainfall, Windmill is upgraded to Rising Windmill, and Bladeshower is upgraded to Bloodshower.
         """
         id = 16010
         name = {'En Avant', '前冲步'}
@@ -234,14 +234,14 @@ Cure Potency: 300
 Additional Effect: Party member designated as your Dance Partner will also heal self and nearby party members
         """
         id = 16015
-        name = {'Curing Waltz', '治疗之华尔兹'}
+        name = {'治疗之华尔兹', 'Curing Waltz'}
 
     class ShieldSamba(ActionBase):
         """
 Reduces damage taken by self and nearby party members by 10%.
 Duration: 15s
 Effect cannot be stacked with bard's Troubadour or machinist's Tactician.
-    1826, Shield Samba, Damage taken is reduced.
+>> 1826, Shield Samba, Damage taken is reduced.
         """
         id = 16012
         name = {'Shield Samba', '防守之桑巴'}
@@ -250,18 +250,18 @@ Effect cannot be stacked with bard's Troubadour or machinist's Tactician.
         """
 Grants you Closed Position and designates a party member as your Dance Partner, allowing you to share the effects of Standard Finish, Curing Waltz, Devilment, and Tillana with said party member.
 Effect ends upon reuse.
-    2026, Closed Position, Sharing the effects of certain actions with target party member.
-    1823, Closed Position, Sharing the effects of certain actions with target party member.
+>> 2026, Closed Position, Sharing the effects of certain actions with target party member.
+>> 1823, Closed Position, Sharing the effects of certain actions with target party member.
         """
         id = 16006
-        name = {'Closed Position', '闭式舞姿'}
+        name = {'闭式舞姿', 'Closed Position'}
 
     class Ending(ActionBase):
         """
 Ends dance with your partner.
         """
         id = 18073
-        name = {'Ending', '解除闭式舞姿'}
+        name = {'解除闭式舞姿', 'Ending'}
 
     class Devilment(ActionBase):
         """
@@ -270,16 +270,16 @@ Duration: 20s
 Additional Effect: Party member designated as your Dance Partner will also receive the effect of Devilment(source.job==38?(source.level>=90?
 Additional Effect: Grants Flourishing Starfall
 Duration: 20s:):)
-    1825, Devilment, Critical hit rate and direct hit rate are increased.
+>> 1825, Devilment, Critical hit rate and direct hit rate are increased.
         """
         id = 16011
-        name = {'进攻之探戈', 'Devilment'}
+        name = {'Devilment', '进攻之探戈'}
 
     class FanDanceIii(ActionBase):
         """
 Delivers an attack to target and all enemies nearby it with a potency of 200 for the first enemy, and 50% less for all remaining enemies.
 Can only be executed while under the effect of Threefold Fan Dance.
-    2052, Fan Dance III, Damage taken is reduced.
+>> 2052, Fan Dance III, Damage taken is reduced.
         """
         id = 16009
         name = {'扇舞·急', 'Fan Dance III'}
@@ -291,11 +291,11 @@ Duration: 15s
 Action changes to Technical Finish while dancing.
 Only Technical Finish, En Avant, step actions, role actions, Sprint, and Limit Break can be performed while dancing.
 Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
-    2049, Technical Step, Caught up in the dance and only able to execute step actions, additional actions, <UIForeground(500)><UIGlow(501)>Technical Finish</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Head Graze</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Bolt</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>Medical Kit</UIGlow></UIForeground>.
-    1819, Technical Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, <UIForeground(500)><UIGlow(501)>Technical Finish</UIGlow></UIForeground>, and <UIForeground(500)><UIGlow(501)>En Avant</UIGlow></UIForeground>.
+>> 2049, Technical Step, Caught up in the dance and only able to execute step actions, additional actions, Technical Finish, En Avant, Head Graze, Bolt, and Medical Kit.
+>> 1819, Technical Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, Technical Finish, and En Avant.
         """
         id = 15998
-        name = {'技巧舞步', 'Technical Step'}
+        name = {'Technical Step', '技巧舞步'}
 
     class TechnicalFinish(ActionBase):
         """
@@ -318,11 +318,11 @@ Duration: 30s
 :):)Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
 (source.job==38?(source.level>=82?※Action changes to Tillana upon execution.
 :):)※This action cannot be assigned to a hotbar.
-    2050, Technical Finish, Weaponskill and spell cast and recast time are reduced.
-    1822, Technical Finish, Damage dealt is increased.
+>> 2050, Technical Finish, Weaponskill and spell cast and recast time are reduced.
+>> 1822, Technical Finish, Damage dealt is increased.
         """
         id = 16004
-        name = {'Technical Finish', '技巧舞步结束'}
+        name = {'技巧舞步结束', 'Technical Finish'}
 
     class SingleTechnicalFinish(ActionBase):
         """
@@ -418,7 +418,7 @@ Duration: 30s
 :):)※This action cannot be assigned to a hotbar.
         """
         id = 16196
-        name = {'Quadruple Technical Finish', '四色技巧舞步结束'}
+        name = {'四色技巧舞步结束', 'Quadruple Technical Finish'}
 
     class Flourish(ActionBase):
         """
@@ -432,7 +432,7 @@ Can only be executed while in combat.
         """
 Delivers an attack to target and all enemies nearby it with a potency of 480 for the first enemy, and 50% less for all remaining enemies.
 Esprit Gauge Cost: 50
-    2022, Saber Dance, Damage dealt is increased.
+>> 2022, Saber Dance, Damage dealt is increased.
         """
         id = 16005
         name = {'剑舞', 'Saber Dance'}
@@ -447,7 +447,54 @@ Duration: 15s
 Effect ends upon using another action or moving (including facing a different direction).
 Cancels auto-attack upon execution.
 ※Action changes to Improvised Finish upon execution.
-    1827, Improvisation, Dancing to the beat of your own drum.
+>> 1827, Improvisation, Dancing to the beat of your own drum.
+>> 1828, Improvisation, Healing magic potency is increased.
+>> 2695, Improvisation, Regenerating HP over time.
         """
         id = 16014
         name = {'Improvisation', '即兴表演'}
+
+    class ImprovisedFinish(ActionBase):
+        """
+Creates a barrier around self and all nearby party members. Damage absorbed increases with stacks of Rising Rhythm.
+0 Stacks: 5% of maximum HP
+1 Stack: 6% of maximum HP
+2 Stacks: 7% of maximum HP
+3 Stacks: 8% of maximum HP
+4 Stacks: 10% of maximum HP
+Duration: 30s
+Can only be executed while Improvisation is active.
+※This action cannot be assigned to a hotbar.
+>> 2697, Improvised Finish, A magicked barrier is nullifying damage.
+        """
+        id = 25789
+        name = {'Improvised Finish'}
+
+    class Tillana(ActionBase):
+        """
+Delivers an attack to all nearby enemies with a potency of 360 for the first enemy, and 50% less for all remaining enemies.
+Additional Effect: Grants Standard Finish and Esprit to self and party member designated as your Dance Partner
+Standard Finish Effect: Increases damage dealt by 5%
+Duration: 60s
+Can only be executed while under the effect of Flourishing Finish.
+Triggers the cooldown of weaponskills, step actions, and finish actions upon execution. Cannot be executed during the cooldown of weaponskills, step actions, or finish actions.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25790
+        name = {'Tillana'}
+
+    class FanDanceIv(ActionBase):
+        """
+Delivers an attack to all enemies in a cone before you with a potency of 300 for the first enemy, and 50% less for all remaining enemies.
+Can only be executed while under the effect of Fourfold Fan Dance.
+        """
+        id = 25791
+        name = {'Fan Dance IV'}
+
+    class StarfallDance(ActionBase):
+        """
+Delivers a critical direct hit to all enemies in a straight line before you with a potency of 600 for the first enemy, and 75% less for all remaining enemies.
+Can only be executed while under the effect of Flourishing Starfall.
+        """
+        id = 25792
+        name = {'Starfall Dance'}

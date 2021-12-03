@@ -87,7 +87,7 @@ Delivers an attack with a potency of (source.job==19?(source.level>=84?200:150):
         """
 Increases physical damage dealt by 25%.
 Duration: 25s
-    76, Fight or Flight, Physical damage dealt is increased.
+>> 76, Fight or Flight, Physical damage dealt is increased.
         """
         id = 20
         name = {'战逃反应', 'Fight or Flight'}
@@ -101,7 +101,7 @@ Combo Potency: (source.job==19?(source.level>=84?300:230):230)(source.job==19?(s
 Combo Bonus: Restores MP:):)
         """
         id = 15
-        name = {'Riot Blade', '暴乱剑'}
+        name = {'暴乱剑', 'Riot Blade'}
         combo_action = 9
         damage_potency = 170
         combo_damage_potency = 300
@@ -136,8 +136,9 @@ Duration: 6s
         """
 Significantly increases enmity generation.
 Effect ends upon reuse.
-    393, Iron Will, Enmity is increased.
-    79, Iron Will, Enmity is increased.
+>> 393, Iron Will, Enmity is increased.
+>> 2843, Iron Will, Enmity is increased.
+>> 79, Iron Will, Enmity is increased.
         """
         id = 28
         name = {'钢铁信念', 'Iron Will'}
@@ -157,7 +158,7 @@ Additional Effect: Increased enmity
 Delivers an attack with a potency of 100.
 Combo Action: Riot Blade
 Combo Potency: 330
-    1370, Rage of Halone, Damage dealt and potency of all HP restoration actions are reduced.
+>> 1370, Rage of Halone, Damage dealt and potency of all HP restoration actions are reduced.
         """
         id = 21
         name = {'战女神之怒', 'Rage of Halone'}
@@ -181,8 +182,8 @@ Additional Effect: Restores MP:):)
 Block incoming attacks.
 Duration: (source.job==19?(source.level>=74?6:4):4)s
 Oath Gauge Cost: 50
-    728, Sheltron, Next attack will be blocked.
-    1856, Sheltron, Blocking incoming attacks.
+>> 728, Sheltron, Next attack will be blocked.
+>> 1856, Sheltron, Blocking incoming attacks.
         """
         id = 3542
         name = {'Sheltron', '盾阵'}
@@ -192,7 +193,7 @@ Oath Gauge Cost: 50
         """
 Reduces damage taken by 30%.
 Duration: 15s
-    74, Sentinel, Damage taken is reduced.
+>> 74, Sentinel, Damage taken is reduced.
         """
         id = 17
         name = {'预警', 'Sentinel'}
@@ -218,9 +219,9 @@ Take all damage intended for another party member as long as said member remains
 Does not activate with certain attacks.
 Duration: 12s
 Oath Gauge Cost: 50
-    80, Cover, Protecting a party member.
-    1300, Cover, Protecting a party member. Damage taken is increased.
-    2412, Cover, Protecting an ally.
+>> 80, Cover, Protecting a party member.
+>> 1300, Cover, Protecting a party member. Damage taken is increased.
+>> 2412, Cover, Protecting an ally.
         """
         id = 27
         name = {'Cover', '保护'}
@@ -231,7 +232,7 @@ Delivers an attack with a potency of 100 to all nearby enemies.
 Additional Effect: Damage over time
 Potency: 30
 Duration: 15s
-    248, Circle of Scorn, Wounds are bleeding, causing damage over time.
+>> 248, Circle of Scorn, Wounds are bleeding, causing damage over time.
         """
         id = 23
         name = {'厄运流转', 'Circle of Scorn'}
@@ -243,8 +244,8 @@ Duration: 15s
         """
 Renders you impervious to most attacks.
 Duration: 10s
-    82, Hallowed Ground, Impervious to most attacks.
-    1302, Hallowed Ground, Impervious to most attacks.
+>> 82, Hallowed Ground, Impervious to most attacks.
+>> 1302, Hallowed Ground, Impervious to most attacks.
         """
         id = 30
         name = {'神圣领域', 'Hallowed Ground'}
@@ -259,7 +260,7 @@ Combo Bonus: Damage over time
 Potency: 65
 Duration: 21s
 Damage over time effect cannot be stacked with that of Blade of Valor.
-    725, Goring Blade, Wounds are bleeding, causing damage over time.
+>> 725, Goring Blade, Wounds are bleeding, causing damage over time.
         """
         id = 3538
         name = {'沥血剑', 'Goring Blade'}
@@ -278,10 +279,10 @@ Duration: 30s
 (source.job==19?(source.level>=88?Additional Effect: Restore target's HP
 Cure Potency: 400
 :):)Effect ends upon casting barrier on self and nearby party members.
-    726, Divine Veil, Upon HP recovery via healing magic, a damage-reducing barrier is created.
-    727, Divine Veil, A holy barrier is nullifying damage.
-    2168, Divine Veil, A holy barrier is nullifying damage. When barrier is completely absorbed, creates a barrier around all nearby party members.
-    2169, Divine Veil, A holy barrier is nullifying damage.
+>> 726, Divine Veil, Upon HP recovery via healing magic, a damage-reducing barrier is created.
+>> 727, Divine Veil, A holy barrier is nullifying damage.
+>> 2168, Divine Veil, A holy barrier is nullifying damage. When barrier is completely absorbed, creates a barrier around all nearby party members.
+>> 2169, Divine Veil, A holy barrier is nullifying damage.
         """
         id = 3540
         name = {'圣光幕帘', 'Divine Veil'}
@@ -329,8 +330,8 @@ Knight's Benediction Effect: Gradually restores HP
 Cure Potency: 250
 Duration: 12s
 :):)Oath Gauge Cost: 50
-    2020, Intervention, Damage taken is reduced.
-    1174, Intervention, Damage taken is reduced.
+>> 2020, Intervention, Damage taken is reduced.
+>> 1174, Intervention, Damage taken is reduced.
         """
         id = 7382
         name = {'干预', 'Intervention'}
@@ -361,8 +362,8 @@ Deals unaspected damage with a potency of 400.
 Additional Effect: Grants 5 stacks of Requiescat
 Requiescat Effect: Increases the potency of Holy Spirit and Holy Circle and spells will require no cast time
 Duration: 30s
-    1368, Requiescat, Potency of <UIForeground(500)><UIGlow(501)>Holy Spirit</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Holy Circle</UIGlow></UIForeground> is increased and spells require no time to cast.
-    1369, Requiescat, Spells require no time to cast and consume no MP.
+>> 1368, Requiescat, Potency of Holy Spirit and Holy Circle is increased and spells require no time to cast.
+>> 1369, Requiescat, Spells require no time to cast and consume no MP.
         """
         id = 7383
         name = {'Requiescat', '安魂祈祷'}
@@ -375,7 +376,7 @@ Increases block rate to 100% and creates a designated area in a cone behind you 
 Duration: 18s
 Effect ends upon using another action or moving (including facing a different direction).
 Cancels auto-attack upon execution.
-    1175, Passage of Arms, An area of land has been granted protection, reducing damage taken for all who enter.
+>> 1175, Passage of Arms, An area of land has been granted protection, reducing damage taken for all who enter.
         """
         id = 7385
         name = {'武装戍卫', 'Passage of Arms'}
@@ -426,7 +427,7 @@ Can only be executed while under the effect of Sword Oath.
 Deals unaspected damage with a potency of 900 to target and all enemies nearby it.
 Can only be executed while under the effect of Requiescat. Effect fades upon execution.(source.job==19?(source.level>=90?
 ※Action changes to Blade of Faith upon execution.:):)
-    2076, Confiteor, Damage dealt and potency of all HP restoration actions are reduced.
+>> 2076, Confiteor, Damage dealt and potency of all HP restoration actions are reduced.
         """
         id = 16459
         name = {'Confiteor', '悔罪'}
@@ -445,6 +446,7 @@ Knight's Benediction Effect: Gradually restores HP
 Cure Potency: 250
 Duration: 12s
 Oath Gauge Cost: 50
+>> 2674, Holy Sheltron, Blocking incoming attacks.
         """
         id = 25746
         name = {'Holy Sheltron'}
@@ -466,6 +468,7 @@ Additional Effect: Restores MP
 Deals unaspected damage to target and all enemies nearby it with a potency of 250 for the first enemy, and 50% less for all remaining enemies.
 Combo Action: Confiteor
 Combo Bonus: Restores MP
+※This action cannot be assigned to a hotbar.
         """
         id = 25748
         name = {'Blade of Faith'}
@@ -479,6 +482,7 @@ Combo Bonus: Restores MP
 Deals unaspected damage to target and all enemies nearby it with a potency of 350 for the first enemy, and 50% less for all remaining enemies.
 Combo Action: Blade of Faith
 Combo Bonus: Restores MP
+※This action cannot be assigned to a hotbar.
         """
         id = 25749
         name = {'Blade of Truth'}
@@ -496,6 +500,8 @@ Combo Bonus: Damage over time
 Potency: 80 for the first enemy, and 50% less for all remaining enemies
 Duration: 21s
 Damage over time effect cannot be stacked with that of Goring Blade.
+※This action cannot be assigned to a hotbar.
+>> 2721, Blade of Valor, Sustaining damage over time.
         """
         id = 25750
         name = {'Blade of Valor'}

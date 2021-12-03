@@ -9,7 +9,7 @@ Delivers an attack with a potency of 140.(source.job==31?(source.level>=30?
 Additional Effect: Increases Heat Gauge by 5:):)
         """
         id = 2866
-        name = {'分裂弹', 'Split Shot'}
+        name = {'Split Shot', '分裂弹'}
 
     class SlugShot(ActionBase):
         """
@@ -27,10 +27,10 @@ Combo Bonus: Increases Heat Gauge by 5:):)
 Delivers an attack with a potency of 240.(source.job==31?(source.level>=40?
 Additional Effect: Increases Battery Gauge by 20:):)
 This weaponskill does not share a recast timer with any other actions.
-    855, Hot Shot, Physical damage dealt is increased.
+>> 855, Hot Shot, Physical damage dealt is increased.
         """
         id = 2872
-        name = {'热弹', 'Hot Shot'}
+        name = {'Hot Shot', '热弹'}
 
     class Reassemble(ActionBase):
         """
@@ -38,7 +38,6 @@ Guarantees that next weaponskill is a critical direct hit.
 Duration: 5s
 This action does not affect damage over time effects.(source.job==31?(source.level>=84?
 Maximum Charges: 2:):)
-    851, Reassembled, Next weaponskill will result in a critical direct hit.
         """
         id = 2876
         name = {'整备', 'Reassemble'}
@@ -77,7 +76,7 @@ Releases the energy building in your firearm, causing it to become Overheated, i
 Duration: 8s
 Heat Gauge Cost: 50
 Overheated effect only applicable to machinist job actions.
-    688, Hypercharge, Battle turret is overcharged.
+>> 688, Hypercharge, Battle turret is overcharged.
         """
         id = 17209
         name = {'Hypercharge', '超荷'}
@@ -90,7 +89,7 @@ Can only be executed when firearm is Overheated.
 Recast timer cannot be affected by status effects or gear attributes.
         """
         id = 7410
-        name = {'Heat Blast', '热冲击'}
+        name = {'热冲击', 'Heat Blast'}
 
     class RookAutoturret(ActionBase):
         """
@@ -102,7 +101,7 @@ Shuts down when time expires or upon execution of Rook Overdrive.
 Shares a recast timer with Rook Overdrive.
         """
         id = 2864
-        name = {'车式浮空炮塔', 'Rook Autoturret'}
+        name = {'Rook Autoturret', '车式浮空炮塔'}
 
     class RookOverdrive(ActionBase):
         """
@@ -131,12 +130,12 @@ Covers target's body in a slow-burning pitch. Action is changed to Detonator for
 Deals damage when time expires or upon executing Detonator.
 Potency is increased by (source.job==31?(source.level>=78?150:100):100) for each of your own weaponskills you land prior to the end of the effect.
 Duration: 10s
-    1946, Wildfire, Currently afflicting an enemy with <UIForeground(506)><UIGlow(507)>Wildfire</UIGlow></UIForeground>.
-    1323, Wildfire, A portion of damage dealt is being stored.
-    861, Wildfire, Damage is being accumulated with each weaponskill landed by the machinist who applied the effect.
+>> 1946, Wildfire, Currently afflicting an enemy with Wildfire.
+>> 1323, Wildfire, A portion of damage dealt is being stored.
+>> 861, Wildfire, Damage is being accumulated with each weaponskill landed by the machinist who applied the effect.
         """
         id = 2878
-        name = {'Wildfire', '野火'}
+        name = {'野火', 'Wildfire'}
 
     class Detonator(ActionBase):
         """
@@ -144,7 +143,7 @@ Ends the effect of Wildfire, dealing damage to the target.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16766
-        name = {'Detonator', '起爆'}
+        name = {'起爆', 'Detonator'}
 
     class Ricochet(ActionBase):
         """
@@ -169,16 +168,16 @@ Delivers an attack with a potency of (source.job==31?(source.level>=84?200:180):
 Additional Effect: Increases Heat Gauge by 5:):)
         """
         id = 7411
-        name = {'Heated Split Shot', '热分裂弹'}
+        name = {'热分裂弹', 'Heated Split Shot'}
 
     class Tactician(ActionBase):
         """
 Reduces damage taken by self and nearby party members by 10%.
 Duration: 15s
 Effect cannot be stacked with bard's Troubadour or dancer's Shield Samba.
-    2177, Tactician, Damage taken is reduced.
-    1197, Tactician, Gradually regenerating TP.
-    1951, Tactician, Damage taken is reduced.
+>> 2177, Tactician, Damage taken is reduced.
+>> 1197, Tactician, Gradually regenerating TP.
+>> 1951, Tactician, Damage taken is reduced.
         """
         id = 16889
         name = {'Tactician', '策动'}
@@ -189,7 +188,7 @@ Delivers an attack with a potency of 550.
 (source.job==31?(source.level>=72?Shares a recast timer with Bioblaster.:This weaponskill does not share a recast timer with any other actions.):This weaponskill does not share a recast timer with any other actions.)
         """
         id = 16498
-        name = {'Drill', '钻头'}
+        name = {'钻头', 'Drill'}
 
     class HeatedSlugShot(ActionBase):
         """
@@ -230,12 +229,11 @@ Duration: 10s
 Effect ends upon using another action or moving (including facing a different direction).
 Cancels auto-attack upon execution.
 Triggers the cooldown of weaponskills upon execution. Cannot be executed during the cooldown of weaponskills.
-    1458, Flamethrower Flames, Taking damage over time.
-    1205, Flamethrower, Emitting a gout of searing flames in a cone before you, dealing damage over time.
-    1455, Flamethrower, Emitting a gout of searing flames in a cone, dealing damage over time.
+>> 1205, Flamethrower, Emitting a gout of searing flames in a cone before you, dealing damage over time.
+>> 1455, Flamethrower, Emitting a gout of searing flames in a cone, dealing damage over time.
         """
         id = 7418
-        name = {'火焰喷射器', 'Flamethrower'}
+        name = {'Flamethrower', '火焰喷射器'}
 
     class Bioblaster(ActionBase):
         """
@@ -244,11 +242,11 @@ Additional Effect: Damage over time
 Potency: 50
 Duration: 15s
 Shares a recast timer with Drill.
-    1866, Bioblaster, Sustaining damage over time.
-    2019, Bioblaster, Damage taken is increased.
+>> 1866, Bioblaster, Sustaining damage over time.
+>> 2019, Bioblaster, Damage taken is increased.
         """
         id = 16499
-        name = {'毒菌冲击', 'Bioblaster'}
+        name = {'Bioblaster', '毒菌冲击'}
 
     class AirAnchor(ActionBase):
         """
@@ -257,7 +255,7 @@ Additional Effect: Increases Battery Gauge by 20
 This weaponskill does not share a recast timer with any other actions.
         """
         id = 16500
-        name = {'Air Anchor', '空气锚'}
+        name = {'空气锚', 'Air Anchor'}
 
     class AutomatonQueen(ActionBase):
         """
@@ -307,3 +305,30 @@ Rushes target and delivers an attack with a potency of 240.
         """
         id = 17206
         name = {'滚轮冲', 'Roller Dash'}
+
+    class Scattergun(ActionBase):
+        """
+Delivers an attack with a potency of 150 to all enemies in a cone before you.
+Additional Effect: Increases Heat Gauge by 10
+        """
+        id = 25786
+        name = {'Scattergun'}
+
+    class CrownedCollider(ActionBase):
+        """
+Delivers an attack with a potency of 750.
+Potency increases as Battery Gauge exceeds required cost at time of deployment.
+The Automaton Queen shuts down after execution. If this action is not used manually while the Automaton Queen is active, it will be triggered automatically immediately before shutting down.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25787
+        name = {'Crowned Collider'}
+
+    class ChainSaw(ActionBase):
+        """
+Delivers an attack to all enemies in a straight line before you with a potency of 550 for the first enemy, and 65% less for all remaining enemies.
+Additional Effect: Increases Battery Gauge by 20
+This weaponskill does not share a recast timer with any other actions.
+        """
+        id = 25788
+        name = {'Chain Saw'}

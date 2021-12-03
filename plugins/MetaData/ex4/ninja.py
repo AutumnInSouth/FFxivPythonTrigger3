@@ -9,17 +9,17 @@ Delivers an attack with a potency of (source.job==30?(source.level>=84?200:180):
 Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2240
-        name = {'双刃旋', 'Spinning Edge'}
+        name = {'Spinning Edge', '双刃旋'}
 
     class ShadeShift(ActionBase):
         """
 Create shadows that nullify damage up to 20% of maximum HP.
 Duration: 20s
-    488, Shade Shift, Shadows are nullifying damage.
-    2011, Shade Shift, Shadows are nullifying damage.
+>> 488, Shade Shift, Shadows are nullifying damage.
+>> 2011, Shade Shift, Shadows are nullifying damage.
         """
         id = 2241
-        name = {'残影', 'Shade Shift'}
+        name = {'Shade Shift', '残影'}
 
     class GustSlash(ActionBase):
         """
@@ -38,12 +38,7 @@ Blend in with your surroundings, making it impossible for most enemies to detect
 (source.level>=30?(source.job==30?Additional Effect: Restores 2 charges to all mudra
 :):)Cannot be executed while in combat.
 Effect ends upon use of any action other than Sprint, or upon reuse of Hide.
-    1952, Hide, Unable to be detected. Movement speed is severely reduced.
-    1316, Hidden, Unable to be detected.
-    614, Hidden, Unable to be detected. Movement speed is severely reduced.
-    615, Hidden, Unable to be detected. Movement speed is severely reduced.
-    1705, Hidden, Unable to be detected. Movement speed is severely reduced.
-    1108, Hidden, Unable to be detected. Movement speed is severely reduced.
+>> 1952, Hide, Unable to be detected. Movement speed is severely reduced.
         """
         id = 2245
         name = {'隐遁', 'Hide'}
@@ -54,7 +49,7 @@ Delivers a ranged attack with a potency of 120.(source.job==30?(source.level>=62
 Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2247
-        name = {'Throwing Dagger', '飞刀'}
+        name = {'飞刀', 'Throwing Dagger'}
 
     class Mug(ActionBase):
         """
@@ -72,7 +67,7 @@ Delivers an attack with a potency of 300.
 Additional Effect: Increases target's damage taken by 5%
 Duration: 15s
 Can only be executed while under the effect of Hidden.
-    2014, Trick Attack, Damage taken is increased.
+>> 2014, Trick Attack, Damage taken is increased.
         """
         id = 2258
         name = {'Trick Attack', '攻其不备'}
@@ -90,20 +85,6 @@ Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=84?15:(sour
         name = {'旋风刃', 'Aeolian Edge'}
         combo_action = 2242
 
-    class ShadowFang(ActionBase):
-        """
-Delivers an attack with a potency of 200.
-Additional Effect: Damage over time
-Potency: 90
-Duration: 30s
-(source.job==30?(source.level>=62?Additional Effect: Increases Ninki Gauge by (source.job==30?(source.level>=78?10:5):5)
-:):)This weaponskill does not share a recast timer with any other actions.
-    1313, Shadow Fang, Sustaining damage over time, as well as increased damage from target who executed <UIForeground(500)><UIGlow(501)>Shadow Fang</UIGlow></UIForeground>.
-    508, Shadow Fang, Wounds are bleeding, causing damage over time.
-        """
-        id = 2257
-        name = {'Shadow Fang', '影牙'}
-
     class Ten(ActionBase):
         """
 Make the ritual mudra hand gesture for “heaven.”
@@ -113,7 +94,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2259
-        name = {'Ten', '天之印'}
+        name = {'天之印', 'Ten'}
 
     class Ninjutsu(ActionBase):
         """
@@ -123,7 +104,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2260
-        name = {'忍术', 'Ninjutsu'}
+        name = {'Ninjutsu', '忍术'}
 
     class FumaShuriken(ActionBase):
         """
@@ -140,7 +121,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Thumpity thump thump, thumpity thump thump...
         """
         id = 2272
-        name = {'通灵之术', 'Rabbit Medium'}
+        name = {'Rabbit Medium', '通灵之术'}
 
     class Ten(ActionBase):
         """
@@ -150,7 +131,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18805
-        name = {'Ten', '天之印'}
+        name = {'天之印', 'Ten'}
 
     class FumaShuriken(ActionBase):
         """
@@ -191,7 +172,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2261
-        name = {'地之印', 'Chi'}
+        name = {'Chi', '地之印'}
 
     class Katon(ActionBase):
         """
@@ -201,7 +182,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 2266
-        name = {'火遁之术', 'Katon'}
+        name = {'Katon', '火遁之术'}
 
     class Raiton(ActionBase):
         """
@@ -224,7 +205,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18806
-        name = {'地之印', 'Chi'}
+        name = {'Chi', '地之印'}
 
     class Katon(ActionBase):
         """
@@ -234,7 +215,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 18876
-        name = {'火遁之术', 'Katon'}
+        name = {'Katon', '火遁之术'}
 
     class Raiton(ActionBase):
         """
@@ -255,7 +236,14 @@ Delivers an attack with a potency of 100 to all nearby enemies.(source.job==30?(
 Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2254
-        name = {'血雨飞花', 'Death Blossom'}
+        name = {'Death Blossom', '血雨飞花'}
+
+    class Assassinate(ActionBase):
+        """
+Delivers an attack with a potency of 200.
+        """
+        id = 2246
+        name = {'Assassinate', '断绝'}
 
     class Shukuchi(ActionBase):
         """
@@ -275,7 +263,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2263
-        name = {'人之印', 'Jin'}
+        name = {'Jin', '人之印'}
 
     class Hyoton(ActionBase):
         """
@@ -297,7 +285,7 @@ Duration: 60s
 Mudra Combination: Jin→Chi→Ten or Chi→Jin→Ten
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    500, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
+>> 500, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 2269
         name = {'风遁之术', 'Huton'}
@@ -310,10 +298,10 @@ Additional Effect: Heavy +40%
 Mudra Combination: Ten→Jin→Chi or Jin→Ten→Chi
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
+>> 501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 2270
-        name = {'土遁之术', 'Doton'}
+        name = {'Doton', '土遁之术'}
 
     class Suiton(ActionBase):
         """
@@ -324,10 +312,11 @@ Suiton Effect: Allows execution of actions which require the effect of Hidden, w
 Mudra Combination: Ten→Chi→Jin or Chi→Ten→Jin
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    507, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the <UIForeground(506)><UIGlow(507)>Hidden</UIGlow></UIForeground> status.
+>> 507, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
+>> 2839, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
         """
         id = 2271
-        name = {'Suiton', '水遁之术'}
+        name = {'水遁之术', 'Suiton'}
 
     class Jin(ActionBase):
         """
@@ -337,7 +326,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18807
-        name = {'人之印', 'Jin'}
+        name = {'Jin', '人之印'}
 
     class Hyoton(ActionBase):
         """
@@ -359,7 +348,7 @@ Duration: 60s
 Mudra Combination: Jin→Chi→Ten or Chi→Jin→Ten
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    500, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
+>> 500, Huton, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 18879
         name = {'风遁之术', 'Huton'}
@@ -372,10 +361,10 @@ Additional Effect: Heavy +40%
 Mudra Combination: Ten→Jin→Chi or Jin→Ten→Chi
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
+>> 501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 18880
-        name = {'土遁之术', 'Doton'}
+        name = {'Doton', '土遁之术'}
 
     class Suiton(ActionBase):
         """
@@ -386,10 +375,11 @@ Suiton Effect: Allows execution of actions which require the effect of Hidden, w
 Mudra Combination: Ten→Chi→Jin or Chi→Ten→Jin
 Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
-    507, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the <UIForeground(506)><UIGlow(507)>Hidden</UIGlow></UIForeground> status.
+>> 507, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
+>> 2839, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
         """
         id = 18881
-        name = {'Suiton', '水遁之术'}
+        name = {'水遁之术', 'Suiton'}
 
     class Kassatsu(ActionBase):
         """
@@ -397,7 +387,7 @@ Allows the execution of a single ninjutsu without consumption of mudra charges.
 Additional Effect: Increases damage for the next ninjutsu action by 30%
 Duration: 15s
 Recast timer of mudra is not affected by the execution of this action.
-    497, Kassatsu, Able to execute a ninjutsu with increased potency.
+>> 497, Kassatsu, Able to execute a ninjutsu with increased potency.
         """
         id = 2264
         name = {'Kassatsu', '生杀予夺'}
@@ -425,7 +415,7 @@ Combo Bonus: Extends Huton duration by 30s to a maximum of 60s(source.job==30?(s
 Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=84?15:(source.job==30?(source.level>=78?10:5):5)):(source.job==30?(source.level>=78?10:5):5)):):)
         """
         id = 3563
-        name = {'Armor Crush', '强甲破点突'}
+        name = {'强甲破点突', 'Armor Crush'}
         combo_action = 2242
 
     class DreamWithinADream(ActionBase):
@@ -435,13 +425,15 @@ Delivers a threefold attack, each hit with a potency of 150.
         id = 3566
         name = {'Dream Within a Dream', '梦幻三段'}
 
-    class Assassinate(ActionBase):
+    class Huraijin(ActionBase):
         """
 Delivers an attack with a potency of 200.
-    1314, Assassinated, Sustaining damage over time, as well as increased damage.
+Additional Effect: Grants Huton
+Duration: 60s(source.job==30?(source.level>=62?
+Additional Effect: Increases Ninki Gauge by 5:):)
         """
-        id = 2246
-        name = {'Assassinate', '断绝'}
+        id = 25876
+        name = {'Huraijin'}
 
     class HellfrogMedium(ActionBase):
         """
@@ -468,7 +460,7 @@ Temporarily converts each of the three mudra into a ninjutsu action. Executing o
 Duration: 6s
 Only ninjutsu available while active. The same ninjutsu cannot be executed twice.
 Cannot be executed while under the effect of Kassatsu. Effect ends upon moving.
-    1186, Ten Chi Jin, Able to execute ninjutsu in succession.
+>> 1186, Ten Chi Jin, Able to execute ninjutsu in succession.
         """
         id = 7403
         name = {'Ten Chi Jin', '天地人'}
@@ -479,6 +471,7 @@ Dispels Suiton, increasing the Ninki Gauge by 50.
 (source.job==30?(source.level>=88?Additional Effect: Increases the potency of Bhavacakra to 500
 Duration: 30s
 :):)Can only be executed while in combat.
+>> 2689, Meisui, Next Bhavacakra will deal increased damage.
         """
         id = 16489
         name = {'Meisui', '命水'}
@@ -503,7 +496,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16492
-        name = {'Hyosho Ranryu', '冰晶乱流之术'}
+        name = {'冰晶乱流之术', 'Hyosho Ranryu'}
 
     class Bunshin(ActionBase):
         """
@@ -515,8 +508,52 @@ Ninki Gauge increases by 5 each time your shadow lands an attack.
 Duration: 30s
 (source.job==30?(source.level>=82?Additional Effect: Grants Phantom Kamaitachi Ready
 :):)Ninki Gauge Cost: 50
-    2010, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
-    1954, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
+>> 2010, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
+>> 1954, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
         """
         id = 16493
         name = {'Bunshin', '分身之术'}
+
+    class PhantomKamaitachi(ActionBase):
+        """
+Your shadow deals wind damage to all enemies within 5 yalms with a potency of 550 for the first enemy, and 50% less for all remaining enemies.
+Additional Effect: Extends Huton duration by 10s to a maximum of 60s
+Additional Effect: Increases Ninki Gauge by 5
+Can only be executed while under the effect of Phantom Kamaitachi Ready.
+        """
+        id = 25774
+        name = {'Phantom Kamaitachi'}
+
+    class HollowNozuchi(ActionBase):
+        """
+All enemies standing in the corrupted earth of Doton take additional earth damage with a potency of 50.
+Requires Hakke Mujinsatsu to be executed as a combo action or upon executing Katon, Goka Mekkyaku, or Phantom Kamaitachi.
+Effect can only be triggered while Doton is active.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25776
+        name = {'Hollow Nozuchi'}
+
+    class ForkedRaiju(ActionBase):
+        """
+Rushes target and delivers a lightning attack with a potency of 400.
+Additional Effect: Grants Fleeting Raiju Ready
+Duration: 15s
+Additional Effect: Increases Ninki Gauge by 5
+Can only be executed while under the effect of Forked Raiju Ready.
+Cannot be executed while bound.
+※Action changes to Fleeting Raiju upon execution.
+        """
+        id = 25777
+        name = {'Forked Raiju'}
+
+    class FleetingRaiju(ActionBase):
+        """
+Rushes target and delivers a lightning attack with a potency of 450.
+Additional Effect: Increases Ninki Gauge by 5
+Can only be executed while under the effect of Fleeting Raiju Ready.
+Cannot be executed while bound.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25778
+        name = {'Fleeting Raiju'}

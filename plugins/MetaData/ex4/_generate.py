@@ -54,7 +54,7 @@ def desc_process(desc: str):
     return rtn
 
 
-w_mode = False
+w_mode = True
 for class_job in data_realm.game_data.get_sheet('ClassJob'):
     if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
         print(class_job['Name'])
@@ -74,7 +74,8 @@ class Actions:
             for action in to_print_action:
                 names = {eng_action_sheet[action.key]['Name']}
                 try:
-                    names.add(action_sheet_chs[action.key]['Name'])
+                    if action_sheet_chs[action.key]['Name']:
+                        names.add(action_sheet_chs[action.key]['Name'])
                 except:
                     pass
                 (f.write if w_mode else print)(f"""
@@ -86,7 +87,7 @@ class Actions:
                 for status in status:
                     status = status_sheet_eng[status]
                     (f.write if w_mode else print)(
-                        f"\n>> {status.key}, {status['Name']}, {line_break.sub(' ', status['Description'])}")
+                        f"\n>> {status.key}, {status['Name']}, {desc_process(status['Description'])}")
                 (f.write if w_mode else print)(f"""
         \"""
         id = {action.key}

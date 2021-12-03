@@ -9,7 +9,7 @@ Delivers an attack with a potency of (source.job==22?(source.level>=76?230:170):
 ※Action changes to Raiden Thrust while under the effect of Draconian Fire.:):)
         """
         id = 75
-        name = {'True Thrust', '精准刺'}
+        name = {'精准刺', 'True Thrust'}
 
     class VorpalThrust(ActionBase):
         """
@@ -18,7 +18,7 @@ Combo Action: True Thrust
 Combo Potency: (source.job==22?(source.level>=76?280:250):250)
         """
         id = 78
-        name = {'贯通刺', 'Vorpal Thrust'}
+        name = {'Vorpal Thrust', '贯通刺'}
         combo_action = 75
 
     class LifeSurge(ActionBase):
@@ -28,8 +28,8 @@ Duration: 5s
 Effect cannot be applied to damage over time.
 Additional Effect: Absorbs a portion of damage dealt as HP(source.job==22?(source.level>=88?
 Maximum Charges: 2:):)
-    116, Life Surge, Next weaponskill will result in a critical hit with a portion of the resulting damage being absorbed as HP.
-    2175, Life Surge, Next weaponskill will deal increased damage.
+>> 116, Life Surge, Next weaponskill will result in a critical hit with a portion of the resulting damage being absorbed as HP.
+>> 2175, Life Surge, Next weaponskill will deal increased damage.
         """
         id = 83
         name = {'龙剑', 'Life Surge'}
@@ -39,7 +39,7 @@ Maximum Charges: 2:):)
 Delivers a ranged attack with a potency of 150.
         """
         id = 90
-        name = {'Piercing Talon', '贯穿尖'}
+        name = {'贯穿尖', 'Piercing Talon'}
 
     class Disembowel(ActionBase):
         """
@@ -49,11 +49,11 @@ Combo Potency: (source.job==22?(source.level>=76?250:210):210)
 Combo Bonus: Grants Power Surge
 Power Surge Effect: Increases damage dealt by 10%
 Duration: 30s
-    121, Disembowel, Piercing resistance is reduced.
-    1914, Disembowel, Damage dealt is increased.
+>> 121, Disembowel, Piercing resistance is reduced.
+>> 1914, Disembowel, Damage dealt is increased.
         """
         id = 87
-        name = {'Disembowel', '开膛枪'}
+        name = {'开膛枪', 'Disembowel'}
         combo_action = 75
 
     class FullThrust(ActionBase):
@@ -66,17 +66,17 @@ Duration: 30s
 Effect of Sharper Fang and Claw ends upon execution of any melee weaponskill.:):)
         """
         id = 84
-        name = {'直刺', 'Full Thrust'}
+        name = {'Full Thrust', '直刺'}
         combo_action = 78
 
     class LanceCharge(ActionBase):
         """
 Increases damage dealt by 10%.
 Duration: 20s
-    1864, Lance Charge, Damage dealt is increased.
+>> 1864, Lance Charge, Damage dealt is increased.
         """
         id = 85
-        name = {'猛枪', 'Lance Charge'}
+        name = {'Lance Charge', '猛枪'}
 
     class Jump(ActionBase):
         """
@@ -86,7 +86,7 @@ Duration: 15s
 :):)Cannot be executed while bound.
         """
         id = 92
-        name = {'跳跃', 'Jump'}
+        name = {'Jump', '跳跃'}
 
     class ElusiveJump(ActionBase):
         """
@@ -102,7 +102,7 @@ Delivers an attack with a potency of 110 to all enemies in a straight line befor
 ※Action changes to Draconian Fury when under the effect of Draconian Fire.:):)
         """
         id = 86
-        name = {'死天枪', 'Doom Spike'}
+        name = {'Doom Spike', '死天枪'}
 
     class SpineshatterDive(ActionBase):
         """
@@ -126,8 +126,8 @@ Duration: 24s(source.level>=58?(source.job==22?
 Combo Bonus: Grants Enhanced Wheeling Thrust
 Duration: 30s
 Effect of Enhanced Wheeling Thrust ends upon execution of any melee weaponskill.:):)
-    1312, Chaos Thrust, Sustaining damage over time, as well as increased damage from target who executed <UIForeground(500)><UIGlow(501)>Chaos Thrust</UIGlow></UIForeground>.
-    118, Chaos Thrust, Wounds are bleeding, causing damage over time.
+>> 1312, Chaos Thrust, Sustaining damage over time, as well as increased damage from target who executed Chaos Thrust.
+>> 118, Chaos Thrust, Wounds are bleeding, causing damage over time.
         """
         id = 88
         name = {'Chaos Thrust', '樱花怒放'}
@@ -145,29 +145,11 @@ Cannot be executed while bound.
         """
 Increases critical hit rate of self and nearby party members by 10%.
 Duration: 15s
-    786, Battle Litany, Critical hit rate is increased.
-    1414, Battle Litany, Damage dealt is increased.
+>> 786, Battle Litany, Critical hit rate is increased.
+>> 1414, Battle Litany, Damage dealt is increased.
         """
         id = 3557
-        name = {'战斗连祷', 'Battle Litany'}
-
-    class BloodOfTheDragon(ActionBase):
-        """
-(source.job==22?(source.level>=74?Increases potency of High Jump and Spineshatter Dive by 30%.
-Duration: (source.job==22?(source.level>=54?30:20):20)s:Increases potency of Jump and Spineshatter Dive by 30%.
-Duration: (source.job==22?(source.level>=54?30:20):20)s):Increases potency of Jump and Spineshatter Dive by 30%.
-Duration: (source.job==22?(source.level>=54?30:20):20)s)(source.job==22?(source.level>=56?(source.level>=58?
-Additional Effect: Grants Sharper Fang and Claw upon successfully executing Full Thrust, or Enhanced Wheeling Thrust upon successfully executing Chaos Thrust
-Duration: 10s
-Effects end upon use or upon using a weaponskill other than Fang and Claw or Wheeling Thrust.:
-Additional Effect: Grants Sharper Fang and Claw upon successfully executing Full Thrust
-Duration: 10s
-Effect ends upon use or upon using a weaponskill other than Fang and Claw.):):)(source.level>=70?(source.job==22?
-Cannot be executed while under the effect of Life of the Dragon.:):)
-    736, Blood of the Dragon, Potency of <UIForeground(500)><UIGlow(501)>Jump</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Spineshatter Dive</UIGlow></UIForeground> are increased.
-        """
-        id = 3553
-        name = {'苍天龙血', 'Blood of the Dragon'}
+        name = {'Battle Litany', '战斗连祷'}
 
     class FangAndClaw(ActionBase):
         """
@@ -176,7 +158,7 @@ Delivers an attack with a potency of 260.
 Can only be executed while under the effect of Sharper Fang and Claw.
         """
         id = 3554
-        name = {'龙牙龙爪', 'Fang and Claw'}
+        name = {'Fang and Claw', '龙牙龙爪'}
 
     class WheelingThrust(ActionBase):
         """
@@ -194,7 +176,7 @@ Additional Effect: Grants Life of the Dragon while under the full gaze of the fi
 ※Action changes to Nastrond while under the effect of Life of the Dragon.:):)
         """
         id = 3555
-        name = {'Geirskogul', '武神枪'}
+        name = {'武神枪', 'Geirskogul'}
 
     class SonicThrust(ActionBase):
         """
@@ -206,7 +188,7 @@ Power Surge Effect: Increases damage dealt by 10%
 Duration: 30s
         """
         id = 7397
-        name = {'音速刺', 'Sonic Thrust'}
+        name = {'Sonic Thrust', '音速刺'}
         combo_action = 86
 
     class DragonSight(ActionBase):
@@ -244,7 +226,7 @@ Combo Bonus: Grants Draconian Fire
 Duration: 30s:):)
         """
         id = 16477
-        name = {'Coerthan Torment', '山境酷刑'}
+        name = {'山境酷刑', 'Coerthan Torment'}
         combo_action = 7397
 
     class HighJump(ActionBase):
@@ -255,7 +237,7 @@ Duration: 15s
 Cannot be executed while bound.
         """
         id = 16478
-        name = {'High Jump', '高跳'}
+        name = {'高跳', 'High Jump'}
 
     class RaidenThrust(ActionBase):
         """
@@ -265,7 +247,7 @@ Delivers an attack with a potency of 260.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16479
-        name = {'龙眼雷电', 'Raiden Thrust'}
+        name = {'Raiden Thrust', '龙眼雷电'}
 
     class Stardiver(ActionBase):
         """
@@ -274,4 +256,54 @@ Can only be executed while under the effect of Life of the Dragon.
 Cannot be executed while bound.
         """
         id = 16480
-        name = {'坠星冲', 'Stardiver'}
+        name = {'Stardiver', '坠星冲'}
+
+    class DraconianFury(ActionBase):
+        """
+Delivers an attack with a potency of 130 to all enemies in a straight line before you.
+(source.job==22?(source.level>=90?Additional Effect: Sharpens the Firstminds' Focus by 1
+:):)Can only be executed while under the effect of Draconian Fire.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25770
+        name = {'Draconian Fury'}
+
+    class HeavensThrust(ActionBase):
+        """
+Delivers an attack with a potency of 100.
+Combo Action: Vorpal Thrust
+Combo Potency: 430
+Combo Bonus: Grants Sharper Fang and Claw
+Duration: 30s
+Effect of Sharper Fang and Claw ends upon execution of any melee weaponskill.
+        """
+        id = 25771
+        name = {"Heavens' Thrust"}
+        combo_action = 78
+
+    class ChaoticSpring(ActionBase):
+        """
+Delivers an attack with a potency of 100.
+140 when executed from a target's rear.
+Combo Action: Disembowel
+Combo Potency: 240
+Rear Combo Potency: 280
+Combo Bonus: Damage over time
+Potency: 45
+Duration: 24s
+Combo Bonus: Grants Enhanced Wheeling Thrust
+Duration: 30s
+Effect of Enhanced Wheeling Thrust ends upon execution of any melee weaponskill.
+>> 2719, Chaotic Spring, Sustaining damage over time.
+        """
+        id = 25772
+        name = {'Chaotic Spring'}
+        combo_action = 87
+
+    class WyrmwindThrust(ActionBase):
+        """
+Delivers an attack to all enemies in a straight line before you with a potency of 370 for the first enemy, and 50% less for all remaining enemies.
+Firstminds' Focus Cost: 2
+        """
+        id = 25773
+        name = {'Wyrmwind Thrust'}

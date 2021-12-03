@@ -105,6 +105,7 @@ Effect cannot be stacked with machinist's Tactician or dancer's Shield Samba.
         taken_damage_modify = .9
 
 class Actions:
+
     class HeavyShot(ActionBase):
         """
 Delivers an attack with a potency of 160.(source.level>=2?(source.job==5?
@@ -122,7 +123,7 @@ Duration: 30s:)):)
         """
 Delivers an attack with a potency of 200.
 Can only be executed when Straight Shot Ready.
-    130, Straight Shot, Critical hit rate is increased.
+>> 130, Straight Shot, Critical hit rate is increased.
         """
         id = 98
         name = {'直线射击', 'Straight Shot'}
@@ -133,7 +134,7 @@ Can only be executed when Straight Shot Ready.
         """
 Increases damage dealt by 15%.
 Duration: 20s
-    125, Raging Strikes, Damage dealt is increased.
+>> 125, Raging Strikes, Damage dealt is increased.
         """
         id = 101
         name = {'Raging Strikes', '猛者强击'}
@@ -145,7 +146,7 @@ Delivers an attack with a potency of 100.
 Additional Effect: Venom
 Potency: 15
 Duration: 45s
-    124, Venomous Bite, Toxins are causing damage over time.
+>> 124, Venomous Bite, Toxins are causing damage over time.
         """
         id = 100
         name = {'毒咬箭', 'Venomous Bite'}
@@ -167,7 +168,7 @@ Shares a recast timer with Rain of Death.:):)
         """
 Jump 10 yalms away from current target.
 Cannot be executed while bound.
-    2017, Repelling Shot, Damage dealt by weaponskills is increased.
+>> 2017, Repelling Shot, Damage dealt by weaponskills is increased.
         """
         id = 112
         name = {'Repelling Shot', '后跃射击'}
@@ -189,7 +190,7 @@ Deals wind damage with a potency of 60.
 Additional Effect: Wind damage over time
 Potency: 20
 Duration: 45s
-    129, Windbite, Wounds are exposed to the elements, causing wind damage over time.
+>> 129, Windbite, Wounds are exposed to the elements, causing wind damage over time.
         """
         id = 113
         name = {'Windbite', '风蚀箭'}
@@ -205,9 +206,9 @@ Duration: 45s
 Additional Effect: 80% chance to grant Repertoire
 Repertoire Effect: Reduces the recast time of both Bloodletter and Rain of Death by 7.5s(source.job==23?(source.level>=90?
 Additional Effect: Grants Mage's Coda:):)
-    135, Mage's Ballad, Using MP to gradually restore the MP of nearby party members. Damage dealt is reduced.
-    136, Mage's Ballad, Restoring MP over time.
-    2217, Mage's Ballad, Damage dealt is increased.
+>> 135, Mage's Ballad, Using MP to gradually restore the MP of nearby party members. Damage dealt is reduced.
+>> 136, Mage's Ballad, Restoring MP over time.
+>> 2217, Mage's Ballad, Damage dealt is increased.
         """
         id = 114
         name = {'贤者的叙事谣', "Mage's Ballad"}
@@ -219,7 +220,6 @@ Additional Effect: Grants Mage's Coda:):)
         """
 Removes one select detrimental effect from self or target party member. If the target is not enfeebled, a barrier is created nullifying the target's next detrimental effect suffered.
 Duration: 30s
-    866, The Warden's Paean, Impervious to the next enfeeblement.
         """
         id = 3561
         name = {"the Warden's Paean", '光阴神的礼赞凯歌'}
@@ -231,8 +231,8 @@ Duration: 10s
 (source.job==23?(source.level>=72?Additional Effect: Increases the potency of Shadowbite to 270
 :):)Additional Effect: Grants Straight Shot Ready
 Duration: 30s
-    128, Barrage, Striking multiple times per weaponskill.
-    1407, Barrage, Striking multiple times per weaponskill.
+>> 128, Barrage, Striking multiple times per weaponskill.
+>> 1407, Barrage, Striking multiple times per weaponskill.
         """
         id = 107
         name = {'纷乱箭', 'Barrage'}
@@ -247,10 +247,10 @@ Additional Effect: 80% chance to grant Repertoire
 Repertoire Effect: Reduces weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay by 4%
 Can be stacked up to 4 times.(source.job==23?(source.level>=90?
 Additional Effect: Grants Army's Coda:):)
-    2214, Army's Paeon, Weaponskill and spell cast and recast time are reduced.
-    137, Army's Paeon, Using MP to gradually refresh the TP of self and nearby party members. Damage dealt is reduced.
-    2218, Army's Paeon, Direct hit rate is increased.
-    138, Army's Paeon, Gradually regenerating TP.
+>> 2214, Army's Paeon, Weaponskill and spell cast and recast time are reduced.
+>> 137, Army's Paeon, Using MP to gradually refresh the TP of self and nearby party members. Damage dealt is reduced.
+>> 2218, Army's Paeon, Direct hit rate is increased.
+>> 138, Army's Paeon, Gradually regenerating TP.
         """
         id = 116
         name = {"Army's Paeon", '军神的赞美歌'}
@@ -263,7 +263,7 @@ Additional Effect: Grants Army's Coda:):)
 Delivers an attack with a potency of 100 to target and all enemies nearby it.
 Maximum Charges: (source.job==23?(source.level>=84?3:2):2)
 Shares a recast timer with Bloodletter.
-    247, Rain of Death, Evasion is reduced.
+>> 247, Rain of Death, Evasion is reduced.
         """
         id = 117
         name = {'Rain of Death', '死亡箭雨'}
@@ -275,7 +275,7 @@ Shares a recast timer with Bloodletter.
 Increases direct hit rate of self and all nearby party members by 20%.
 Duration: 15s
 Can only be executed while singing Mage's Ballad, Army's Paeon, or the Wanderer's Minuet.
-    141, Battle Voice, Direct hit rate is increased.
+>> 141, Battle Voice, Direct hit rate is increased.
         """
         id = 118
         name = {'战斗之声', 'Battle Voice'}
@@ -348,7 +348,7 @@ Delivers an attack with a potency of 300.
 Reduces damage taken by self and nearby party members by 10%.
 Duration: 15s
 Effect cannot be stacked with machinist's Tactician or dancer's Shield Samba.
-    1934, Troubadour, Damage taken is reduced.
+>> 1934, Troubadour, Damage taken is reduced.
         """
         id = 7405
         name = {'Troubadour', '行吟'}
@@ -362,8 +362,8 @@ Potency: 20
 Duration: 45s(source.job==23?(source.level>=76?
 Additional Effect: 35% chance of becoming Straight Shot Ready
 Duration: 30s:):)
-    1200, Caustic Bite, Toxins are causing damage over time.
-    1321, Caustic Bite, Toxins are causing damage over time.
+>> 1200, Caustic Bite, Toxins are causing damage over time.
+>> 1321, Caustic Bite, Toxins are causing damage over time.
         """
         id = 7406
         name = {'Caustic Bite', '烈毒咬箭'}
@@ -377,8 +377,8 @@ Potency: 25
 Duration: 45s(source.job==23?(source.level>=76?
 Additional Effect: 35% chance of becoming Straight Shot Ready
 Duration: 30s:):)
-    1201, Stormbite, Wounds are exposed to the elements, causing wind damage over time.
-    1322, Stormbite, Wounds are exposed to the elements, causing damage over time.
+>> 1201, Stormbite, Wounds are exposed to the elements, causing wind damage over time.
+>> 1322, Stormbite, Wounds are exposed to the elements, causing damage over time.
         """
         id = 7407
         name = {'Stormbite', '狂风蚀箭'}
@@ -387,11 +387,11 @@ Duration: 30s:):)
         """
 Increases HP recovery via healing actions for a party member or self by 20%.
 Duration: 15s
-    1202, Nature's Minne, HP recovery via healing actions is increased.
-    2178, Nature's Minne, Damage taken is reduced while HP recovered via healing actions is increased.
+>> 1202, Nature's Minne, HP recovery via healing actions is increased.
+>> 2178, Nature's Minne, Damage taken is reduced while HP recovered via healing actions is increased.
         """
         id = 7408
-        name = {'大地神的抒情恋歌', "Nature's Minne"}
+        name = {"Nature's Minne", '大地神的抒情恋歌'}
 
     class RefulgentArrow(ActionBase):
         """
@@ -408,7 +408,7 @@ Barrage Potency: 270
 Can only be executed when Shadowbite Ready.
         """
         id = 16494
-        name = {'Shadowbite', '影噬箭'}
+        name = {'影噬箭', 'Shadowbite'}
 
     class BurstShot(ActionBase):
         """
@@ -431,3 +431,36 @@ Duration: 10s
         """
         id = 16496
         name = {'Apex Arrow', '绝峰箭'}
+
+    class Ladonsbite(ActionBase):
+        """
+Delivers an attack with a potency of 130 to all enemies in a cone before you.
+Additional Effect: 35% chance of becoming Shadowbite Ready
+Duration: 30s
+        """
+        id = 25783
+        name = {'Ladonsbite'}
+
+    class BlastArrow(ActionBase):
+        """
+Delivers an attack to all enemies in a straight line before you with a potency of 600 for the first enemy, and 60% less for all remaining enemies.
+Can only be executed while under the effect of Blast Arrow Ready.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25784
+        name = {'Blast Arrow'}
+
+    class RadiantFinale(ActionBase):
+        """
+Increases damage dealt by self and nearby party members.
+Duration: 15s
+Effectiveness is determined by the number of different Coda active in the Song Gauge.
+1 Coda: 2%
+2 Coda: 4%
+3 Coda: 6%
+Can only be executed when at least 1 coda is active.
+>> 2722, Radiant Finale, Playing a most radiant finale.
+>> 2964, Radiant Finale, Damage dealt is increased.
+        """
+        id = 25785
+        name = {'Radiant Finale'}

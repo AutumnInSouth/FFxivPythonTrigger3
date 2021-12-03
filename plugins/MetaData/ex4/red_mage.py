@@ -9,7 +9,7 @@ Delivers an attack with a potency of 130.(source.level>=2?(source.job==35?
 Action upgraded to Enchanted Riposte if both Black Mana and White Mana are at 20 or more.:):)
         """
         id = 7504
-        name = {'回刺', 'Riposte'}
+        name = {'Riposte', '回刺'}
 
     class EnchantedRiposte(ActionBase):
         """
@@ -20,7 +20,7 @@ Balance Gauge Cost: 20 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 7527
-        name = {'魔回刺', 'Enchanted Riposte'}
+        name = {'Enchanted Riposte', '魔回刺'}
 
     class Jolt(ActionBase):
         """
@@ -28,7 +28,7 @@ Deals unaspected damage with a potency of 170.
 Additional Effect: Increases both Black Mana and White Mana by 2
         """
         id = 7503
-        name = {'Jolt', '摇荡'}
+        name = {'摇荡', 'Jolt'}
 
     class Verthunder(ActionBase):
         """
@@ -38,14 +38,14 @@ Additional Effect: 50% chance of becoming Verfire Ready
 Duration: 30s:):)
         """
         id = 7505
-        name = {'赤闪雷', 'Verthunder'}
+        name = {'Verthunder', '赤闪雷'}
 
     class CorpsACorps(ActionBase):
         """
 Rushes target and delivers an attack with a potency of 130.
 Maximum Charges: 2
 Cannot be executed while bound.
-    2012, Corps-a-corps, A barrier is preventing damage.
+>> 2012, Corps-a-corps, A barrier is preventing damage.
         """
         id = 7506
         name = {'短兵相接', 'Corps-a-corps'}
@@ -67,7 +67,7 @@ Deals unaspected damage with a potency of 120 to target and all enemies nearby i
 Additional Effect: Increases both Black Mana and White Mana by 3
         """
         id = 7509
-        name = {'散碎', 'Scatter'}
+        name = {'Scatter', '散碎'}
 
     class VerthunderIi(ActionBase):
         """
@@ -135,10 +135,20 @@ Additional Effect: 15-yalm backstep
 Maximum Charges: 2
 Cannot be executed while bound.
 Shares a recast timer with Engagement.
-    2013, Displacement, Next spell cast will deal increased damage.
+>> 2013, Displacement, Next spell cast will deal increased damage.
         """
         id = 7515
-        name = {'Displacement', '移转'}
+        name = {'移转', 'Displacement'}
+
+    class Engagement(ActionBase):
+        """
+Delivers an attack with a potency of (source.job==35?(source.level>=72?180:130):130).
+Maximum Charges: 2
+Shares a recast timer with Displacement.
+>> 2033, Engagement, A barrier is preventing damage.
+        """
+        id = 16527
+        name = {'交剑', 'Engagement'}
 
     class Fleche(ActionBase):
         """
@@ -155,7 +165,7 @@ Combo Potency: 230
 Action upgraded to Enchanted Redoublement if both Black Mana and White Mana are at 15 or more.
         """
         id = 7516
-        name = {'Redoublement', '连攻'}
+        name = {'连攻', 'Redoublement'}
         combo_action = 7512
 
     class Acceleration(ActionBase):
@@ -165,7 +175,8 @@ Duration: 20s
 Additional Effect: Increases the potency of (source.job==35?(source.level>=66?Impact:Scatter):Scatter) by 50
 Additional Effect: Ensures (source.job==35?(source.level>=82?Verthunder III and Veraero III:Verthunder and Veraero):Verthunder and Veraero) trigger Verfire Ready or Verstone Ready respectively(source.job==35?(source.level>=88?
 Maximum Charges: 2:):)
-    1238, Acceleration, Next <If(Equal(PlayerParameter(68),35))><If(GreaterThanOrEqualTo(PlayerParameter(72),82))><UIForeground(500)><UIGlow(501)>Verthunder III</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Veraero III</UIGlow></UIForeground><Else/><UIForeground(500)><UIGlow(501)>Verthunder</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Veraero</UIGlow></UIForeground></If><Else/><UIForeground(500)><UIGlow(501)>Verthunder</UIGlow></UIForeground>, <UIForeground(500)><UIGlow(501)>Veraero</UIGlow></UIForeground></If>, or <If(Equal(PlayerParameter(68),35))><If(GreaterThanOrEqualTo(PlayerParameter(72),66))><UIForeground(500)><UIGlow(501)>Impact</UIGlow></UIForeground><Else/><UIForeground(500)><UIGlow(501)>Scatter</UIGlow></UIForeground></If><Else/><UIForeground(500)><UIGlow(501)>Scatter</UIGlow></UIForeground></If> can be cast immediately. Potency of <If(Equal(PlayerParameter(68),35))><If(GreaterThanOrEqualTo(PlayerParameter(72),66))><UIForeground(500)><UIGlow(501)>Impact</UIGlow></UIForeground><Else/><UIForeground(500)><UIGlow(501)>Scatter</UIGlow></UIForeground></If><Else/><UIForeground(500)><UIGlow(501)>Scatter</UIGlow></UIForeground></If> is increased, and <If(Equal(PlayerParameter(68),35))><If(GreaterThanOrEqualTo(PlayerParameter(72),82))><UIForeground(500)><UIGlow(501)>Verthunder III</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Veraero III</UIGlow></UIForeground><Else/><UIForeground(500)><UIGlow(501)>Verthunder</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Veraero</UIGlow></UIForeground></If><Else/><UIForeground(500)><UIGlow(501)>Verthunder</UIGlow></UIForeground> and <UIForeground(500)><UIGlow(501)>Veraero</UIGlow></UIForeground></If> trigger <UIForeground(506)><UIGlow(507)>Verfire Ready</UIGlow></UIForeground> or <UIForeground(506)><UIGlow(507)>Verstone Ready</UIGlow></UIForeground> respectively.
+>> 1238, Acceleration, Next (source.job==35?(source.level>=82?Verthunder III, Veraero III:Verthunder, Veraero):Verthunder, Veraero), or (source.job==35?(source.level>=66?Impact:Scatter):Scatter) can be cast immediately.
+Potency of (source.job==35?(source.level>=66?Impact:Scatter):Scatter) is increased, and (source.job==35?(source.level>=82?Verthunder III and Veraero III:Verthunder and Veraero):Verthunder and Veraero) trigger Verfire Ready or Verstone Ready respectively.
         """
         id = 7518
         name = {'Acceleration', '促进'}
@@ -201,7 +212,7 @@ Balance Gauge Cost: 20 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 7530
-        name = {'Enchanted Moulinet', '魔划圆斩'}
+        name = {'魔划圆斩', 'Enchanted Moulinet'}
 
     class Vercure(ActionBase):
         """
@@ -222,9 +233,9 @@ Delivers an attack with a potency of 360 to target and all enemies nearby it.
         """
 Increases own magic damage dealt by 5% and damage dealt by nearby party members by 5%.
 Duration: 20s
-    1297, Embolden, Damage dealt is increased.
-    1239, Embolden, Magic damage dealt is increased.
-    2282, Embolden, Damage dealt is increased.
+>> 1297, Embolden, Damage dealt is increased.
+>> 1239, Embolden, Magic damage dealt is increased.
+>> 2282, Embolden, Damage dealt is increased.
         """
         id = 7520
         name = {'Embolden', '鼓励'}
@@ -237,7 +248,7 @@ Manafication Effect: Increases magic damage dealt by 5%
 Duration: 15s
 :):)All combos are canceled upon execution of Manafication.
 Can only be executed while in combat.
-    1971, Manafication, Magic damage dealt is increased.
+>> 1971, Manafication, Magic damage dealt is increased.
         """
         id = 7521
         name = {'Manafication', '倍增'}
@@ -246,24 +257,22 @@ Can only be executed while in combat.
         """
 Deals unaspected damage with a potency of (source.job==35?(source.level>=84?310:280):280).
 Additional Effect: Increases both Black Mana and White Mana by 2
-    1498, Shocked, Experiencing periodic immobility while bleeding HP over time.
         """
         id = 7524
-        name = {'震荡', 'Jolt II'}
+        name = {'Jolt II', '震荡'}
 
     class Verraise(ActionBase):
         """
 Resurrects target to a weakened state.
         """
         id = 7523
-        name = {'赤复活', 'Verraise'}
+        name = {'Verraise', '赤复活'}
 
     class Impact(ActionBase):
         """
 Deals unaspected damage with a potency of (source.job==35?(source.level>=84?210:200):200) to target and all enemies nearby it.
 Acceleration Potency: (source.job==35?(source.level>=84?260:250):250)
 Additional Effect: Increases both Black Mana and White Mana by 3
-    995, Headache, Suffering mild head trauma. Damage dealt is reduced. Increased trauma results in a Concussion.
         """
         id = 16526
         name = {'冲击', 'Impact'}
@@ -279,8 +288,7 @@ Mana Stack Cost: 3
 ※This action cannot be assigned to a hotbar.
         """
         id = 7525
-        name = {'赤核爆', 'Verflare'}
-        combo_action = 7529
+        name = {'Verflare', '赤核爆'}
 
     class Verholy(ActionBase):
         """
@@ -293,18 +301,7 @@ Mana Stack Cost: 3
 ※This action cannot be assigned to a hotbar.
         """
         id = 7526
-        name = {'Verholy', '赤神圣'}
-        combo_action = 7529
-
-    class Engagement(ActionBase):
-        """
-Delivers an attack with a potency of (source.job==35?(source.level>=72?180:130):130).
-Maximum Charges: 2
-Shares a recast timer with Displacement.
-    2033, Engagement, A barrier is preventing damage.
-        """
-        id = 16527
-        name = {'交剑', 'Engagement'}
+        name = {'赤神圣', 'Verholy'}
 
     class EnchantedReprise(ActionBase):
         """
@@ -314,7 +311,7 @@ Balance Gauge Cost: 5 White Mana
 ※This action cannot be assigned to a hotbar.
         """
         id = 16528
-        name = {'Enchanted Reprise', '魔续斩'}
+        name = {'魔续斩', 'Enchanted Reprise'}
 
     class Reprise(ActionBase):
         """
@@ -322,7 +319,7 @@ Delivers an attack with a potency of 100.
 Action upgraded to Enchanted Reprise if both Black Mana and White Mana are at 5 or more.
         """
         id = 16529
-        name = {'Reprise', '续斩'}
+        name = {'续斩', 'Reprise'}
 
     class Scorch(ActionBase):
         """
@@ -335,3 +332,44 @@ Jolt II and Impact are changed to Scorch upon landing Verflare or Verholy as a c
         id = 16530
         name = {'Scorch', '焦热'}
         combo_action = 7525
+
+    class VerthunderIii(ActionBase):
+        """
+Deals lightning damage with a potency of 380.
+Additional Effect: Increases Black Mana by 6
+Additional Effect: 50% chance of becoming Verfire Ready
+Duration: 30s
+        """
+        id = 25855
+        name = {'Verthunder III'}
+
+    class VeraeroIii(ActionBase):
+        """
+Deals wind damage with a potency of 380.
+Additional Effect: Increases White Mana by 6
+Additional Effect: 50% chance of becoming Verstone Ready
+Duration: 30s
+        """
+        id = 25856
+        name = {'Veraero III'}
+
+    class MagickBarrier(ActionBase):
+        """
+Reduces magic damage taken by self and nearby party members by 10%, while increasing HP recovered by healing actions by 5%.
+Duration: 10s
+>> 2707, Magick Barrier, Magic damage taken is reduced and HP recovery via healing actions is increased.
+        """
+        id = 25857
+        name = {'Magick Barrier'}
+
+    class Resolution(ActionBase):
+        """
+Deals unaspected damage to all enemies in a straight line before you with a potency of 750 for the first enemy, and 60% less for all remaining enemies.
+Combo Action: Scorch
+Additional Effect: Increases both Black Mana and White Mana by 4
+Scorch is changed to Resolution upon landing Scorch as a combo action.
+※This action cannot be assigned to a hotbar.
+        """
+        id = 25858
+        name = {'Resolution'}
+        combo_action = 16530

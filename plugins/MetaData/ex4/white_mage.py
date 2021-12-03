@@ -28,7 +28,7 @@ Deals wind damage with a potency of 50.
 Additional Effect: Wind damage over time
 Potency: 30
 Duration: 18s
-    143, Aero, Sustaining wind damage over time.
+>> 143, Aero, Sustaining wind damage over time.
         """
         id = 121
         name = {'Aero', '疾风'}
@@ -39,31 +39,23 @@ Restores own HP and the HP of all nearby party members.
 Cure Potency: (source.job==24?(source.level>=85?400:300):300)
         """
         id = 124
-        name = {'Medica', '医治'}
+        name = {'医治', 'Medica'}
 
     class Raise(ActionBase):
         """
 Resurrects target to a weakened state.
-    1140, Raise, Teetering on the brink of consciousness.
-    148, Raise, Teetering on the brink of consciousness.
+>> 1140, Raise, Teetering on the brink of consciousness.
+>> 148, Raise, Teetering on the brink of consciousness.
         """
         id = 125
-        name = {'Raise', '复活'}
-
-    class FluidAura(ActionBase):
-        """
-Binds target.
-Duration: 6s
-        """
-        id = 134
-        name = {'Fluid Aura', '水流环'}
+        name = {'复活', 'Raise'}
 
     class StoneIi(ActionBase):
         """
 Deals earth damage with a potency of 190.
         """
         id = 127
-        name = {'Stone II', '坚石'}
+        name = {'坚石', 'Stone II'}
 
     class CureIi(ActionBase):
         """
@@ -77,7 +69,7 @@ Cure Potency: (source.job==24?(source.level>=85?800:700):700)
         """
 Reduces spell cast time and recast time, and auto-attack delay by 20%.
 Duration: 15s
-    157, Presence of Mind, Spell cast times, recast times, and auto-attack delay are reduced.
+>> 157, Presence of Mind, Spell cast times, recast times, and auto-attack delay are reduced.
         """
         id = 136
         name = {'Presence of Mind', '神速咏唱'}
@@ -87,11 +79,12 @@ Duration: 15s
 Grants healing over time effect to target.
 Cure Potency: (source.job==24?(source.level>=85?250:200):200)
 Duration: 18s
-    1330, Regen, Regenerating HP over time.
-    158, Regen, Regenerating HP over time.
+>> 897, Regen, Regenerating HP over time.
+>> 1330, Regen, Regenerating HP over time.
+>> 158, Regen, Regenerating HP over time.
         """
         id = 137
-        name = {'再生', 'Regen'}
+        name = {'Regen', '再生'}
 
     class CureIii(ActionBase):
         """
@@ -116,7 +109,7 @@ Deals wind damage with a potency of 60.
 Additional Effect: Wind damage over time
 Potency: 60
 Duration: 18s
-    144, Aero II, Sustaining wind damage over time.
+>> 144, Aero II, Sustaining wind damage over time.
         """
         id = 132
         name = {'烈风', 'Aero II'}
@@ -128,7 +121,7 @@ Cure Potency: (source.job==24?(source.level>=85?250:200):200)
 Additional Effect: Regen
 Cure Potency: (source.job==24?(source.level>=85?150:100):100)
 Duration: 15s
-    150, Medica II, Regenerating HP over time.
+>> 150, Medica II, Regenerating HP over time.
         """
         id = 133
         name = {'医济', 'Medica II'}
@@ -138,7 +131,7 @@ Duration: 15s
 Restores all of a target's HP.
         """
         id = 140
-        name = {'天赐祝福', 'Benediction'}
+        name = {'Benediction', '天赐祝福'}
 
     class Asylum(ActionBase):
         """
@@ -146,12 +139,12 @@ Envelops a designated area in a veil of succor, granting healing over time to se
 Cure Potency: 100
 Duration: 24s (source.job==24?(source.level>=78?
 Additional Effect: Increases HP recovery via healing actions on party members in the designated area by 10%:):)
-    739, Asylum, A veil of succor is healing party members in the area.
-    1911, Asylum, A veil of succor is healing party members in the area.
-    1912, Asylum, HP recovery via healing actions is increased.
+>> 739, Asylum, A veil of succor is healing party members in the area.
+>> 1911, Asylum, A veil of succor is healing party members in the area.
+>> 1912, Asylum, HP recovery via healing actions is increased.
         """
         id = 3569
-        name = {'Asylum', '庇护所'}
+        name = {'庇护所', 'Asylum'}
 
     class AfflatusSolace(ActionBase):
         """
@@ -159,17 +152,17 @@ Restores target's HP.
 Cure Potency: (source.job==24?(source.level>=85?800:700):700)(source.job==24?(source.level>=74?
 Additional Effect: Nourishes the Blood Lily:):)
 Healing Gauge Cost: 1 Lily
-    2036, Afflatus Solace, Regenerating HP over time.
+>> 2036, Afflatus Solace, Regenerating HP over time.
         """
         id = 16531
-        name = {'安慰之心', 'Afflatus Solace'}
+        name = {'Afflatus Solace', '安慰之心'}
 
     class StoneIii(ActionBase):
         """
 Deals earth damage with a potency of 230.
         """
         id = 3568
-        name = {'垒石', 'Stone III'}
+        name = {'Stone III', '垒石'}
 
     class Assize(ActionBase):
         """
@@ -179,14 +172,14 @@ Cure Potency: 400
 Additional Effect: Restores 5% of maximum MP
         """
         id = 3571
-        name = {'Assize', '法令'}
+        name = {'法令', 'Assize'}
 
     class ThinAir(ActionBase):
         """
 Next action is executed without MP cost.
 Duration: 12s
 Maximum Charges: 2
-    1217, Thin Air, Next spell cast consumes no MP.
+>> 1217, Thin Air, Next spell cast consumes no MP.
         """
         id = 7430
         name = {'Thin Air', '无中生有'}
@@ -211,11 +204,11 @@ Deals earth damage with a potency of 270.
 Creates a barrier around self or target party member that absorbs damage equivalent to a heal of 500 potency.
 Duration: 15s(source.job==24?(source.level>=88?
 Maximum Charges: 2:):)
-    1218, Divine Benison, A holy blessing from the gods is nullifying damage.
-    1404, Divine Benison, A holy blessing from the gods is nullifying damage.
+>> 1218, Divine Benison, A holy blessing from the gods is nullifying damage.
+>> 1404, Divine Benison, A holy blessing from the gods is nullifying damage.
         """
         id = 7432
-        name = {'Divine Benison', '神祝祷'}
+        name = {'神祝祷', 'Divine Benison'}
 
     class PlenaryIndulgence(ActionBase):
         """
@@ -225,7 +218,7 @@ Cure Potency: 200
 Duration: 10s
         """
         id = 7433
-        name = {'全大赦', 'Plenary Indulgence'}
+        name = {'Plenary Indulgence', '全大赦'}
 
     class Dia(ActionBase):
         """
@@ -233,11 +226,11 @@ Deals unaspected damage with a potency of 60.
 Additional Effect: Unaspected damage over time
 Potency: 60
 Duration: 30s
-    2035, Dia, Damage taken is increased.
-    1871, Dia, Sustaining damage over time.
+>> 2035, Dia, Damage taken is increased.
+>> 1871, Dia, Sustaining damage over time.
         """
         id = 16532
-        name = {'Dia', '天辉'}
+        name = {'天辉', 'Dia'}
 
     class Glare(ActionBase):
         """
@@ -268,10 +261,51 @@ Healing Gauge Cost: 1 Lily
         """
 Increases healing magic potency by 20%, while reducing damage taken by self and all party members within a radius of 30 yalms by 10%.
 Duration: 20s
-    1872, Temperance, Healing magic potency is increased while damage taken by nearby party members is reduced.
-    1873, Temperance, Damage taken is reduced.
-    2037, Temperance, Damage dealt and potency of all HP restoration actions are increased while damage taken by nearby party members is reduced.
-    2038, Temperance, Damage taken is reduced.
+>> 1872, Temperance, Healing magic potency is increased while damage taken by nearby party members is reduced.
+>> 1873, Temperance, Damage taken is reduced.
+>> 2037, Temperance, Damage dealt and potency of all HP restoration actions are increased while damage taken by nearby party members is reduced.
+>> 2038, Temperance, Damage taken is reduced.
         """
         id = 16536
-        name = {'节制', 'Temperance'}
+        name = {'Temperance', '节制'}
+
+    class GlareIii(ActionBase):
+        """
+Deals unaspected damage with a potency of 310.
+        """
+        id = 25859
+        name = {'Glare III'}
+
+    class HolyIii(ActionBase):
+        """
+Deals unaspected damage with a potency of 150 to all nearby enemies.
+Additional Effect: Stun
+Duration: 4s
+        """
+        id = 25860
+        name = {'Holy III'}
+
+    class Aquaveil(ActionBase):
+        """
+Reduces damage taken by a party member or self by 15%.
+Duration: 8s
+>> 2708, Aquaveil, Damage taken is reduced.
+        """
+        id = 25861
+        name = {'Aquaveil'}
+
+    class LiturgyOfTheBell(ActionBase):
+        """
+Places a healing blossom at the designated location and grants 5 stacks of Liturgy of the Bell to self.
+Duration: 15s
+Taking damage will expend 1 stack of Liturgy of the Bell to heal self and all party members within a radius of 20 yalms.
+Cure Potency: 400
+The effect of this action can only be triggered once per second.
+The healing blossom dissipates when all stacks are expended or the effect expires.
+Any remaining stacks of Liturgy of the Bell when effect expires will trigger an additional healing effect.
+Cure Potency: 200 for every remaining stack of Liturgy of the Bell
+This action does not share a recast timer with any other actions.
+>> 2709, Liturgy of the Bell, Triggers a healing effect upon taking damage or when duration expires.
+        """
+        id = 25862
+        name = {'Liturgy of the Bell'}
