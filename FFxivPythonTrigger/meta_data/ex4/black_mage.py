@@ -10,7 +10,7 @@ Additional Effect: Grants Umbral Ice or removes Astral Fire
 Duration: 15s
         """
         id = 142
-        name = {'Blizzard', '冰结'}
+        name = {'冰结', 'Blizzard'}
 
     class Fire(ActionBase):
         """
@@ -30,7 +30,7 @@ Duration: 30s:)):)
 Swaps Astral Fire with a single Umbral Ice, or Umbral Ice with a single Astral Fire.
         """
         id = 149
-        name = {'星灵移位', 'Transpose'}
+        name = {'Transpose', '星灵移位'}
 
     class Thunder(ActionBase):
         """
@@ -50,7 +50,7 @@ Duration: 40s
 >> 1324, Thunder, Sustaining lightning damage over time.
         """
         id = 144
-        name = {'Thunder', '闪雷'}
+        name = {'闪雷', 'Thunder'}
 
     class BlizzardIi(ActionBase):
         """
@@ -67,7 +67,7 @@ Deals unaspected damage with a potency of 100.
 Additional Effect: 20% chance potency will double
         """
         id = 156
-        name = {'崩溃', 'Scathe'}
+        name = {'Scathe', '崩溃'}
 
     class FireIi(ActionBase):
         """
@@ -108,7 +108,7 @@ Duration: 20s
 >> 1989, Manaward, An aetherial barrier is preventing damage.
         """
         id = 157
-        name = {'魔罩', 'Manaward'}
+        name = {'Manaward', '魔罩'}
 
     class Manafont(ActionBase):
         """
@@ -124,7 +124,7 @@ Additional Effect: Grants Astral Fire III and removes Umbral Ice
 Duration: 15s
         """
         id = 152
-        name = {'爆炎', 'Fire III'}
+        name = {'Fire III', '爆炎'}
 
     class BlizzardIii(ActionBase):
         """
@@ -143,7 +143,7 @@ Umbral Heart Bonus: Nullifies Astral Fire's MP cost increase for Fire spells and
 :):)Can only be executed while under the effect of Umbral Ice.
         """
         id = 159
-        name = {'Freeze', '玄冰'}
+        name = {'玄冰', 'Freeze'}
 
     class ThunderIii(ActionBase):
         """
@@ -181,7 +181,7 @@ Duration: 15s
 Can only be executed while under the effect of Astral Fire.
         """
         id = 162
-        name = {'核爆', 'Flare'}
+        name = {'Flare', '核爆'}
 
     class LeyLines(ActionBase):
         """
@@ -218,7 +218,7 @@ Deals fire damage with a potency of 300.
 Can only be executed while under the effect of Astral Fire.
         """
         id = 3577
-        name = {'Fire IV', '炽炎'}
+        name = {'炽炎', 'Fire IV'}
 
     class BetweenTheLines(ActionBase):
         """
@@ -226,7 +226,7 @@ Move instantly to Ley Lines drawn by you.
 Cannot be executed while bound.
         """
         id = 7419
-        name = {'Between the Lines', '魔纹步'}
+        name = {'魔纹步', 'Between the Lines'}
 
     class ThunderIv(ActionBase):
         """
@@ -240,7 +240,7 @@ Only one Thunder spell-induced damage over time effect per caster can be inflict
 >> 1210, Thunder IV, Sustaining lightning damage over time.
         """
         id = 7420
-        name = {'霹雷', 'Thunder IV'}
+        name = {'Thunder IV', '霹雷'}
 
     class Triplecast(ActionBase):
         """
@@ -268,7 +268,7 @@ Duration: 15s
 Can only be executed while under the effect of Astral Fire.
         """
         id = 16505
-        name = {'绝望', 'Despair'}
+        name = {'Despair', '绝望'}
 
     class UmbralSoul(ActionBase):
         """
@@ -277,7 +277,7 @@ Umbral Heart Bonus: Nullifies Astral Fire's MP cost increase for Fire spells and
 Can only be executed while under the effect of Umbral Ice.
         """
         id = 16506
-        name = {'灵极魂', 'Umbral Soul'}
+        name = {'Umbral Soul', '灵极魂'}
 
     class Xenoglossy(ActionBase):
         """

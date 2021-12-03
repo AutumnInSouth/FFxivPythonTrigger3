@@ -81,7 +81,7 @@ Delivers an attack with a potency of (source.job==19?(source.level>=84?200:150):
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            self.damage_potency = 200 if source.job == 'Paladin' and source.level >= 84 else 150
+            self.damage_potency = 200 if source and source.job == 19 and source.level >= 84 else 150
 
     class FightOrFlight(ActionBase):
         """
@@ -109,8 +109,8 @@ Combo Bonus: Restores MP:):)
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            self.damage_potency = 170 if source.job == 'Paladin' and source.level >= 84 else 100
-            self.combo_damage_potency = 300 if source.job == 'Paladin' and source.level >= 84 else 230
+            self.damage_potency = 170 if source and source.job == 19 and source.level >= 84 else 100
+            self.combo_damage_potency = 300 if source and source.job == 19 and source.level >= 84 else 230
 
     class TotalEclipse(ActionBase):
         """
@@ -314,8 +314,8 @@ Duration: 30s:):)
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            self.damage_potency = 130 if source.job == 'Paladin' and source.level >= 84 else 100
-            self.combo_damage_potency = 420 if source.job == 'Paladin' and source.level >= 84 else 390
+            self.damage_potency = 130 if source and source.job == 19 and source.level >= 84 else 100
+            self.combo_damage_potency = 420 if source and source.job == 19 and source.level >= 84 else 390
 
     class Intervention(ActionBase):
         """
@@ -352,9 +352,9 @@ Cure Potency: 400:):)
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
             if source.effects.has(Status.Requiescat.id):
-                self.damage_potency = 540 if source.job == 'Paladin' and source.level >= 84 else 500  # TODO:original value
+                self.damage_potency = 540 if source and source.job == 19 and source.level >= 84 else 500  # TODO:original value
             else:
-                self.damage_potency = 270 if source.job == 'Paladin' and source.level >= 84 else 250  # TODO:original value
+                self.damage_potency = 270 if source and source.job == 19 and source.level >= 84 else 250  # TODO:original value
 
     class Requiescat(ActionBase):
         """
@@ -420,7 +420,7 @@ Can only be executed while under the effect of Sword Oath.
 
         def __init__(self, source: 'Actor|None', target: 'Actor|None'):
             super().__init__(source, target)
-            self.damage_potency = 420 if source.job == 'Paladin' and source.level >= 84 else 390
+            self.damage_potency = 420 if source and source.job == 19 and source.level >= 84 else 390
 
     class Confiteor(ActionBase):
         """

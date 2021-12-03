@@ -1,14 +1,28 @@
 from ..base import *
 
 
-class Actions:
+class Status:
+    class Combust(StatusBase):
+        """
+Deals unaspected damage over time.
+Potency: 40
+Duration: 18s
+>> 838, Combust, Proximity of a theoretical sun is causing damage over time.
+        """
+        id = 838
+        name = {'烧灼', 'Combust'}
+        damage_potency = 40
 
+
+class Actions:
     class Malefic(ActionBase):
         """
 Deals unaspected damage with a potency of 150.
         """
         id = 3596
-        name = {'凶星', 'Malefic'}
+        name = {'Malefic', '凶星'}
+        damage_potency = 150
+        attack_type = magic
 
     class Benefic(ActionBase):
         """
@@ -18,7 +32,11 @@ Additional Effect: 15% chance next Benefic II will restore critical HP
 Duration: 15s:):)
         """
         id = 3594
-        name = {'Benefic', '吉星'}
+        name = {'吉星', 'Benefic'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 500 if source and source.job == 33 and source.level >= 85 else 450
 
     class Combust(ActionBase):
         """
@@ -29,6 +47,7 @@ Duration: 18s
         """
         id = 3599
         name = {'烧灼', 'Combust'}
+        status_to_target = Status.Combust
 
     class Lightspeed(ActionBase):
         """
@@ -38,7 +57,7 @@ Duration: 15s
 >> 1403, Lightspeed, Spell casting time and MP cost are reduced by 100% and 50% respectively.
         """
         id = 3606
-        name = {'Lightspeed', '光速'}
+        name = {'光速', 'Lightspeed'}
 
     class Helios(ActionBase):
         """
@@ -46,7 +65,11 @@ Restores own HP and the HP of all nearby party members.
 Cure Potency: (source.job==33?(source.level>=85?400:330):330)
         """
         id = 3600
-        name = {'阳星', 'Helios'}
+        name = {'Helios', '阳星'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 400 if source and source.job == 33 and source.level >= 85 else 330
 
     class Ascend(ActionBase):
         """
@@ -63,15 +86,26 @@ Potency increases up to 900 as the target's HP decreases, reaching its maximum v
 Maximum Charges: 2:):)
         """
         id = 3614
-        name = {'Essential Dignity', '先天禀赋'}
+        name = {'先天禀赋', 'Essential Dignity'}
 
-    class BeneficIi(ActionBase):
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if target:
+                self.cure_potency = int(400 + (900 - 400) * target.current_hp / target.max_hp)
+            else:
+                self.cure_potency = 400
+
+    class BeneficII(ActionBase):
         """
 Restores target's HP.
 Cure Potency: (source.job==33?(source.level>=85?800:700):700)
         """
         id = 3610
         name = {'福星', 'Benefic II'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 800 if source and source.job == 33 and source.level >= 85 else 700
 
     class Draw(ActionBase):
         """
@@ -91,6 +125,9 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Solar Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 1338, The Balance, Damage dealt is increased.
+>> 829, The Balance, Damage dealt is increased.
+>> 1882, The Balance, Damage dealt is increased.
         """
         id = 4401
         name = {'the Balance', '太阳神之衡'}
@@ -102,9 +139,11 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Lunar Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 1884, The Arrow, Damage dealt is increased.
+>> 831, The Arrow, Weaponskill cast time and recast time, spell cast time and recast time, and auto-attack delay are reduced.
         """
         id = 4402
-        name = {'the Arrow', '放浪神之箭'}
+        name = {'放浪神之箭', 'the Arrow'}
 
     class TheSpear(ActionBase):
         """
@@ -113,6 +152,8 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Celestial Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 832, The Spear, Critical hit rate is increased.
+>> 1885, The Spear, Damage dealt is increased.
         """
         id = 4403
         name = {'the Spear', '战争神之枪'}
@@ -124,9 +165,12 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Solar Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 1339, The Bole, Damage taken is reduced.
+>> 1883, The Bole, Damage dealt is increased.
+>> 830, The Bole, Damage taken is reduced.
         """
         id = 4404
-        name = {'the Bole', '世界树之干'}
+        name = {'世界树之干', 'the Bole'}
 
     class TheEwer(ActionBase):
         """
@@ -135,9 +179,12 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Lunar Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 833, The Ewer, Restoring MP over time.
+>> 1340, The Ewer, Restoring MP over time.
+>> 1886, The Ewer, Damage dealt is increased.
         """
         id = 4405
-        name = {'河流神之瓶', 'the Ewer'}
+        name = {'the Ewer', '河流神之瓶'}
 
     class TheSpire(ActionBase):
         """
@@ -146,6 +193,9 @@ Duration: 15s
 (source.job==33?(source.level>=50?Additional Effect: Grants a Celestial Sign when used in combat
 :):)Only one arcanum effect can be applied to a target at a time.
 ※This action cannot be assigned to a hotbar.
+>> 834, The Spire, Restoring TP over time.
+>> 1341, The Spire, Restoring TP over time.
+>> 1887, The Spire, Damage dealt is increased.
         """
         id = 4406
         name = {'建筑神之塔', 'the Spire'}
@@ -174,7 +224,7 @@ Duration: 15s
 >> 835, Aspected Benefic, Regenerating HP over time.
         """
         id = 3595
-        name = {'Aspected Benefic', '吉星相位'}
+        name = {'吉星相位', 'Aspected Benefic'}
 
     class Redraw(ActionBase):
         """
@@ -194,14 +244,14 @@ Duration: 15s
 >> 836, Aspected Helios, Regenerating HP over time.
         """
         id = 3601
-        name = {'阳星相位', 'Aspected Helios'}
+        name = {'Aspected Helios', '阳星相位'}
 
     class Gravity(ActionBase):
         """
 Deals unaspected damage with a potency of 120 to target and all enemies nearby it.
         """
         id = 3615
-        name = {'重力', 'Gravity'}
+        name = {'Gravity', '重力'}
 
     class CombustIi(ActionBase):
         """
@@ -233,7 +283,7 @@ Duration: 15s
 >> 1878, Divination, Damage dealt is increased.
         """
         id = 16552
-        name = {'占卜', 'Divination'}
+        name = {'Divination', '占卜'}
 
     class Astrodyne(ActionBase):
         """
@@ -257,7 +307,7 @@ Harmony of Mind Effect: Increases damage dealt and healing potency by 5%
 Deals unaspected damage with a potency of 160.
         """
         id = 3598
-        name = {'Malefic II', '灾星'}
+        name = {'灾星', 'Malefic II'}
 
     class CollectiveUnconscious(ActionBase):
         """
@@ -286,7 +336,7 @@ Cure Potency: 100
 Duration: 15s
         """
         id = 16553
-        name = {'Celestial Opposition', '天星冲日'}
+        name = {'天星冲日', 'Celestial Opposition'}
 
     class EarthlyStar(ActionBase):
         """
@@ -300,7 +350,7 @@ Waiting 10s or executing Stellar Detonation while under the effect of Giant Domi
 Cure Potency: 720
         """
         id = 7439
-        name = {'Earthly Star', '地星'}
+        name = {'地星', 'Earthly Star'}
 
     class StellarDetonation(ActionBase):
         """
@@ -319,7 +369,7 @@ Cure Potency: 720
 Deals unaspected damage with a potency of 190.
         """
         id = 7442
-        name = {'祸星', 'Malefic III'}
+        name = {'Malefic III', '祸星'}
 
     class MinorArcana(ActionBase):
         """
@@ -328,7 +378,7 @@ Arcanum effect can be triggered using the action Crown Play.
 Can only be executed while in combat.
         """
         id = 7443
-        name = {'Minor Arcana', '小奥秘卡'}
+        name = {'小奥秘卡', 'Minor Arcana'}
 
     class LordOfCrowns(ActionBase):
         """
@@ -349,7 +399,7 @@ Cure Potency: 400
 >> 1877, Lady of Crowns, Damage dealt is increased.
         """
         id = 7445
-        name = {'Lady of Crowns', '王冠之贵妇'}
+        name = {'王冠之贵妇', 'Lady of Crowns'}
 
     class CrownPlay(ActionBase):
         """
@@ -367,14 +417,14 @@ Duration: 30s
 >> 2041, Combust III, Damage dealt and potency of all HP restoration actions are reduced.
         """
         id = 16554
-        name = {'Combust III', '焚灼'}
+        name = {'焚灼', 'Combust III'}
 
     class MaleficIv(ActionBase):
         """
 Deals unaspected damage with a potency of 230.
         """
         id = 16555
-        name = {'Malefic IV', '煞星'}
+        name = {'煞星', 'Malefic IV'}
 
     class CelestialIntersection(ActionBase):
         """
@@ -385,7 +435,7 @@ Duration: 30s(source.job==33?(source.level>=88?
 Maximum Charges: 2:):)
         """
         id = 16556
-        name = {'Celestial Intersection', '天星交错'}
+        name = {'天星交错', 'Celestial Intersection'}
 
     class Horoscope(ActionBase):
         """
@@ -399,7 +449,7 @@ Horoscope Helios Cure Potency: 400
 >> 1890, Horoscope, Primed to receive the healing effects of Horoscope.
         """
         id = 16557
-        name = {'Horoscope', '天宫图'}
+        name = {'天宫图', 'Horoscope'}
 
     class Horoscope(ActionBase):
         """
@@ -410,7 +460,7 @@ Horoscope Helios Potency: 400
 >> 1890, Horoscope, Primed to receive the healing effects of Horoscope.
         """
         id = 16558
-        name = {'Horoscope', '天宫图'}
+        name = {'天宫图', 'Horoscope'}
 
     class NeutralSect(ActionBase):
         """

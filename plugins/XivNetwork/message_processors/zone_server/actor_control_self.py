@@ -3,7 +3,7 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
 
-class ServerActorControl143(OffsetStruct({
+class ServerActorControlSelf(OffsetStruct({
     'category': c_ushort,
     'padding0': c_ushort,
     'param1': c_uint,
@@ -25,13 +25,13 @@ class ServerActorControl143(OffsetStruct({
     padding1: int
 
 
-class ActorControl143Event(NetworkZoneServerEvent):
-    id = NetworkZoneServerEvent.id + 'actor_control/'
-    struct_message: ServerActorControl143
+class ActorControlSelfEvent(NetworkZoneServerEvent):
+    id = NetworkZoneServerEvent.id + 'actor_control_self/'
+    struct_message: ServerActorControlSelf
 
 
-class UnknownActorControl143Event(ActorControl143Event):
-    id = ActorControl143Event.id + 'unk_143'
+class UnknownActorControlSelfEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'unk_143'
 
     def text(self):
         return f'unknown actor control 143 category from {self.message_header.actor_id:x} {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
@@ -39,10 +39,10 @@ class UnknownActorControl143Event(ActorControl143Event):
                f'{self.struct_message.param5:x}|{self.struct_message.param6:x}'
 
 
-class LimitBreakEvent(ActorControl143Event):
-    id = ActorControl143Event.id + 'limit_break'
+class LimitBreakEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'limit_break'
 
-    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControl143):
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.param = struct_message.param1 & 255
 
@@ -53,8 +53,8 @@ class LimitBreakEvent(ActorControl143Event):
         return f"network_actor_limit_break|{self.param}"
 
 
-class DirectorUpdateEvent(ActorControl143Event):
-    id = ActorControl143Event.id + 'director_update/'
+class DirectorUpdateEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'director_update/'
 
 
 class UnknownDirectorUpdateEvent(DirectorUpdateEvent):
@@ -110,17 +110,17 @@ director_update_map = {
 }
 
 
-class ActorControl143(BaseProcessors):
-    opcode = "ActorControl143"
-    struct = ServerActorControl143
+class ActorControlSelf(BaseProcessors):
+    opcode = "ActorControlSelf"
+    struct = ServerActorControlSelf
 
     @staticmethod
-    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControl143):
+    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         match struct_message.category:
             case 109:
                 evt = director_update_map.get(struct_message.param2, UnknownDirectorUpdateEvent)
             case 505:
                 evt = LimitBreakEvent
             case _:
-                evt = UnknownActorControl143Event
+                evt = UnknownActorControlSelfEvent
         return evt(bundle_header, message_header, raw_message, struct_message)

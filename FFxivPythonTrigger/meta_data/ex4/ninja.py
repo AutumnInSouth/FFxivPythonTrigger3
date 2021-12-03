@@ -9,7 +9,7 @@ Delivers an attack with a potency of (source.job==30?(source.level>=84?200:180):
 Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2240
-        name = {'Spinning Edge', '双刃旋'}
+        name = {'双刃旋', 'Spinning Edge'}
 
     class ShadeShift(ActionBase):
         """
@@ -19,7 +19,7 @@ Duration: 20s
 >> 2011, Shade Shift, Shadows are nullifying damage.
         """
         id = 2241
-        name = {'Shade Shift', '残影'}
+        name = {'残影', 'Shade Shift'}
 
     class GustSlash(ActionBase):
         """
@@ -29,7 +29,7 @@ Combo Potency: (source.job==30?(source.level>=84?300:260):260)(source.job==30?(s
 Combo Bonus: Increases Ninki Gauge by 5:):)
         """
         id = 2242
-        name = {'绝风', 'Gust Slash'}
+        name = {'Gust Slash', '绝风'}
         combo_action = 2240
 
     class Hide(ActionBase):
@@ -82,7 +82,7 @@ Rear Combo Potency: (source.job==30?(source.level>=84?400:380):380)(source.job==
 Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=84?15:(source.job==30?(source.level>=78?10:5):5)):(source.job==30?(source.level>=78?10:5):5)):):)
         """
         id = 2255
-        name = {'旋风刃', 'Aeolian Edge'}
+        name = {'Aeolian Edge', '旋风刃'}
         combo_action = 2242
 
     class Ten(ActionBase):
@@ -114,7 +114,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 2265
-        name = {'风魔手里剑', 'Fuma Shuriken'}
+        name = {'Fuma Shuriken', '风魔手里剑'}
 
     class RabbitMedium(ActionBase):
         """
@@ -141,7 +141,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 18873
-        name = {'风魔手里剑', 'Fuma Shuriken'}
+        name = {'Fuma Shuriken', '风魔手里剑'}
 
     class FumaShuriken(ActionBase):
         """
@@ -151,7 +151,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 18874
-        name = {'风魔手里剑', 'Fuma Shuriken'}
+        name = {'Fuma Shuriken', '风魔手里剑'}
 
     class FumaShuriken(ActionBase):
         """
@@ -161,7 +161,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 18875
-        name = {'风魔手里剑', 'Fuma Shuriken'}
+        name = {'Fuma Shuriken', '风魔手里剑'}
 
     class Chi(ActionBase):
         """
@@ -172,7 +172,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 2261
-        name = {'Chi', '地之印'}
+        name = {'地之印', 'Chi'}
 
     class Katon(ActionBase):
         """
@@ -195,7 +195,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 2267
-        name = {'Raiton', '雷遁之术'}
+        name = {'雷遁之术', 'Raiton'}
 
     class Chi(ActionBase):
         """
@@ -205,7 +205,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 Conversely, execution of weaponskills triggers the cooldown of this action.
         """
         id = 18806
-        name = {'Chi', '地之印'}
+        name = {'地之印', 'Chi'}
 
     class Katon(ActionBase):
         """
@@ -228,7 +228,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 18877
-        name = {'Raiton', '雷遁之术'}
+        name = {'雷遁之术', 'Raiton'}
 
     class DeathBlossom(ActionBase):
         """
@@ -236,14 +236,14 @@ Delivers an attack with a potency of 100 to all nearby enemies.(source.job==30?(
 Additional Effect: Increases Ninki Gauge by 5:):)
         """
         id = 2254
-        name = {'Death Blossom', '血雨飞花'}
+        name = {'血雨飞花', 'Death Blossom'}
 
     class Assassinate(ActionBase):
         """
 Delivers an attack with a potency of 200.
         """
         id = 2246
-        name = {'Assassinate', '断绝'}
+        name = {'断绝', 'Assassinate'}
 
     class Shukuchi(ActionBase):
         """
@@ -301,7 +301,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 >> 501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 2270
-        name = {'Doton', '土遁之术'}
+        name = {'土遁之术', 'Doton'}
 
     class Suiton(ActionBase):
         """
@@ -316,7 +316,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 >> 2839, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
         """
         id = 2271
-        name = {'水遁之术', 'Suiton'}
+        name = {'Suiton', '水遁之术'}
 
     class Jin(ActionBase):
         """
@@ -364,7 +364,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 >> 501, Doton, Foul magicks corrupt the ground, dealing earth damage to any who tread upon it.
         """
         id = 18880
-        name = {'Doton', '土遁之术'}
+        name = {'土遁之术', 'Doton'}
 
     class Suiton(ActionBase):
         """
@@ -379,7 +379,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 >> 2839, Suiton, Body is enveloped in a light-bending veil of water, allowing use of actions normally requiring the Hidden status.
         """
         id = 18881
-        name = {'水遁之术', 'Suiton'}
+        name = {'Suiton', '水遁之术'}
 
     class Kassatsu(ActionBase):
         """
@@ -390,7 +390,7 @@ Recast timer of mudra is not affected by the execution of this action.
 >> 497, Kassatsu, Able to execute a ninjutsu with increased potency.
         """
         id = 2264
-        name = {'Kassatsu', '生杀予夺'}
+        name = {'生杀予夺', 'Kassatsu'}
 
     class HakkeMujinsatsu(ActionBase):
         """
@@ -415,7 +415,7 @@ Combo Bonus: Extends Huton duration by 30s to a maximum of 60s(source.job==30?(s
 Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=84?15:(source.job==30?(source.level>=78?10:5):5)):(source.job==30?(source.level>=78?10:5):5)):):)
         """
         id = 3563
-        name = {'强甲破点突', 'Armor Crush'}
+        name = {'Armor Crush', '强甲破点突'}
         combo_action = 2242
 
     class DreamWithinADream(ActionBase):
@@ -423,7 +423,7 @@ Combo Bonus: Increases Ninki Gauge by (source.job==30?(source.level>=84?15:(sour
 Delivers a threefold attack, each hit with a potency of 150.
         """
         id = 3566
-        name = {'Dream Within a Dream', '梦幻三段'}
+        name = {'梦幻三段', 'Dream Within a Dream'}
 
     class Huraijin(ActionBase):
         """
@@ -452,7 +452,7 @@ Deals unaspected damage with a potency of 400.
 Shares a recast timer with Hellfrog Medium.
         """
         id = 7402
-        name = {'Bhavacakra', '六道轮回'}
+        name = {'六道轮回', 'Bhavacakra'}
 
     class TenChiJin(ActionBase):
         """
@@ -463,7 +463,7 @@ Cannot be executed while under the effect of Kassatsu. Effect ends upon moving.
 >> 1186, Ten Chi Jin, Able to execute ninjutsu in succession.
         """
         id = 7403
-        name = {'Ten Chi Jin', '天地人'}
+        name = {'天地人', 'Ten Chi Jin'}
 
     class Meisui(ActionBase):
         """
@@ -496,7 +496,7 @@ Triggers the cooldown of weaponskills, mudra, and Ninjutsu upon execution.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16492
-        name = {'冰晶乱流之术', 'Hyosho Ranryu'}
+        name = {'Hyosho Ranryu', '冰晶乱流之术'}
 
     class Bunshin(ActionBase):
         """
@@ -512,7 +512,7 @@ Duration: 30s
 >> 1954, Bunshin, Your corporeal shadow is performing an attack each time you execute a weaponskill.
         """
         id = 16493
-        name = {'Bunshin', '分身之术'}
+        name = {'分身之术', 'Bunshin'}
 
     class PhantomKamaitachi(ActionBase):
         """

@@ -83,8 +83,8 @@ class WanaHome(PluginBase):
         self.load_world_data()
         frame_inject.register_continue_call(self.frame_work)
 
-    def start(self):
-        self.full_search()
+    # def start(self):
+    #     self.full_search()
 
     @event('network/zone/server/ward_land_info')
     def ward_land_info_event(self, evt: 'ServerWardLandInfoEvent'):

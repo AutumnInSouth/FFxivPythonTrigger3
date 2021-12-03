@@ -18,7 +18,7 @@ Duration: 20s
 >> 1831, No Mercy, Damage dealt is increased.
         """
         id = 16138
-        name = {'No Mercy', '无情'}
+        name = {'无情', 'No Mercy'}
 
     class BrutalShell(ActionBase):
         """
@@ -33,7 +33,7 @@ Duration: 30s:):)
 >> 1997, Brutal Shell, A highly effective defensive maneuver is nullifying damage.
         """
         id = 16139
-        name = {'残暴弹', 'Brutal Shell'}
+        name = {'Brutal Shell', '残暴弹'}
         combo_action = 16137
 
     class Camouflage(ActionBase):
@@ -43,14 +43,14 @@ Duration: 20s
 >> 1832, Camouflage, Parry rate is increased while damage taken is reduced.
         """
         id = 16140
-        name = {'伪装', 'Camouflage'}
+        name = {'Camouflage', '伪装'}
 
     class DemonSlice(ActionBase):
         """
 Delivers an attack with a potency of 100 to all nearby enemies.
         """
         id = 16141
-        name = {'恶魔切', 'Demon Slice'}
+        name = {'Demon Slice', '恶魔切'}
 
     class RoyalGuard(ActionBase):
         """
@@ -76,7 +76,7 @@ Additional Effect: Increased enmity
 Delivers an attack with a potency of 250.
         """
         id = 16144
-        name = {'Danger Zone', '危险领域'}
+        name = {'危险领域', 'Danger Zone'}
 
     class SolidBarrel(ActionBase):
         """
@@ -86,7 +86,7 @@ Combo Potency: (source.job==37?(source.level>=84?340:320):320)(source.job==37?(s
 Combo Bonus: Adds a Cartridge to your Powder Gauge:):)
         """
         id = 16145
-        name = {'迅连斩', 'Solid Barrel'}
+        name = {'Solid Barrel', '迅连斩'}
         combo_action = 16139
 
     class BurstStrike(ActionBase):
@@ -97,7 +97,7 @@ Duration: 10s
 :):)Cartridge Cost: 1
         """
         id = 16162
-        name = {'Burst Strike', '爆发击'}
+        name = {'爆发击', 'Burst Strike'}
 
     class Nebula(ActionBase):
         """
@@ -106,7 +106,7 @@ Duration: 15s
 >> 1834, Nebula, Damage taken is reduced.
         """
         id = 16148
-        name = {'星云', 'Nebula'}
+        name = {'Nebula', '星云'}
 
     class DemonSlaughter(ActionBase):
         """
@@ -170,7 +170,7 @@ Duration: 10s
 This weaponskill does not share a recast timer with any other actions.
         """
         id = 16146
-        name = {'Gnashing Fang', '烈牙'}
+        name = {'烈牙', 'Gnashing Fang'}
 
     class SavageClaw(ActionBase):
         """
@@ -181,7 +181,7 @@ Duration: 10s:):)
 ※This action cannot be assigned to a hotbar.
         """
         id = 16147
-        name = {'猛兽爪', 'Savage Claw'}
+        name = {'Savage Claw', '猛兽爪'}
         combo_action = 16146
 
     class WickedTalon(ActionBase):
@@ -264,7 +264,7 @@ Can only be executed when Ready to Gouge.
 ※This action cannot be assigned to a hotbar.
         """
         id = 16158
-        name = {'Eye Gouge', '穿目'}
+        name = {'穿目', 'Eye Gouge'}
 
     class FatedCircle(ActionBase):
         """
@@ -279,7 +279,7 @@ Cartridge Cost: 1
 Draws aetheric energy from target, adding (source.job==37?(source.level>=88?3:2):2) Cartridges to your Powder Gauge.
         """
         id = 16164
-        name = {'血壤', 'Bloodfest'}
+        name = {'Bloodfest', '血壤'}
 
     class BlastingZone(ActionBase):
         """

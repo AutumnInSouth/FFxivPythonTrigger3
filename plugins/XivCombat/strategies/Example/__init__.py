@@ -1,6 +1,6 @@
-from FFxivPythonTrigger import game_language
+from FFxivPythonTrigger import game_ext
 
-if game_language == 'chs':
+if game_ext == 3:
     from .machinist import MachinistLogic
     from .red_mage import RDMLogic
     from .warrior import WarriorLogic

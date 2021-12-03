@@ -5,7 +5,7 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
 
-class ServerActorControl142(OffsetStruct({
+class ServerActorControl(OffsetStruct({
     'category': c_ushort,
     'padding0': c_ushort,
     'param1': c_uint,
@@ -23,9 +23,9 @@ class ServerActorControl142(OffsetStruct({
     padding1: int
 
 
-class ActorControl142Event(NetworkZoneServerEvent):
+class ActorControlEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'actor_control/'
-    struct_message: ServerActorControl142
+    struct_message: ServerActorControl
     target_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -38,16 +38,16 @@ class ActorControl142Event(NetworkZoneServerEvent):
         if self.target_actor is not None: self.target_name = self.target_actor.name
 
 
-class UnknownActorControl142Event(ActorControl142Event):
-    id = ActorControl142Event.id + 'unk_142'
+class UnknownActorControlEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'unk_142'
 
     def _text(self):
         return f'unknown actor control 142 category from {self.target_name}({self.target_id:x}) {self.struct_message.category:x}|{self.struct_message.param1:x}|' \
                f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}'
 
 
-class UnknownDotHotEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'unk_dot_hot'
+class UnknownDotHotEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'unk_dot_hot'
     source_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -70,7 +70,7 @@ class UnknownDotHotEvent(ActorControl142Event):
 
 
 class DotEvent(UnknownDotHotEvent):
-    id = ActorControl142Event.id + 'dot'
+    id = ActorControlEvent.id + 'dot'
 
     def _text(self):
         return f"{self.target_name} gains {self.damage} dot from {self.source_name}({status_names.get(self.status_id)})"
@@ -80,7 +80,7 @@ class DotEvent(UnknownDotHotEvent):
 
 
 class HotEvent(UnknownDotHotEvent):
-    id = ActorControl142Event.id + 'hot'
+    id = ActorControlEvent.id + 'hot'
 
     def _text(self):
         return f"{self.target_name} gains {self.damage} hot from {self.source_name}({status_names.get(self.status_id)})"
@@ -89,7 +89,7 @@ class HotEvent(UnknownDotHotEvent):
         return f"network_hot|{self.target_name}|{self.damage}|{self.source_name}|{self.status_id}|{status_names.get(self.status_id)}"
 
 
-def dot_hot_event(bundle_header, message_header, raw_message, struct_message: ServerActorControl142):
+def dot_hot_event(bundle_header, message_header, raw_message, struct_message: ServerActorControl):
     match struct_message.param2:
         case 4:
             c = HotEvent
@@ -100,8 +100,8 @@ def dot_hot_event(bundle_header, message_header, raw_message, struct_message: Se
     return c(bundle_header, message_header, raw_message, struct_message)
 
 
-class DeathEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'death'
+class DeathEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'death'
     source_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -121,8 +121,8 @@ class DeathEvent(ActorControl142Event):
         return f"network_death|{self.target_name}|{self.source_name}"
 
 
-class TargetIconEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'target_icon'
+class TargetIconEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'target_icon'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
@@ -135,8 +135,8 @@ class TargetIconEvent(ActorControl142Event):
         return f"network_actor_mark|{self.target_name}|{self.icon_id}"
 
 
-class JobChangeEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'job_change'
+class JobChangeEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'job_change'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
@@ -149,8 +149,8 @@ class JobChangeEvent(ActorControl142Event):
         return f"network_actor_job_change|{self.target_name}|{self.to_job}|{class_job_names[self.to_job]}"
 
 
-class CombatStateChangeEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'combat_state_change'
+class CombatStateChangeEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'combat_state_change'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
@@ -163,8 +163,8 @@ class CombatStateChangeEvent(ActorControl142Event):
         return f"network_actor_is_combat|{self.target_name}|{self.struct_message.param1}"
 
 
-class EffectUpdateEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'effect_update'
+class EffectUpdateEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'effect_update'
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
@@ -178,8 +178,8 @@ class EffectUpdateEvent(ActorControl142Event):
         return f"network_actor_effect_update|{self.target_name}|{self.effect_id}|{self.effect_extra}"
 
 
-class TargetableEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'targetable'
+class TargetableEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'targetable'
 
     def _text(self):
         return f"{self.target_name} is targetable"
@@ -188,8 +188,8 @@ class TargetableEvent(ActorControl142Event):
         return f"network_actor_targetable|{self.target_name}"
 
 
-class TetherEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'tether'
+class TetherEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'tether'
     source_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -210,8 +210,8 @@ class TetherEvent(ActorControl142Event):
         return f"network_actor_tether|{self.target_name}|{self.source_name}|{self.type}"
 
 
-class EffectRemoveEvent(ActorControl142Event):
-    id = ActorControl142Event.id + 'effect_remove'
+class EffectRemoveEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'effect_remove'
     source_actor: any
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
@@ -244,11 +244,11 @@ category_event_map = {
 }
 
 
-class ActorControl142(BaseProcessors):
-    opcode = "ActorControl142"
-    struct = ServerActorControl142
+class ActorControl(BaseProcessors):
+    opcode = "ActorControl"
+    struct = ServerActorControl
 
     @staticmethod
-    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControl142):
-        return category_event_map.get(struct_message.category, UnknownActorControl142Event)(
+    def event(bundle_header, message_header, raw_message, struct_message: ServerActorControl):
+        return category_event_map.get(struct_message.category, UnknownActorControlEvent)(
             bundle_header, message_header, raw_message, struct_message)

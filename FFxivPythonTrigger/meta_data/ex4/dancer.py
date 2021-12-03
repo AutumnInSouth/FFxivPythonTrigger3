@@ -11,7 +11,7 @@ Duration: 30s
 ※Action changes to Emboite while dancing.
         """
         id = 15989
-        name = {'Cascade', '瀑泻'}
+        name = {'瀑泻', 'Cascade'}
 
     class Fountain(ActionBase):
         """
@@ -47,7 +47,7 @@ Triggers the cooldown of weaponskills, step actions, and finish actions upon exe
 >> 2023, Standard Step, Caught up in the dance and only able to execute step actions, additional actions, Head Graze, Bolt, Medical Kit, Standard Finish, and En Avant.
         """
         id = 15997
-        name = {'Standard Step', '标准舞步'}
+        name = {'标准舞步', 'Standard Step'}
 
     class Emboite(ActionBase):
         """
@@ -57,7 +57,7 @@ Triggers the cooldown of step and finish actions upon execution. Cannot be execu
 ※This action cannot be assigned to a hotbar.
         """
         id = 15999
-        name = {'蔷薇曲脚步', 'Emboite'}
+        name = {'Emboite', '蔷薇曲脚步'}
 
     class Entrechat(ActionBase):
         """
@@ -67,7 +67,7 @@ Triggers the cooldown of step and finish actions upon execution. Cannot be execu
 ※This action cannot be assigned to a hotbar.
         """
         id = 16000
-        name = {'小鸟交叠跳', 'Entrechat'}
+        name = {'Entrechat', '小鸟交叠跳'}
 
     class Jete(ActionBase):
         """
@@ -152,7 +152,7 @@ Delivers an attack with a potency of 240.
 ※Action changes to Jete while dancing.
         """
         id = 15991
-        name = {'逆瀑泻', 'Reverse Cascade'}
+        name = {'Reverse Cascade', '逆瀑泻'}
 
     class Bladeshower(ActionBase):
         """
@@ -164,7 +164,7 @@ Duration: 30s
 ※Action changes to Entrechat while dancing.
         """
         id = 15994
-        name = {'落刃雨', 'Bladeshower'}
+        name = {'Bladeshower', '落刃雨'}
         combo_action = 15993
 
     class FanDance(ActionBase):
@@ -175,7 +175,7 @@ Duration: 30s
 Can only be executed while in possession of Fourfold Feathers.
         """
         id = 16007
-        name = {'扇舞·序', 'Fan Dance'}
+        name = {'Fan Dance', '扇舞·序'}
 
     class RisingWindmill(ActionBase):
         """
@@ -195,7 +195,7 @@ Can only be executed while under the effect of Flourishing Flow.
 ※Action changes to Pirouette while dancing.
         """
         id = 15992
-        name = {'Fountainfall', '坠喷泉'}
+        name = {'坠喷泉', 'Fountainfall'}
 
     class Bloodshower(ActionBase):
         """
@@ -244,7 +244,7 @@ Effect cannot be stacked with bard's Troubadour or machinist's Tactician.
 >> 1826, Shield Samba, Damage taken is reduced.
         """
         id = 16012
-        name = {'Shield Samba', '防守之桑巴'}
+        name = {'防守之桑巴', 'Shield Samba'}
 
     class ClosedPosition(ActionBase):
         """
@@ -254,14 +254,14 @@ Effect ends upon reuse.
 >> 1823, Closed Position, Sharing the effects of certain actions with target party member.
         """
         id = 16006
-        name = {'闭式舞姿', 'Closed Position'}
+        name = {'Closed Position', '闭式舞姿'}
 
     class Ending(ActionBase):
         """
 Ends dance with your partner.
         """
         id = 18073
-        name = {'解除闭式舞姿', 'Ending'}
+        name = {'Ending', '解除闭式舞姿'}
 
     class Devilment(ActionBase):
         """
@@ -282,7 +282,7 @@ Can only be executed while under the effect of Threefold Fan Dance.
 >> 2052, Fan Dance III, Damage taken is reduced.
         """
         id = 16009
-        name = {'扇舞·急', 'Fan Dance III'}
+        name = {'Fan Dance III', '扇舞·急'}
 
     class TechnicalStep(ActionBase):
         """
@@ -295,7 +295,7 @@ Triggers the cooldown of weaponskills, step actions, and finish actions upon exe
 >> 1819, Technical Step, Caught up in the dance and only able to execute step actions, role actions, Sprint, Limit Break, Technical Finish, and En Avant.
         """
         id = 15998
-        name = {'Technical Step', '技巧舞步'}
+        name = {'技巧舞步', 'Technical Step'}
 
     class TechnicalFinish(ActionBase):
         """
@@ -322,7 +322,7 @@ Duration: 30s
 >> 1822, Technical Finish, Damage dealt is increased.
         """
         id = 16004
-        name = {'技巧舞步结束', 'Technical Finish'}
+        name = {'Technical Finish', '技巧舞步结束'}
 
     class SingleTechnicalFinish(ActionBase):
         """
@@ -370,7 +370,7 @@ Duration: 30s
 :):)※This action cannot be assigned to a hotbar.
         """
         id = 16194
-        name = {'双色技巧舞步结束', 'Double Technical Finish'}
+        name = {'Double Technical Finish', '双色技巧舞步结束'}
 
     class TripleTechnicalFinish(ActionBase):
         """

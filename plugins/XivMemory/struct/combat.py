@@ -1,6 +1,7 @@
 from ctypes import *
 from typing import Iterable, TYPE_CHECKING
 
+from FFxivPythonTrigger import game_ext
 from FFxivPythonTrigger.saint_coinach import realm
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
@@ -45,16 +46,28 @@ class CoolDownGroups(CoolDownGroup * 100):
         return self[59]
 
 
-class Enemy(OffsetStruct({
-    'id': (c_uint, 0),
-    'can_select': (c_uint, 4),
-    'hp_percent': (c_int, 8),
-    'cast_percent': (c_int, 16),
-})):
-    id: int
-    can_select: int
-    hp_percent: int
-    cast_percent: int
+if game_ext == 3:
+    class Enemy(OffsetStruct({
+        'id': (c_uint, 0),
+        'can_select': (c_uint, 4),
+        'hp_percent': (c_int, 8),
+        'cast_percent': (c_int, 16),
+    })):
+        id: int
+        can_select: int
+        hp_percent: int
+        cast_percent: int
+else:
+    class Enemy(OffsetStruct({
+        'hp_percent': (c_int, 0),
+        'enmity_percent': (c_int, 4),
+        'id': (c_uint, 0xc),
+        'can_select': (c_uint, 0x10),
+    }, 0x18)):
+        id: int
+        can_select: int
+        hp_percent: int
+        enmity_percent: int
 
 
 class SkillQueue(OffsetStruct({

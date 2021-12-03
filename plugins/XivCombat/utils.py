@@ -2,6 +2,7 @@ import time
 from functools import cache
 from time import perf_counter
 
+from FFxivPythonTrigger.meta_data import actions, status
 from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
 from . import define, strategies, api
 
@@ -62,3 +63,11 @@ def job_name():
         return f"{api.get_current_job()}_pvp"
     else:
         return str(api.get_current_job())
+
+
+def a(action_name: str) -> int:
+    return actions[action_name].id
+
+
+def s(status_name: str) -> int:
+    return status[status_name].id

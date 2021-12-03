@@ -8,16 +8,16 @@ class Actions:
 Deals a 20-yalm knockback to all enemies in a cone before you.
         """
         id = 11383
-        name = {'Snort', '鼻息'}
+        name = {'鼻息', 'Snort'}
 
-    class 4TonzeWeight(ActionBase):
+    class FourTonzeWeight(ActionBase):
         """
 Drops a 4-tonze weight dealing physical damage at a designated location with a potency of 200 for the first enemy, and 50% less for all remaining enemies.
 Additional Effect: Heavy +40%
 Duration: 30s
         """
         id = 11384
-        name = {'4星吨', '4-tonze Weight'}
+        name = {'4-tonze Weight', '4星吨'}
 
     class WaterCannon(ActionBase):
         """
@@ -34,7 +34,7 @@ Potency: 50
 Duration: 30s
         """
         id = 11386
-        name = {'苦闷之歌', 'Song of Torment'}
+        name = {'Song of Torment', '苦闷之歌'}
 
     class HighVoltage(ActionBase):
         """
@@ -57,7 +57,7 @@ Duration: 15s
 Additional Effect: Interrupts target
         """
         id = 11388
-        name = {'臭气', 'Bad Breath'}
+        name = {'Bad Breath', '臭气'}
 
     class FlyingFrenzy(ActionBase):
         """
@@ -65,7 +65,7 @@ Delivers a jumping physical attack to target and all enemies nearby it with a po
 Cannot be executed while bound.
         """
         id = 11389
-        name = {'Flying Frenzy', '狂乱'}
+        name = {'狂乱', 'Flying Frenzy'}
 
     class AquaBreath(ActionBase):
         """
@@ -82,7 +82,7 @@ Duration: 12s
 Deals earth damage to all nearby enemies with a potency of 220 for the first enemy, and 50% less for all remaining enemies.
         """
         id = 11391
-        name = {'Plaincracker', '平原震裂'}
+        name = {'平原震裂', 'Plaincracker'}
 
     class AcornBomb(ActionBase):
         """
@@ -117,7 +117,7 @@ Deals unaspected damage with a potency of 50.
 Additional Effect: Restores MP
         """
         id = 11395
-        name = {'Blood Drain', '吸血'}
+        name = {'吸血', 'Blood Drain'}
 
     class BombToss(ActionBase):
         """
@@ -128,7 +128,7 @@ Duration: 3s
         id = 11396
         name = {'Bomb Toss', '投弹'}
 
-    class 1000Needles(ActionBase):
+    class ThousandNeedles(ActionBase):
         """
 Deals a fixed 1,000 points of physical damage which is shared by all enemies around you.
         """
@@ -141,7 +141,7 @@ Deals physical damage to all enemies in a straight line before you with a potenc
 Additional Effect: Potency is increased to 600 when target is afflicted with Petrification. The Petrification effect is also removed.
         """
         id = 11398
-        name = {'钻头炮', 'Drill Cannons'}
+        name = {'Drill Cannons', '钻头炮'}
 
     class TheLook(ActionBase):
         """
@@ -158,7 +158,7 @@ Additional Effect: Potency is increased to 450 when target is stunned
 >> 211, Sharpened Knife, Next Lateral Slash is changed to Sharpened Knife, increasing damage dealt.
         """
         id = 11400
-        name = {'锋利菜刀', 'Sharpened Knife'}
+        name = {'Sharpened Knife', '锋利菜刀'}
 
     class Loom(ActionBase):
         """
@@ -181,7 +181,7 @@ Stuns all enemies in a cone before you.
 Duration: 6s
         """
         id = 11403
-        name = {'Faze', '拍掌'}
+        name = {'拍掌', 'Faze'}
 
     class Glower(ActionBase):
         """
@@ -216,7 +216,7 @@ Effect will not be removed upon revival or further incapacitation.
 Cannot be executed while under the effect of Brush with Death.
         """
         id = 11407
-        name = {'Final Sting', '终极针'}
+        name = {'终极针', 'Final Sting'}
 
     class SelfDestruct(ActionBase):
         """
@@ -228,7 +228,7 @@ Effect will not be removed upon revival or further incapacitation.
 Cannot be executed while under the effect of Brush with Death.
         """
         id = 11408
-        name = {'Self-destruct', '自爆'}
+        name = {'自爆', 'Self-destruct'}
 
     class Transfusion(ActionBase):
         """
@@ -239,7 +239,7 @@ Effect will not be removed upon revival or further incapacitation.
 Cannot be executed while under the effect of Brush with Death.
         """
         id = 11409
-        name = {'融合', 'Transfusion'}
+        name = {'Transfusion', '融合'}
 
     class ToadOil(ActionBase):
         """
@@ -248,7 +248,7 @@ Duration: 180s
 >> 1737, Toad Oil, Evasion is enhanced.
         """
         id = 11410
-        name = {'油性分泌物', 'Toad Oil'}
+        name = {'Toad Oil', '油性分泌物'}
 
     class OffGuard(ActionBase):
         """
@@ -268,7 +268,7 @@ Duration: 4s
 Additional Effect: Increased enmity
         """
         id = 11412
-        name = {'Sticky Tongue', '滑舌'}
+        name = {'滑舌', 'Sticky Tongue'}
 
     class TailScrew(ActionBase):
         """
@@ -313,7 +313,7 @@ Chance of successful attack is low. Has no effect on enemies whose level is high
 >> 2519, Doom, Certain death when counter reaches zero.
         """
         id = 11416
-        name = {'Doom', '死亡宣告'}
+        name = {'死亡宣告', 'Doom'}
 
     class MightyGuard(ActionBase):
         """
@@ -322,7 +322,7 @@ Effect ends upon reuse.
 >> 1719, Mighty Guard, Damage taken and dealt are reduced, while enmity is increased.
         """
         id = 11417
-        name = {'Mighty Guard', '强力守护'}
+        name = {'强力守护', 'Mighty Guard'}
 
     class IceSpikes(ActionBase):
         """
@@ -376,7 +376,7 @@ Additional Effect: Blind
 Duration: 30s
         """
         id = 11422
-        name = {'Ink Jet', '喷墨'}
+        name = {'喷墨', 'Ink Jet'}
 
     class FlyingSardine(ActionBase):
         """
@@ -384,7 +384,7 @@ Deals physical damage with a potency of 10.
 Additional Effect: Interrupts target
         """
         id = 11423
-        name = {'投掷沙丁鱼', 'Flying Sardine'}
+        name = {'Flying Sardine', '投掷沙丁鱼'}
 
     class Diamondback(ActionBase):
         """
@@ -403,7 +403,7 @@ The effect of this action cannot be ended manually.
 Deals physical fire damage to target and all enemies nearby it with a potency of 200 for the first enemy, and 50% less for all remaining enemies.
         """
         id = 11425
-        name = {'火投枪', 'Fire Angon'}
+        name = {'Fire Angon', '火投枪'}
 
     class FeatherRain(ActionBase):
         """
@@ -414,7 +414,7 @@ Duration: 6s
 Shares a recast timer with certain blue magic spells.
         """
         id = 11426
-        name = {'飞翎雨', 'Feather Rain'}
+        name = {'Feather Rain', '飞翎雨'}
 
     class Eruption(ActionBase):
         """
@@ -430,7 +430,7 @@ Deals physical earth damage to all enemies in a cone before you with a potency o
 Shares a recast timer with certain blue magic spells.
         """
         id = 11428
-        name = {'Mountain Buster', '山崩'}
+        name = {'山崩', 'Mountain Buster'}
 
     class ShockStrike(ActionBase):
         """
@@ -473,7 +473,7 @@ Deals water damage to all enemies in a cone before you with a potency of 220 for
 Additional Effect: 15-yalm knockback
         """
         id = 18296
-        name = {'Protean Wave', '万变水波'}
+        name = {'万变水波', 'Protean Wave'}
 
     class Northerlies(ActionBase):
         """
@@ -489,14 +489,14 @@ Duration: 20s
 Deals lightning damage to target and all enemies nearby it with a potency of 220 for the first enemy, and 50% less for all remaining enemies.
         """
         id = 18298
-        name = {'生物电', 'Electrogenesis'}
+        name = {'Electrogenesis', '生物电'}
 
     class Kaltstrahl(ActionBase):
         """
 Deals physical damage to all enemies in a cone before you with a potency of 220 for the first enemy, and 50% less for all remaining enemies.
         """
         id = 18299
-        name = {'Kaltstrahl', '寒光'}
+        name = {'寒光', 'Kaltstrahl'}
 
     class AbyssalTransfixion(ActionBase):
         """
@@ -514,7 +514,7 @@ Duration: 40s
 Cancels auto-attack upon execution.
         """
         id = 18301
-        name = {'Chirp', '唧唧咋咋'}
+        name = {'唧唧咋咋', 'Chirp'}
 
     class EerieSoundwave(ActionBase):
         """
@@ -541,7 +541,7 @@ Effect cannot be stacked with those of scholar's Galvanize or sage's Eukrasian D
 >> 2114, Gobskin, Hardened flesh is absorbing damage.
         """
         id = 18304
-        name = {'Gobskin', '哥布防御'}
+        name = {'哥布防御', 'Gobskin'}
 
     class MagicHammer(ActionBase):
         """
@@ -562,21 +562,21 @@ Can only be executed when member is within 10 yalms. Does not activate with cert
 This action does not share a recast timer with any other actions.
         """
         id = 18306
-        name = {'Avail', '防御指示'}
+        name = {'防御指示', 'Avail'}
 
     class FrogLegs(ActionBase):
         """
 Provoke nearby enemies, placing yourself at the top of their enmity list.
         """
         id = 18307
-        name = {'蛙腿', 'Frog Legs'}
+        name = {'Frog Legs', '蛙腿'}
 
     class SonicBoom(ActionBase):
         """
 Deals wind damage with a potency of 210.
         """
         id = 18308
-        name = {'音爆', 'Sonic Boom'}
+        name = {'Sonic Boom', '音爆'}
 
     class Whistle(ActionBase):
         """
@@ -596,7 +596,7 @@ Additional Effect: Slow +20%
 Duration: 20s
         """
         id = 18310
-        name = {'白骑士之旅', "White Knight's Tour"}
+        name = {"White Knight's Tour", '白骑士之旅'}
 
     class BlackKnightsTour(ActionBase):
         """
@@ -616,7 +616,7 @@ Enemy level must be a multiple of 5. Has no effect on enemies whose level is hig
 Shares a recast timer with certain blue magic spells.
         """
         id = 18312
-        name = {'5级即死', 'Level 5 Death'}
+        name = {'Level 5 Death', '5级即死'}
 
     class Launcher(ActionBase):
         """
@@ -624,7 +624,7 @@ Delivers an attack to all nearby enemies randomly dealing 50%, 30%, 20%, or 10% 
 Has no effect on enemies whose level is higher than your own.
         """
         id = 18313
-        name = {'火箭炮', 'Launcher'}
+        name = {'Launcher', '火箭炮'}
 
     class PerpetualRay(ActionBase):
         """
@@ -634,7 +634,7 @@ Duration: 1s
 Ignores target's Stun resistance.
         """
         id = 18314
-        name = {'Perpetual Ray', '永恒射线'}
+        name = {'永恒射线', 'Perpetual Ray'}
 
     class Cactguard(ActionBase):
         """
@@ -644,7 +644,7 @@ Increases damage reduction to 15% when you are under the effect of Aetherial Mim
 >> 2119, Cactguard, Damage taken is reduced.
         """
         id = 18315
-        name = {'Cactguard', '仙人盾'}
+        name = {'仙人盾', 'Cactguard'}
 
     class RevengeBlast(ActionBase):
         """
@@ -660,7 +660,7 @@ Resurrects target to a weakened state.
 This action does not share a recast timer with any other actions.
         """
         id = 18317
-        name = {'天使低语', 'Angel Whisper'}
+        name = {'Angel Whisper', '天使低语'}
 
     class Exuviation(ActionBase):
         """
@@ -670,7 +670,7 @@ Additional Effect: Removes one detrimental effect from all nearby party members
 Cure potency is increased to 300 when you are under the effect of Aetherial Mimicry: Healer.
         """
         id = 18318
-        name = {'Exuviation', '蜕皮'}
+        name = {'蜕皮', 'Exuviation'}
 
     class Reflux(ActionBase):
         """
@@ -680,7 +680,7 @@ Duration: 10s
 Ignores target's Heavy resistance.
         """
         id = 18319
-        name = {'逆流', 'Reflux'}
+        name = {'Reflux', '逆流'}
 
     class Devour(ActionBase):
         """
@@ -692,7 +692,7 @@ Additional Effect: Restores an amount of own HP equal to damage dealt
 This action does not share a recast timer with any other actions.
         """
         id = 18320
-        name = {'捕食', 'Devour'}
+        name = {'Devour', '捕食'}
 
     class CondensedLibra(ActionBase):
         """
@@ -715,7 +715,7 @@ If target is a healer, grants Aetherial Mimicry: Healer, increasing healing magi
 Cannot be cast on self. Effect ends upon reuse.
         """
         id = 18322
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {'以太复制', 'Aetherial Mimicry'}
 
     class Surpanakha(ActionBase):
         """
@@ -755,7 +755,7 @@ If target is a healer, grants Aetherial Mimicry: Healer, increasing healing magi
 Cannot be cast on self. Effect ends upon reuse.
         """
         id = 19238
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {'以太复制', 'Aetherial Mimicry'}
 
     class AetherialMimicry(ActionBase):
         """
@@ -766,7 +766,7 @@ If target is a healer, grants Aetherial Mimicry: Healer, increasing healing magi
 Cannot be cast on self. Effect ends upon reuse.
         """
         id = 19239
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {'以太复制', 'Aetherial Mimicry'}
 
     class AetherialMimicry(ActionBase):
         """
@@ -777,7 +777,7 @@ If target is a healer, grants Aetherial Mimicry: Healer, increasing healing magi
 Cannot be cast on self. Effect ends upon reuse.
         """
         id = 19240
-        name = {'Aetherial Mimicry', '以太复制'}
+        name = {'以太复制', 'Aetherial Mimicry'}
 
     class TripleTrident(ActionBase):
         """
@@ -794,7 +794,7 @@ Additional Effect: Increases the potency of the next physical damage spell cast 
 Duration: 15s
         """
         id = 23265
-        name = {'Tingle', '哔哩哔哩'}
+        name = {'哔哩哔哩', 'Tingle'}
 
     class TatamiGaeshi(ActionBase):
         """
@@ -820,7 +820,7 @@ Can only be executed while under the effect of Touch of Frost.
 >> 2493, Cold Fog, Enveloped in a cold fog. Any damage taken will grant the effect of Touch of Frost.
         """
         id = 23267
-        name = {'彻骨雾寒', 'Cold Fog'}
+        name = {'Cold Fog', '彻骨雾寒'}
 
     class WhiteDeath(ActionBase):
         """
@@ -830,7 +830,7 @@ Duration: 10s
 Can only be executed while under the effect of Touch of Frost.
         """
         id = 23268
-        name = {'冰雾', 'White Death'}
+        name = {'White Death', '冰雾'}
 
     class Stotram(ActionBase):
         """
@@ -867,7 +867,7 @@ Shares a recast timer with certain blue magic spells.
 >> 2495, Angel's Snack, Regenerating HP over time.
         """
         id = 23272
-        name = {'天使的点心', "Angel's Snack"}
+        name = {"Angel's Snack", '天使的点心'}
 
     class ChelonianGate(ActionBase):
         """
@@ -894,7 +894,7 @@ Potency increases to 1,000 when you are under the effect of Aetherial Mimicry: T
 Can only be executed when under the effect of Auspicious Trance.
         """
         id = 23274
-        name = {'玄天武水壁', 'Divine Cataract'}
+        name = {'Divine Cataract', '玄天武水壁'}
 
     class TheRoseOfDestruction(ActionBase):
         """
@@ -920,7 +920,7 @@ KOs all nearby enemies afflicted with Deep Freeze or Petrification. Has no effec
 Shares a recast timer with certain blue magic spells.
         """
         id = 23277
-        name = {'Ultravibration', '超振动'}
+        name = {'超振动', 'Ultravibration'}
 
     class Blaze(ActionBase):
         """
@@ -937,7 +937,7 @@ Potency: 50
 Duration: 15s
         """
         id = 23279
-        name = {'Mustard Bomb', '芥末爆弹'}
+        name = {'芥末爆弹', 'Mustard Bomb'}
 
     class DragonForce(ActionBase):
         """
@@ -948,7 +948,7 @@ Shares a recast timer with certain blue magic spells.
 >> 2500, Dragon Force, Damage taken is reduced.
         """
         id = 23280
-        name = {'Dragon Force', '龙之力'}
+        name = {'龙之力', 'Dragon Force'}
 
     class AetherialSpark(ActionBase):
         """
@@ -966,7 +966,7 @@ Deals water damage to all nearby enemies with a potency of 220 for the first ene
 Additional Effect: Draw-in
         """
         id = 23282
-        name = {'水力吸引', 'Hydro Pull'}
+        name = {'Hydro Pull', '水力吸引'}
 
     class MaledictionOfWater(ActionBase):
         """
@@ -1003,7 +1003,7 @@ Duration: 5s
 Repeated use of this action in a short period will reduce the additional effect's duration, eventually rendering targets immune to Lightheaded.
         """
         id = 23286
-        name = {'生成外设', 'Peripheral Synthesis'}
+        name = {'Peripheral Synthesis', '生成外设'}
 
     class BothEnds(ActionBase):
         """
