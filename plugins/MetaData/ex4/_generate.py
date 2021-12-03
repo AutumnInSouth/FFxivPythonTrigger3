@@ -14,7 +14,7 @@ if_lv = re.compile(r"<If\(GreaterThanOrEqualTo\(PlayerParameter\(72\),(?P<min_lv
 rp = Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3')
 realm_chs = pysaintcoinach.ARealmReversed(game_path_chs, pysaintcoinach.Language.chinese_simplified, rp / 'DefinitionsExt3')  # 国服
 realm_eng = pysaintcoinach.ARealmReversed(game_path_eng, pysaintcoinach.Language.english, rp / 'DefinitionsExt4')  # 国际服
-data_realm = realm_chs
+data_realm = realm_eng
 translate_realm = realm_eng
 action_sheet = data_realm.game_data.get_sheet('Action')
 eng_action_sheet = realm_eng.game_data.get_sheet('Action')
@@ -54,7 +54,7 @@ def desc_process(desc: str):
     return rtn
 
 
-w_mode = True
+w_mode = False
 for class_job in data_realm.game_data.get_sheet('ClassJob'):
     if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
         print(class_job['Name'])
@@ -86,7 +86,7 @@ class Actions:
                 for status in status:
                     status = status_sheet_eng[status]
                     (f.write if w_mode else print)(
-                        f"\n    {status.key}, {status['Name']}, {line_break.sub(' ', status['Description'])}")
+                        f"\n>> {status.key}, {status['Name']}, {line_break.sub(' ', status['Description'])}")
                 (f.write if w_mode else print)(f"""
         \"""
         id = {action.key}

@@ -39,7 +39,7 @@ class DebugPlugin(PluginBase):
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k,v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
@@ -52,11 +52,16 @@ class DebugPlugin(PluginBase):
     def status_effect(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message))
 
+    @event("network/zone/server/actor_control/dot")
+    def dot_event(self, evt):
+        self.logger(evt.id, evt, evt.status_id)
+
     @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
 
-        #if evt.action_id < 10: return
+        if evt.action_id < 10: return
         self.logger(evt)
+        self.logger(evt.struct_message)
         # s = []
         # for t, d in evt.targets.items():
         #     n, e = d

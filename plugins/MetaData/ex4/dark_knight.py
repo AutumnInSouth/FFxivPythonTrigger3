@@ -10,7 +10,7 @@ Duration: 15s
         """
         id = 747
         name = {'暗影墙', 'Shadow Wall'}
-        damage_modify = 0.7
+        taken_damage_modify = 0.7
 
     class DarkMind(StatusBase):
         """
@@ -20,7 +20,7 @@ Duration: 10s
         """
         id = 746
         name = {'Dark Mind', '弃明投暗'}
-        damage_modify = 0.8
+        taken_damage_modify = 0.8
         modify_type = magic
 
     class SaltedEarth(StatusBase):
@@ -44,7 +44,7 @@ Duration: 15s
         """
         id = 1894
         name = {'Dark Missionary', '暗黑布道'}
-        damage_modify = 0.9
+        taken_damage_modify = 0.9
         modify_type = magic
 
     class Oblation(StatusBase):
@@ -55,7 +55,7 @@ Maximum Charges: 2
         """
         id = 2682
         name = {'Oblation'}
-        damage_modify = 0.9
+        taken_damage_modify = 0.9
 
 
 class Actions:
