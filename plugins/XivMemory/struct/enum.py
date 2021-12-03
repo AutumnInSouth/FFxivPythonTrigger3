@@ -51,26 +51,47 @@ def job_short_name(job_id):
 
 
 _job_name_key = {row.key: row['Name'] for row in job_sheet} | {
-    5: 'Archer',  # 弓箭手 Arc
-    19: 'Paladin',  # 骑士PLD
-    20: 'Monk',  # 武僧MNK
-    21: 'Warrior',  # 战士WAR
-    22: 'Dragoon',  # 龙骑士DRG
-    23: 'Bard',  # 吟游诗人BRD
-    24: 'WhiteMage',  # 白魔法师WHM
-    25: 'BlackMage',  # 黑魔法师BLM
-    26: 'Arcanist',  # 秘术师ACN
-    27: 'Summoner',  # 召唤师SMN
-    28: 'Scholar',  # 学者SCH
-    30: 'Ninja',  # 忍者NIN
-    31: 'Machinist',  # 机工士MCH
-    32: 'DarkKnight',  # 暗黑骑士DRK
-    33: 'Astrologian',  # 占星术士AST
-    34: 'Samurai',  # 武士SAM
-    35: 'RedMage',  # 赤魔法师RDM
-    36: 'BlueMage',  # 青魔BLM
-    37: 'Gunbreaker',  # 绝枪战士GNB
-    38: 'Dancer',  # 舞者DNC
+    0: 'Adventurer',  # ADV
+    1: 'Gladiator',  # GLA
+    2: 'Pugilist',  # PGL
+    3: 'Marauder',  # MRD
+    4: 'Lancer',  # LNC
+    5: 'Archer',  # ARC
+    6: 'Conjurer',  # CNJ
+    7: 'Thaumaturge',  # THM
+    8: 'Carpenter',  # CRP
+    9: 'Blacksmith',  # BSM
+    10: 'Armorer',  # ARM
+    11: 'Goldsmith',  # GSM
+    12: 'Leatherworker',  # LTW
+    13: 'Weaver',  # WVR
+    14: 'Alchemist',  # ALC
+    15: 'Culinarian',  # CUL
+    16: 'Miner',  # MIN
+    17: 'Botanist',  # BTN
+    18: 'Fisher',  # FSH
+    19: 'Paladin',  # PLD
+    20: 'Monk',  # MNK
+    21: 'Warrior',  # WAR
+    22: 'Dragoon',  # DRG
+    23: 'Bard',  # BRD
+    24: 'WhiteMage',  # WHM
+    25: 'BlackMage',  # BLM
+    26: 'Arcanist',  # ACN
+    27: 'Summoner',  # SMN
+    28: 'Scholar',  # SCH
+    29: 'Rogue',  # ROG
+    30: 'Ninja',  # NIN
+    31: 'Machinist',  # MCH
+    32: 'DarkKnight',  # DRK
+    33: 'Astrologian',  # AST
+    34: 'Samurai',  # SAM
+    35: 'RedMage',  # RDM
+    36: 'BlueMage',  # BLU
+    37: 'Gunbreaker',  # GNB
+    38: 'Dancer',  # DNC
+    39: 'Reaper',  # RPR
+    40: 'Sage',  # SGE
 }
 
 

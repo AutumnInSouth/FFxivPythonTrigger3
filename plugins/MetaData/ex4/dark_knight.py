@@ -1,14 +1,75 @@
 from ..base import *
 
 
-class Actions:
+class Status:
+    class ShadowWall(StatusBase):
+        """
+Reduces damage taken by 30%.
+Duration: 15s
+    747, Shadow Wall, Damage taken is reduced.
+        """
+        id = 747
+        name = {'暗影墙', 'Shadow Wall'}
+        damage_modify = 0.7
 
+    class DarkMind(StatusBase):
+        """
+Reduces magic vulnerability by 20%.
+Duration: 10s
+    746, Dark Mind, Magic damage taken is reduced.
+        """
+        id = 746
+        name = {'Dark Mind', '弃明投暗'}
+        damage_modify = 0.8
+        modify_type = magic
+
+    class SaltedEarth(StatusBase):
+        """
+Creates a patch of salted earth at your feet, dealing unaspected damage with a potency of 50 to any enemies who enter.
+Duration: 15s(source.job==32?(source.level>=86?
+※Action changes to Salt and Darkness upon execution.:):)
+    749, Salted Earth, The ground is rendered void of all life, dealing unaspected damage to any who tread upon it.
+        """
+        id = 749
+        name = {'腐秽大地', 'Salted Earth'}
+        damage_potency = 50
+        is_area_status = True
+
+    class DarkMissionary(StatusBase):
+        """
+Reduces magic damage taken by self and nearby party members by 10%.
+Duration: 15s
+    2171, Dark Missionary, Damage taken is reduced while HP recovered via healing actions is increased.
+    1894, Dark Missionary, Magic damage taken is reduced.
+        """
+        id = 1894
+        name = {'Dark Missionary', '暗黑布道'}
+        damage_modify = 0.9
+        modify_type = magic
+
+    class Oblation(StatusBase):
+        """
+Reduces damage taken by a party member or self by 10%.
+Duration: 10s
+Maximum Charges: 2
+        """
+        id = 2682
+        name = {'Oblation'}
+        damage_modify = 0.9
+
+
+class Actions:
     class HardSlash(ActionBase):
         """
 Delivers an attack with a potency of (source.job==32?(source.level>=84?170:150):150).
         """
         id = 3617
         name = {'重斩', 'Hard Slash'}
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 170 if source.job == 'DarkKnight' and source.level >= 84 else 150
 
     class SyphonStrike(ActionBase):
         """
@@ -20,6 +81,16 @@ Combo Bonus: Restores MP
         id = 3623
         name = {'吸收斩', 'Syphon Strike'}
         combo_action = 3617
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if source.job == 'DarkKnight' and source.level >= 84:
+                self.damage_potency = 120
+                self.combo_potency = 260
+            else:
+                self.damage_potency = 100
+                self.combo_potency = 240
 
     class Unleash(ActionBase):
         """
@@ -27,6 +98,8 @@ Deals unaspected damage with a potency of 120 to all nearby enemies.
         """
         id = 3621
         name = {'Unleash', '释放'}
+        attack_type = magic
+        damage_potency = 120
 
     class Grit(ActionBase):
         """
@@ -46,6 +119,8 @@ Additional Effect: Reduces the recast time of Plunge by 5 seconds:):)
         """
         id = 3624
         name = {'伤残', 'Unmend'}
+        attack_type = magic
+        damage_potency = 150
 
     class Souleater(ActionBase):
         """
@@ -59,6 +134,17 @@ Combo Bonus: Increases Blood Gauge by 20:):)
         id = 3632
         name = {'噬魂斩', 'Souleater'}
         combo_action = 3623
+        attack_type = physic
+        cure_potency = 300
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if source.job == 'DarkKnight' and source.level >= 84:
+                self.damage_potency = 120
+                self.combo_potency = 340
+            else:
+                self.damage_potency = 100
+                self.combo_potency = 320
 
     class FloodOfDarkness(ActionBase):
         """
@@ -70,6 +156,8 @@ Shares a recast timer with Edge of Darkness.
         """
         id = 16466
         name = {'暗黑波动', 'Flood of Darkness'}
+        attack_type = magic
+        damage_potency = 130
 
     class BloodWeapon(ActionBase):
         """
@@ -89,6 +177,7 @@ Duration: 15s
         """
         id = 3636
         name = {'暗影墙', 'Shadow Wall'}
+        status_to_target = Status.ShadowWall
 
     class EdgeOfDarkness(ActionBase):
         """
@@ -100,6 +189,8 @@ Shares a recast timer with Flood of Darkness.
         """
         id = 16467
         name = {'Edge of Darkness', '暗黑锋'}
+        attack_type = magic
+        damage_potency = 300
 
     class DarkMind(ActionBase):
         """
@@ -109,6 +200,7 @@ Duration: 10s
         """
         id = 3634
         name = {'Dark Mind', '弃明投暗'}
+        status_to_target = Status.DarkMind
 
     class LivingDead(ActionBase):
         """
@@ -130,6 +222,7 @@ Duration: 15s(source.job==32?(source.level>=86?
         """
         id = 3639
         name = {'腐秽大地', 'Salted Earth'}
+        status_to_target = Status.SaltedEarth
 
     class Plunge(ActionBase):
         """
@@ -139,6 +232,8 @@ Delivers a jumping attack with a potency of 150.
         """
         id = 3640
         name = {'跳斩', 'Plunge'}
+        attack_type = physic
+        damage_potency = 150
 
     class AbyssalDrain(ActionBase):
         """
@@ -150,6 +245,9 @@ Shares a recast timer with Carve and Spit.
         """
         id = 3641
         name = {'吸血深渊', 'Abyssal Drain'}
+        attack_type = magic
+        damage_potency = 150
+        cure_potency = 200
 
     class CarveAndSpit(ActionBase):
         """
@@ -159,6 +257,8 @@ Shares a recast timer with Abyssal Drain.
         """
         id = 3643
         name = {'精雕怒斩', 'Carve and Spit'}
+        attack_type = physic
+        damage_potency = 510
 
     class Bloodspiller(ActionBase):
         """
@@ -167,6 +267,8 @@ Blood Gauge Cost: 50
         """
         id = 7392
         name = {'Bloodspiller', '血溅'}
+        attack_type = physic
+        damage_potency = 500
 
     class Quietus(ActionBase):
         """
@@ -175,6 +277,8 @@ Blood Gauge Cost: 50
         """
         id = 7391
         name = {'寂灭', 'Quietus'}
+        attack_type = physic
+        damage_potency = 200
 
     class Delirium(ActionBase):
         """
@@ -208,7 +312,10 @@ Combo Bonus: Increases Blood Gauge by 20
         """
         id = 16468
         name = {'刚魂', 'Stalwart Soul'}
+        damage_potency = 100
         combo_action = 3621
+        combo_potency = 140
+        attack_type = magic
 
     class FloodOfShadow(ActionBase):
         """
@@ -221,6 +328,8 @@ Shares a recast timer with Edge of Shadow.
         """
         id = 16469
         name = {'暗影波动', 'Flood of Shadow'}
+        attack_type = magic
+        damage_potency = 160
 
     class EdgeOfShadow(ActionBase):
         """
@@ -233,6 +342,8 @@ Shares a recast timer with Flood of Shadow.
         """
         id = 16470
         name = {'Edge of Shadow', '暗影锋'}
+        attack_type = magic
+        damage_potency = 460
 
     class DarkMissionary(ActionBase):
         """
@@ -254,3 +365,27 @@ Blood Gauge Cost: 50
         """
         id = 16472
         name = {'Living Shadow', '掠影示现'}
+
+    class Oblation(ActionBase):
+        """
+Reduces damage taken by a party member or self by 10%.
+Duration: 10s
+Maximum Charges: 2
+>> 2682 Oblation Damage taken is reduced.
+        """
+        id = 25754
+        name = {'Oblation'}
+        status_to_target = Status.Oblation
+
+    class Shadowbringer(ActionBase):
+        """
+25757 Shadowbringer
+Deals unaspected damage to all enemies in a straight line before you with a potency of 600 for the first enemy, and 50% less for all remaining enemies.
+Maximum Charges: 2
+Can only be executed while under the effect of Darkside.
+        """
+        id = 25757
+        name = {'Shadowbringer'}
+        attack_type = magic
+        damage_potency = 600
+        aoe_scale = 0.5

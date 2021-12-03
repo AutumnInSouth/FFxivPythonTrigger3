@@ -44,6 +44,7 @@ class ActionBase:
 class StatusBase:
     id = 0
     name: set[str] = set()  # 名字
+    is_area_status: bool = False  # 是否是区域状态
     damage_potency: int = 0  # dot 威力
     cure_potency: int = 0  # hot 威力
     damage_modify: float = 1.  # 威力修正
