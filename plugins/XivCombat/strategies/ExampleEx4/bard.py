@@ -40,6 +40,12 @@ class BardLogic(Strategy):
     def __init__(self):
         self.last_song = 0
 
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
+        if action_id == a('大地神的抒情恋歌') or action_id == a('光阴神的礼赞凯歌'):
+            mo_entity = api.get_mo_target()
+            if mo_entity and api.action_type_check(action_id, mo_entity):
+                return UseAbility(action_id, mo_entity.id)
+
     def global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         if data.target_distance <= 25:
             single_target = data.target
@@ -118,7 +124,7 @@ class BardLogic(Strategy):
             rain_of_death_target, rain_of_death_cnt = cnt_enemy(data, rain_of_death)
         else:
             rain_of_death_target, rain_of_death_cnt = single_target, 0
-        data.plugin.logger(f'song: {song}, {data[a("失血箭")]:.2f},{blood_letter:.2f}')
+        # data.plugin.logger(f'song: {song}, {data[a("失血箭")]:.2f},{blood_letter:.2f}')
         if can_use_blood_letter and blood_letter < (10 if song == 'ballad' else 3):
             if rain_of_death_cnt > 1:
                 return UseAbility(a('死亡箭雨'), rain_of_death_target.id)

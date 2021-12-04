@@ -19,6 +19,7 @@ module.exports = vue.defineComponent({
     <el-table-column prop="job" label="职业" sortable width="200"/>
     <el-table-column prop="name" label="名字"/>
     <el-table-column prop="dps" label="dps" width="200" sortable/>
+    <el-table-column prop="dpsm" label="dpsm" width="200" sortable/>
 </el-table>
 <el-divider></el-divider>
 <el-table :data="ttk_data" style="width: 100%" :default-sort = "{prop: 'ttk', order: 'ascending'}" >
