@@ -119,7 +119,7 @@ c19="""
 from pprint import pprint
 from ctypes import *
 print(hex(addressof(plugins.XivMemory.actor_table.me)))
-print(plugins.XivMemory.gauge)
+print(hex(addressof(plugins.XivMemory.targets.current)))
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach
@@ -138,7 +138,15 @@ for m in list(sys.modules.keys()):
 # from FFxivPythonTrigger.meta_data import *
 # print(actions)
 """
-t = requests.post("http://127.0.0.1:2019/exec",c22.encode('utf-8')).text
+c23="""
+cnt =0
+for actor in plugins.XivMemory.actor_table:
+    if actor.name == 'Aether Current' and actor.type == 'event_obj' and actor.can_select:
+        plugins.XivMemory.calls.way_mark(cnt,actor.pos)
+        cnt += 1
+print(cnt)
+"""
+t = requests.post("http://127.0.0.1:2019/exec",c23.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])

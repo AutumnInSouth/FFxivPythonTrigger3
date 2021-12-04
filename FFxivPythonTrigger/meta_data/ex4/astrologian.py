@@ -13,6 +13,264 @@ Duration: 18s
         name = {'烧灼', 'Combust'}
         damage_potency = 40
 
+    class Lightspeed(StatusBase):
+        """
+Reduces cast times for spells by 2.5 seconds.
+Duration: 15s
+>> 841, Lightspeed, Spell casting time is reduced.
+>> 1403, Lightspeed, Spell casting time and MP cost are reduced by 100% and 50% respectively.
+        """
+        id = 841
+        name = {'光速', 'Lightspeed'}
+
+    class TheBalance(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is melee DPS or tank, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Solar Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 1882, The Balance, Damage dealt is increased.
+        """
+        id = 1882
+        name = {'the Balance', '太阳神之衡'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
+
+    class TheArrow(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is melee DPS or tank, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Lunar Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 1884, The Arrow, Damage dealt is increased.
+        """
+        id = 1884
+        name = {'放浪神之箭', 'the Arrow'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
+
+    class TheSpear(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is melee DPS or tank, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Celestial Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 1885, The Spear, Damage dealt is increased.
+        """
+        id = 1885
+        name = {'the Spear', '战争神之枪'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
+
+    class TheBole(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is ranged DPS or healer, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Solar Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 1883, The Bole, Damage dealt is increased.
+        """
+        id = 1883
+        name = {'世界树之干', 'the Bole'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
+
+    class TheEwer(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is ranged DPS or healer, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Lunar Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 1886, The Ewer, Damage dealt is increased.
+        """
+        id = 1886
+        name = {'the Ewer', '河流神之瓶'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
+
+    class TheSpire(StatusBase):
+        """
+Increases damage dealt by a party member or self by 6% if target is ranged DPS or healer, or 3% for all other roles.
+Duration: 15s
+(source.job==33?(source.level>=50?Additional Effect: Grants a Celestial Sign when used in combat
+:):)Only one arcanum effect can be applied to a target at a time.
+※This action cannot be assigned to a hotbar.
+>> 834, The Spire, Restoring TP over time.
+>> 1341, The Spire, Restoring TP over time.
+>> 1887, The Spire, Damage dealt is increased.
+        """
+        id = 1887
+        name = {'建筑神之塔', 'the Spire'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
+
+    class AspectedBenefic(StatusBase):
+        """
+Restores target's HP.
+Cure Potency: (source.job==33?(source.level>=85?250:200):200)
+Additional Effect: Regen
+Cure Potency: (source.job==33?(source.level>=85?250:200):200)
+Duration: 15s
+>> 835, Aspected Benefic, Regenerating HP over time.
+        """
+        id = 835
+        name = {'吉星相位', 'Aspected Benefic'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.cure_potency = 250 if source and source.job == 33 and source.level >= 85 else 200
+
+    class AspectedHelios(StatusBase):
+        """
+Restores own HP and the HP of all nearby party members.
+Cure Potency: (source.job==33?(source.level>=85?250:200):200)
+Additional Effect: Regen
+Cure Potency: (source.job==33?(source.level>=85?150:100):100)
+Duration: 15s
+>> 836, Aspected Helios, Regenerating HP over time.
+        """
+        id = 836
+        name = {'Aspected Helios', '阳星相位'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
+            super().__init__(source, target, source_action, is_main_target)
+            self.cure_potency = 150 if source and source.job == 33 and source.level >= 85 else 100
+
+    class CombustII(StatusBase):
+        """
+Deals unaspected damage over time.
+Potency: 50
+Duration: 30s
+>> 843, Combust II, Proximity of a theoretical sun is causing damage over time.
+        """
+        id = 843
+        name = {'炽灼', 'Combust II'}
+        damage_potency = 50
+
+    class Divination(StatusBase):
+        """
+Increases damage dealt by self and nearby party members by 6%.
+Duration: 15s
+>> 2034, Divination, Damage dealt is increased while damage taken is reduced.
+>> 1878, Divination, Damage dealt is increased.
+        """
+        id = 1878
+        name = {'Divination', '占卜'}
+        damage_modify = 1.06
+
+    """
+Grants an effect using the astrosigns read from your divining deck.
+Can only be executed after reading three astrosigns.
+Effects granted are determined by the number of different types of astrosigns read.
+1 Sign Type: Grants Harmony of Spirit
+2 Sign Types: Grants Harmony of Spirit and Harmony of Body
+3 Sign Types: Grants Harmony of Spirit, Harmony of Body, and Harmony of Mind
+Duration: 15s
+Harmony of Spirit Effect: Gradually restores own MP
+Potency: 50
+Harmony of Body Effect: Reduces spell cast time and recast time, and auto-attack delay by 10%
+Harmony of Mind Effect: Increases damage dealt and healing potency by 5%
+    """
+
+    class HarmonyOfSpirit(StatusBase):
+        id = 2714
+        name = {'Harmony of Spirit'}
+
+    class HarmonyOfBody(StatusBase):
+        id = 2715
+        name = {'Harmony of Body'}
+
+    class HarmonyOfMind(StatusBase):
+        id = 2716
+        name = {'Harmony of Mind'}
+        damage_modify = 1.05
+        cure_modify = 1.05
+
+    class WheelOfFortune(StatusBase):
+        id = 956
+        name = {'Wheel of Fortune'}
+        cure_potency = 100
+
+    class CollectiveUnconscious(StatusBase):
+        """
+Creates a celestial ring around the caster.
+Additional Effect: Reduces damage taken by 10% and applies Wheel of Fortune to self and any party members who enter
+Duration: 18s
+Wheel of Fortune Effect: Regen
+Cure Potency: 100
+Duration: 15s
+Effect ends upon using another action or moving (including facing a different direction).
+Cancels auto-attack upon execution.
+>> 2283, Collective Unconscious, An area of mind attunement is created, reducing damage taken for all who enter.
+>> 847, Collective Unconscious, An area of mind attunement is healing party members.
+>> 848, Collective Unconscious, An area of mind attunement is created, reducing damage taken for all who enter.
+>> 849, Collective Unconscious, Damage taken is reduced.
+        """
+        id = 849
+        name = {'Collective Unconscious', '命运之轮'}
+        taken_damage_modify = 1
+
+    class Opposition(StatusBase):
+        """
+Restores own HP and the HP of all nearby party members.
+Cure Potency: 200
+Additional Effect: Regen
+Cure Potency: 100
+Duration: 15s
+        """
+        id = 1879  # TODO:maybe 2070?
+        name = {'Opposition'}
+        cure_potency = 100
+
+    class EarthlyDominance(StatusBase):
+        id = 1224
+        name = {'Earthly Dominance', '地星主宰'}
+
+    class GiantDominance(StatusBase):
+        id = 1248
+        name = {'Giant Dominance', '巨星主宰'}
+
+    class CombustIII(StatusBase):
+        """
+Deals unaspected damage over time.
+Potency: 55
+Duration: 30s
+>> 1881, Combust III, Sustaining damage over time.
+>> 2041, Combust III, Damage dealt and potency of all HP restoration actions are reduced.
+        """
+        id = 1881
+        name = {'焚灼', 'Combust III'}
+        damage_potency = 55
+
+    class Horoscope(StatusBase):
+        id = 1890
+        name = {'Horoscope', '天宫图'}
+        cure_potency = 200
+        over_time_status = False
+
+    class HoroscopeHelios(StatusBase):
+        id = 1891
+        name = {'Horoscope Helios', '阳星天宫图'}
+        cure_potency = 400
+        over_time_status = False
+
 
 class Actions:
     class Malefic(ActionBase):
@@ -58,6 +316,7 @@ Duration: 15s
         """
         id = 3606
         name = {'光速', 'Lightspeed'}
+        status_to_target = Status.Lightspeed
 
     class Helios(ActionBase):
         """
@@ -131,6 +390,7 @@ Duration: 15s
         """
         id = 4401
         name = {'the Balance', '太阳神之衡'}
+        status_to_target = Status.TheBalance
 
     class TheArrow(ActionBase):
         """
@@ -144,6 +404,7 @@ Duration: 15s
         """
         id = 4402
         name = {'放浪神之箭', 'the Arrow'}
+        status_to_target = Status.TheArrow
 
     class TheSpear(ActionBase):
         """
@@ -157,6 +418,7 @@ Duration: 15s
         """
         id = 4403
         name = {'the Spear', '战争神之枪'}
+        status_to_target = Status.TheSpear
 
     class TheBole(ActionBase):
         """
@@ -171,6 +433,7 @@ Duration: 15s
         """
         id = 4404
         name = {'世界树之干', 'the Bole'}
+        status_to_target = Status.TheBole
 
     class TheEwer(ActionBase):
         """
@@ -185,6 +448,7 @@ Duration: 15s
         """
         id = 4405
         name = {'the Ewer', '河流神之瓶'}
+        status_to_target = Status.TheEwer
 
     class TheSpire(ActionBase):
         """
@@ -199,6 +463,7 @@ Duration: 15s
         """
         id = 4406
         name = {'建筑神之塔', 'the Spire'}
+        status_to_target = Status.TheSpire
 
     class Undraw(ActionBase):
         """
@@ -225,6 +490,11 @@ Duration: 15s
         """
         id = 3595
         name = {'吉星相位', 'Aspected Benefic'}
+        status_to_target = Status.AspectedBenefic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 250 if source and source.job == 33 and source.level >= 85 else 200
 
     class Redraw(ActionBase):
         """
@@ -245,6 +515,11 @@ Duration: 15s
         """
         id = 3601
         name = {'Aspected Helios', '阳星相位'}
+        status_to_target = Status.AspectedHelios
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 250 if source and source.job == 33 and source.level >= 85 else 200
 
     class Gravity(ActionBase):
         """
@@ -252,8 +527,10 @@ Deals unaspected damage with a potency of 120 to target and all enemies nearby i
         """
         id = 3615
         name = {'Gravity', '重力'}
+        damage_potency = 120
+        attack_type = magic
 
-    class CombustIi(ActionBase):
+    class CombustII(ActionBase):
         """
 Deals unaspected damage over time.
 Potency: 50
@@ -262,6 +539,8 @@ Duration: 30s
         """
         id = 3608
         name = {'炽灼', 'Combust II'}
+        status_to_target = Status.CombustII
+        attack_type = magic
 
     class Synastry(ActionBase):
         """
@@ -284,6 +563,7 @@ Duration: 15s
         """
         id = 16552
         name = {'Divination', '占卜'}
+        status_to_target = Status.Divination
 
     class Astrodyne(ActionBase):
         """
@@ -301,6 +581,7 @@ Harmony of Mind Effect: Increases damage dealt and healing potency by 5%
         """
         id = 25870
         name = {'Astrodyne'}
+        status_to_target = Status.HarmonyOfSpirit, Status.HarmonyOfBody, Status.HarmonyOfMind
 
     class MaleficIi(ActionBase):
         """
@@ -308,6 +589,8 @@ Deals unaspected damage with a potency of 160.
         """
         id = 3598
         name = {'灾星', 'Malefic II'}
+        damage_potency = 160
+        attack_type = magic
 
     class CollectiveUnconscious(ActionBase):
         """
@@ -326,6 +609,7 @@ Cancels auto-attack upon execution.
         """
         id = 3613
         name = {'Collective Unconscious', '命运之轮'}
+        status_to_target = Status.WheelOfFortune, Status.CollectiveUnconscious
 
     class CelestialOpposition(ActionBase):
         """
@@ -337,6 +621,8 @@ Duration: 15s
         """
         id = 16553
         name = {'天星冲日', 'Celestial Opposition'}
+        cure_potency = 200
+        status_to_target = Status.Opposition
 
     class EarthlyStar(ActionBase):
         """
@@ -364,12 +650,28 @@ Cure Potency: 720
         id = 8324
         name = {'Stellar Detonation', '星体爆轰'}
 
-    class MaleficIii(ActionBase):
+    class StellarBurst(ActionBase):
+        id = 7441
+        name = {'Stellar Burst', '星体破裂'}
+        attack_type = magic
+        cure_potency = 540
+        damage_potency = 205
+
+    class StellarExplosion(ActionBase):
+        id = 7441
+        name = {'Stellar Explosion', '星体爆炸'}
+        attack_type = magic
+        cure_potency = 720
+        damage_potency = 310
+
+    class MaleficIII(ActionBase):
         """
 Deals unaspected damage with a potency of 190.
         """
         id = 7442
         name = {'Malefic III', '祸星'}
+        damage_potency = 190
+        attack_type = magic
 
     class MinorArcana(ActionBase):
         """
@@ -384,22 +686,21 @@ Can only be executed while in combat.
         """
 Deals unaspected damage with a potency of 250 to all nearby enemies.
 ※This action cannot be assigned to a hotbar.
->> 1451, Lord of Crowns, Damage dealt is increased.
->> 1876, Lord of Crowns, Damage dealt is increased.
         """
         id = 7444
         name = {'Lord of Crowns', '王冠之领主'}
+        damage_potency = 250
+        attack_type = magic
 
     class LadyOfCrowns(ActionBase):
         """
 Restores own HP and the HP of all nearby party members.
 Cure Potency: 400
 ※This action cannot be assigned to a hotbar.
->> 1452, Lady of Crowns, Damage taken is reduced.
->> 1877, Lady of Crowns, Damage dealt is increased.
         """
         id = 7445
         name = {'王冠之贵妇', 'Lady of Crowns'}
+        cure_potency = 400
 
     class CrownPlay(ActionBase):
         """
@@ -408,7 +709,7 @@ Triggers the effect of your drawn arcanum.
         id = 25869
         name = {'Crown Play'}
 
-    class CombustIii(ActionBase):
+    class CombustIII(ActionBase):
         """
 Deals unaspected damage over time.
 Potency: 55
@@ -418,6 +719,8 @@ Duration: 30s
         """
         id = 16554
         name = {'焚灼', 'Combust III'}
+        attack_type = magic
+        status_to_target = Status.CombustIII
 
     class MaleficIv(ActionBase):
         """
@@ -425,6 +728,8 @@ Deals unaspected damage with a potency of 230.
         """
         id = 16555
         name = {'煞星', 'Malefic IV'}
+        attack_type = magic
+        damage_potency = 230
 
     class CelestialIntersection(ActionBase):
         """
@@ -436,6 +741,7 @@ Maximum Charges: 2:):)
         """
         id = 16556
         name = {'天星交错', 'Celestial Intersection'}
+        cure_potency = 200
 
     class Horoscope(ActionBase):
         """
@@ -451,7 +757,7 @@ Horoscope Helios Cure Potency: 400
         id = 16557
         name = {'天宫图', 'Horoscope'}
 
-    class Horoscope(ActionBase):
+    class HoroscopeExecute(ActionBase):
         """
 Restores own HP and the HP of all nearby party members.
 Potency is determined by the Horoscope effect of party members. Effect expires upon execution.
@@ -460,11 +766,15 @@ Horoscope Helios Potency: 400
 >> 1890, Horoscope, Primed to receive the healing effects of Horoscope.
         """
         id = 16558
-        name = {'天宫图', 'Horoscope'}
+        name = {'天宫图（执行）', 'Horoscope(Execute)'}
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.cure_potency = 400 if target and target.effects.has(Status.HoroscopeHelios.id) else 200
 
     class NeutralSect(ActionBase):
         """
-Increases healing magic potency by 20%.
+Increases healing magic po tency by 20%.
 Duration: 20s
 Additional Effect: When casting Aspected Benefic or Aspected Helios, erects a magicked barrier which nullifies damage
 Aspected Benefic Effect: Nullifies damage equaling 250% of the amount of HP restored

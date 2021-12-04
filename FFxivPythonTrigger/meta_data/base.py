@@ -44,7 +44,7 @@ class ActionBase:
 class StatusBase:
     id = 0
     name: set[str] = set()  # 名字
-    is_area_status: bool = False  # 是否是区域状态
+    over_time_status: bool = True  # 是否是区域状态
     direct_rate: float = 0  # 额外直击
     critical_rate: float = 0  # 额外暴击
     damage_potency: int = 0  # dot 威力

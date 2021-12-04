@@ -33,7 +33,7 @@ Duration: 15s(source.job==32?(source.level>=86?
         id = 749
         name = {'腐秽大地', 'Salted Earth'}
         damage_potency = 50
-        is_area_status = True
+        over_time_status = False
 
     class DarkMissionary(StatusBase):
         """

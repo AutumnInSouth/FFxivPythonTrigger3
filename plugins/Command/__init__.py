@@ -1,3 +1,4 @@
+import os
 import traceback
 from ctypes import *
 from pathlib import Path
@@ -38,6 +39,7 @@ TextCommandStruct = OffsetStruct({
     "t3": c_longlong,
 }, full_size=400)
 
+
 class CommandPlugin(PluginBase):
     name = "Command"
     layout = str(Path(__file__).parent / 'layout.js')
@@ -55,6 +57,13 @@ class CommandPlugin(PluginBase):
             self.logger.info(" ".join(args[1:]))
         elif args[0] == 'eval':
             exec(" ".join(args[1:]))
+        elif args[0] == 'script':
+            fn=" ".join(args[1:])
+            if not fn.endswith(".py"): fn += ".py"
+            with open(Path(os.getcwd())/'script'/ fn, encoding='utf-8') as f:
+                exec(f.read(), {'print': self.logger})
+        else:
+            self.logger.error("Unknown command: {}".format(args[0]))
 
     @event("log_event")
     def deal_chat_log(self, event):
