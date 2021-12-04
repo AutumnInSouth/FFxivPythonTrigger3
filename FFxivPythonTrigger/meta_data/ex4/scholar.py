@@ -153,7 +153,7 @@ Additional Effect: Absorbs a portion of damage dealt as HP
 :):)Aetherflow Gauge Cost: 1
         """
         id = 167
-        name = {'能量吸收', 'Energy Drain'}
+        name = {'能量吸收 - 学者', 'Energy Drain - Scholar'}
 
     class Lustrate(ActionBase):
         """
