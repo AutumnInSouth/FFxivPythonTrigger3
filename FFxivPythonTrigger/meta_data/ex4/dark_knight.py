@@ -57,6 +57,27 @@ Maximum Charges: 2
         name = {'Oblation'}
         taken_damage_modify = 0.9
 
+    class BloodWeapon(StatusBase):
+        """
+(source.level>=66?(source.job==32?Increases Blood Gauge by 10 and restores MP:Restores MP):Restores MP) upon landing weaponskills or spells.
+Effect does not stack when hitting multiple targets with a single attack.
+Duration: 10s
+>> 742, Blood Weapon, Absorbing MP upon landing weaponskills or spells.
+Enhanced Blackblood Effect: Increasing Blood Gauge upon landing weaponskills or spells.
+        """
+        id = 742
+        name = {'Blood Weapon', '嗜血'}
+
+    class Delirium(StatusBase):
+        """
+Grants 3 stacks of Delirium, each stack allowing the execution of Quietus or Bloodspiller without Blackblood cost, restoring MP when landing either weaponskill.
+Duration: 15s
+>> 1972, Delirium, Blackblood cost for Bloodspiller and Quietus is nullified.
+>> 748, Delirium, Intelligence is reduced.
+>> 1996, Delirium, Blackblood cost is nullified.
+        """
+        id = 1972
+        name = {'血乱', 'Delirium'}
 
 class Actions:
     class HardSlash(ActionBase):

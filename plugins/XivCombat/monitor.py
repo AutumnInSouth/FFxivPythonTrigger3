@@ -22,8 +22,11 @@ class Actor:
         self.effects = []
         self.last_combo = 0
         self.damage = 0
+        self.damage_in_min = 0
         self.heal = 0
+        self.heal_in_min = 0
         self.taken_damage = 0
+        self.taken_damage_in_min = 0
         self.death_cnt = 0
         self._owner_id = None
 
@@ -64,16 +67,31 @@ class Effect:
         self.prev_combo = prev_combo
         self.is_critical = is_critical
         self.is_direct = is_direct
+        self.amt_remove = True
         if source_actor:
             if is_cure:
                 source_actor.heal += amount
+                source_actor.heal_in_min += amount
             else:
                 source_actor.damage += amount
+                source_actor.damage_in_min += amount
             source_actor.effects.append(self)
         if target_actor:
             if not is_cure:
                 target_actor.taken_damage += amount
+                target_actor.taken_damage_in_min += amount
             target_actor.effects.append(self)
+
+    def out_date(self):
+        if self.amt_remove:
+            self.amt_remove = False
+            if self.source_actor:
+                if self.is_cure:
+                    self.source_actor.heal_in_min -= self.amount
+                else:
+                    self.source_actor.damage_in_min -= self.amount
+            if self.target_actor and not self.is_cure:
+                self.target_actor.taken_damage_in_min -= self.amount
 
 
 class Monitor:
@@ -84,7 +102,7 @@ class Monitor:
         self.zone_id = zone_id
         self.actors = {}
         self.effects = []
-        self.one_minute_idx = 0
+        self.out_date_idx = 0
         self._freeze = False
         self.last_record = 0
         self.first_record = 0
@@ -136,6 +154,7 @@ class Monitor:
                         getattr(invincible_actor, 'add' if is_invincible else 'remove')(target_id)
                     except KeyError:
                         pass
+        self.process_outdated_effects()
         return True
 
     def on_dot(self, occur_time: float, dot_event: 'DotEvent'):
@@ -157,6 +176,7 @@ class Monitor:
         if target_actor:
             target_actor.effects.append(record_effect)
             target_actor.taken_damage += dot_event.damage
+        self.process_outdated_effects()
         return True
 
     def on_hot(self, occur_time: float, hot_event: 'HotEvent'):
@@ -177,6 +197,7 @@ class Monitor:
             source_actor.heal += hot_event.damage
         if target_actor:
             target_actor.effects.append(record_effect)
+        self.process_outdated_effects()
         return True
 
     def on_death(self, occur_time: float, death_event: 'DeathEvent'):
@@ -190,14 +211,28 @@ class Monitor:
             self.actors[aid] = Actor(aid)
         return self.actors[aid]
 
+    def process_outdated_effects(self):
+        while self.out_date_idx < len(self.effects) and self.effects[self.out_date_idx].occur_time < self.last_record - 60:
+            self.effects[self.out_date_idx].out_date()
+            self.out_date_idx += 1
+
     def freeze(self):
         pass
 
     def dps(self, actor_id: int):
         return self.get_actor(actor_id).damage / (self.last_record - self.first_record) if self.first_record else 0
 
+    def dpsm(self, actor_id: int):
+        return self.get_actor(actor_id).damage_in_min / min(self.last_record - self.first_record, 60) if self.first_record else 0
+
     def hps(self, actor_id: int):
         return self.get_actor(actor_id).heal / (self.last_record - self.first_record) if self.first_record else 0
 
+    def hpsm(self, actor_id: int):
+        return self.get_actor(actor_id).heal_in_min / min(self.last_record - self.first_record, 60) if self.first_record else 0
+
     def dtps(self, actor_id: int):
         return self.get_actor(actor_id).taken_damage / (self.last_record - self.first_record) if self.first_record else 0
+
+    def dtpsm(self, actor_id: int):
+        return self.get_actor(actor_id).taken_damage_in_min / min(self.last_record - self.first_record, 60) if self.first_record else 0

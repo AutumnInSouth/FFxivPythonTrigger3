@@ -1,10 +1,14 @@
 import time
 from functools import cache
 from time import perf_counter
+from typing import TYPE_CHECKING
 
 from FFxivPythonTrigger.meta_data import actions, status
 from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_sheet
-from . import define, strategies, api
+from . import define, strategies, api, multi_enemy_selector
+
+if TYPE_CHECKING:
+    from .logic_data import LogicData
 
 
 def use_item(to_use: strategies.UseItem):
@@ -71,3 +75,23 @@ def a(action_name: str) -> int:
 
 def s(status_name: str) -> int:
     return status[status_name].id
+
+
+def cnt_enemy(data: 'LogicData', ability):
+    target, cnt = multi_enemy_selector.select(data, data.valid_enemies, ability)
+    if not cnt: return data.target, 0
+    if data.config['single'] == define.FORCE_SINGLE: return data.target, 1
+    if data.config['single'] == define.FORCE_MULTI: return data.target, 3
+    return target, cnt
+
+
+def res_lv(data: 'LogicData'):
+    match data.config['resource']:
+        case define.RESOURCE_SQUAND:
+            return 2
+        case define.RESOURCE_NORMAL:
+            return 1
+        case define.RESOURCE_STINGY:
+            return 0
+        case _:
+            return int(data.max_ttk > 10)

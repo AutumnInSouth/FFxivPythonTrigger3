@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
 
 command = "@acombat"
-split_time = 60
+split_time = 30
 ERR_LIMIT = 20
 default_common_config = {
     'enable': False,
@@ -231,15 +231,12 @@ class XivCombat(PluginBase):
             if (me is None or not me.current_hp or  # 不存在角色、角色已经死亡
                     me.casting_time - me.casting_progress > 0.2  # 正在咏唱
             ):
-                self.logger(1)
                 return default_period
             if not api.skill_queue_is_empty():
-                self.logger(2)
                 return max(api.get_ani_lock(), default_period / 2)  # 队列中存在技能
 
             strategy = self.current_strategy
             if strategy is None:
-                self.logger(3)
                 return default_period
             data = self.get_logic_data()
 
@@ -368,16 +365,25 @@ class XivCombat(PluginBase):
         def dps(self, actor_id: int):
             return self.get_monitor().dps(actor_id)
 
+        def dpsm(self, actor_id: int):
+            return self.get_monitor().dpsm(actor_id)
+
         def hps(self, actor_id: int):
             return self.get_monitor().hps(actor_id)
+
+        def hpsm(self, actor_id: int):
+            return self.get_monitor().hpsm(actor_id)
 
         def dtps(self, actor_id: int):
             return self.get_monitor().dtps(actor_id)
 
+        def dtpsm(self, actor_id: int):
+            return self.get_monitor().dtpsm(actor_id)
+
         def ttk(self, actor_id: int):
-            dtps = self.dtps(actor_id)
-            if dtps == 0: return -1
-            return getattr(api.get_actor_by_id(actor_id), 'current_hp', 0) / dtps
+            dtpsm = self.dtpsm(actor_id)
+            if dtpsm == 0: return -1
+            return getattr(api.get_actor_by_id(actor_id), 'current_hp', 0) / dtpsm
 
     # layout
     if 1:
@@ -392,7 +398,8 @@ class XivCombat(PluginBase):
             return {
                 'period': int(m.last_record - m.first_record),
                 'zone': m.zone_id,
-                'members': [{'name': actor.name, 'dps': int(m.dps(actor.id)), 'job': actor.job.value} for actor in members]
+                'members': [{'name': actor.name, 'dps': int(m.dps(actor.id)), 'dpsm': int(m.dpsm(actor.id)), 'job': actor.job.value} for actor in
+                            members]
             }
 
         def layout_team_dps(self):

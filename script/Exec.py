@@ -119,6 +119,7 @@ c19="""
 from pprint import pprint
 from ctypes import *
 print(hex(addressof(plugins.XivMemory.actor_table.me)))
+print(plugins.XivMemory.gauge)
 """
 c20="""
 from FFxivPythonTrigger import saint_coinach
