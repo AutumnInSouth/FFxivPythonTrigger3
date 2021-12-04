@@ -113,7 +113,7 @@ Duration: 60s:):)(source.job==27?(source.level>=52?
 Shares a recast timer with Energy Siphon.:):)
         """
         id = 16508
-        name = {'能量吸收', 'Energy Drain'}
+        name = {'能量吸收 - 召唤师', 'Energy Drain - Summoner'}
 
     class SummonTopaz(ActionBase):
         """

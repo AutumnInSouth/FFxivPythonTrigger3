@@ -67,6 +67,30 @@ if game_ext==3:
         song_procs: int
         soul_gauge: int
         song_type: BardSong
+
+
+    class SummonerGauge(OffsetStruct({
+        'stance_ms': (c_ushort, 0),
+        'return_summon': (c_ubyte, 2),
+        'return_summon_glam': (c_ubyte, 3),
+        'stacks': (c_ubyte, 4),
+    }, 16)):
+        stance_ms: int
+        return_summon: int
+        return_summon_glam: int
+        stacks: int
+
+        @property
+        def aether_flow_stacks(self):
+            return byte_get_bit(self.stacks, 0, 2)
+
+        @property
+        def bahamut_ready(self):
+            return self.stacks & 0b1000 > 0
+
+        @property
+        def phoenix_ready(self):
+            return self.stacks & 0b10000 > 0
 else:
     class BardGauge(OffsetStruct({
         'song_milliseconds': (c_ushort, 0),
@@ -78,6 +102,40 @@ else:
         song_procs: int
         soul_gauge: int
         song_type: BardSong
+
+
+    class SummonerGauge(OffsetStruct({
+        'stance_ms': (c_ushort, 0),
+        'summon_ms': (c_ushort, 2),
+        'previous': (c_ushort, 4),
+        'attunement': (c_ubyte, 6),
+        'flags': (c_ubyte, 7),
+    }, 16)):
+        stance_ms: int
+        summon_ms: int
+        previous: int
+        attunement: int
+        flags: int
+
+        @property
+        def aether_flow_stacks(self):
+            return self.flags & 0b0011
+
+        @property
+        def phoenix_ready(self):
+            return self.flags & 0b10000 > 0
+
+        @property
+        def ifrit_ready(self):
+            return self.flags & 0b100000 > 0
+
+        @property
+        def garuda_ready(self):
+            return self.flags & 0b10000000 > 0
+
+        @property
+        def titan_ready(self):
+            return self.flags & 0b1000000 > 0
 
 DancerStep = EnumStruct(c_ubyte, {
     0: '',
@@ -174,30 +232,6 @@ class ArcanistGauge(OffsetStruct({
     'aether_flow_stacks': (c_ubyte, 4),
 }, 16)):
     aether_flow_stacks: int
-
-
-class SummonerGauge(OffsetStruct({
-    'stance_ms': (c_ushort, 0),
-    'return_summon': (c_ubyte, 2),
-    'return_summon_glam': (c_ubyte, 3),
-    'stacks': (c_ubyte, 4),
-}, 16)):
-    stance_ms: int
-    return_summon: int
-    return_summon_glam: int
-    stacks: int
-
-    @property
-    def aether_flow_stacks(self):
-        return byte_get_bit(self.stacks, 0, 2)
-
-    @property
-    def bahamut_ready(self):
-        return self.stacks & 0b1000 > 0
-
-    @property
-    def phoenix_ready(self):
-        return self.stacks & 0b10000 > 0
 
 
 class ScholarGauge(OffsetStruct({
