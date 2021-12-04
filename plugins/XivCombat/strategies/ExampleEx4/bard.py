@@ -40,6 +40,13 @@ class BardLogic(Strategy):
     def __init__(self):
         self.last_song = 0
 
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
+        match action_id:
+            case a('大地神的抒情恋歌') | a('光阴神的礼赞凯歌'):
+                mo_entity = api.get_mo_target()
+                if mo_entity and api.action_type_check(action_id, mo_entity):
+                    return UseAbility(action_id, mo_entity.id)
+
     def global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         if data.target_distance <= 25:
             single_target = data.target
