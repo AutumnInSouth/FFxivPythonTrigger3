@@ -24,9 +24,9 @@ pet_name = {
 
 summoner_auras = {
     'Further Ruin': 2701,
-    'Titan\s Favor': -1,
-    'Garuda\s Favor': -2,
-    'Ifrit\s Favor': -3
+    'Titan\'s Favor': -1,
+    'Garuda\'s Favor': -2,
+    'Ifrit\'s Favor': -3
 }
 
 area_shape = FarCircle(25, 5)
@@ -66,7 +66,7 @@ class SummonerLogic(Strategy):
         if data[a('Summon Bahamut')] < self.gcd / 2:
             return UseAbility(a('Summon Bahamut'), target.id)
 
-        if summoner_auras['Ifrit\s Favor'] in effects or combo_id == a('Crimson Strike'):
+        if summoner_auras['Ifrit\'s Favor'] in effects or combo_id == a('Crimson Strike'):
             return UseAbility(a('Astral Flow'), target.id)
 
         if gauge.attunement > 0:
@@ -96,10 +96,10 @@ class SummonerLogic(Strategy):
         effects = data.effects
         current_pet = pet_name[data.pet_id]
 
-        if summoner_auras['Titan\s Favor'] in effects:
+        if summoner_auras['Titan\'s Favor'] in effects:
             return UseAbility(a('Astral Flow'), target.id)
 
-        if summoner_auras['Garuda\s Favor'] in effects:
+        if summoner_auras['Garuda\'s Favor'] in effects:
             if not data[a('Swiftcast')]:
                 return UseAbility(a('Swiftcast'))
             return UseAbility(a('Astral Flow'), target.id)
