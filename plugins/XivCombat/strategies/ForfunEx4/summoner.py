@@ -22,6 +22,13 @@ pet_name = {
     14: 'Firebird'
 }
 
+summoner_auras = {
+    'Further Ruin': 2701,
+    'Titan\s Favor': -1,
+    'Garuda\s Favor': -2,
+    'Ifrit\s Favor': -3
+}
+
 area_shape = FarCircle(25, 5)
 
 
@@ -48,6 +55,7 @@ class SummonerLogic(Strategy):
         gauge = data.gauge
         effects = data.effects
         current_pet = pet_name[data.pet_id]
+        combo_id = data.combo_id
         if current_pet == 'NoPet':
             return UseAbility(a('Summon Carbuncle'), target.id)
 
@@ -57,6 +65,9 @@ class SummonerLogic(Strategy):
 
         if data[a('Summon Bahamut')] < self.gcd / 2:
             return UseAbility(a('Summon Bahamut'), target.id)
+
+        if summoner_auras['Ifrit\s Favor'] in effects or combo_id == a('Crimson Strike'):
+            return UseAbility(a('Astral Flow'), target.id)
 
         if gauge.attunement > 0:
             return UseAbility(a('Precious Brilliance'), selected.id) if enemy_count \
@@ -71,7 +82,11 @@ class SummonerLogic(Strategy):
         if gauge.ifrit_ready:
             return UseAbility(a('Summon Ifrit'), target.id)
 
-        return UseAbility(a('Ruin III'), target.id)
+        if summoner_auras['Further Ruin'] in effects:
+            return UseAbility(a('Ruin IV'), target.id)
+
+        return UseAbility(a('Tri-disaster'), target.id) if enemy_count \
+            else UseAbility(a('Ruin III'), selected.id)
 
     def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
         self.gcd = data.gcd_total if data.gcd_total > 0 else self.gcd
@@ -80,6 +95,22 @@ class SummonerLogic(Strategy):
         gauge = data.gauge
         effects = data.effects
         current_pet = pet_name[data.pet_id]
+
+        if summoner_auras['Titan\s Favor'] in effects:
+            return UseAbility(a('Astral Flow'), target.id)
+
+        if summoner_auras['Garuda\s Favor'] in effects:
+            if not data[a('Swiftcast')]:
+                return UseAbility(a('Swiftcast'))
+            return UseAbility(a('Astral Flow'), target.id)
+
+        # lucid dreaming
+        if not data[7562] and data.me.current_mp < 5000: 
+            return UseAbility(7562)
+
+        # TODO: auto searing light
+        # if data[a('Searing Light')] <= self.gcd / 2 and current_pet == 'Carbuncle':
+        #     return UseAbility(a('Searing Light'), selected.id, wait_until=lambda: 2703 in data.refresh_cache('effects'))
 
         if current_pet in ['Bahamut', 'Firebird'] and data[a('Enkindle Bahamut')] <= self.gcd / 2:
             return UseAbility(a('Enkindle Bahamut'), target.id)
@@ -91,9 +122,10 @@ class SummonerLogic(Strategy):
             return UseAbility(a('Painflare'), selected.id) if enemy_count \
                 else UseAbility(a('Fester'), selected.id)
 
-        if data[a('Energy Drain - Summoner')] <= self.gcd / 2:
-            return UseAbility(a('Energy Drain - Summoner'), selected.id) if enemy_count \
-                else UseAbility(a('Energy Siphon'), selected.id)
+        # Aetherflow related
+        if data[16508] <= self.gcd / 2:
+            return UseAbility(a('Energy Siphon'), selected.id) if enemy_count \
+                else UseAbility(16508, selected.id)
 
 
 
