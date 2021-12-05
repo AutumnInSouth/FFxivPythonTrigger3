@@ -21,7 +21,7 @@ def send_key(hwnd:int,key_code: int,period:float):
     ctypes.windll.user32.SendMessageA(hwnd, win32con.WM_KEYDOWN, key_code, 0)
     time.sleep(period)
     ctypes.windll.user32.SendMessageA(hwnd, win32con.WM_KEYUP, key_code, 0)
-seq=list(b'WASD2')
+seq=list(b'WASD')
 seq.append(win32con.VK_SPACE)
 seq.append(win32con.VK_NUMPAD9)
 while True:

@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 class AbilityType(object):
     type = -1
+    action_id: int = None
 
     def is_valid_target(self, data: 'LogicData', target: 'Actor') -> bool:
         pass
@@ -21,8 +22,9 @@ class AbilityType(object):
 class NearCircle(AbilityType):
     type = 0
 
-    def __init__(self, radius: float, ):
+    def __init__(self, radius: float, action_id: int = None):
         self.radius = radius
+        self.action_id = action_id
 
     def is_valid_target(self, data: 'LogicData', target: 'Actor') -> bool:
         return data.me.absolute_distance_xy(target) < self.radius + target.hitbox_radius
@@ -34,9 +36,10 @@ class NearCircle(AbilityType):
 class Sector(AbilityType):
     type = 3
 
-    def __init__(self, a_range: int, angle: float):
+    def __init__(self, a_range: int, angle: float, action_id: int = None):
         self.a_range = a_range
         self.angle = angle
+        self.action_id = action_id
 
     def is_valid_target(self, data: 'LogicData', target: 'Actor'):
         return data.me.absolute_distance_xy(target) < self.a_range + target.hitbox_radius
@@ -48,9 +51,10 @@ class Sector(AbilityType):
 class FarCircle(AbilityType):
     type = 1
 
-    def __init__(self, a_range: int, radius: float):
+    def __init__(self, a_range: int, radius: float, action_id: int = None):
         self.a_range = a_range
         self.radius = radius
+        self.action_id = action_id
 
     def is_valid_target(self, data: 'LogicData', target: 'Actor'):
         return data.actor_distance_effective(target) < self.a_range
@@ -62,9 +66,10 @@ class FarCircle(AbilityType):
 class Rectangle(AbilityType):
     type = 2
 
-    def __init__(self, a_range: int, width: float):
+    def __init__(self, a_range: int, width: float, action_id: int = None):
         self.a_range = a_range
         self.width = width
+        self.action_id = action_id
 
     def is_valid_target(self, data: 'LogicData', target: 'Actor'):
         return data.me.absolute_distance_xy(target) < self.a_range + target.hitbox_radius
@@ -77,7 +82,10 @@ class Enemy(object):
     def __init__(self, data: 'LogicData', target: 'Actor', ability: AbilityType):
         self.target = target
         self.hit_box = target.hitbox()
-        self.can_hit = ability.is_valid_target(data, target)
+        if ability.action_id is None:
+            self.can_hit = ability.is_valid_target(data, target)
+        else:
+            self.can_hit = data.target_action_check(ability.action_id, target)
         self.aoe_shape = ability.aoe_shape(data, target) if self.can_hit else None
         self.calc_targets = 0
 

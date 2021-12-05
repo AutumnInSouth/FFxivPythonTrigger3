@@ -14,7 +14,7 @@ module.exports = vue.defineComponent({
         return {plugin, dps_data, ttk_data}
     },
     template: `
-{{dps_data.zone}}
+{{dps_data.zone}}<el-button @click="plugin.run_single('layout_new_monitor')">new</el-button>
 <el-table :data="dps_data.members" style="width: 100%" :default-sort = "{prop: 'dps', order: 'descending'}" >
     <el-table-column prop="job" label="职业" sortable width="200"/>
     <el-table-column prop="name" label="名字"/>

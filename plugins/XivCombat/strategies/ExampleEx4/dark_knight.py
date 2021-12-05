@@ -16,7 +16,7 @@ class DarkKnightStrategy(Strategy):
     job = 'DarkKnight'
 
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
-        if action_id == a('至黑之夜'):
+        if action_id == a('至黑之夜') or action_id == a('Oblation'):
             mo_entity = api.get_mo_target()
             if mo_entity and api.action_type_check(action_id, mo_entity):
                 return UseAbility(action_id, mo_entity.id)
@@ -25,11 +25,10 @@ class DarkKnightStrategy(Strategy):
         if data.target_distance <= 3:
             single_target = data.target
         else:
-            single_target = data.get_target(define.DISTANCE_NEAREST)
+            single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('伤残')))
+            if not single_target:return
             if data.actor_distance_effective(single_target) > 5:
-                if not data.gcd and data.me.level >= 15 and data.actor_distance_effective(single_target) <= 20:
-                    return UseAbility(a('伤残'), single_target.id)
-                return
+                return UseAbility(a('伤残'), single_target.id) if not data.gcd and data.me.level >= 15 else None
 
         if data.me.level >= 6:
             unleash_target, unleash_cnt = cnt_enemy(data, unleash)
@@ -95,5 +94,5 @@ class DarkKnightStrategy(Strategy):
                 return UseAbility(a('吸血深渊'), abyssal_drain_target.id)
         if not data[a('腐秽大地')]:
             unleash_target, unleash_cnt = cnt_enemy(data, unleash)
-            if unleash_cnt > int(len(data.valid_enemies)) / 2:
+            if unleash_cnt > int(len(data.enemy_can_attack_by(a('伤残')))) / 2:
                 return UseAbility(a('腐秽大地'), data.me.id)

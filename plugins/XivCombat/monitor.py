@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, List, Dict
 
 from FFxivPythonTrigger import plugins
+from FFxivPythonTrigger.logger import info
 
 from .logic_data import invincible_actor, is_actor_status_can_damage
 
@@ -42,6 +43,9 @@ class Actor:
             self._actor = plugins.XivMemory.actor_table.get_actor_by_id(self.aid)
         return self._actor
 
+    def __str__(self):
+        return f'{self.actor.name}({self.aid:x})'
+
 
 class Effect:
     def __init__(
@@ -57,6 +61,7 @@ class Effect:
             is_critical: bool = False,
             is_direct: bool = False,
     ):
+        # info('',target_actor,amount)
         self.occur_time = occur_time
         self.source_actor = source_actor
         self.target_actor = target_actor
@@ -123,6 +128,7 @@ class Monitor:
         prev_combo = getattr(source_actor, 'last_combo', 0)
         for target_id, effects in action_event.targets.items():
             target_actor = self.get_actor(target_id)
+            # info('',source_actor,target_actor,','.join(map(str,effects)))
             is_invincible = False
             for effect in effects:
                 if ('invincible' in effect.tags or 'ability' in effect.tags and effect.param == 0) and 'to_source' not in effect.tags:
@@ -235,4 +241,9 @@ class Monitor:
         return self.get_actor(actor_id).taken_damage / (self.last_record - self.first_record) if self.first_record else 0
 
     def dtpsm(self, actor_id: int):
-        return self.get_actor(actor_id).taken_damage_in_min / min(self.last_record - self.first_record, 60) if self.first_record else 0
+        a = self.get_actor(actor_id)
+        if a.effects:
+            first = a.effects[0].occur_time - 0.1
+        else:
+            first = self.first_record
+        return a.taken_damage_in_min / min(self.last_record - first, 60) if first else 0

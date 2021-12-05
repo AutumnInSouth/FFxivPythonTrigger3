@@ -9,6 +9,10 @@ AirshipExplorationResult|B4
 AirshipStatus|1E3
 AirshipStatusList|23F
 AirshipTimers|ED
+AoeEffect16|2CE
+AoeEffect24|2ED
+AoeEffect32|23A
+AoeEffect8|1BA
 CFNotify|317
 ContainerInfo|EE
 CurrencyCrystalInfo|258

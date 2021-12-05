@@ -36,8 +36,8 @@ class Status:
         id = 2675
         name = {"Knight's Resolve"}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             if source_action == Actions.HolySheltron.id:
                 self.taken_damage_modify = 0.85
             else:
@@ -65,8 +65,8 @@ class Status:
         id = 2721
         name = {'Blade of Valor'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_potency = 80 if is_main_target else 40
 
 

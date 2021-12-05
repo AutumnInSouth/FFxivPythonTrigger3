@@ -14,7 +14,7 @@ from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.saint_coinach import action_names
+from FFxivPythonTrigger.saint_coinach import action_names,status_sheet
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
 from . import define, strategies, api, logic_data, utils
 from .define import AbilityType
@@ -75,6 +75,7 @@ for file in (Path(__file__).parent / 'strategies').iterdir():
             if isclass(obj) and issubclass(obj, strategies.Strategy) and obj != strategies.Strategy:
                 all_strategies.setdefault(obj.job, {})[obj.name] = obj()
 
+status_cant_action = {status.key for status in status_sheet if status['LockActions']}
 
 class HotbarBlock(OffsetStruct({
     'type': (c_ubyte, 199),
@@ -239,7 +240,8 @@ class XivCombat(PluginBase):
             if strategy is None:
                 return default_period
             data = self.get_logic_data()
-
+            if data.effects_set.intersection(status_cant_action):  # 存在不允许使用技能的状态
+                return default_period
             # 获取决策行为
             to_use = self.get_to_use(data, strategy)
             if to_use is not None:
@@ -410,3 +412,6 @@ class XivCombat(PluginBase):
                 'name': enemy.name,
                 'ttk': int(self.ttk(enemy.id))
             } for enemy in api.get_enemies_list()]
+
+        def layout_new_monitor(self):
+            return bool(self.new_monitor())

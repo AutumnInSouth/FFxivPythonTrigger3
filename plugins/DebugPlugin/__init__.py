@@ -18,8 +18,8 @@ class DebugPlugin(PluginBase):
 
     #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
-        if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
-        self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
+        #if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
+        self.logger(evt.id, evt, len(evt.raw_message))
 
     #@event('network/unknown/zone/client/399')
     def craft_action(self, evt):
@@ -56,11 +56,12 @@ class DebugPlugin(PluginBase):
 
     @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
-        self.logger(evt.struct_message)
-        s = []
-        for t, e in evt.targets.items():
-            for _e in e:
-                self.logger(t, _e.raw_entry)
+        self.logger(evt)
+        # self.logger(evt.struct_message)
+        # s = []
+        # for t, e in evt.targets.items():
+        #     for _e in e:
+        #         self.logger(t, _e.raw_entry)
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):
