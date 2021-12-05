@@ -16,7 +16,7 @@ class DebugPlugin(PluginBase):
         struct_message.unk0 = 0
         return struct_message
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
@@ -43,8 +43,6 @@ class DebugPlugin(PluginBase):
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
-            'network/unknown/zone/client/161',
-            'network/unknown/zone/server/533',
         ]:return
         self.logger.debug(evt.id, evt, len(evt.raw_message))
 
@@ -52,25 +50,17 @@ class DebugPlugin(PluginBase):
     def status_effect(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message))
 
-    @event("network/zone/server/actor_control/dot")
+    #@event("network/zone/server/actor_control/dot")
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
     @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
-
-        if evt.action_id < 10: return
-        self.logger(evt)
-        #self.logger(evt.struct_message)
-        # s = []
-        # for t, d in evt.targets.items():
-        #     n, e = d
-        #     for _e in e:
-        #         if 'ability' in _e.tags:
-        #             s.append(f"{n.name}:{_e.raw_entry.param3}")
-        #             break
-        # if s:
-        #     self.logger(evt.action_name, ' '.join(s))
+        self.logger(evt.struct_message)
+        s = []
+        for t, e in evt.targets.items():
+            for _e in e:
+                self.logger(t, _e.raw_entry)
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

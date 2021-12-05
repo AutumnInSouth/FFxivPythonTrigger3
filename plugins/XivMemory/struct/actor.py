@@ -4,6 +4,7 @@ from typing import Dict, Set, Iterator, Tuple, Optional, TYPE_CHECKING
 
 from FFxivPythonTrigger import game_ext
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.popular_struct import Position
 
 from FFxivPythonTrigger.utils.shape import circle
 from .enum import Jobs, ActorType
@@ -49,18 +50,6 @@ class Effects(Effect * 30):
         return 0
 
 
-class ActorPosition(OffsetStruct({
-    'x': c_float,
-    'z': c_float,
-    'y': c_float,
-    'r': (c_float, 16)
-})):
-    x: float
-    y: float
-    z: float
-    r: float
-
-
 if game_ext == 3:
     _actor_struct = {
         '_name': (c_char * 68, 0x30),
@@ -75,7 +64,7 @@ if game_ext == 3:
         'player_target_status': (c_byte, 0x91),
         'effective_distance_y': (c_byte, 0x92),
         '_unit_status_1': (c_ubyte, 0x94),
-        'pos': (ActorPosition, 0xa0),
+        'pos': (Position, 0xa0),
         'hitbox_radius': (c_float, 0xc0),
         '_unit_status_2': (c_uint, 0x104),
         'current_hp': (c_uint, 0x1c4),
@@ -119,7 +108,7 @@ else:
         'player_target_status': (c_byte, 0x91),
         'effective_distance_y': (c_byte, 0x92),
         '_unit_status_1': (c_ubyte, 0x94),
-        'pos': (ActorPosition, 0xa0),
+        'pos': (Position, 0xa0),
         'hitbox_radius': (c_float, 0xc0),
         '_unit_status_2': (c_uint, 0x104),
         'current_hp': (c_uint, 0x1c4),
@@ -164,7 +153,7 @@ class Actor(OffsetStruct(_actor_struct)):
     player_target_status: int
     effective_distance_y: int
     _unit_status_1: int
-    pos: ActorPosition
+    pos: Position
     hitbox_radius: float
     _unit_status_2: int
     current_hp: int

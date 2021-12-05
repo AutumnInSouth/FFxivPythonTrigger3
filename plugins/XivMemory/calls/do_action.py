@@ -3,7 +3,8 @@ from ctypes import *
 from FFxivPythonTrigger import frame_inject
 from FFxivPythonTrigger.popular_struct import Vector3
 
-do_action_interface = CFUNCTYPE(c_int64, c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int)
+
+do_action_interface = CFUNCTYPE(c_int64, c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p)
 do_action_location_interface = CFUNCTYPE(c_ubyte, c_int64, c_uint, c_uint, c_int64, POINTER(Vector3), c_uint)
 
 
@@ -13,7 +14,7 @@ class DoAction(object):
         self.action_manager_address = action_manager_address
 
     def original(self, action_type: int, action_id: int, target_id=0xE0000000, unk1=0, unk2=0, unk3=0) -> int:
-        return self._original(self.action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3)
+        return self._original(self.action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, 0)
 
     def __call__(self, action_type: int, action_id: int, target_id=0xE0000000, unk1=0, unk2=0, unk3=0):
         frame_inject.register_once_call(self.original, action_type, action_id, target_id, unk1, unk2, unk3)

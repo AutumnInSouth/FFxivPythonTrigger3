@@ -2,7 +2,7 @@ import os
 import traceback
 from ctypes import *
 from pathlib import Path
-
+import FFxivPythonTrigger
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.decorator import event, unload_callback
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
@@ -56,7 +56,7 @@ class CommandPlugin(PluginBase):
         elif args[0] == 'log':
             self.logger.info(" ".join(args[1:]))
         elif args[0] == 'eval':
-            exec(" ".join(args[1:]))
+            exec(" ".join(args[1:]),{'print':self.logger}|FFxivPythonTrigger.__dict__)
         elif args[0] == 'script':
             fn=" ".join(args[1:])
             if not fn.endswith(".py"): fn += ".py"

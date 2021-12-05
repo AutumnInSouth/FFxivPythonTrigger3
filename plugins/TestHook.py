@@ -14,23 +14,14 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.test(3596)
-        self.action_check(self, BASE_ADDR + 0x8047D0).install_and_enable()
-        self.test(3596)
+        self.action(self,BASE_ADDR+0x7ea2d0)
 
+    """char __fastcall sub_1407EA2D0(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6, int a7, _BYTE *a8)"""
 
-
-    def test(self, test_action):
-        sub_14080B1F0 = CFUNCTYPE(c_int64, c_int64, c_uint, c_uint, c_uint, c_ubyte, c_ubyte)(BASE_ADDR + 0x80B1F0)
-        self.logger(sub_14080B1F0(BASE_ADDR + 0x1d60580, 1, test_action, 0xe0000000, 1, 1))
-
-    """bool __fastcall sub_1408047D0(unsigned int a1, unsigned int a2)"""
-    @PluginHook.decorator(c_ubyte, [c_uint, c_uint])
-    def action_check(self, hook, a1, a2):
-        self.cnt += 1
-        if self.cnt > 10: PluginHook.uninstall(hook)
-        ans = hook.original(a1, a2)
-        self.logger(f"{ans:x} {a1} {a2}")
+    @PluginHook.decorator(c_ubyte, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p],True)
+    def action(self, hook, *args):
+        ans = hook.original(*args)
+        self.logger(f"{ans:x} {args} ")
         return ans
 
         #     self.cast_hook2(self, BASE_ADDR + 0x6E8CA0)

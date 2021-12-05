@@ -67,17 +67,17 @@ class DarkKnightStrategy(Strategy):
 
         res = res_lv(data)
         in_use = data[a('嗜血')] > 40
-        flood_of_darkness_target, flood_of_darkness_cnt = None, -1
-        if data.me.current_mp > 3000 and data.skill_unlocked(a('暗黑波动')):
-            if not data.gauge.darkside_timer or res and data.me.current_mp > (9000 if not in_use else 6000 if data[a('至黑之夜')] < 13 else 3000):
-                flood_of_darkness_target, flood_of_darkness_cnt = cnt_enemy(data, flood_of_darkness)
-                if data.skill_unlocked(a('暗黑锋')) and flood_of_darkness_cnt < 3:
-                    if data.actor_distance_effective(single_target) <= 3:
-                        return UseAbility(a('暗黑锋'), single_target.id)
-                else:
-                    return UseAbility(a('暗黑波动'), flood_of_darkness_target.id)
+        if (data.gauge.dark_art or data.me.current_mp > 3000 and data.skill_unlocked(a('暗黑波动')) and
+                (not data.gauge.darkside_timer or res and data.me.current_mp > (
+                        9000 if not in_use else 6000 if data[a('至黑之夜')] < 13 else 3000))):
+            flood_of_darkness_target, flood_of_darkness_cnt = cnt_enemy(data, flood_of_darkness)
+            if data.skill_unlocked(a('暗黑锋')) and flood_of_darkness_cnt < 3:
+                if data.actor_distance_effective(single_target) <= 3:
+                    return UseAbility(a('暗黑锋'), single_target.id)
+            else:
+                return UseAbility(a('暗黑波动'), flood_of_darkness_target.id)
         if not res: return
-        if data.me.level>=78 and not data.actor_distance_effective(single_target) and data[a('跳斩')] < 5:
+        if data.me.level >= 78 and not data.actor_distance_effective(single_target) and data[a('跳斩')] < 5:
             return UseAbility(a('跳斩'), single_target.id)
 
         if not data[a('嗜血')]:
