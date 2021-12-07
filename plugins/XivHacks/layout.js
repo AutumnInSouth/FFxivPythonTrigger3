@@ -74,6 +74,11 @@ module.exports = vue.defineComponent({
              <el-slider v-model="value.value" :step="0.5" :min="-20" :max="20" show-input/>
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="no_misdirect" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="no misdirect">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
     <el-divider/>
     <h4>Zoom</h4>
     <fpt-bind-item attr="zoom_cam_distance_reset"  :plugin="plugin" v-slot="{value}">

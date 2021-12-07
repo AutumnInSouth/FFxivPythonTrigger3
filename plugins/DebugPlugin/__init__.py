@@ -20,7 +20,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -50,12 +50,6 @@ class DebugPlugin(PluginBase):
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    @event('network/unknown/zone/client/147')
-    def craft_action(self, evt):
-        struct = OffsetStruct({
-
-        }, 24)
-        self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
     # @re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
@@ -72,7 +66,7 @@ class DebugPlugin(PluginBase):
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
-    # @event("network/zone/server/action_effect")
+    @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
         self.logger(evt)
         # self.logger(evt.struct_message)

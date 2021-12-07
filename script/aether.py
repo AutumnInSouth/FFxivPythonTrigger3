@@ -13,6 +13,7 @@ def main():
                             getattr(getattr(row['Object'], 'sheet', None), 'name', None) == 'EObj' and
                             row['Object']['Data'] in aether_currents}
     for zone_aether_current in zone_aether_currents:
+        print(f"trying aether_current {zone_aether_current:x}(zone:{current_map_id}) on b_npc {t_npc_id:x}")
         plugins.XivNetwork.send_messages('zone', ('EventStart', {
             'target_id': t_npc_id,
             'unk0': 1,

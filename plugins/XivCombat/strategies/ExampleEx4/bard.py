@@ -56,8 +56,10 @@ class BardLogic(Strategy):
 
         if data.me.level >= 18:
             quick_nock_target, quick_nock_cnt = cnt_enemy(data, quick_nock)
-            if quick_nock_cnt > (2 if data.me.level < 82 else 1):
+            if quick_nock_cnt > 2:
                 return UseAbility(a('连珠箭'), quick_nock_target.id)
+        else:
+            quick_nock_target, quick_nock_cnt = single_target, 0
 
         if data.me.level >= 6:
             dot_targets = [e for e in valid_enemies if data.ttk(e) > 20 and data.actor_distance_effective(e) <= 25]
@@ -86,6 +88,8 @@ class BardLogic(Strategy):
 
         if shadow_bite_cnt > 1:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
+        if data.me.level >= 82 and quick_nock_cnt > 1:
+            return UseAbility(a('连珠箭'), quick_nock_target.id)
         return UseAbility(a('强力射击'), single_target.id)
 
     def use_song(self, song_id, target_id):

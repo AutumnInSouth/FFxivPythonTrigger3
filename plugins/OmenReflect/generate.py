@@ -54,6 +54,8 @@ white_list = {
     24087: 0,  # 扎杜诺尔高原|赫德提特|24087|碎片打击
     25324: 0,  # The Tower of Babil|Barnabas|25324|Shocking Force
     25352: 0,  # The Tower of Babil|Anima|25352|Erupting Pain
+    27851: 0,  # Vanaspati|Terminus Wrecker|27851|Poison Heart
+    25168: 0,  # Vanaspati|Svarbhanu|25168|Cosmic Kiss
 }
 # realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
@@ -89,6 +91,7 @@ translate = {
     171: 2,
     174: 2,
     326: 2,
+    357: 1,
 }
 
 

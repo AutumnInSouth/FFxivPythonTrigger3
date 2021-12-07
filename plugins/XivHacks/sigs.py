@@ -74,12 +74,17 @@ sigs = {
     },
     "actor_hit_box_get": {
         'call': find_signature_point,
-        'param':"E8 * * * * F3 0F 58 F0 F3 0F 10 05 ? ? ? ?",
+        'param': "E8 * * * * F3 0F 58 F0 F3 0F 10 05 ? ? ? ?",
         'add': BASE_ADDR,
     },
-    "cutscene_skip":{
-        'call':find_signature_address,
-        'param':"? 32 DB EB ? 48 8B 01",
-        'add':BASE_ADDR
+    "cutscene_skip": {
+        'call': find_signature_address,
+        'param': "? 32 DB EB ? 48 8B 01",
+        'add': BASE_ADDR
+    },
+    "no_misdirect": {
+        'call': find_signature_address,
+        'param': "0F 84 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? 0F B6 D8 E8 ? ? ? ? 84 C0 0F 84 ? ? ? ?",
+        'add': BASE_ADDR
     }
 }

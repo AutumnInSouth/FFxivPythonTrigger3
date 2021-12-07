@@ -45,9 +45,9 @@ class DarkKnightStrategy(Strategy):
                 elif data.actor_distance_effective(single_target) <= 3:
                     return UseAbility(a('血溅'), single_target.id)
 
-        if unleash_cnt > 2: return UseAbility(a('释放'), data.me.id)
         if data.combo_id == a('释放') and data.me.level >= 72 and unleash_cnt:
             return UseAbility(a('刚魂'), data.me.id)
+        if unleash_cnt > 2: return UseAbility(a('释放'), data.me.id)
 
         if data.actor_distance_effective(single_target) > 3: return
 

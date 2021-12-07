@@ -1,7 +1,7 @@
 from ctypes import *
 from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException,game_ext
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_ext
 from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.saint_coinach import action_sheet, action_names, territory_type_names
@@ -9,7 +9,6 @@ from .reflect import reflect_data
 
 if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
-
 
 # 常用标记
 # 1：圆形
@@ -36,6 +35,9 @@ if TYPE_CHECKING:
 
 offset = 24 if game_ext == 3 else 26
 
+full_reflect_data = {row.key: (reflect_data.get(row.key) or row['Omen'].key) for row in action_sheet}
+
+
 class OmenReflect(PluginBase):
     name = "OmenReflect"
 
@@ -50,8 +52,9 @@ class OmenReflect(PluginBase):
     @PluginHook.decorator(c_int64, [c_int64], True)
     def omen_data_hook(self, hook, action_id):
         ans = hook.original(action_id)
-        if action_id in reflect_data:
-            cast(ans + offset, POINTER(c_ushort))[0] = reflect_data[action_id]
+        if action_id in full_reflect_data:
+            cast(ans + offset, POINTER(c_ushort))[0] = full_reflect_data[action_id]
+            del full_reflect_data[action_id]
         return ans
 
     @event("plugin_load:XivNetwork")
@@ -80,7 +83,7 @@ class OmenReflect(PluginBase):
                     return
                 self.logger.debug(
                     f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|"
-                    f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
+                    # f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
                     f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|"
                     f"{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}|",
                     '\n', msg
