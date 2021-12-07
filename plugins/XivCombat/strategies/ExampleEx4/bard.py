@@ -71,7 +71,7 @@ class BardLogic(Strategy):
                     poison_dot = s('毒咬箭')
                 dot_re_cast_time = 10 if 0 < data.effect_time(s('猛者强击')) < 6 else 3
                 dot_data = [(t_id, getattr(t_effect.get(wind_dot), 'timer', 0), getattr(t_effect.get(poison_dot), 'timer', 0))
-                            for t_id, t_effect in (target for target in dot_targets)]
+                            for t_id, t_effect in ((target.id, target.effects.get_dict()) for target in dot_targets)]
                 if data.skill_unlocked(a('伶牙俐齿')):
                     for t_id, wind_remain, poison_remain in dot_data:
                         if 0 < min(wind_remain, poison_remain) < dot_re_cast_time + 3:
@@ -82,7 +82,7 @@ class BardLogic(Strategy):
                             return UseAbility(a('风蚀箭'), t_id)
                 for t_id, wind_remain, poison_remain in dot_data:
                     if poison_remain < dot_re_cast_time + 3:
-                        return UseAbility(a('风蚀箭'), t_id)
+                        return UseAbility(a('毒咬箭'), t_id)
 
         if shadow_bite_cnt > 1:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
@@ -93,10 +93,10 @@ class BardLogic(Strategy):
         return UseAbility(song_id, target_id)
 
     def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
-        if data.target_distance <= 25:
+        if data.target_distance <= 25 and data.target_action_check(a('直线射击'), data.target):
             single_target = data.target
         else:
-            single_target = data.get_target(define.DISTANCE_NEAREST)
+            single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('直线射击')))
             if not single_target or data.actor_distance_effective(single_target) > 25: return
 
         song = data.gauge.song_type.value

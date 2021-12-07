@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pysaintcoinach
 import reflect
 
@@ -49,10 +51,13 @@ white_list = {
     22357: 203,  # 女王古殿|大兀|22357|野性嚎叫
     22375: 203,  # 女王古殿|大兀|22375|野性嚎叫
     11080: 0,  # 禁绝幻想|迦楼罗|11080|烈风刃
-    24087: 0, # 扎杜诺尔高原|赫德提特|24087|碎片打击
+    24087: 0,  # 扎杜诺尔高原|赫德提特|24087|碎片打击
+    25324: 0,  # The Tower of Babil|Barnabas|25324|Shocking Force
+    25352: 0,  # The Tower of Babil|Anima|25352|Erupting Pain
 }
-#realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
-realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english)
+# realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
+realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
+                                      Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt4'))
 action_sheet = realm.game_data.get_sheet('Action')
 import pprint
 
@@ -105,8 +110,8 @@ def find_reflect(action_id):
 # print(find_reflect(22294))
 
 
-d = reflect.reflect_data|{action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
-     for action in action_sheet if action.key>max(reflect.reflect_data.keys())}
+d = reflect.reflect_data | {action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
+                            for action in action_sheet}
 d = {a1: a2 for a1, a2 in d.items() if a2 and a1 != a2}
 import pprint
 

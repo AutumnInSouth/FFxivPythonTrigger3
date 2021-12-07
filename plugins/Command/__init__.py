@@ -44,7 +44,7 @@ class CommandPlugin(PluginBase):
     name = "Command"
     layout = str(Path(__file__).parent / 'layout.js')
 
-    def FptManager(self, args):
+    def _fpt_commands(self, args):
         if args[0] == 'close':
             close()
         elif args[0] == 'raise':
@@ -56,14 +56,17 @@ class CommandPlugin(PluginBase):
         elif args[0] == 'log':
             self.logger.info(" ".join(args[1:]))
         elif args[0] == 'eval':
-            exec(" ".join(args[1:]),{'print':self.logger}|FFxivPythonTrigger.__dict__)
+            exec(" ".join(args[1:]), {'print': self.logger} | FFxivPythonTrigger.__dict__)
         elif args[0] == 'script':
-            fn=" ".join(args[1:])
+            fn = " ".join(args[1:])
             if not fn.endswith(".py"): fn += ".py"
-            with open(Path(os.getcwd())/'script'/ fn, encoding='utf-8') as f:
+            with open(Path(os.getcwd()) / 'script' / fn, encoding='utf-8') as f:
                 exec(f.read(), {'print': self.logger})
         else:
             self.logger.error("Unknown command: {}".format(args[0]))
+
+    def fpt_commands(self, args):
+        self.create_mission(self._fpt_commands, args)
 
     @event("log_event")
     def deal_chat_log(self, event):
@@ -113,6 +116,6 @@ class CommandPlugin(PluginBase):
         super(CommandPlugin, self).__init__()
 
         self.commands = dict()
-        self.register(self, '@fpt', self.FptManager)
+        self.register(self, '@fpt', self.fpt_commands)
         self.cmd_catch_hook(self, AddressManager(self.name, self.logger).
                             scan_address('catch_cmd', "40 55 53 57 41 54 41 56 41 57 48 8D 6C 24 ?"))

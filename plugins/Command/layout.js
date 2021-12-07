@@ -26,11 +26,11 @@ module.exports = vue.defineComponent({
         vue.onMounted(() => {
             head.appendChild(style)
             plugin.value.run_single('command_list').then(data => commands.value = data)
-            front_rpc.front_rpc?.game_subscribe(plugin.value.pid, 'fpt_log', on_log)
+            //front_rpc.front_rpc?.game_subscribe(plugin.value.pid, 'fpt_log', on_log)
         })
         vue.onBeforeUnmount(() => {
             head.removeChild(style)
-            front_rpc.front_rpc?.game_unsubscribe(plugin.value.pid, 'fpt_log', on_log)
+            //front_rpc.front_rpc?.game_unsubscribe(plugin.value.pid, 'fpt_log', on_log)
         })
 
         return {logs,commands, select, input, process}

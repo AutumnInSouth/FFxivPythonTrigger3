@@ -10,18 +10,29 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        #plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
+        # plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
+        #plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving_handler)
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.unk0 = 0
         return struct_message
 
-    #@re_event(r"^network/")
+    def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
+        return None
+
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
-        #if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
+        if evt.id in [
+            # "network/zone/client/update_position_handler",
+            "network/unknown/zone/client/567",
+            "network/undefined/zone/server/ActorMove",
+            "network/zone/server/actor_update_hp_mp_tp",
+            "network/zone/server/actor_control_self/unk_143"
+        ]: return
+        # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message))
 
-    #@event('network/unknown/zone/client/399')
+    # @event('network/unknown/zone/client/399')
     def craft_action(self, evt):
         """
         normal action _uint_0x0:a0001|_uint_0x4:4000000|_uint_0x8:9|_uint_0xc:action_id|_uint_0x10:0|_uint_0x14:0
@@ -37,24 +48,31 @@ class DebugPlugin(PluginBase):
         struct = OffsetStruct({
 
         }, 24)
-        self.logger('|'.join(f"{k}:{v:x}" for k,v in struct.from_buffer(evt.raw_message).get_data(True).items()))
+        self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    #@re_event(r"^network/")
+    @event('network/unknown/zone/client/147')
+    def craft_action(self, evt):
+        struct = OffsetStruct({
+
+        }, 24)
+        self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
+
+    # @re_event(r"^network/")
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
-        ]:return
+        ]: return
         self.logger.debug(evt.id, evt, len(evt.raw_message))
 
-    #@event("network/zone/server/status_effect_list")
+    # @event("network/zone/server/actor_control_self/unk_143")
     def status_effect(self, evt):
-        self.logger(evt.id, evt, len(evt.raw_message))
+        self.logger(evt)
 
-    #@event("network/zone/server/actor_control/dot")
+    # @event("network/zone/server/actor_control/dot")
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
-    @event("network/zone/server/action_effect")
+    # @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
         self.logger(evt)
         # self.logger(evt.struct_message)

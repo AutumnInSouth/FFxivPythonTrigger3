@@ -252,8 +252,12 @@ class XivCombat(PluginBase):
                     api.set_current_target(to_use.actor)
                 if isinstance(to_use, strategies.UseAbility):
                     if self.common_config.setdefault('debug', False):
-                        self.logger.debug(f"use {action_names[to_use.ability_id]}({to_use.ability_id}) on "
-                                          f"{to_use.actor.name}({to_use.actor.id:x})")
+                        new_data = self.get_logic_data()
+                        self.logger.debug(f"{action_names[to_use.ability_id]}({to_use.ability_id})\t"
+                                          f"{to_use.actor.name}({to_use.actor.id:x})\t"
+                                          f"type:{api.action_type_check(to_use.ability_id,to_use.actor)}\t"
+                                          f"ray:{data.target_action_check(to_use.ability_id,to_use.actor)}/{new_data.target_action_check(to_use.ability_id,to_use.actor)}\t"
+                                          f"distance:{data.actor_distance_effective(to_use.actor)}/{new_data.actor_distance_effective(to_use.actor)}\t")
                     utils.use_ability(to_use)
                 elif isinstance(to_use, strategies.UseItem):  # 使用道具，应该只有食物或者爆发药吧？
                     utils.use_item(to_use)

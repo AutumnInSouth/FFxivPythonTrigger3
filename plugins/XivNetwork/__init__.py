@@ -158,6 +158,22 @@ class XivNetwork(PluginBase):
                 elif processor.struct.struct_size:
                     self.logger.error(f"message size too short for [{processor.opcode}], "
                                       f"require {processor.struct.struct_size} but {len(raw_message)} is given")
+
+            for fixer in self._packet_fixer[scope].get(opcode, set()).copy():
+                try:
+                    new_msg_body = fixer(bundle_header, message_header, raw_message, struct_message)
+                    if not new_msg_body:
+                        return bytearray()
+                    if isinstance(new_msg_body, bytearray):
+                        raw_message = new_msg_body
+                        if processor is not None:
+                            struct_message = processor.struct.from_buffer(new_msg_body)
+                    else:
+                        struct_message = new_msg_body
+                        raw_message = bytearray(new_msg_body)
+                except Exception:
+                    self.logger.error("Exception in fixing message\n" + format_exc())
+
             if processor is not None:
                 event = processor.event(bundle_header, message_header, raw_message, struct_message)
             else:
@@ -176,20 +192,6 @@ class XivNetwork(PluginBase):
                             else:
                                 break
 
-            for fixer in self._packet_fixer[scope].get(opcode, set()).copy():
-                try:
-                    new_msg_body = fixer(bundle_header, message_header, raw_message, struct_message)
-                    if not new_msg_body:
-                        return bytearray()
-                    if isinstance(new_msg_body, bytearray):
-                        raw_message = new_msg_body
-                        if processor is not None:
-                            struct_message = processor.struct.from_buffer(new_msg_body)
-                    else:
-                        struct_message = new_msg_body
-                        raw_message = bytearray(new_msg_body)
-                except Exception:
-                    self.logger.error("Exception in fixing message\n" + format_exc())
             return bytearray(message_header) + raw_message
 
     def process_messages(self, bundle_header: BundleHeader, messages: list[bytearray], is_server: bool, socket: int) -> unpacked_messages:
