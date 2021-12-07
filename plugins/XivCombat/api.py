@@ -80,6 +80,7 @@ def set_current_target(actor):
 
 
 def get_enemies_list() -> Iterable['Actor']:
+    if not plugins.XivMemory.enemies: return []
     return get_actors_by_ids(*[enemy.id for enemy in plugins.XivMemory.enemies.get_item() if enemy.can_select])
 
 
