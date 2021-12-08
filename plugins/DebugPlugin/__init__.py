@@ -20,14 +20,17 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    #@re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
             "network/unknown/zone/client/567",
             "network/undefined/zone/server/ActorMove",
             "network/zone/server/actor_update_hp_mp_tp",
-            "network/zone/server/actor_control_self/unk_143"
+            "network/zone/server/actor_control_self/unk_143",
+            "network/unknown/zone/server/541",
+            "network/unknown/zone/server/728",
+            "network/zone/server/status_effect_list",
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message))
@@ -66,7 +69,7 @@ class DebugPlugin(PluginBase):
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
-    @event("network/zone/server/action_effect")
+    #@event("network/zone/server/action_effect")
     def discover_event3(self, evt):
         self.logger(evt)
         # self.logger(evt.struct_message)

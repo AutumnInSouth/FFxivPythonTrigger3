@@ -50,7 +50,7 @@ class BardLogic(Strategy):
         if shadow_bite_cnt > 2:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
 
-        if res and s('Blast Arrow Ready') in data.effects and (res > 1 or data.effects[s('Blast Arrow Ready')].timer >= 80 > data[a('猛者强击')] + 3):
+        if res and 0 < data.effect_time(s('Blast Arrow Ready')) < (data[a('猛者强击')] - 3 if res < 2 else 60):
             apex_arrow_target, apex_arrow_cnt = cnt_enemy(data, apex_arrow)
             if apex_arrow_cnt: return UseAbility(a('Blast Arrow'), apex_arrow_target.id)
 
@@ -148,12 +148,14 @@ class BardLogic(Strategy):
                 return UseAbility(a('战斗之声'), data.me.id)
             if not data[a('Radiant Finale')]:
                 return UseAbility(a('Radiant Finale'), data.me.id)
-            if not data[a('纷乱箭')]:
+            if not data[a('纷乱箭')] and (data.ability_cnt or data.gcd < 2):
+                if data.ability_cnt and data.gcd > 1.5: return
                 if data.me.level >= 72 and cnt_enemy(data, quick_nock)[1] > 2:
                     ready = s('Shadowbite Ready') in data.effects
                 else:
                     ready = s('直线射击预备') not in data.effects
-                if ready: return UseAbility(a('纷乱箭'), data.me.id)
+                if ready:
+                    return UseAbility(a('纷乱箭'), data.me.id)
             if can_use_blood_letter:
                 if rain_of_death_cnt > 1:
                     return UseAbility(a('死亡箭雨'), rain_of_death_target.id)

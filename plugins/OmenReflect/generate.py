@@ -56,6 +56,9 @@ white_list = {
     25352: 0,  # The Tower of Babil|Anima|25352|Erupting Pain
     27851: 0,  # Vanaspati|Terminus Wrecker|27851|Poison Heart
     25168: 0,  # Vanaspati|Svarbhanu|25168|Cosmic Kiss
+    15512: 3,  # The Qitana Ravel|Batsquatch|15512|Towerfall
+    25142: 0,  # Vanaspati|Terminus Snatcher|25142|Wallow
+    27490: 0,  # The Dark Inside|Zodiark|27490|Ania
 }
 # realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
