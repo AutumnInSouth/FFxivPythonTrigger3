@@ -31,7 +31,7 @@ module.exports = vue.defineComponent({
     </fpt-bind-item>
     <fpt-bind-item attr="hit_box_adjust" :plugin="plugin" v-slot="{value}">
         <el-form-item label="hit box adjust">
-             <el-slider v-model="value.value" :step="0.5" :min="-5" :max="5" show-input/>
+             <el-slider v-model="value.value" :step="0.5" :min="0" :max="5" show-input/>
         </el-form-item>
     </fpt-bind-item>
     <fpt-bind-item attr="anti_knock" :plugin="plugin" v-slot="{value}">

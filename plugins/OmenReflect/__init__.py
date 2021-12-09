@@ -11,27 +11,34 @@ if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
 
 # 常用标记
+# 关于月环：月环内圈为等比缩放，请根据内圈半径/外圈半径比例选择 omen
 # 1：圆形
 # 2：矩形
-# 3：小扇形
-# 4：中扇形
-# 5：大扇形
-# 12：内13月环
-# 13：内5月环
-# 12：内3月环
-# 27：扩散伤害
-# 139：浪柱
-# 170：内11月环(o8s)
-# 219：内20月环
-# 220：内15月环
-# 227：内10月环
-# 228：内9月环
-# 233：内25月环
-# 243：内11月环
-# 229：纵向击退
-# 203：圆心击退
-# 114：直线两侧击退
-# 188: 十字
+#
+# 3：60扇形
+# 4：90扇形
+# 5：120扇形
+# 28：150扇形
+# 107：180扇形
+# 128：210扇形
+# 15：270扇形
+#
+# 14：6%月环
+# 13：13%月环
+# 228：23%月环
+# 227：25%月环
+# 12：36.8%月环
+# 220：40%月环
+# 108：50%月环
+# 112：66%月环
+# 137：46%月环
+# 78：80%月环
+#
+# 229：纵向击退(矩形)
+# 203：圆心击退(圆形)
+# 114：直线两侧击退(矩形)
+# 188: 十字(矩形*2)
+# 139：浪柱（？）
 
 offset = 24 if game_ext == 3 else 26
 
@@ -85,6 +92,6 @@ class OmenReflect(PluginBase):
                     f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|"
                     # f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
                     f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|"
-                    f"{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}|",
-                    '\n', msg
+                    f"{action['Omen'].key}({action['CastType']}/{action['EffectRange']}/{action['XAxisModifier']})=>{reflect_data.get(evt.action_id)}|",
+                    #'\n', msg
                 )
