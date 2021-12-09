@@ -61,6 +61,10 @@ white_list = {
     27490: 0,  # The Dark Inside|Zodiark|27490|Ania
     26570: 2,  # The Dark Inside|Arcane Sigil|26570|Esoteric Ray
     26596: 2,  # The Dark Inside|Arcane Sigil|26596|Esoteric Ray
+    25180: 0,  # Ktisis Hyperboreia|Lyssa|25180|Heavy Smash
+    25734: 5,  # Ktisis Hyperboreia|Ladon Lord|25734|Pyric Breath
+    25742: 0,  # Ktisis Hyperboreia|Ladon Lord|25742|Pyric Blast
+    25897: 0,  # Ktisis Hyperboreia|Hermes|25897|True Aero II
 }
 # realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
