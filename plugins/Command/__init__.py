@@ -134,7 +134,7 @@ class CommandPlugin(PluginBase):
                 return _self.id
 
             def _exec(_self, *args, **kwargs):
-                self.client_event(f"update_scripts",self.list_script())
+                self.client_event(f"update_scripts", self.list_script())
                 try:
                     exec(_self.script, {
                         'print': self.logger,
@@ -148,13 +148,14 @@ class CommandPlugin(PluginBase):
             def stop(_self):
                 if _self.mission:
                     _self.mission.terminate()
-                    _self.mission.join()
-                try:
-                    del self.executing_scripts[_self.id]
-                except KeyError:
-                    pass
-                finally:
-                    self.client_event(f"update_scripts", self.list_script())
+                    _self.mission.join(5)
+                    if not _self.mission.is_alive():
+                        try:
+                            del self.executing_scripts[_self.id]
+                        except KeyError:
+                            pass
+                        else:
+                            self.client_event(f"update_scripts", self.list_script())
 
         self.Script = Script
 

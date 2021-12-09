@@ -1,5 +1,4 @@
 from FFxivPythonTrigger import *
-from FFxivPythonTrigger.memory import *
 
 def main():
     t = plugins.XivMemory.targets.focus
@@ -10,6 +9,6 @@ def main():
     t_pos.y = m_pos.y
     t_pos.z = m_pos.z
 
-for i in range(100):
+while True:
     main()
-    sleep(0.5)
+    sleep(0.1)

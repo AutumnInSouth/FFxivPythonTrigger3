@@ -69,15 +69,16 @@ class Mission(Thread):
         except Exception as e:
             _logger.error(f"error occurred in mission {self}:\n{format_exc()}")
             self.rtn = e
-        try:
-            _missions.remove(self)
-        except KeyError:
-            pass
-        if self.callback is not None:
+        finally:
             try:
-                self.callback(self.rtn)
-            except Exception:
-                _logger.error(f"error occurred in mission recall {self}:\n{format_exc()}")
+                _missions.remove(self)
+            except KeyError:
+                pass
+            if self.callback is not None:
+                try:
+                    self.callback(self.rtn)
+                except Exception:
+                    _logger.error(f"error occurred in mission recall {self}:\n{format_exc()}")
 
     def _get_my_tid(self):
         """determines this (self's) thread id"""
@@ -197,11 +198,12 @@ class PluginController(object):
                 call(*_args, **_kwargs)
             except Exception:
                 self.plugin.logger.error("error occurred in mission:" + format_exc())
-            if limit_sec > 0:
-                used = perf_counter() - start
-                if used > limit_sec:
-                    self.plugin.logger.warning(
-                        "[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
+            finally:
+                if limit_sec > 0:
+                    used = perf_counter() - start
+                    if used > limit_sec:
+                        self.plugin.logger.warning(
+                            "[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
 
         def _callback(res: any):
             if callback is not None:
