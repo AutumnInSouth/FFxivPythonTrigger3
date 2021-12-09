@@ -59,6 +59,8 @@ white_list = {
     15512: 3,  # The Qitana Ravel|Batsquatch|15512|Towerfall
     25142: 0,  # Vanaspati|Terminus Snatcher|25142|Wallow
     27490: 0,  # The Dark Inside|Zodiark|27490|Ania
+    26570: 2,  # The Dark Inside|Arcane Sigil|26570|Esoteric Ray
+    26596: 2,  # The Dark Inside|Arcane Sigil|26596|Esoteric Ray
 }
 # realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,

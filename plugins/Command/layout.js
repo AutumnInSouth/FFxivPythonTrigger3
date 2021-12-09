@@ -10,7 +10,6 @@ module.exports = vue.defineComponent({
     name: 'commands',
     setup(props) {
         const {plugin} = vue.toRefs(props);
-        const logs = vue.ref()
         const commands = vue.ref({})
         const select = vue.ref("")
         const input = vue.ref("")
@@ -19,21 +18,24 @@ module.exports = vue.defineComponent({
         style.innerHTML = styles
         const head = document.getElementsByTagName('head')[0]
 
-        const on_log = (_, log) => logs.value.log(utils.format_fpt_log(log), log.level)
-
         const process = () => plugin.value.run_single('process_command', [`${select.value} ${input.value}`])
+        const scripts = vue.ref([])
+
+        const update_scripts = () => plugin.value.run_single('list_script').then(data => scripts.value = data)
+        const stop_script = (script_id) => plugin.value.run_single('stop_script', [script_id])
 
         vue.onMounted(() => {
             head.appendChild(style)
             plugin.value.run_single('command_list').then(data => commands.value = data)
-            //front_rpc.front_rpc?.game_subscribe(plugin.value.pid, 'fpt_log', on_log)
+            plugin.value.subscribe('update_scripts', (_, data) => scripts.value = data)
+            update_scripts()
         })
         vue.onBeforeUnmount(() => {
             head.removeChild(style)
-            //front_rpc.front_rpc?.game_unsubscribe(plugin.value.pid, 'fpt_log', on_log)
+            plugin.value.all_unsubscribe()
         })
 
-        return {logs,commands, select, input, process}
+        return {commands, select, input, process, update_scripts, scripts, stop_script}
     },
     props: ['plugin'],
     template: `
@@ -48,9 +50,22 @@ module.exports = vue.defineComponent({
             <el-button @click="process" icon="el-icon-caret-right"/>
         </template>
     </el-input>
-    <div class="h-50" style="max-height: 50%">
-        <LogLines ref="logs"/>
-    </div>
+    
+    <el-table :data="scripts" style="width: 100%">
+        <el-table-column prop="id" label="id">
+            <template v-slot:header>
+                <el-button @click="update_scripts">scripts reload</el-button>
+            </template>
+        </el-table-column>
+        <el-table-column prop="name" label="name"/>
+        <el-table-column prop="argus" label="argus"/>
+        <el-table-column prop="is_alive" label="is_alive"/>
+         <el-table-column fixed="right" label="操作" width="100">
+          <template  v-slot="{row}">
+            <el-button @click="stop_script(row.id)" type="text" size="small">停止</el-button>
+          </template>
+        </el-table-column>
+    </el-table>
 </div>
 `
 })

@@ -136,6 +136,7 @@ class XivCombat(PluginBase):
         def onunload(self):
             self.work = False
             self.controller.main_mission.join(timeout=2)
+            self.controller.main_mission.terminate()
 
     # properties
     if 1:

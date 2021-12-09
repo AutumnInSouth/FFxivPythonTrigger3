@@ -88,11 +88,6 @@ def main():
         if 'ffxiv_dx11.exe' in p.szExeFile.decode(DEFAULT_CODING).lower():
             handle = windll.kernel32.OpenProcess(0x1F0FFF, False, p.th32ProcessID)
             if not handle: raise Exception('OpenProcess failed, error code: %d' % windll.kernel32.GetLastError())
-            buffer = ctypes.create_string_buffer(ctypes.wintypes.MAX_PATH)
-            windll.kernel32.SetLastError(0)
-            if not windll.psapi.GetModuleFileNameExA(handle, None, ctypes.byref(buffer), ctypes.wintypes.MAX_PATH):
-                raise Exception('GetModuleFileName failed with error code %d' % windll.kernel32.GetLastError())
-            executable = buffer.value.decode(DEFAULT_CODING)
             hModules = (ctypes.c_void_p * 1)()
             if not windll.psapi.EnumProcessModulesEx(handle, ctypes.byref(hModules), 8, ctypes.byref(ctypes.c_ulong()), 0x02):
                 raise Exception('EnumProcessModulesEx failed with error code %d' % windll.kernel32.GetLastError())
@@ -103,7 +98,7 @@ def main():
             if not windll.kernel32.ReadProcessMemory(handle, module_info.lpBaseOfDll, ctypes.byref(module_data), ctypes.sizeof(module_data), None):
                 raise Exception('ReadProcessMemory failed with error code %d' % windll.kernel32.GetLastError())
             match = re.search(b'.\x32\xdb\xeb.\x48\x8b\x01', bytes(module_data))
-            if not match: raise Exception('Cannot find target bytes in %s' % executable)
+            if not match: raise Exception('Cannot find target bytes in memory')
             if not windll.kernel32.WriteProcessMemory(handle, match.span()[0] + module_info.lpBaseOfDll, patch_byte, 1, None):
                 raise Exception('WriteProcessMemory failed with error code %d' % windll.kernel32.GetLastError())
             print("修改" if patch_byte == b'\x2e' else "恢复", f"pid:{p.th32ProcessID} 成功")

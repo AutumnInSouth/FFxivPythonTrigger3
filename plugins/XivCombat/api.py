@@ -84,6 +84,11 @@ def get_enemies_list() -> Iterable['Actor']:
     return get_actors_by_ids(*[enemy.id for enemy in plugins.XivMemory.enemies.get_item() if enemy.can_select])
 
 
+def get_actors_belongs_to(actor_id: int) -> Iterable['Actor']:
+    if not actor_id or actor_id == 0xE0000000: return []
+    return [actor for actor in plugins.XivMemory.actor_table if actor.owner_id == actor_id]
+
+
 def get_current_job() -> str | int:
     return plugins.XivMemory.player_info.job.value
 

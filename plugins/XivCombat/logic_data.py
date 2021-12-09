@@ -65,7 +65,7 @@ class LogicData(object):
             if t is not None and self.is_target_attackable(t):
                 return t
 
-    #@lru_cache
+    # @lru_cache
     def get_target(self, method: str, valid_enemies: list['api.Actor'] = None):
         if valid_enemies is None:
             valid_enemies = self.valid_enemies
@@ -305,3 +305,7 @@ class LogicData(object):
     @cached_property
     def pet_id(self):
         return api.get_pet_id()
+
+    @cached_property
+    def actor_belongs_to_me(self):
+        return api.get_actors_belongs_to(self.me.id)

@@ -1,21 +1,15 @@
-from FFxivPythonTrigger.saint_coinach import action_sheet
+from FFxivPythonTrigger import *
 from FFxivPythonTrigger.memory import *
 
-
 def main():
-    # _QWORD *__fastcall sub_14068A550(unsigned int a1)
-    sub_14068A550 = CFUNCTYPE(POINTER(c_ubyte), c_uint)(BASE_ADDR + 0x68A550)
-    sm: set | None = None
-    for row in action_sheet:
-        o = row['Omen'].key
-        s = set()
-        ptr = sub_14068A550(row.key)
-        for i in range(200):
-            if ptr[i] == o: s.add(i)
-        if sm is not None:
-            sm = sm.intersection(s)
-        else:
-            sm = s
-        if len(sm) <2:
-            break
-    print(sm)
+    t = plugins.XivMemory.targets.focus
+    if not t:raise Exception("No target")
+    t_pos = t.pos
+    m_pos = plugins.XivMemory.coordinate
+    t_pos.x = m_pos.x
+    t_pos.y = m_pos.y
+    t_pos.z = m_pos.z
+
+for i in range(100):
+    main()
+    sleep(0.5)

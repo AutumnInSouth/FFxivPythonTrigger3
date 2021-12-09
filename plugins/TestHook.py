@@ -14,14 +14,16 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.action(self,BASE_ADDR+0x7ea2d0)
+        self.action(self,BASE_ADDR+0x1158050)
 
-    """char __fastcall sub_1407EA2D0(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6, int a7, _BYTE *a8)"""
+    """__m128 __fastcall sub_141158050(__int64 a1)"""
 
-    @PluginHook.decorator(c_ubyte, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p],True)
-    def action(self, hook, *args):
-        ans = hook.original(*args)
-        self.logger(f"{ans:x} {args} ")
+    @PluginHook.decorator(c_int64,[c_int64],True)
+    def action(self, hook, a1):
+        self.cnt += 1
+        if self.cnt>10: hook.uninstall()
+        ans = hook.original(a1)
+        self.logger(f"{read_float(ans)} {a1:x} ")
         return ans
 
         #     self.cast_hook2(self, BASE_ADDR + 0x6E8CA0)

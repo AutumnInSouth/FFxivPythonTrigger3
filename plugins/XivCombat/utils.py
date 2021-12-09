@@ -95,3 +95,9 @@ def res_lv(data: 'LogicData'):
             return 0
         case _:
             return int(data.max_ttk > 10)
+
+
+def find_area_belongs_to_me(data: 'LogicData'):
+    for actor in data.actor_belongs_to_me:
+        if actor.type == 'area':
+            return actor
