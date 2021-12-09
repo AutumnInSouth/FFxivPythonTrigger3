@@ -143,19 +143,23 @@ class CommandPlugin(PluginBase):
                     })
                 except Exception:
                     self.logger.error(f'exception occurred in mission {_self.id}({_self.script_name}):\n{traceback.format_exc()}')
-                _self.stop()
+                finally:
+                    _self._end()
+
+            def _end(_self):
+                try:
+                    del self.executing_scripts[_self.id]
+                except KeyError:
+                    pass
+                else:
+                    self.client_event(f"update_scripts", self.list_script())
 
             def stop(_self):
-                if _self.mission:
+                if _self.mission is not None:
                     _self.mission.terminate()
                     _self.mission.join(5)
                     if not _self.mission.is_alive():
-                        try:
-                            del self.executing_scripts[_self.id]
-                        except KeyError:
-                            pass
-                        else:
-                            self.client_event(f"update_scripts", self.list_script())
+                        _self._end()
 
         self.Script = Script
 
