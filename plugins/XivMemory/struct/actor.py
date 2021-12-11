@@ -23,6 +23,9 @@ class Effect(OffsetStruct({
     timer: float
     actor_id: int
 
+    def __hash__(self):
+        return hash((self.buff_id, self.actor_id))
+
 
 class Effects(Effect * 30):
     if TYPE_CHECKING:

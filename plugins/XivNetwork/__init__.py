@@ -10,6 +10,7 @@ from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_ev
 from FFxivPythonTrigger.decorator import unload_callback, re_event
 from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct
 from FFxivPythonTrigger.utils import WaitRecall
+from .extra_messages import ExtraNetworkMessage
 from .base_struct import BundleHeader, MessageHeader
 from .decoder import unpacked_messages, pack_message
 from .hook import SendHook, BufferProcessorHook
@@ -238,6 +239,7 @@ class XivNetwork(PluginBase):
         opcode = get_opcode(scope, is_server, opcode)
         scope= scope * 2 + is_server
         self._packet_fixer[scope].setdefault(opcode, set()).add(method)
+        self.logger(self._packet_fixer)
 
     def unregister_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)

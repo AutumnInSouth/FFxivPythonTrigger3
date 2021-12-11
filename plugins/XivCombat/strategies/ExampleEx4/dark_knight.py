@@ -99,7 +99,7 @@ class DarkKnightStrategy(Strategy):
             unleash_target, unleash_cnt = cnt_enemy(data, unleash)
             if unleash_cnt > int(len(data.enemy_can_attack_by(a('伤残')))) / 2:
                 return UseAbility(a('腐秽大地'), data.me.id)
-        if not data[a('Shadowbringer')] < 60 and in_use_120 and data.gauge.darkside_timer:
+        if data[a('Shadowbringer')] < 60 and in_use_120 and data.gauge.darkside_timer:
             if flood_of_darkness_cnt < 0:
                 flood_of_darkness_target, flood_of_darkness_cnt = cnt_enemy(data, flood_of_darkness)
             if flood_of_darkness_cnt:

@@ -104,6 +104,10 @@ class XivMemory(PluginBase):
         return read_uint(self._address["zone"])
 
     @property
+    def map_id(self) -> int:
+        return read_uint(self._address["zone"] + 0x18)
+
+    @property
     def enemies(self) -> Enemies:
         return self._enemies.value
 
