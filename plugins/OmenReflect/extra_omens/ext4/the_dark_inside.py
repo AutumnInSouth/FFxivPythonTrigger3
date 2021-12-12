@@ -3,6 +3,7 @@ from threading import Lock
 from typing import TYPE_CHECKING
 from FFxivPythonTrigger import plugins
 from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.utils import wait_until
 from ..utils import add_omen, remove_omen
 
 if TYPE_CHECKING:
@@ -21,18 +22,23 @@ right_bottom = 110, 110, 0
 left_top = 90, 90, 0
 right_top = 110, 90, 0
 
-python_left = ((85, 120, 0), math.pi), ((105, 120, 0), math.pi)
-python_right = ((95, 120, 0), math.pi), ((115, 120, 0), math.pi)
-python_top = ((120, 85, 0), -math.pi / 2), ((120, 105, 0), -math.pi / 2)
-python_bottom = ((120, 95, 0), -math.pi / 2), ((120, 115, 0), -math.pi / 2)
+python_left = ((85, 121, 0), math.pi), ((105, 121, 0), math.pi)
+python_right = ((95, 121, 0), math.pi), ((115, 121, 0), math.pi)
+python_top = ((121, 85, 0), -math.pi / 2), ((121, 105, 0), -math.pi / 2)
+python_bottom = ((121, 95, 0), -math.pi / 2), ((121, 115, 0), -math.pi / 2)
 
-behemoth = 1, 2, 15
-quetzalcoatl = 12, 2, 15
-python = 2, 12, 42, 11
+fire_side = ((100, 100, 0), -math.pi / 2), ((100, 100, 0), math.pi / 2)
+fire_front = ((100, 100, 0), math.pi), ((100, 100, 0), 0)
+
+behemoth = 1, 2, 15  # 15半径钢铁
+quetzalcoatl = 12, 2, 15  # 外15内5月环
+python = 2, 12, 42, 11  # 42长11宽矩形
+fire = 4, 2, 30  # 30半径90度扇形
 select_lock = Lock()
 
 selected = []
 current = []
+prev_rotate_left: list = [None]
 draw_rotate_map = {
     0x0F: (0x12, 0x11),
     0x0D: (0x12, 0x11),
@@ -60,6 +66,7 @@ def get_can_use_actor():
             if actor.name in names and actor not in selected and not actor.can_select:
                 selected.append(actor)
                 return actor
+        raise RuntimeError('No actor found')
 
 
 def clear():
@@ -79,10 +86,12 @@ def actor_cast(plugin, evt: 'ServerActorCastEvent'):
     if evt.action_id in paradeigma:
         clear()
         current.clear()
+        prev_rotate_left[0] = None
     is_left = evt.action_id in astral_flow_left
     is_right = evt.action_id in astral_flow_right
     if is_left or is_right:
         clear()
+        prev_rotate_left[0] = is_left
         for i in range(len(current)):
             new = draw_rotate_map[current[i]][0 if is_left else 1]
             current[i] = new
@@ -93,15 +102,24 @@ def actor_cast(plugin, evt: 'ServerActorCastEvent'):
 def action_effect(plugin, evt: 'ActionEffectEvent'):
     if evt.action_type == 'action' and evt.action_id in paradeigma_act:
         clear()
+        prev_rotate_left[0] = None
 
 
 @event('network/zone/server/map_effect')
 def map_effect(plugin, evt: 'ServerMapEffectEvent'):
     if plugins.XivMemory.zone_id != map_id: return
     msg = evt.struct_message
-    if msg.param2 == 0x00200010 and draw(msg.param3):
-        #plugin.logger(f'{msg.param3}')
+    if msg.param2 == 0x200010 and draw(msg.param3):
         current.append(msg.param3)
+    elif msg.param2 == 0x20001 and msg.param3 & 0xff == 5:
+        draw_fire(False)
+    elif msg.param2 == 0x400020 and msg.param3 & 0xff == 5:
+        draw_fire(True)
+
+
+def draw_fire(is_left: bool = False):
+    for pos, facing in (fire_side if wait_until(lambda: prev_rotate_left[0], timeout=5) == is_left else fire_front):
+        add_omen(get_can_use_actor(), pos, facing, *fire)
 
 
 def draw(param):
