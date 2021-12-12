@@ -1,12 +1,19 @@
 from ctypes import *
-
+import time
 from FFxivPythonTrigger import plugins
 
+s = []
+for actor in plugins.XivMemory.actor_table:
+    if actor.type == 'player' or actor.can_select: continue
+    pos=actor.pos
+    try:
+        plugins.OmenReflect.add_omen(byref(actor), (pos.x, pos.y, pos.z), pos.r, 1, 2, 3)
+    except:
+        pass
+    else:
+        print(actor)
+        s.append(actor)
+time.sleep(3)
 
-def add_omen(source_actor, target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier: int = 0):
-    return plugins.OmenReflect.add_omen(byref(source_actor), target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier)
-
-
-me = plugins.XivMemory.actor_table.me
-pos = me.pos
-add_omen(me, (pos.x, pos.y, pos.z), pos.r, 188, 11, 40, 10)
+for actor in s:
+    plugins.OmenReflect.remove_omen(byref(actor))

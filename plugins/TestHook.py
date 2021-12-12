@@ -6,6 +6,7 @@ from FFxivPythonTrigger.saint_coinach import action_names, realm
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.utils import err_catch
 from XivMemory import se_string
+from OmenReflect.utils import action_struct
 
 map_sheet = realm.game_data.get_sheet('Map')
 
@@ -34,7 +35,8 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.omen_create_hook = self.omen_create(self, BASE_ADDR + 0x6FF1C0)
+        self.omen_create(self, BASE_ADDR + 0x6FF1C0)
+        self.omen_create2(self, BASE_ADDR + 0x06FEE40)
 
     # """_QWORD *__fastcall sub_1406F9730(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6)"""
     #
@@ -51,8 +53,20 @@ class TestHook(PluginBase):
 
     """__int64 __fastcall sub_1406FF1C0(__int64 source_actor_ptr, unsigned __int16 *web_pos, float a3, __int64 action_data, float a5, unsigned int a6)"""
 
-    @PluginHook.decorator(c_int64, [c_int64, POINTER(c_ushort), c_float, c_int64, c_float, c_uint], True)
+    @PluginHook.decorator(c_int64, [c_int64, POINTER(c_ushort), c_float, POINTER(action_struct), c_float, c_uint], True)
     def omen_create(self, hook, source_actor_ptr, web_pos, facing, action_data, a5, a6):
-        true_pos = [web_to_raw(web_pos[0]), web_to_raw(web_pos[1]), web_to_raw(web_pos[2])]
-        self.logger(f"{read_string(source_actor_ptr + 0x30)} {true_pos} {facing} {action_data} {a5} {a6}")
+        if read_uint(source_actor_ptr + 0x74) > 0x20000000 and action_data[0].omen:
+            self.logger(f"c1 {read_string(source_actor_ptr + 0x30)} {source_actor_ptr:x}"
+                        f" ({web_to_raw(web_pos[0]):.2f},{web_to_raw(web_pos[2]):.2f},{web_to_raw(web_pos[1]):.2f})"
+                        f" {facing:.2f} {action_data[0]}")
         return hook.original(source_actor_ptr, web_pos, facing, action_data, a5, a6)
+
+    """__int64 __fastcall sub_1406FEE40(__int64 source_actor_ptr, unsigned __int16 *pos, __int64 action_data, float a4, int a5)"""
+
+    @PluginHook.decorator(c_int64, [c_int64, POINTER(c_ushort), POINTER(action_struct), c_float, c_uint], True)
+    def omen_create2(self, hook, source_actor_ptr, web_pos,  action_data, a5, a6):
+        if read_uint(source_actor_ptr + 0x74) > 0x20000000 and action_data[0].omen:
+            self.logger(f"c2 {read_string(source_actor_ptr + 0x30)} {source_actor_ptr:x}"
+                        f" ({web_to_raw(web_pos[0]):.2f},{web_to_raw(web_pos[2]):.2f},{web_to_raw(web_pos[1]):.2f})"
+                        f" {action_data[0]}")
+        return hook.original(source_actor_ptr, web_pos,  action_data, a5, a6)

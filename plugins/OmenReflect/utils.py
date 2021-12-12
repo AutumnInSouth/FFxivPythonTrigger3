@@ -23,6 +23,7 @@ action_struct = OffsetStruct({
     'cast_type': (c_ubyte, col_offset('CastType')),
     'effect_range': (c_ubyte, col_offset('EffectRange')),
     'x_axis_modifier': (c_ubyte, col_offset('XAxisModifier')),
+    'cast_100ms': (c_ushort, col_offset('Cast<100ms>')),
 })
 
 """

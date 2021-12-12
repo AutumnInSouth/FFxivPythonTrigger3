@@ -5,7 +5,7 @@ from .actor_control_self import ActorControlSelf
 from .actor_control_target import ActorControlTarget
 from .actor_gauge import ActorGauge
 from .actor_update_hp_mp_tp import ActorUpdateHpMpTp
-from .effect_result import EffectResult,EffectResult2,EffectResult3
+from .effect_result import EffectResult, EffectResult2, EffectResult3
 from .container_info import ContainerInfo
 from .craft_status import CraftStatus
 from .currency_crystal_info import CurrencyCrystalInfo
@@ -14,6 +14,7 @@ from .event_start import EventStart
 from .event_play import EventPlay
 from .housing_info import HousingInfo
 from .item_info import ItemInfo
+from .map_effect import MapEffect
 from .market_board_item_listing import MarketBoardItemList
 from .market_board_item_listing_count import MarketBoardItemListCount
 from .market_board_item_listing_history import MarketBoardItemListHistory

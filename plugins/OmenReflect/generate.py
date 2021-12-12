@@ -68,6 +68,24 @@ white_list = {
     27036: 0,  # Magna Glacies|Terminus Vanquisher|27036|Depress
     27038: 0,  # Magna Glacies|Terminus Vanquisher|27038|Accursed Tongue
     25677: 0,  # The Aitiascope|Livia the Undeterred|25677|Ignis Odi
+    25923: 0,  # The Dead Ends|Caustic Grebuloff|25923|Befoulment
+    25924: 0,  # The Dead Ends|Caustic Grebuloff|25924|Befoulment
+    28359: 0,  # The Dead Ends|Peacekeeper|28359|Infantry Deterrent
+    25946: 0,  # The Dead Ends|Ra-la|25946|Benevolence
+    25948: 0,  # The Dead Ends|Ra-la|25948|Still Embrace
+    26190: 0,  # The Final Day|The Endsinger|26190|Nemesis|
+    26197: 0,  # The Final Day|The Endsinger|26197|Nemesis|
+    27480: 0,  # The Final Day|The Endsinger|27480|Planetes
+    26195: 0,  # The Final Day|The Endsinger|26195|Hubris
+    26432: 0,  # Smileton|Face|26432|Temper, Temper
+    26451: 0,  # Smileton|The Big Cheese|26451|Electric Arc
+    25386: 0,  # The Stigma Dreamscape|Proto-Omega|25386|Electric Slide|4.70s|0|0(2/6/0)=>1|
+    25387: 0,  # The Stigma Dreamscape|Proto-Omega|25387|Mustard Bomb|4.70s|0|0(2/5/0)=>1|
+    26053:28,
+    26256:28,
+    27793:28,
+    27794:28,
+    **{s: 28 for s in range(28433, 28437)},  # The Mothercrystal|Hydaelyn|Aureole|
 }
 # realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
 realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
@@ -105,6 +123,7 @@ translate = {
     326: 2,
     182: 2,
     357: 1,
+    350: 1,
 }
 
 

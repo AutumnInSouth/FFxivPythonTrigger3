@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import time
 
 from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException
-from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.decorator import event, BindValue
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
     from XivNetwork.extra_messages.actor_add_remove_effect import ActorAddEffectEvent, ActorRemoveEffectEvent
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
+    from XivNetwork.message_processors.zone_server.map_effect import ServerMapEffectEvent
 
 command = "@acombat"
 split_time = 30
@@ -94,6 +95,7 @@ class XivCombat(PluginBase):
     layout = str(Path(__file__).parent / 'layout.js')
     history_monitor: list[Monitor]
     monitor: Monitor | None
+    enable_record = BindValue(default=False, auto_save=True)
 
     # interface
     if 1:
@@ -114,9 +116,11 @@ class XivCombat(PluginBase):
             self.history_monitor = []
             self.monitor = None
             self.monitor_lock = Lock()
-            self.record_file = open(self.storage.path / f'record_{int(time.time())}.log', 'w+')
+            self.record_file = None
             self.record_lock = Lock()
             self.register_command()
+
+            self.register_event('network/zone/server/combat_reset', lambda evt: self.new_monitor())
 
         def start(self):
             self.work = True
@@ -140,7 +144,8 @@ class XivCombat(PluginBase):
 
         def onunload(self):
             self.work = False
-            self.record_file.close()
+            if self.record_file is not None:
+                self.record_file.close()
             self.controller.main_mission.join(timeout=2)
             self.controller.main_mission.terminate()
 
@@ -203,10 +208,10 @@ class XivCombat(PluginBase):
             return data
 
         def new_monitor(self):
-            if self.monitor is not None: self.history_monitor.append(self.monitor)
+            # if self.monitor is not None: self.history_monitor.append(self.monitor)
             zone_id = api.get_zone_id()
             self.monitor = Monitor(zone_id)
-            self.record(int(time.time() * 1000), 0, 'new_monitor', f"zone:{territory_type_names.get(zone_id)}({zone_id})")
+            self.record(int(time.time() * 1000), 0, 'monitor', f"new_monitor|zone:{territory_type_names.get(zone_id)}({zone_id})")
             return self.monitor
 
         def get_monitor(self):
@@ -359,6 +364,8 @@ class XivCombat(PluginBase):
     if 1:
         def record(self, occur_time_ms: int, source_id: int, source_name: str, str_evt: str):
             with self.record_lock:
+                if self.record_file is None:
+                    self.record_file = open(self.storage.path / f'record_{int(time.time())}.log', 'w+')
                 self.record_file.write(f"{occur_time_ms}|{source_id:x}|{source_name}|{str_evt}\n")
                 self.record_file.flush()
 
@@ -367,21 +374,32 @@ class XivCombat(PluginBase):
 
         @event('network/zone/server/actor_cast')
         def actor_cast_event(self, evt: 'ServerActorCastEvent'):
-            self.record(int(evt.bundle_header.epoch), evt.source_id, evt.source_name, evt.str_event())
+            if self.enable_record:
+                self.record(int(evt.bundle_header.epoch), evt.source_id, evt.source_name, evt.str_event())
+
+        @event('network/zone/server/map_effect')
+        def map_effect_event(self, evt: 'ServerMapEffectEvent'):
+            if self.enable_record:
+                a_id = evt.message_header.actor_id
+                name = getattr(api.get_actor_by_id(a_id), 'name', 'unknown')
+                self.record(int(evt.bundle_header.epoch), a_id, name, evt.str_event())
 
         @event("network/zone/server/effect_add")
         def effect_add_event(self, evt: 'ActorAddEffectEvent'):
-            self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
+            if self.enable_record:
+                self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
 
         @event("network/zone/server/effect_remove")
         def effect_remove_event(self, evt: 'ActorRemoveEffectEvent'):
-            self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
+            if self.enable_record:
+                self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
 
         @event("network/zone/server/action_effect")
         def action_effect_event(self, evt: 'ActionEffectEvent'):
             with self.monitor_lock:
                 self.process_monitor(evt.bundle_header.epoch / 1000, 'on_action', evt)
-            self.record(int(evt.bundle_header.epoch), evt.source_id, getattr(evt.source_actor, 'name', 'unk'), evt.str_event())
+            if self.enable_record:
+                self.record(int(evt.bundle_header.epoch), evt.source_id, getattr(evt.source_actor, 'name', 'unk'), evt.str_event())
 
         @event("network/zone/server/actor_control/dot")
         def actor_control_dot_event(self, evt: 'DotEvent'):

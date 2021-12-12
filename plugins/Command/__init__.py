@@ -73,7 +73,7 @@ class CommandPlugin(PluginBase):
     @PluginHook.decorator(c_void_p, [c_int64, c_int, c_int64, POINTER(c_char_p), c_int64], True)
     @err_catch
     def cmd_catch_hook(self, hook, a1, a2, a3, cmd_ptr, a5):
-        msg = cmd_ptr[0].decode('utf-8')
+        msg = cmd_ptr[0].decode('utf-8', 'ignore')
         if msg.startswith('/') and self.process_command(msg[1:]):
             return
         hook.original(a1, a2, a3, cmd_ptr, a5)
