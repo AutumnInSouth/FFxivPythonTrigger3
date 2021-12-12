@@ -10,6 +10,7 @@ from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_ev
 from FFxivPythonTrigger.decorator import unload_callback, re_event
 from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct
 from FFxivPythonTrigger.utils import WaitRecall
+from .extra_messages import ExtraNetworkMessage
 from .base_struct import BundleHeader, MessageHeader
 from .decoder import unpacked_messages, pack_message
 from .hook import SendHook, BufferProcessorHook
@@ -158,6 +159,22 @@ class XivNetwork(PluginBase):
                 elif processor.struct.struct_size:
                     self.logger.error(f"message size too short for [{processor.opcode}], "
                                       f"require {processor.struct.struct_size} but {len(raw_message)} is given")
+
+            for fixer in self._packet_fixer[scope].get(opcode, set()).copy():
+                try:
+                    new_msg_body = fixer(bundle_header, message_header, raw_message, struct_message)
+                    if not new_msg_body:
+                        return bytearray()
+                    if isinstance(new_msg_body, bytearray):
+                        raw_message = new_msg_body
+                        if processor is not None:
+                            struct_message = processor.struct.from_buffer(new_msg_body)
+                    else:
+                        struct_message = new_msg_body
+                        raw_message = bytearray(new_msg_body)
+                except Exception:
+                    self.logger.error("Exception in fixing message\n" + format_exc())
+
             if processor is not None:
                 event = processor.event(bundle_header, message_header, raw_message, struct_message)
             else:
@@ -176,20 +193,6 @@ class XivNetwork(PluginBase):
                             else:
                                 break
 
-            for fixer in self._packet_fixer[scope].get(opcode, set()).copy():
-                try:
-                    new_msg_body = fixer(bundle_header, message_header, raw_message, struct_message)
-                    if not new_msg_body:
-                        return bytearray()
-                    if isinstance(new_msg_body, bytearray):
-                        raw_message = new_msg_body
-                        if processor is not None:
-                            struct_message = processor.struct.from_buffer(new_msg_body)
-                    else:
-                        struct_message = new_msg_body
-                        raw_message = bytearray(new_msg_body)
-                except Exception:
-                    self.logger.error("Exception in fixing message\n" + format_exc())
             return bytearray(message_header) + raw_message
 
     def process_messages(self, bundle_header: BundleHeader, messages: list[bytearray], is_server: bool, socket: int) -> unpacked_messages:
@@ -236,6 +239,7 @@ class XivNetwork(PluginBase):
         opcode = get_opcode(scope, is_server, opcode)
         scope= scope * 2 + is_server
         self._packet_fixer[scope].setdefault(opcode, set()).add(method)
+        self.logger(self._packet_fixer)
 
     def unregister_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)

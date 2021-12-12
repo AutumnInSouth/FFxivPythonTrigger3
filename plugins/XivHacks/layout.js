@@ -31,7 +31,7 @@ module.exports = vue.defineComponent({
     </fpt-bind-item>
     <fpt-bind-item attr="hit_box_adjust" :plugin="plugin" v-slot="{value}">
         <el-form-item label="hit box adjust">
-             <el-slider v-model="value.value" :step="0.5" :min="-5" :max="5" show-input/>
+             <el-slider v-model="value.value" :step="0.5" :min="0" :max="5" show-input/>
         </el-form-item>
     </fpt-bind-item>
     <fpt-bind-item attr="anti_knock" :plugin="plugin" v-slot="{value}">
@@ -72,6 +72,11 @@ module.exports = vue.defineComponent({
     <fpt-bind-item attr="moving_z_modify" :plugin="plugin" v-slot="{value}">
         <el-form-item label="moving z modify">
              <el-slider v-model="value.value" :step="0.5" :min="-20" :max="20" show-input/>
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="no_misdirect" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="no misdirect">
+             <el-switch v-model="value.value" />
         </el-form-item>
     </fpt-bind-item>
     <el-divider/>

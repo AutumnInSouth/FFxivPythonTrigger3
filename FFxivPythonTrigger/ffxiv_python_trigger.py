@@ -1,11 +1,12 @@
 import os
 import re
+import threading
 from importlib import import_module, reload
 from inspect import isclass, getfile, getsourcelines
 from operator import attrgetter
 from pathlib import Path
 from queue import Queue
-from threading import Thread
+from threading import Thread, ThreadError
 from traceback import format_exc
 from types import ModuleType
 from typing import List, Type, Dict, Set, Optional, Callable, Union, Tuple, Pattern, Any
@@ -22,7 +23,7 @@ from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .rpc_server import RpcServer, RpcFuncHandler
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
-from .utils import Counter, wait_until
+from .utils import Counter, wait_until,async_raise
 from .close_mutex import close_mutex
 
 EVENT_MULTI_THREAD = True
@@ -50,6 +51,7 @@ def client_log(log: Log):
     server_event('fpt_log', log)
 
 
+
 class Mission(Thread):
     def __init__(self, mission_name: str, mission_id: int, mission, *args, callback=None, **kwargs):
         super(Mission, self).__init__(name="%s#%s" % (mission_name, mission_id))
@@ -67,15 +69,44 @@ class Mission(Thread):
         except Exception as e:
             _logger.error(f"error occurred in mission {self}:\n{format_exc()}")
             self.rtn = e
-        try:
-            _missions.remove(self)
-        except KeyError:
-            pass
-        if self.callback is not None:
+        finally:
             try:
-                self.callback(self.rtn)
+                _missions.remove(self)
+            except KeyError:
+                pass
+            if self.callback is not None:
+                try:
+                    self.callback(self.rtn)
+                except Exception:
+                    _logger.error(f"error occurred in mission recall {self}:\n{format_exc()}")
+
+    def _get_my_tid(self):
+        """determines this (self's) thread id"""
+        if not self.is_alive():
+            raise ThreadError("the thread is not active")
+
+        # do we have it cached?
+        if hasattr(self, "_thread_id"):
+            return self._thread_id
+
+        # no, look for it in the _active dict
+        for tid, tobj in threading._active.items():
+            if tobj is self:
+                self._thread_id = tid
+                return tid
+
+        raise AssertionError("could not determine the thread's id")
+
+    def raise_exc(self, exctype):
+        """raises the given exception type in the context of this thread"""
+        async_raise(self._get_my_tid(), exctype)
+
+    def terminate(self):
+        if self.is_alive():
+            try:
+                self.raise_exc(SystemExit)
             except Exception:
-                _logger.error(f"error occurred in mission recall {self}:\n{format_exc()}")
+                _logger.error(f"error occurred in mission terminate {self}:\n{format_exc()}")
 
 
 class EventBase(object):
@@ -167,11 +198,12 @@ class PluginController(object):
                 call(*_args, **_kwargs)
             except Exception:
                 self.plugin.logger.error("error occurred in mission:" + format_exc())
-            if limit_sec > 0:
-                used = perf_counter() - start
-                if used > limit_sec:
-                    self.plugin.logger.warning(
-                        "[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
+            finally:
+                if limit_sec > 0:
+                    used = perf_counter() - start
+                    if used > limit_sec:
+                        self.plugin.logger.warning(
+                            "[{}:{}] run for {:2f}s".format(getfile(call), getsourcelines(call)[1], used))
 
         def _callback(res: any):
             if callback is not None:
@@ -227,7 +259,7 @@ class PluginController(object):
             self.plugin.logger.warning("unload function error occurred:\n" + format_exc())
         for mission in list(self.missions.values()):
             try:
-                mission.join(-1)
+                mission.terminate()
             except RuntimeError:
                 pass
         for p_hook in self.installed_hooks.copy():
@@ -506,9 +538,13 @@ def run():
     global _log_work
     _log_work = False
     _log_mission.join(1)
+    _log_mission.terminate()
     _event_process_mission.join(1)
+    _event_process_mission.terminate()
     _missions_starter_mission.join(1)
+    _missions_starter_mission.terminate()
     _server_mission.join(1)
+    _server_mission.terminate()
 
 
 def init():

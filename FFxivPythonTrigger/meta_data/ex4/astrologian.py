@@ -35,8 +35,8 @@ Duration: 15s
         id = 1882
         name = {'the Balance', '太阳神之衡'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
 
     class TheArrow(StatusBase):
@@ -51,8 +51,8 @@ Duration: 15s
         id = 1884
         name = {'放浪神之箭', 'the Arrow'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
 
     class TheSpear(StatusBase):
@@ -67,8 +67,8 @@ Duration: 15s
         id = 1885
         name = {'the Spear', '战争神之枪'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.06 if target and target.job.is_melee else 1.03
 
     class TheBole(StatusBase):
@@ -83,8 +83,8 @@ Duration: 15s
         id = 1883
         name = {'世界树之干', 'the Bole'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
 
     class TheEwer(StatusBase):
@@ -99,8 +99,8 @@ Duration: 15s
         id = 1886
         name = {'the Ewer', '河流神之瓶'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
 
     class TheSpire(StatusBase):
@@ -117,8 +117,8 @@ Duration: 15s
         id = 1887
         name = {'建筑神之塔', 'the Spire'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.damage_modify = 1.03 if target and target.job.is_melee else 1.06
 
     class AspectedBenefic(StatusBase):
@@ -133,8 +133,8 @@ Duration: 15s
         id = 835
         name = {'吉星相位', 'Aspected Benefic'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.cure_potency = 250 if source and source.job == 33 and source.level >= 85 else 200
 
     class AspectedHelios(StatusBase):
@@ -149,8 +149,8 @@ Duration: 15s
         id = 836
         name = {'Aspected Helios', '阳星相位'}
 
-        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool):
-            super().__init__(source, target, source_action, is_main_target)
+        def __init__(self, source: 'Actor|None', target: 'Actor|None', source_action: int, is_main_target: bool, stack: int):
+            super().__init__(source, target, source_action, is_main_target, stack)
             self.cure_potency = 150 if source and source.job == 33 and source.level >= 85 else 100
 
     class CombustII(StatusBase):
@@ -774,7 +774,7 @@ Horoscope Helios Potency: 400
 
     class NeutralSect(ActionBase):
         """
-Increases healing magic po tency by 20%.
+Increases healing magic potency by 20%.
 Duration: 20s
 Additional Effect: When casting Aspected Benefic or Aspected Helios, erects a magicked barrier which nullifies damage
 Aspected Benefic Effect: Nullifies damage equaling 250% of the amount of HP restored
@@ -794,6 +794,8 @@ Deals unaspected damage with a potency of 250.
         """
         id = 25871
         name = {'Fall Malefic'}
+        attack_type = magic
+        damage_potency = 250
 
     class GravityIi(ActionBase):
         """
@@ -801,6 +803,8 @@ Deals unaspected damage with a potency of 130 to target and all enemies nearby i
         """
         id = 25872
         name = {'Gravity II'}
+        attack_type = magic
+        damage_potency = 130
 
     class Exaltation(ActionBase):
         """

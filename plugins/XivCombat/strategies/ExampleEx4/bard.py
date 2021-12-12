@@ -1,31 +1,10 @@
 from math import radians
 from time import perf_counter
 
-from XivCombat.utils import a, s
+from XivCombat.utils import a, s, cnt_enemy, res_lv
 from XivCombat.strategies import *
 from XivCombat import define
 from XivCombat.multi_enemy_selector import Rectangle, Sector, select, FarCircle
-
-
-def cnt_enemy(data: 'LogicData', ability):
-    target, cnt = select(data, data.valid_enemies, ability)
-    if not cnt: return data.target, 0
-    if data.config['single'] == define.FORCE_SINGLE: return data.target, 1
-    if data.config['single'] == define.FORCE_MULTI: return data.target, 3
-    return target, cnt
-
-
-def res_lv(data: 'LogicData'):
-    match data.config['resource']:
-        case define.RESOURCE_SQUAND:
-            return 2
-        case define.RESOURCE_NORMAL:
-            return 1
-        case define.RESOURCE_STINGY:
-            return 0
-        case _:
-            return int(data.max_ttk > 10)
-
 
 quick_nock = Sector(12, radians(90))
 apex_arrow = Rectangle(25, 2)
@@ -47,11 +26,12 @@ class BardLogic(Strategy):
                 return UseAbility(action_id, mo_entity.id)
 
     def global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
-        if data.target_distance <= 25:
+        valid_enemies = data.enemy_can_attack_by(a('直线射击'))
+        if data.target_distance <= 25 and data.target_action_check(a('直线射击'), data.target):
             single_target = data.target
         else:
-            single_target = data.get_target(define.DISTANCE_NEAREST)
-            if data.actor_distance_effective(single_target) > 25: return
+            single_target = data.get_target(define.DISTANCE_NEAREST, valid_enemies)
+            if not single_target or data.actor_distance_effective(single_target) > 25: return
 
         res = res_lv(data)
         if res and (res > 1 or data.gauge.soul_gauge >= 80 and data[a('猛者强击')] > 10):
@@ -59,7 +39,7 @@ class BardLogic(Strategy):
             if apex_arrow_cnt: return UseAbility(a('绝峰箭'), apex_arrow_target.id)
 
         if s('Shadowbite Ready') in data.effects:
-            shadow_bite_target, shadow_bite_cnt = select(data, data.valid_enemies, shadow_bite)
+            shadow_bite_target, shadow_bite_cnt = cnt_enemy(data, shadow_bite)
         else:
             shadow_bite_target, shadow_bite_cnt = single_target, 0
         if s('直线射击预备') in data.effects:
@@ -70,17 +50,19 @@ class BardLogic(Strategy):
         if shadow_bite_cnt > 2:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
 
-        if res and s('Blast Arrow Ready') in data.effects and (res > 1 or data.effects[s('Blast Arrow Ready')].timer >= 80 > data[a('猛者强击')] + 3):
+        if res and 0 < data.effect_time(s('Blast Arrow Ready')) < (data[a('猛者强击')] - 3 if res < 2 else 60):
             apex_arrow_target, apex_arrow_cnt = cnt_enemy(data, apex_arrow)
             if apex_arrow_cnt: return UseAbility(a('Blast Arrow'), apex_arrow_target.id)
 
         if data.me.level >= 18:
             quick_nock_target, quick_nock_cnt = cnt_enemy(data, quick_nock)
-            if quick_nock_cnt > (2 if data.me.level < 82 else 1):
+            if quick_nock_cnt > 2:
                 return UseAbility(a('连珠箭'), quick_nock_target.id)
+        else:
+            quick_nock_target, quick_nock_cnt = single_target, 0
 
         if data.me.level >= 6:
-            dot_targets = [e for e in data.valid_enemies if data.ttk(e) > 20 and data.actor_distance_effective(e) <= 25]
+            dot_targets = [e for e in valid_enemies if data.ttk(e) > 20 and data.actor_distance_effective(e) <= 25]
             if dot_targets:
                 dot_targets.sort(key=lambda e: data.ttk(e), reverse=True)
                 if data.me.level >= 64:
@@ -90,19 +72,24 @@ class BardLogic(Strategy):
                     wind_dot = s('风蚀箭')
                     poison_dot = s('毒咬箭')
                 dot_re_cast_time = 10 if 0 < data.effect_time(s('猛者强击')) < 6 else 3
-                for target in dot_targets:
-                    t_effect = target.effects.get_dict(source=data.me.id)
-                    wind_remain = getattr(t_effect.get(wind_dot), 'timer', 0)
-                    poison_remain = getattr(t_effect.get(poison_dot), 'timer', 0)
-                    if data.skill_unlocked(a('伶牙俐齿')) and 0 < min(wind_remain, poison_remain) < dot_re_cast_time + 3:
-                        return UseAbility(a('伶牙俐齿'), target.id)
-                    elif data.skill_unlocked(a('风蚀箭')) and wind_remain < dot_re_cast_time:
-                        return UseAbility(a('风蚀箭'), target.id)
-                    elif poison_remain < dot_re_cast_time:
-                        return UseAbility(a('毒咬箭'), target.id)
+                dot_data = [(t_id, getattr(t_effect.get(wind_dot), 'timer', 0), getattr(t_effect.get(poison_dot), 'timer', 0))
+                            for t_id, t_effect in ((target.id, target.effects.get_dict()) for target in dot_targets)]
+                if data.skill_unlocked(a('伶牙俐齿')):
+                    for t_id, wind_remain, poison_remain in dot_data:
+                        if 0 < min(wind_remain, poison_remain) < dot_re_cast_time + 3:
+                            return UseAbility(a('伶牙俐齿'), t_id)
+                if data.skill_unlocked(a('风蚀箭')):
+                    for t_id, wind_remain, poison_remain in dot_data:
+                        if wind_remain < dot_re_cast_time + 3:
+                            return UseAbility(a('风蚀箭'), t_id)
+                for t_id, wind_remain, poison_remain in dot_data:
+                    if poison_remain < dot_re_cast_time + 3:
+                        return UseAbility(a('毒咬箭'), t_id)
 
         if shadow_bite_cnt > 1:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
+        if data.me.level >= 82 and quick_nock_cnt > 1:
+            return UseAbility(a('连珠箭'), quick_nock_target.id)
         return UseAbility(a('强力射击'), single_target.id)
 
     def use_song(self, song_id, target_id):
@@ -110,11 +97,11 @@ class BardLogic(Strategy):
         return UseAbility(song_id, target_id)
 
     def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
-        if data.target_distance <= 25:
+        if data.target_distance <= 25 and data.target_action_check(a('直线射击'), data.target):
             single_target = data.target
         else:
-            single_target = data.get_target(define.DISTANCE_NEAREST)
-            if data.actor_distance_effective(single_target) > 25: return
+            single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('直线射击')))
+            if not single_target or data.actor_distance_effective(single_target) > 25: return
 
         song = data.gauge.song_type.value
         blood_letter = data[a('失血箭')]
@@ -161,8 +148,14 @@ class BardLogic(Strategy):
                 return UseAbility(a('战斗之声'), data.me.id)
             if not data[a('Radiant Finale')]:
                 return UseAbility(a('Radiant Finale'), data.me.id)
-            if not data[a('纷乱箭')] and s('直线射击预备') not in data.effects:
-                return UseAbility(a('纷乱箭'), data.me.id)
+            if not data[a('纷乱箭')] and (data.ability_cnt or data.gcd < 2):
+                if data.ability_cnt and data.gcd > 1.5: return
+                if data.me.level >= 72 and cnt_enemy(data, quick_nock)[1] > 2:
+                    ready = s('Shadowbite Ready') in data.effects
+                else:
+                    ready = s('直线射击预备') not in data.effects
+                if ready:
+                    return UseAbility(a('纷乱箭'), data.me.id)
             if can_use_blood_letter:
                 if rain_of_death_cnt > 1:
                     return UseAbility(a('死亡箭雨'), rain_of_death_target.id)

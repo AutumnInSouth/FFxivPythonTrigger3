@@ -7,6 +7,7 @@ class Position(OffsetStruct({
     'x': c_float,
     'z': c_float,
     'y': c_float,
+    'unk': c_float,
     'r': c_float
 })):
     x: float

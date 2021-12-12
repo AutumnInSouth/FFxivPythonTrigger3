@@ -43,6 +43,7 @@ hack_afix = True
 hack_network_moving = True
 hack_knock_ani_lock = True
 hack_hit_box = True
+no_misdirect = True
 
 
 class XivHacks(PluginBase):
@@ -358,3 +359,12 @@ class XivHacks(PluginBase):
                 struct_message.new_pos.z += self.moving_z_modify
                 struct_message.old_pos.z += self.moving_z_modify
             return struct_message
+
+    if no_misdirect:
+        def set_no_misdirect(self, mode):
+            write_ubytes(self._address['no_misdirect'], bytearray(b'\x90\xe9' if mode else b'\x0f\x84'))
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def no_misdirect(self, new_val, old_val):
+            self.set_no_misdirect(new_val)
+            return True

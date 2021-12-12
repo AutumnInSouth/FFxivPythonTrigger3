@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pysaintcoinach
 import reflect
 
@@ -49,10 +51,27 @@ white_list = {
     22357: 203,  # 女王古殿|大兀|22357|野性嚎叫
     22375: 203,  # 女王古殿|大兀|22375|野性嚎叫
     11080: 0,  # 禁绝幻想|迦楼罗|11080|烈风刃
-    24087: 0, # 扎杜诺尔高原|赫德提特|24087|碎片打击
+    24087: 0,  # 扎杜诺尔高原|赫德提特|24087|碎片打击
+    25324: 0,  # The Tower of Babil|Barnabas|25324|Shocking Force
+    25352: 0,  # The Tower of Babil|Anima|25352|Erupting Pain
+    27851: 0,  # Vanaspati|Terminus Wrecker|27851|Poison Heart
+    25168: 0,  # Vanaspati|Svarbhanu|25168|Cosmic Kiss
+    15512: 3,  # The Qitana Ravel|Batsquatch|15512|Towerfall
+    25142: 0,  # Vanaspati|Terminus Snatcher|25142|Wallow
+    27490: 0,  # The Dark Inside|Zodiark|27490|Ania
+    26570: 2,  # The Dark Inside|Arcane Sigil|26570|Esoteric Ray
+    26596: 2,  # The Dark Inside|Arcane Sigil|26596|Esoteric Ray
+    25180: 0,  # Ktisis Hyperboreia|Lyssa|25180|Heavy Smash
+    **{s: 5 for s in range(25734, 25740)},  # Ktisis Hyperboreia|Ladon Lord|25734|Pyric Breath
+    25742: 0,  # Ktisis Hyperboreia|Ladon Lord|25742|Pyric Blast
+    25897: 0,  # Ktisis Hyperboreia|Hermes|25897|True Aero II
+    27036: 0,  # Magna Glacies|Terminus Vanquisher|27036|Depress
+    27038: 0,  # Magna Glacies|Terminus Vanquisher|27038|Accursed Tongue
+    25677: 0,  # The Aitiascope|Livia the Undeterred|25677|Ignis Odi
 }
-#realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
-realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english)
+# realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
+realm = pysaintcoinach.ARealmReversed(r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game', pysaintcoinach.Language.english,
+                                      Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt4'))
 action_sheet = realm.game_data.get_sheet('Action')
 import pprint
 
@@ -84,6 +103,8 @@ translate = {
     171: 2,
     174: 2,
     326: 2,
+    182: 2,
+    357: 1,
 }
 
 
@@ -105,8 +126,8 @@ def find_reflect(action_id):
 # print(find_reflect(22294))
 
 
-d = reflect.reflect_data|{action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
-     for action in action_sheet if action.key>max(reflect.reflect_data.keys())}
+d = reflect.reflect_data | {action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
+                            for action in action_sheet}
 d = {a1: a2 for a1, a2 in d.items() if a2 and a1 != a2}
 import pprint
 

@@ -1,58 +1,84 @@
 from ctypes import *
+from inspect import isclass
 from typing import TYPE_CHECKING
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException,game_ext
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_ext
 from FFxivPythonTrigger.decorator import event
-from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.saint_coinach import action_sheet, action_names, territory_type_names
+from . import utils
 from .reflect import reflect_data
+from .extra_omens import ExtraOmens
 
 if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
 
 
-# 常用标记
-# 1：圆形
-# 2：矩形
-# 3：小扇形
-# 4：中扇形
-# 5：大扇形
-# 12：内13月环
-# 13：内5月环
-# 12：内3月环
-# 27：扩散伤害
-# 139：浪柱
-# 170：内11月环(o8s)
-# 219：内20月环
-# 220：内15月环
-# 227：内10月环
-# 228：内9月环
-# 233：内25月环
-# 243：内11月环
-# 229：纵向击退
-# 203：圆心击退
-# 114：直线两侧击退
-# 188: 十字
+get_action_data_interface = CFUNCTYPE(POINTER(utils.action_struct), c_int64)
 
-offset = 24 if game_ext == 3 else 26
+if game_ext == 4:
+    add_omen_interface = CFUNCTYPE(
+        c_void_p,  # rtn: pointer of the new omen
+        c_void_p,  # pointer of the source actor
+        POINTER(c_ushort),  # [web_x, web_z, web_y]
+        c_float,  # facing
+        POINTER(utils.action_struct),  # pointer of the omen
+        c_float,  # unk
+        c_uint  # unk
+    )
+else:
+    add_omen_interface = CFUNCTYPE(
+        c_void_p,  # rtn: pointer of the new omen
+        c_void_p,  # pointer of the source actor
+        POINTER(c_ushort),  # [web_x, web_z, web_y]
+        c_float,  # facing
+        POINTER(utils.action_struct),  # pointer of the omen
+        c_float,  # unk
+    )
+
 
 class OmenReflect(PluginBase):
     name = "OmenReflect"
 
     def __init__(self):
         super().__init__()
-        self.hook = self.omen_data_hook(self, AddressManager(self.name, self.logger).scan_point(
-            'omen_data_hook', 'E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4'
+        am = AddressManager(self.name, self.logger)
+        self._get_action_data = get_action_data_interface(am.scan_point(
+            'get_action_data', 'E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4'
         ))
+
+        if game_ext == 4:
+            self._add_omen_addr = am.scan_address('add_omen', '48 89 5C 24 ? 48 89 6C 24 ? F3 0F 11 54 24 ?')
+        else:
+            self._add_omen_addr = am.scan_address('add_omen_ext3', 'F3 0F 11 54 24 ? 53 56')
+
+        self._add_omen_orig = add_omen_interface(self._add_omen_addr)
         self.log_record = set()
         self.register_makeup()
 
-    @PluginHook.decorator(c_int64, [c_int64], True)
-    def omen_data_hook(self, hook, action_id):
-        ans = hook.original(action_id)
-        if action_id in reflect_data:
-            cast(ans + offset, POINTER(c_ushort))[0] = reflect_data[action_id]
-        return ans
+    def start(self):
+        for row in action_sheet:
+            self._get_action_data(row.key)[0].omen = reflect_data.get(row.key) or row['Omen'].key
+
+    def onunload(self):
+        for row in action_sheet:
+            self._get_action_data(row.key)[0].omen = row['Omen'].key
+
+    def _add_omen(self, actor_ptr, pos_ptr, facing, omen_ptr):
+        if game_ext == 3:
+            return self._add_omen_orig(actor_ptr, pos_ptr, facing, omen_ptr, 0.)
+        else:
+            return self._add_omen_orig(actor_ptr, pos_ptr, facing, omen_ptr, 0., 0)
+
+    def add_omen(self, source_actor_ptr, target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier: int = 0):
+        if isclass(target_pos):
+            pos = (c_ushort * 3)(utils.raw_to_web(target_pos.x), utils.raw_to_web(target_pos.z), utils.raw_to_web(target_pos.y))
+        else:
+            x, y, z = target_pos
+            pos = (c_ushort * 3)(utils.raw_to_web(x), utils.raw_to_web(z), utils.raw_to_web(y))
+
+        omen_data = utils.action_struct(omen=omen_id, cast_type=cast_type, effect_range=effect_range, x_axis_modifier=x_axis_modifier)
+
+        return self._add_omen(source_actor_ptr, pos, facing, byref(omen_data))
 
     @event("plugin_load:XivNetwork")
     def register_makeup(self, _=None):
@@ -62,8 +88,8 @@ class OmenReflect(PluginBase):
             self.logger.warning("XivNetwork is not found")
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
-        struct_message.display_delay = int(struct_message.display_delay / 5)
-        # struct_message.unk3 = 0
+        #self.logger(message_header,struct_message)
+        struct_message.display_delay = int(struct_message.display_delay / 6)
         return struct_message
 
     @event('network/zone/server/actor_cast')
@@ -80,8 +106,8 @@ class OmenReflect(PluginBase):
                     return
                 self.logger.debug(
                     f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|"
-                    f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
-                    f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|"
-                    f"{action['Omen'].key}({action['CastType']})=>{reflect_data.get(evt.action_id)}|",
-                    '\n', msg
+                    # f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
+                    f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|{evt.struct_message.display_delay}|"
+                    f"{action['Omen'].key}({action['CastType']}/{action['EffectRange']}/{action['XAxisModifier']})=>{reflect_data.get(evt.action_id)}|",
+                    # '\n', msg
                 )

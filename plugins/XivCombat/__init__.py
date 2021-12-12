@@ -14,7 +14,7 @@ from FFxivPythonTrigger.decorator import event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.saint_coinach import action_names
+from FFxivPythonTrigger.saint_coinach import action_names, status_sheet, territory_type_names
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
 from . import define, strategies, api, logic_data, utils
 from .define import AbilityType
@@ -22,8 +22,10 @@ from .utils import is_area_action, use_ability
 from .monitor import Monitor
 
 if TYPE_CHECKING:
-    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent
+    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent, EffectRemoveEvent
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
+    from XivNetwork.extra_messages.actor_add_remove_effect import ActorAddEffectEvent, ActorRemoveEffectEvent
+    from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
 
 command = "@acombat"
 split_time = 30
@@ -75,6 +77,8 @@ for file in (Path(__file__).parent / 'strategies').iterdir():
             if isclass(obj) and issubclass(obj, strategies.Strategy) and obj != strategies.Strategy:
                 all_strategies.setdefault(obj.job, {})[obj.name] = obj()
 
+status_cant_action = {status.key for status in status_sheet if status['LockActions']}
+
 
 class HotbarBlock(OffsetStruct({
     'type': (c_ubyte, 199),
@@ -110,6 +114,8 @@ class XivCombat(PluginBase):
             self.history_monitor = []
             self.monitor = None
             self.monitor_lock = Lock()
+            self.record_file = open(self.storage.path / f'record_{int(time.time())}.log', 'w+')
+            self.record_lock = Lock()
             self.register_command()
 
         def start(self):
@@ -134,7 +140,9 @@ class XivCombat(PluginBase):
 
         def onunload(self):
             self.work = False
+            self.record_file.close()
             self.controller.main_mission.join(timeout=2)
+            self.controller.main_mission.terminate()
 
     # properties
     if 1:
@@ -195,14 +203,22 @@ class XivCombat(PluginBase):
             return data
 
         def new_monitor(self):
-            self.history_monitor.append(self.monitor)
-            self.monitor = Monitor(api.get_zone_id())
+            if self.monitor is not None: self.history_monitor.append(self.monitor)
+            zone_id = api.get_zone_id()
+            self.monitor = Monitor(zone_id)
+            self.record(int(time.time() * 1000), 0, 'new_monitor', f"zone:{territory_type_names.get(zone_id)}({zone_id})")
             return self.monitor
 
         def get_monitor(self):
             if self.monitor is None:
-                self.monitor = Monitor(api.get_zone_id())
+                return self.new_monitor()
             return self.monitor
+
+        def get_monitor_with_check(self, occur_time):
+            m = self.get_monitor()
+            if m.last_record and occur_time - m.last_record > split_time or m.zone_id != api.get_zone_id():
+                m = self.new_monitor()
+            return m
 
     # main processing function
     if 1:
@@ -239,7 +255,8 @@ class XivCombat(PluginBase):
             if strategy is None:
                 return default_period
             data = self.get_logic_data()
-
+            if data.effects_set.intersection(status_cant_action):  # 存在不允许使用技能的状态
+                return default_period
             # 获取决策行为
             to_use = self.get_to_use(data, strategy)
             if to_use is not None:
@@ -250,8 +267,12 @@ class XivCombat(PluginBase):
                     api.set_current_target(to_use.actor)
                 if isinstance(to_use, strategies.UseAbility):
                     if self.common_config.setdefault('debug', False):
-                        self.logger.debug(f"use {action_names[to_use.ability_id]}({to_use.ability_id}) on "
-                                          f"{to_use.actor.name}({to_use.actor.id:x})")
+                        new_data = self.get_logic_data()
+                        self.logger.debug(f"{action_names[to_use.ability_id]}({to_use.ability_id})\t"
+                                          f"{to_use.actor.name}({to_use.actor.id:x})\t"
+                                          f"type:{api.action_type_check(to_use.ability_id, to_use.actor)}\t"
+                                          f"ray:{data.target_action_check(to_use.ability_id, to_use.actor)}/{new_data.target_action_check(to_use.ability_id, to_use.actor)}\t"
+                                          f"distance:{data.actor_distance_effective(to_use.actor)}/{new_data.actor_distance_effective(to_use.actor)}\t")
                     utils.use_ability(to_use)
                 elif isinstance(to_use, strategies.UseItem):  # 使用道具，应该只有食物或者爆发药吧？
                     utils.use_item(to_use)
@@ -336,16 +357,31 @@ class XivCombat(PluginBase):
 
     # monitor events
     if 1:
+        def record(self, occur_time_ms: int, source_id: int, source_name: str, str_evt: str):
+            with self.record_lock:
+                self.record_file.write(f"{occur_time_ms}|{source_id:x}|{source_name}|{str_evt}\n")
+                self.record_file.flush()
+
         def process_monitor(self, occur_time, func, evt):
-            m = self.get_monitor()
-            if m.last_record and occur_time - m.last_record > split_time or m.zone_id != api.get_zone_id():
-                m = self.new_monitor()
-            getattr(m, func)(occur_time, evt)
+            getattr(self.get_monitor_with_check(occur_time), func)(occur_time, evt)
+
+        @event('network/zone/server/actor_cast')
+        def actor_cast_event(self, evt: 'ServerActorCastEvent'):
+            self.record(int(evt.bundle_header.epoch), evt.source_id, evt.source_name, evt.str_event())
+
+        @event("network/zone/server/effect_add")
+        def effect_add_event(self, evt: 'ActorAddEffectEvent'):
+            self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
+
+        @event("network/zone/server/effect_remove")
+        def effect_remove_event(self, evt: 'ActorRemoveEffectEvent'):
+            self.record(int(evt.bundle_header.epoch), evt.actor_id, evt.actor_name, evt.str_event())
 
         @event("network/zone/server/action_effect")
         def action_effect_event(self, evt: 'ActionEffectEvent'):
             with self.monitor_lock:
                 self.process_monitor(evt.bundle_header.epoch / 1000, 'on_action', evt)
+            self.record(int(evt.bundle_header.epoch), evt.source_id, getattr(evt.source_actor, 'name', 'unk'), evt.str_event())
 
         @event("network/zone/server/actor_control/dot")
         def actor_control_dot_event(self, evt: 'DotEvent'):
@@ -410,3 +446,6 @@ class XivCombat(PluginBase):
                 'name': enemy.name,
                 'ttk': int(self.ttk(enemy.id))
             } for enemy in api.get_enemies_list()]
+
+        def layout_new_monitor(self):
+            return bool(self.new_monitor())

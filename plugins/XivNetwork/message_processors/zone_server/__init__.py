@@ -5,7 +5,7 @@ from .actor_control_self import ActorControlSelf
 from .actor_control_target import ActorControlTarget
 from .actor_gauge import ActorGauge
 from .actor_update_hp_mp_tp import ActorUpdateHpMpTp
-from .add_status_effect import EffectResult
+from .effect_result import EffectResult,EffectResult2,EffectResult3
 from .container_info import ContainerInfo
 from .craft_status import CraftStatus
 from .currency_crystal_info import CurrencyCrystalInfo

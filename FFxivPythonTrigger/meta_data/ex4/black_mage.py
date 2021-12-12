@@ -1,8 +1,51 @@
 from ..base import *
 
 
-class Actions:
+class Status:
+    class Thunder(StatusBase):
+        """
+Deals lightning damage with a potency of 30.
+Additional Effect: Lightning damage over time
+Potency: 35
+Duration: 21s(source.level>=28?(source.job==7?
+Additional Effect: 10% chance after each tick that the next Thunder spell of any grade will add its full damage over time amount to its initial damage, have no cast time, and cost no MP
+Duration: 40s
+:(source.job==25?
+Additional Effect: 10% chance after each tick that the next Thunder spell of any grade will add its full damage over time amount to its initial damage, have no cast time, and cost no MP
+Duration: 40s
+:
+)):
+)Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
+>> 161, Thunder, Sustaining lightning damage over time.
+>> 1324, Thunder, Sustaining lightning damage over time.
+        """
+        id = 161  # TODO:1324?
+        name = {'闪雷', 'Thunder'}
+        damage_potency = 35
 
+    class ThunderII(StatusBase):
+        """
+Deals lightning damage with a potency of 50 to target and all enemies nearby it.
+Additional Effect: Lightning damage over time
+Potency: 15
+Duration: 18s(source.level>=28?(source.job==7?
+Additional Effect: 3% chance after each tick that the next Thunder spell of any grade will add its full damage over time amount to its initial damage, have no cast time, and cost no MP
+Duration: 40s
+:(source.job==25?
+Additional Effect: 3% chance after each tick that the next Thunder spell of any grade will add its full damage over time amount to its initial damage, have no cast time, and cost no MP
+Duration: 40s
+:
+)):
+)Only one Thunder spell-induced damage over time effect per caster can be inflicted upon a single target.
+>> 162, Thunder II, Sustaining lightning damage over time.
+>> 2075, Thunder II, Sustaining lightning damage over time.
+        """
+        id = 162  # TODO:2075?
+        name = {'Thunder II', '震雷'}
+        damage_potency = 15
+
+
+class Actions:
     class Blizzard(ActionBase):
         """
 Deals ice damage with a potency of 180.
@@ -11,6 +54,8 @@ Duration: 15s
         """
         id = 142
         name = {'冰结', 'Blizzard'}
+        damage_potency = 180
+        attack_type = magic
 
     class Fire(ActionBase):
         """
@@ -24,6 +69,8 @@ Duration: 30s:)):)
         """
         id = 141
         name = {'火炎', 'Fire'}
+        damage_potency = 180
+        attack_type = magic
 
     class Transpose(ActionBase):
         """
@@ -51,8 +98,11 @@ Duration: 40s
         """
         id = 144
         name = {'闪雷', 'Thunder'}
+        damage_potency = 30
+        attack_type = magic
+        status_to_target = Status.Thunder
 
-    class BlizzardIi(ActionBase):
+    class BlizzardII(ActionBase):
         """
 Deals ice damage with a potency of 100 to target and all enemies nearby it.
 Additional Effect: (source.level>=35?(source.job==7?Grants Umbral Ice III and:(source.job==25?Grants Umbral Ice III and:Grants Umbral Ice or)):Grants Umbral Ice or) removes Astral Fire
@@ -60,6 +110,8 @@ Duration: 15s
         """
         id = 25793
         name = {'Blizzard II'}
+        damage_potency = 100
+        attack_type = magic
 
     class Scathe(ActionBase):
         """
@@ -68,19 +120,23 @@ Additional Effect: 20% chance potency will double
         """
         id = 156
         name = {'Scathe', '崩溃'}
+        damage_potency = 100
+        attack_type = magic
 
-    class FireIi(ActionBase):
+    class FireII(ActionBase):
         """
 Deals fire damage with a potency of 100 to target and all enemies nearby it.
 Additional Effect: (source.level>=35?(source.job==7?Grants Astral Fire III:(source.job==25?Grants Astral Fire III:Grants Astral Fire)):Grants Astral Fire) or removes Umbral Ice
 Duration: 15s(source.job==25?(source.level>=56?
 Astral Fire Bonus: Grants Enhanced Flare
-Effect is canceled if Astral Fire ends.:):)    
+Effect is canceled if Astral Fire ends.:):)
         """
         id = 147
         name = {'Fire II', '烈炎'}
+        damage_potency = 100
+        attack_type = magic
 
-    class ThunderIi(ActionBase):
+    class ThunderII(ActionBase):
         """
 Deals lightning damage with a potency of 50 to target and all enemies nearby it.
 Additional Effect: Lightning damage over time
@@ -99,6 +155,9 @@ Duration: 40s
         """
         id = 7447
         name = {'Thunder II', '震雷'}
+        damage_potency = 50
+        attack_type = magic
+        status_to_target = Status.ThunderII
 
     class Manaward(ActionBase):
         """

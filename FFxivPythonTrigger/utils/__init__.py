@@ -2,6 +2,8 @@ import random
 import re
 import string
 import threading
+import inspect
+import ctypes
 from traceback import format_exc
 from typing import Callable
 
@@ -84,3 +86,17 @@ def utf8_clean_up(string_bytes: bytes):
 
 def rand_char(length=16):
     return ''.join(random.choice(string.digits + string.ascii_letters) for _ in range(length))
+
+
+def async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    if not inspect.isclass(exctype):
+        raise TypeError("Only types can be raised (not instances)")
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, 0)
+        raise SystemError("PyThreadState_SetAsyncExc failed")

@@ -65,31 +65,33 @@ class LogicData(object):
             if t is not None and self.is_target_attackable(t):
                 return t
 
-    @lru_cache
-    def get_target(self, method: str):
+    # @lru_cache
+    def get_target(self, method: str, valid_enemies: list['api.Actor'] = None):
+        if valid_enemies is None:
+            valid_enemies = self.valid_enemies
         match method:
             case define.CURRENT_SELECTED:
                 return api.get_current_target()
             case define.FOCUSED:
                 return api.get_focus_target()
             case define.DISTANCE_NEAREST:
-                if not self.valid_enemies: return None
-                return min(self.valid_enemies, key=self.actor_distance_effective)
+                if not valid_enemies: return None
+                return min(valid_enemies, key=self.actor_distance_effective)
             case define.DISTANCE_FURTHEST:
-                if not self.valid_enemies: return None
-                return max(self.valid_enemies, key=self.actor_distance_effective)
+                if not valid_enemies: return None
+                return max(valid_enemies, key=self.actor_distance_effective)
             case define.HP_HIGHEST:
-                if not self.valid_enemies: return None
-                return max(self.valid_enemies, key=lambda x: x.current_hp)
+                if not valid_enemies: return None
+                return max(valid_enemies, key=lambda x: x.current_hp)
             case define.HP_LOWEST:
-                if not self.valid_enemies: return None
-                return min(self.valid_enemies, key=lambda x: x.current_hp)
+                if not valid_enemies: return None
+                return min(valid_enemies, key=lambda x: x.current_hp)
             case define.HPP_HIGHEST:
-                if not self.valid_enemies: return None
-                return max(self.valid_enemies, key=lambda x: x.current_hp / x.max_hp)
+                if not valid_enemies: return None
+                return max(valid_enemies, key=lambda x: x.current_hp / x.max_hp)
             case define.HPP_LOWEST:
-                if not self.valid_enemies: return None
-                return min(self.valid_enemies, key=lambda x: x.current_hp / x.max_hp)
+                if not valid_enemies: return None
+                return min(valid_enemies, key=lambda x: x.current_hp / x.max_hp)
 
     @cached_property
     def valid_party(self):
@@ -141,6 +143,14 @@ class LogicData(object):
                 raise Exception(f'invalid targets {k}')
         return sorted(all_enemy, key=self.actor_distance_effective)
 
+    def enemy_can_attack_by(self, action_id: int):
+        """
+        ray check if enemy can attack by action
+        :param action_id: the action id check
+        :return: if action can use
+        """
+        return [actor for actor in self.valid_enemies if self.target_action_check(action_id, actor)]
+
     @cached_property
     def monitor(self):
         return self.plugin.get_monitor()
@@ -184,6 +194,10 @@ class LogicData(object):
     @cached_property
     def effects(self):
         return self.me.effects.get_dict()
+
+    @cached_property
+    def effects_set(self):
+        return set(self.effects.keys())
 
     @cache
     def effect_time(self, effect_id: int):
@@ -291,3 +305,7 @@ class LogicData(object):
     @cached_property
     def pet_id(self):
         return api.get_pet_id()
+
+    @cached_property
+    def actor_belongs_to_me(self):
+        return api.get_actors_belongs_to(self.me.id)

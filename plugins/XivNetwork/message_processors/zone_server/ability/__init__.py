@@ -2,7 +2,10 @@ from FFxivPythonTrigger import plugins
 from FFxivPythonTrigger.saint_coinach import action_names, item_names
 from .struct import *
 from ...utils import NetworkZoneServerEvent, BaseProcessors
-from typing import Union
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from XivMemory.struct.actor import Actor
 
 MsgStructs = ServerActionEffect1 | ServerActionEffect8 | ServerActionEffect16 | ServerActionEffect24 | ServerActionEffect32
 
@@ -41,7 +44,7 @@ class ActionEffect(object):
 class ActionEffectEvent(NetworkZoneServerEvent):
     id = NetworkZoneServerEvent.id + 'action_effect'
     struct_message: MsgStructs
-    source_actor: any
+    source_actor: 'Actor|None'
     targets: dict[int, list[ActionEffect]]
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message: MsgStructs):
