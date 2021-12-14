@@ -92,4 +92,14 @@ sigs = {
         'param': "? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 48 8B 0E 48 81 C1 ? ? ? ?",
         'add': BASE_ADDR
     },
+    "afk_timer_write": {
+        'call': find_signature_address,
+        'param': "75 ? 0F 28 C7 0F 28 CF",
+        'add': BASE_ADDR
+    },
+    "afk_timer_write2": {
+        'call': find_signature_address,
+        'param': "F3 0F 11 51 ? 33 C9",
+        'add': BASE_ADDR
+    },
 }

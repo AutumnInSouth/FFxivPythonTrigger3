@@ -46,6 +46,7 @@ hack_hit_box = True
 no_misdirect = True
 no_forced_march = True
 status_no_lock_move = True
+anti_afk = True
 
 
 class XivHacks(PluginBase):
@@ -111,7 +112,7 @@ class XivHacks(PluginBase):
             self.register_moving_swing()
 
         self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
-
+        self.anti_afk2_original = get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
         self.storage.save()
 
     def onunload(self):
@@ -122,6 +123,8 @@ class XivHacks(PluginBase):
         self.set_no_misdirect(False)
         self.set_cutscene_skip(False)
         self.set_no_forced_march(False)
+        self.set_anti_afk(False)
+
     # zoom
     if hack_zoom:
         @property
@@ -382,4 +385,14 @@ class XivHacks(PluginBase):
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_forced_march(self, new_val, old_val):
             self.set_no_forced_march(new_val)
+            return True
+
+    if anti_afk:
+        def set_anti_afk(self, mode):
+            write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
+            write_ubytes(self._address['afk_timer_write2'], bytearray(b'\x90' * 5 if mode else self.anti_afk2_original))
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def anti_afk(self, new_val, old_val):
+            self.set_anti_afk(new_val)
             return True
