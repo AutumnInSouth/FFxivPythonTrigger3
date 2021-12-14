@@ -2,6 +2,7 @@ from XivCombat.utils import a, s, cnt_enemy, res_lv, find_area_belongs_to_me
 from XivCombat.strategies import *
 from XivCombat import define
 from XivCombat.multi_enemy_selector import Rectangle, NearCircle, circle, FarCircle
+from .utils import mo_provoke_and_shirk
 
 unleash = NearCircle(5.)
 flood_of_darkness = Rectangle(10, 2)
@@ -12,6 +13,7 @@ class DarkKnightStrategy(Strategy):
     name = 'ny/dk'
     job = 'DarkKnight'
 
+    @mo_provoke_and_shirk
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
         if action_id == a('至黑之夜') or action_id == a('Oblation'):
             mo_entity = api.get_mo_target()

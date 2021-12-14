@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 import time
 
-from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException
+from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException, game_ext
 from FFxivPythonTrigger.decorator import event, BindValue
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
@@ -65,10 +65,16 @@ sigs = {
         'param': "E8 * * * * 48 8B F0 48 85 C0 0F 84 ? ? ? ? BA ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8B 0D ? ? ? ?",
         'add': BASE_ADDR,
     },
+    "action_recast_ms": {
+        'call': find_signature_point,
+        'param': "E8 ? ? ? ? 8B D0 45 33 C0 49 8B CE E8 ? ? ? ? F6 46 ? ?",
+        'add': BASE_ADDR,
+    },
 }
 action_type_check_interface = CFUNCTYPE(c_bool, c_int64, c_int64, c_uint64)
 action_distance_check_interface = CFUNCTYPE(c_int64, c_uint, c_int64, c_int64)
 action_data_interface = CFUNCTYPE(c_int64, c_int64)
+action_recast_interface = CFUNCTYPE(c_int, c_int, c_int, c_int64, c_int64) if game_ext > 3 else CFUNCTYPE(c_int, c_int, c_int, c_byte)
 all_strategies = {}
 
 for file in (Path(__file__).parent / 'strategies').iterdir():
@@ -105,6 +111,7 @@ class XivCombat(PluginBase):
             api._func_action_data = action_data_interface(self._address['action_data_sig'])
             api._func_action_type_check = action_type_check_interface(self._address['action_type_check'])
             api._func_action_distance_check = action_distance_check_interface(self._address['action_distance_check'])
+            api._func_action_recast_ms = action_recast_interface(self._address['action_recast_ms'])
             self.hot_bar_process_hook(self, self._address['hot_bar_process'])
 
             self.common_config = default_common_config | self.common_config

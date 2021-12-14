@@ -1,5 +1,6 @@
 import base64
 from pathlib import Path
+from struct import unpack
 from typing import TYPE_CHECKING
 
 import math
@@ -47,6 +48,7 @@ no_misdirect = True
 no_forced_march = True
 status_no_lock_move = True
 anti_afk = True
+jump = True
 
 
 class XivHacks(PluginBase):
@@ -124,6 +126,7 @@ class XivHacks(PluginBase):
         self.set_cutscene_skip(False)
         self.set_no_forced_march(False)
         self.set_anti_afk(False)
+        self.set_jump(None)
 
     # zoom
     if hack_zoom:
@@ -395,4 +398,16 @@ class XivHacks(PluginBase):
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def anti_afk(self, new_val, old_val):
             self.set_anti_afk(new_val)
+            return True
+
+    if jump:
+        def set_jump(self, val=None):
+            if val is None:
+                write_ubytes(self._address['jump_write'], bytearray(b'\x66\x66\x26\x41'))
+            else:
+                write_float(self._address['jump'], val)
+
+        @BindValue.decorator(default=10.4, init_set=True, auto_save=True)
+        def jump(self, new_val, old_val):
+            self.set_jump(new_val)
             return True

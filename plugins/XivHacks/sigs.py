@@ -102,4 +102,12 @@ sigs = {
         'param': "F3 0F 11 51 ? 33 C9",
         'add': BASE_ADDR
     },
+    "jump": {
+        # 'call': find_signature_address,
+        # 'param': "66 66 26 41",
+        # 'add': BASE_ADDR
+        'call': find_signature_point,
+        'param': "48 8D 0D * * * * E8 ? ? ? ? EB ? 48 8B 0D ? ? ? ? B2 ?",
+        'add': BASE_ADDR + 0x54
+    },
 }

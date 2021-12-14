@@ -14,6 +14,11 @@ module.exports = vue.defineComponent({
              <el-slider v-model="value.value" :step="0.05" :min="0" :max="2" show-input/>
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="jump" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="jump">
+             <el-slider v-model="value.value" :step="0.1" :min="0" :max="20" show-input/>
+        </el-form-item>
+    </fpt-bind-item>
     <fpt-bind-item attr="swing_reduce" :plugin="plugin" v-slot="{value}">
         <el-form-item label="swing reduce">
              <el-slider v-model="value.value" :step="0.01" :min="0" :max="10" show-input/>

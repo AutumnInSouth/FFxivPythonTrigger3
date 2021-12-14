@@ -35,8 +35,8 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        self.omen_create(self, BASE_ADDR + 0x6FF1C0)
-        self.omen_create2(self, BASE_ADDR + 0x06FEE40)
+        #self.omen_create(self, BASE_ADDR + 0x6FF1C0)
+        self.action_recast(self, BASE_ADDR + 0x07DE990)
 
     # """_QWORD *__fastcall sub_1406F9730(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6)"""
     #
@@ -61,12 +61,12 @@ class TestHook(PluginBase):
                         f" {facing:.2f} {action_data[0]}")
         return hook.original(source_actor_ptr, web_pos, facing, action_data, a5, a6)
 
-    """__int64 __fastcall sub_1406FEE40(__int64 source_actor_ptr, unsigned __int16 *pos, __int64 action_data, float a4, int a5)"""
-
-    @PluginHook.decorator(c_int64, [c_int64, POINTER(c_ushort), POINTER(action_struct), c_float, c_uint], True)
-    def omen_create2(self, hook, source_actor_ptr, web_pos,  action_data, a5, a6):
-        if read_uint(source_actor_ptr + 0x74) > 0x20000000 and action_data[0].omen:
-            self.logger(f"c2 {read_string(source_actor_ptr + 0x30)} {source_actor_ptr:x}"
-                        f" ({web_to_raw(web_pos[0]):.2f},{web_to_raw(web_pos[2]):.2f},{web_to_raw(web_pos[1]):.2f})"
-                        f" {action_data[0]}")
-        return hook.original(source_actor_ptr, web_pos,  action_data, a5, a6)
+    #_QWORD *__fastcall sub_1407DE990(int a1, __int64 a2, __int64 a3, __int64 a4)
+    @PluginHook.decorator(c_int, [c_int, c_int64, c_int64, c_int64], True)
+    def action_recast(self, hook, a1, a2, a3, a4):
+        self.cnt+=1
+        if self.cnt>=10:
+            hook.uninstall()
+        ans = hook.original(a1, a2, a3, a4)
+        self.logger(f"{ans} {a1} {a2:x} {a3:x} {a4:x}")
+        return ans
