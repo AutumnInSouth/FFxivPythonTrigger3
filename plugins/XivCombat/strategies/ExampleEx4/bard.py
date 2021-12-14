@@ -50,7 +50,7 @@ class BardLogic(Strategy):
         if shadow_bite_cnt > 2:
             return UseAbility(a('影噬箭'), shadow_bite_target.id)
 
-        if res and 0 < data.effect_time(s('Blast Arrow Ready')) < (data[a('猛者强击')] - 3 if res < 2 else 60):
+        if res and 0 < data.effect_time(s('Blast Arrow Ready')) < (data[a('猛者强击')] + 3 if res < 2 else 60):
             apex_arrow_target, apex_arrow_cnt = cnt_enemy(data, apex_arrow)
             if apex_arrow_cnt: return UseAbility(a('Blast Arrow'), apex_arrow_target.id)
 
@@ -62,7 +62,13 @@ class BardLogic(Strategy):
             quick_nock_target, quick_nock_cnt = single_target, 0
 
         if data.me.level >= 6:
-            dot_targets = [e for e in valid_enemies if data.ttk(e) > 20 and data.actor_distance_effective(e) <= 25]
+            if data.config['single'] == define.FORCE_SINGLE:
+                if data.ttk(single_target) > 20:
+                    dot_targets = [single_target]
+                else:
+                    dot_targets = []
+            else:
+                dot_targets = [e for e in valid_enemies if data.ttk(e) > 20 and data.actor_distance_effective(e) <= 25]
             if dot_targets:
                 dot_targets.sort(key=lambda e: data.ttk(e), reverse=True)
                 if data.me.level >= 64:
@@ -147,9 +153,11 @@ class BardLogic(Strategy):
             if not data[a('战斗之声')]:
                 return UseAbility(a('战斗之声'), data.me.id)
             if not data[a('Radiant Finale')]:
-                return UseAbility(a('Radiant Finale'), data.me.id)
+                coda_cnt = sum([data.gauge.wanderer_coda, data.gauge.mage_coda, data.gauge.army_coda])
+                if coda_cnt and (coda_cnt>=3 or data.gauge.song_milliseconds > 35000):
+                    return UseAbility(a('Radiant Finale'), data.me.id)
             if not data[a('纷乱箭')] and (data.ability_cnt or data.gcd < 2):
-                if data.ability_cnt and data.gcd > 1.5: return
+                if data.gcd > 1.5: return
                 if data.me.level >= 72 and cnt_enemy(data, quick_nock)[1] > 2:
                     ready = s('Shadowbite Ready') in data.effects
                 else:

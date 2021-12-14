@@ -1,5 +1,4 @@
 import base64
-from ctypes import *
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -8,8 +7,10 @@ import math
 from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version
 from FFxivPythonTrigger.decorator import BindValue, event
 from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import read_memory, write_float, read_int, read_ubytes, write_ubytes, write_ubyte
+from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
+from FFxivPythonTrigger.saint_coinach import status_sheet
+from FFxivPythonTrigger.text_pattern import get_original_text
 from . import afix
 from .sigs import sigs
 from .struct import MinMax, ActionParam, ActionEffectEntry
@@ -44,6 +45,8 @@ hack_network_moving = True
 hack_knock_ani_lock = True
 hack_hit_box = True
 no_misdirect = True
+no_forced_march = True
+status_no_lock_move = True
 
 
 class XivHacks(PluginBase):
@@ -108,6 +111,8 @@ class XivHacks(PluginBase):
         if hack_network_moving:
             self.register_moving_swing()
 
+        self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
+
         self.storage.save()
 
     def onunload(self):
@@ -115,6 +120,10 @@ class XivHacks(PluginBase):
         self.zoom_cam_distance_reset_set(False)
         self.zoom_cam_no_collision_set(False)
         self.ninja_stiff_set(False)
+        self.set_no_misdirect(False)
+        self.set_cutscene_skip(False)
+        self.set_no_forced_march(False)
+        self.set_no_status_lock_movement(False)
 
     # zoom
     if hack_zoom:
@@ -367,4 +376,13 @@ class XivHacks(PluginBase):
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_misdirect(self, new_val, old_val):
             self.set_no_misdirect(new_val)
+            return True
+
+    if no_forced_march:
+        def set_no_forced_march(self, mode):
+            write_int(self._address['no_forced_march'], 0 if mode else self.forced_march_original)
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def no_forced_march(self, new_val, old_val):
+            self.set_no_forced_march(new_val)
             return True

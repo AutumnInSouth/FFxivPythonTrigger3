@@ -89,6 +89,11 @@ def find_signature_point(signature: str, unique=True):
     return offsets[0] + address
 
 
+def get_original_text(offset: int, length: int):
+    start = offset - section_virtual_address
+    return section_data[start:start + length]
+
+
 special_chars_map = {i for i in b'()[]{}?*+-|^$\\.&~# \t\n\r\v\f'}
 section = get_text_section(pefile.PE(PROCESS_FILENAME, fast_load=True))
 section_data = section.get_data()

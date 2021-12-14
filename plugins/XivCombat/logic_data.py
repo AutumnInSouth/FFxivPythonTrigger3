@@ -11,7 +11,22 @@ from .define import AbilityType
 if TYPE_CHECKING:
     from . import XivCombat
 
-invincible_effects = {325, 394, 529, 656, 671, 775, 776, 895, 969, 981, 1570, 1697, 1829, 1302, }
+invincible_effects = {325,
+                      394,
+                      529,
+                      656,
+                      671,
+                      775,
+                      776,
+                      895,
+                      969,
+                      981,
+                      1570,
+                      1697,
+                      1829,
+                      1302,
+                      #大额减伤
+                      350,}
 invincible_actor = set()
 
 test_enemy_action = 9
