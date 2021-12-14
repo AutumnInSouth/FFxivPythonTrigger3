@@ -9,7 +9,6 @@ from FFxivPythonTrigger.decorator import BindValue, event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
-from FFxivPythonTrigger.saint_coinach import status_sheet
 from FFxivPythonTrigger.text_pattern import get_original_text
 from . import afix
 from .sigs import sigs
@@ -123,8 +122,6 @@ class XivHacks(PluginBase):
         self.set_no_misdirect(False)
         self.set_cutscene_skip(False)
         self.set_no_forced_march(False)
-        self.set_no_status_lock_movement(False)
-
     # zoom
     if hack_zoom:
         @property
