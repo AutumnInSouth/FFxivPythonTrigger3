@@ -93,16 +93,18 @@ sigs = {
         'param': "? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 48 8B 0E 48 81 C1 ? ? ? ?",
         'add': BASE_ADDR
     },
-    "afk_timer_write": {
-        'call': find_signature_address,
-        'param': "75 ? 0F 28 C7 0F 28 CF" if game_ext ==4 else "0F 28 C6 0F 28 CE F3 0F 58 87 ? ? ? ?",
-        'add': BASE_ADDR
-    },
-    "afk_timer_write2": {
-        'call': find_signature_address,
-        'param': "F3 0F 11 51 ? 33 C9" if game_ext ==4 else "45 84 F6 75 ? 48 89 B7 ? ? ? ?",
-        'add': BASE_ADDR
-    },
+    **({
+        "afk_timer_write": {
+            'call': find_signature_address,
+            'param': "75 ? 0F 28 C7 0F 28 CF",
+            'add': BASE_ADDR
+        },
+        "afk_timer_write2": {
+            'call': find_signature_address,
+            'param': "F3 0F 11 51 ? 33 C9",
+            'add': BASE_ADDR
+        },
+    } if game_ext==4 else {}),
     "jump": {
         # 'call': find_signature_address,
         # 'param': "66 66 26 41",

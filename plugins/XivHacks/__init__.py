@@ -47,7 +47,7 @@ hack_hit_box = True
 no_misdirect = True
 no_forced_march = True
 status_no_lock_move = True
-anti_afk = True
+anti_afk = game_ext == 4
 jump = True
 
 
@@ -114,7 +114,6 @@ class XivHacks(PluginBase):
             self.register_moving_swing()
 
         self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
-        self.anti_afk2_original = get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
         self.storage.save()
 
     def onunload(self):
@@ -125,7 +124,7 @@ class XivHacks(PluginBase):
         self.set_no_misdirect(False)
         self.set_cutscene_skip(False)
         self.set_no_forced_march(False)
-        self.set_anti_afk(False)
+        if anti_afk: self.set_anti_afk(False)
         self.set_jump(None)
 
     # zoom
@@ -391,23 +390,17 @@ class XivHacks(PluginBase):
             return True
 
     if anti_afk:
-
-        if game_ext == 3:
-            def set_anti_afk(self, mode):
-                if mode:
-                    new_code = [0xeb, self._address['afk_timer_write2'] - self._address['afk_timer_write'] - 2, 0x90]
-                else:
-                    new_code = get_original_text(self._address['afk_timer_write'] - BASE_ADDR, 3)
-                write_ubytes(self._address['afk_timer_write'], bytearray(new_code))
-        else:
-            def set_anti_afk(self, mode):
-                write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
-                write_ubytes(self._address['afk_timer_write2'], bytearray(b'\x90' * 5 if mode else self.anti_afk2_original))
+        def set_anti_afk(self, mode):
+            write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
+            new_code = b'\x90' * 5 if mode else get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
+            write_ubytes(self._address['afk_timer_write2'], bytearray(new_code))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def anti_afk(self, new_val, old_val):
             self.set_anti_afk(new_val)
             return True
+    else:
+        anti_afk = False
 
     if jump:
         def set_jump(self, val=None):
