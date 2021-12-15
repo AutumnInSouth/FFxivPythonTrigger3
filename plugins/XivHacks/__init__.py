@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import math
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version, game_ext
 from FFxivPythonTrigger.decorator import BindValue, event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import *
@@ -391,9 +391,18 @@ class XivHacks(PluginBase):
             return True
 
     if anti_afk:
-        def set_anti_afk(self, mode):
-            write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
-            write_ubytes(self._address['afk_timer_write2'], bytearray(b'\x90' * 5 if mode else self.anti_afk2_original))
+
+        if game_ext == 3:
+            def set_anti_afk(self, mode):
+                if mode:
+                    new_code = [0xeb, self._address['afk_timer_write2'] - self._address['afk_timer_write'] - 2, 0x90]
+                else:
+                    new_code = get_original_text(self._address['afk_timer_write'] - BASE_ADDR, 3)
+                write_ubytes(self._address['afk_timer_write'], bytearray(new_code))
+        else:
+            def set_anti_afk(self, mode):
+                write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
+                write_ubytes(self._address['afk_timer_write2'], bytearray(b'\x90' * 5 if mode else self.anti_afk2_original))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def anti_afk(self, new_val, old_val):

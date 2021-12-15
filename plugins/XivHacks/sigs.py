@@ -1,3 +1,4 @@
+from FFxivPythonTrigger import game_ext
 from FFxivPythonTrigger.memory import BASE_ADDR, read_uint
 from FFxivPythonTrigger.text_pattern import find_signature_address, find_signature_point
 
@@ -94,12 +95,12 @@ sigs = {
     },
     "afk_timer_write": {
         'call': find_signature_address,
-        'param': "75 ? 0F 28 C7 0F 28 CF",
+        'param': "75 ? 0F 28 C7 0F 28 CF" if game_ext ==4 else "0F 28 C6 0F 28 CE F3 0F 58 87 ? ? ? ?",
         'add': BASE_ADDR
     },
     "afk_timer_write2": {
         'call': find_signature_address,
-        'param': "F3 0F 11 51 ? 33 C9",
+        'param': "F3 0F 11 51 ? 33 C9" if game_ext ==4 else "45 84 F6 75 ? 48 89 B7 ? ? ? ?",
         'add': BASE_ADDR
     },
     "jump": {

@@ -67,7 +67,7 @@ sigs = {
     },
     "action_recast_ms": {
         'call': find_signature_point,
-        'param': "E8 ? ? ? ? 8B D0 45 33 C0 49 8B CE E8 ? ? ? ? F6 46 ? ?",
+        'param': "E8 * * * * 8B D0 45 33 C0 49 8B CE E8 ? ? ? ? F6 46 ? ?",
         'add': BASE_ADDR,
     },
 }

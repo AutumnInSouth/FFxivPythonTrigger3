@@ -85,7 +85,7 @@ def find_signature_point(signature: str, unique=True):
         raise ValueError(f"Signature is not unique, {len(data)} results found")
     address, offsets = data[0]
     if len(offsets) != 1:
-        raise ValueError(f"Bad Signature, {len(data)} offsets found in signature")
+        raise ValueError(f"Bad Signature, {len(offsets)} offsets found in signature")
     return offsets[0] + address
 
 
