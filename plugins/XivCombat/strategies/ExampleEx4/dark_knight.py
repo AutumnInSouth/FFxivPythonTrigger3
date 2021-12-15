@@ -2,6 +2,7 @@ from XivCombat.utils import a, s, cnt_enemy, res_lv, find_area_belongs_to_me
 from XivCombat.strategies import *
 from XivCombat import define
 from XivCombat.multi_enemy_selector import Rectangle, NearCircle, circle, FarCircle
+from .utils import mo_provoke_and_shirk
 
 unleash = NearCircle(5.)
 flood_of_darkness = Rectangle(10, 2)
@@ -12,6 +13,7 @@ class DarkKnightStrategy(Strategy):
     name = 'ny/dk'
     job = 'DarkKnight'
 
+    @mo_provoke_and_shirk
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
         if action_id == a('至黑之夜') or action_id == a('Oblation'):
             mo_entity = api.get_mo_target()
@@ -62,12 +64,9 @@ class DarkKnightStrategy(Strategy):
             if data.actor_distance_effective(single_target) > 5: return
 
         res = res_lv(data)
-        in_use_60 = data[a('嗜血')] > 40
-        in_use_120 = in_use_60 and data[a('掠影示现')] > 100 or data[a('掠影示现')] < 5
         flood_of_darkness_target, flood_of_darkness_cnt = None, -1
         if (data.gauge.dark_art or data.me.current_mp > 3000 and data.skill_unlocked(a('暗黑波动')) and
-                (not data.gauge.darkside_timer or res and data.me.current_mp > (
-                        9000 if not in_use_120 else 6000 if data[a('至黑之夜')] < 13 else 3000))):
+                (data.gauge.darkside_timer < 3 or res and data.me.current_mp > (6000 if data[a('至黑之夜')] < 13 else 4000))):
             flood_of_darkness_target, flood_of_darkness_cnt = cnt_enemy(data, flood_of_darkness)
             if data.skill_unlocked(a('暗黑锋')) and flood_of_darkness_cnt < 3:
                 if data.actor_distance_effective(single_target) <= 3:
@@ -84,11 +83,11 @@ class DarkKnightStrategy(Strategy):
                     return UseAbility(a('Salt and Darkness'), data.me.id)
         if not data[a('嗜血')]:
             return UseAbility(a('嗜血'), data.me.id)
-        if not data[a('血乱')] and data[a('掠影示现')] and in_use_60:
+        if not data[a('血乱')] and data[a('掠影示现')]:
             return UseAbility(a('血乱'), data.me.id)
-        if not data[a('掠影示现')] and data.gauge.blood >= 50 and in_use_60:
+        if not data[a('掠影示现')] and data.gauge.blood >= 50:
             return UseAbility(a('掠影示现'), data.me.id)
-        if not data[a('吸血深渊')] and in_use_60:
+        if not data[a('吸血深渊')]:
             abyssal_drain_target, abyssal_drain_cnt = cnt_enemy(data, abyssal_drain)
             if data.skill_unlocked(a('精雕怒斩')) and abyssal_drain_cnt < 3:
                 if data.actor_distance_effective(single_target) <= 3:
@@ -99,7 +98,7 @@ class DarkKnightStrategy(Strategy):
             unleash_target, unleash_cnt = cnt_enemy(data, unleash)
             if unleash_cnt > int(len(data.enemy_can_attack_by(a('伤残')))) / 2:
                 return UseAbility(a('腐秽大地'), data.me.id)
-        if data[a('Shadowbringer')] < 60 and in_use_120 and data.gauge.darkside_timer:
+        if data[a('Shadowbringer')] < 60 and data.gauge.darkside_timer:
             if flood_of_darkness_cnt < 0:
                 flood_of_darkness_target, flood_of_darkness_cnt = cnt_enemy(data, flood_of_darkness)
             if flood_of_darkness_cnt:

@@ -27,9 +27,11 @@ eng_cj_sheet = realm_eng.game_data.get_sheet('ClassJob')
 fight_abbrev = [class_job['Abbreviation']
                 for class_job in data_realm.game_data.get_sheet('ClassJob')
                 if class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31}]
-fight_category = [class_job_category.key
-                  for class_job_category in data_realm.game_data.get_sheet('ClassJobCategory')
-                  if 0 < sum(class_job_category[class_job] for class_job in fight_abbrev) < 3]
+fight_category = []
+common_category = []
+for class_job_category in data_realm.game_data.get_sheet('ClassJobCategory'):
+    if sum(class_job_category[class_job] for class_job in fight_abbrev) ==0:continue
+    (fight_category if sum(class_job_category[class_job] for class_job in fight_abbrev) < 3 else common_category).append(class_job_category.key)
 
 status_by_name = {}
 for status in realm_chs.game_data.get_sheet('Status'):
@@ -55,45 +57,86 @@ def desc_process(desc: str):
 
 
 w_mode = True
-for class_job in data_realm.game_data.get_sheet('ClassJob'):
-     if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
-    #if class_job['Abbreviation']=="AST":
-        if class_job['Abbreviation'] in {'PLD','DRK','BRD'}:continue
-        print(class_job['Name'])
-        with open('tmp', 'w+') if not w_mode else open(f'{to_under_line(eng_cj_sheet[class_job.key]["Name"])}.py', 'w+', encoding='utf-8') as f:
-            (f.write if w_mode else print)("""from ..base import *
+# for class_job in data_realm.game_data.get_sheet('ClassJob'):
+#      if class_job.key and class_job['Abbreviation'] and class_job['ClassJobCategory'].key in {30, 31} and not class_job['StartingTown'].key:
+#     #if class_job['Abbreviation']=="AST":
+#         if class_job['Abbreviation'] in {'PLD','DRK','BRD'}:continue
+#         print(class_job['Name'])
+#         with open('tmp', 'w+') if not w_mode else open(f'{to_under_line(eng_cj_sheet[class_job.key]["Name"])}.py', 'w+', encoding='utf-8') as f:
+#             (f.write if w_mode else print)("""from ..base import *
+#
+#
+# class Actions:
+# """)
+#             to_print_action = [action for action in action_sheet if (
+#                     action['Name'] and not action['IsPvP'] and action['ClassJobCategory'] and
+#                     action['ClassJobCategory'][class_job['Abbreviation']] and
+#                     action['ClassJobCategory'].key in fight_category and
+#                     action_transient_sheet[action.key]['Description']
+#             )]
+#             to_print_action.sort(key=lambda action: action['ClassJobLevel'])
+#             for action in to_print_action:
+#                 names = {eng_action_sheet[action.key]['Name']}
+#                 try:
+#                     if action_sheet_chs[action.key]['Name']:
+#                         names.add(action_sheet_chs[action.key]['Name'])
+#                 except:
+#                     pass
+#                 (f.write if w_mode else print)(f"""
+#     class {to_hump(eng_action_sheet[action.key]['Name'])}(ActionBase):
+#         \"""
+# {desc_process(action_transient_translate_sheet[action.key]['Description'])}""")
+#                 status = set()
+#                 for name in names: status|=set(s.key for s in status_by_name.get(action['Name'].lower(), []))
+#                 for status in status:
+#                     status = status_sheet_eng[status]
+#                     (f.write if w_mode else print)(
+#                         f"\n>> {status.key}, {status['Name']}, {desc_process(status['Description'])}")
+#                 (f.write if w_mode else print)(f"""
+#         \"""
+#         id = {action.key}
+#         name = {names}
+# """)
+#                 if action['Action{Combo}'].key:
+#                     (f.write if w_mode else print)(f"        combo_action = {action['Action{Combo}'].key}\n")
+
+with open('tmp', 'w+') if not w_mode else open(f'common.py', 'w+', encoding='utf-8') as f:
+    (f.write if w_mode else print)("""from ..base import *
+
+
+class Status:
+    pass
 
 
 class Actions:
 """)
-            to_print_action = [action for action in action_sheet if (
-                    action['Name'] and not action['IsPvP'] and action['ClassJobCategory'] and
-                    action['ClassJobCategory'][class_job['Abbreviation']] and
-                    action['ClassJobCategory'].key in fight_category and
-                    action_transient_sheet[action.key]['Description']
-            )]
-            to_print_action.sort(key=lambda action: action['ClassJobLevel'])
-            for action in to_print_action:
-                names = {eng_action_sheet[action.key]['Name']}
-                try:
-                    if action_sheet_chs[action.key]['Name']:
-                        names.add(action_sheet_chs[action.key]['Name'])
-                except:
-                    pass
-                (f.write if w_mode else print)(f"""
+    to_print_action = [action for action in action_sheet if (
+            action['Name'] and not action['IsPvP'] and action['ClassJobCategory'] and
+            action['ClassJobCategory'].key in common_category and
+            action_transient_sheet[action.key]['Description']
+    )]
+    to_print_action.sort(key=lambda action: action['ClassJobLevel'])
+    for action in to_print_action:
+        names = {eng_action_sheet[action.key]['Name']}
+        try:
+            if action_sheet_chs[action.key]['Name']:
+                names.add(action_sheet_chs[action.key]['Name'])
+        except:
+            pass
+        (f.write if w_mode else print)(f"""
     class {to_hump(eng_action_sheet[action.key]['Name'])}(ActionBase):
         \"""
 {desc_process(action_transient_translate_sheet[action.key]['Description'])}""")
-                status = set()
-                for name in names: status|=set(s.key for s in status_by_name.get(action['Name'].lower(), []))
-                for status in status:
-                    status = status_sheet_eng[status]
-                    (f.write if w_mode else print)(
-                        f"\n>> {status.key}, {status['Name']}, {desc_process(status['Description'])}")
-                (f.write if w_mode else print)(f"""
+        status = set()
+        for name in names: status |= set(s.key for s in status_by_name.get(action['Name'].lower(), []))
+        for status in status:
+            status = status_sheet_eng[status]
+            (f.write if w_mode else print)(
+                f"\n>> {status.key}, {status['Name']}, {desc_process(status['Description'])}")
+        (f.write if w_mode else print)(f"""
         \"""
         id = {action.key}
         name = {names}
-""")
-                if action['Action{Combo}'].key:
-                    (f.write if w_mode else print)(f"        combo_action = {action['Action{Combo}'].key}\n")
+    """)
+        if action['Action{Combo}'].key:
+            (f.write if w_mode else print)(f"        combo_action = {action['Action{Combo}'].key}\n")

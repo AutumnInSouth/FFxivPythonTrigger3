@@ -1,15 +1,181 @@
 from ..base import *
 
 
-class Actions:
+class Status:
+    class NoMercy(StatusBase):
+        """
+Increases damage dealt by 20%.
+Duration: 20s
+>> 1831, No Mercy, Damage dealt is increased.
+        """
+        id = 1831
+        name = {'无情', 'No Mercy'}
+        damage_modify = 1.2
 
+    class BrutalShell(StatusBase):
+        """
+Delivers an attack with a potency of (source.job==37?(source.level>=84?120:100):100).
+Combo Action: Keen Edge
+Combo Potency: (source.job==37?(source.level>=84?260:240):240)
+Combo Bonus: Restores own HP
+Cure Potency: 200(source.job==37?(source.level>=52?
+Combo Bonus: Creates a barrier which nullifies damage equaling HP restored
+Duration: 30s:):)
+>> 1898, Brutal Shell, A highly effective defensive maneuver is nullifying damage.
+>> 1997, Brutal Shell, A highly effective defensive maneuver is nullifying damage.
+        """
+        id = 1898
+        name = {'Brutal Shell', '残暴弹'}
+
+    class Camouflage(StatusBase):
+        """
+Increases parry rate by 50% while reducing damage taken by 10%.
+Duration: 20s
+>> 1832, Camouflage, Parry rate is increased while damage taken is reduced.
+        """
+        id = 1832
+        name = {'Camouflage', '伪装'}
+        taken_damage_modify = 0.9
+
+    class Nebula(StatusBase):
+        """
+Reduces damage taken by 30%.
+Duration: 15s
+>> 1834, Nebula, Damage taken is reduced.
+        """
+        id = 1834
+        name = {'Nebula', '星云'}
+        taken_damage_modify = 0.7
+
+    class Aurora(StatusBase):
+        """
+Grants Regen to target.
+Cure Potency: 200
+Duration: 18s(source.job==37?(source.level>=84?
+Maximum Charges: 2:):)
+>> 2065, Aurora, Regenerating HP over time.
+>> 1835, Aurora, Regenerating HP over time.
+        """
+        id = 1835
+        name = {'Aurora', '极光'}
+        cure_potency = 200
+
+    class Superbolide(StatusBase):
+        """
+Reduces HP to 1 and renders you impervious to most attacks.
+Duration: 10s
+>> 1836, Superbolide, Impervious to most attacks.
+        """
+        id = 1836
+        name = {'Superbolide', '超火流星'}
+        taken_damage_modify = 0
+
+    class SonicBreak(StatusBase):
+        """
+Delivers an attack with a potency of 300.
+Additional Effect: Damage over time
+Potency: 60
+Duration: 30s
+This weaponskill does not share a recast timer with any other actions.
+>> 1837, Sonic Break, Sustaining damage over time.
+        """
+        id = 1837
+        name = {'Sonic Break', '音速破'}
+        damage_potency = 60
+
+    class ReadyToRip(StatusBase):
+        id = 1842
+        name = {'Ready To Rip', '撕喉预备'}
+
+    class ReadyToTear(StatusBase):
+        id = 1843
+        name = {'Ready To Tear', '裂膛预备'}
+
+    class ReadyToGouge(StatusBase):
+        id = 1844
+        name = {'Ready To Gouge', '穿目预备'}
+
+    class ReadyToBlast(StatusBase):
+        id = 2686
+        name = {'Ready To Blast'}
+
+    class BowShock(StatusBase):
+        """
+Delivers an attack with a potency of 150 to all nearby enemies.
+Additional Effect: Damage over time
+Potency: 60
+Duration: 15s
+>> 1838, Bow Shock, Sustaining damage over time.
+        """
+        id = 1838
+        name = {'Bow Shock', '弓形冲波'}
+        damage_potency = 60
+
+    class HeartOfLight(StatusBase):
+        """
+Reduces magic damage taken by self and nearby party members by 10%.
+Duration: 15s
+>> 2000, Heart of Light, Damage taken is reduced.
+>> 1839, Heart of Light, Magic damage taken is reduced.
+        """
+        id = 1839
+        name = {'Heart of Light', '光之心'}
+        taken_damage_modify = 0.9
+        modify_type = magic
+
+    class HeartOfStone(StatusBase):
+        """
+Reduces damage taken by a party member or self by 15%.
+Duration: 7s
+Additional Effect: When targeting a party member while under the effect of Brutal Shell, that effect is also granted to the target
+Duration: 30s
+>> 1840, Heart of Stone, Damage taken is reduced.
+        """
+        id = 1840
+        name = {'石之心', 'Heart of Stone'}
+        taken_damage_modify = 0.85
+
+    class HeartOfCorundum(StatusBase):
+        """
+Reduces damage taken by a party member or self by 15%.
+Duration: 8s
+        """
+        id = 2683
+        name = {'Heart of Corundum'}
+        taken_damage_modify = 0.85
+
+    class ClarityOfCorundum(StatusBase):
+        """
+Clarity of Corundum Effect: Reduces damage taken by 15%
+Duration: 4s
+        """
+        id = 2684
+        name = {'Clarity of Corundum'}
+        taken_damage_modify = 0.85
+
+    class CatharsisOfCorundum(StatusBase):
+        """
+Catharsis of Corundum Effect: Restores HP when HP falls below 50% or upon effect duration expiration
+Cure Potency: 900
+        """
+        id = 2685
+        name = {'Catharsis of Corundum'}
+        cure_potency = 900
+        over_time_status: bool = False
+
+
+class Actions:
     class KeenEdge(ActionBase):
         """
 Delivers an attack with a potency of (source.job==37?(source.level>=84?170:150):150).
->> 1145, Keen Edge, Sustaining damage over time in exchange for dealing increased damage to targets.
         """
         id = 16137
         name = {'Keen Edge', '利刃斩'}
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            self.damage_potency = 170 if source and source.job == 37 and source.level >= 84 else 150
 
     class NoMercy(ActionBase):
         """
@@ -19,6 +185,7 @@ Duration: 20s
         """
         id = 16138
         name = {'无情', 'No Mercy'}
+        status_to_target = Status.NoMercy
 
     class BrutalShell(ActionBase):
         """
@@ -35,6 +202,17 @@ Duration: 30s:):)
         id = 16139
         name = {'Brutal Shell', '残暴弹'}
         combo_action = 16137
+        attack_type = physic
+        cure_potency = 200
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if source and source.job == 37 and source.level >= 84:
+                self.damage_potency = 120
+                self.combo_damage_potency = 260
+            else:
+                self.damage_potency = 100
+                self.combo_damage_potency = 240
 
     class Camouflage(ActionBase):
         """
@@ -44,6 +222,7 @@ Duration: 20s
         """
         id = 16140
         name = {'Camouflage', '伪装'}
+        status_to_target = Status.Camouflage
 
     class DemonSlice(ActionBase):
         """
@@ -51,6 +230,8 @@ Delivers an attack with a potency of 100 to all nearby enemies.
         """
         id = 16141
         name = {'Demon Slice', '恶魔切'}
+        attack_type = physic
+        damage_potency = 100
 
     class RoyalGuard(ActionBase):
         """
@@ -70,6 +251,8 @@ Additional Effect: Increased enmity
         """
         id = 16143
         name = {'Lightning Shot', '闪雷弹'}
+        attack_type = physic
+        damage_potency = 150
 
     class DangerZone(ActionBase):
         """
@@ -77,6 +260,8 @@ Delivers an attack with a potency of 250.
         """
         id = 16144
         name = {'危险领域', 'Danger Zone'}
+        attack_type = physic
+        damage_potency = 250
 
     class SolidBarrel(ActionBase):
         """
@@ -88,6 +273,16 @@ Combo Bonus: Adds a Cartridge to your Powder Gauge:):)
         id = 16145
         name = {'Solid Barrel', '迅连斩'}
         combo_action = 16139
+        attack_type = physic
+
+        def __init__(self, source: 'Actor|None', target: 'Actor|None'):
+            super().__init__(source, target)
+            if source and source.job == 37 and source.level >= 84:
+                self.damage_potency = 120
+                self.combo_damage_potency = 340
+            else:
+                self.damage_potency = 100
+                self.combo_damage_potency = 320
 
     class BurstStrike(ActionBase):
         """
@@ -98,6 +293,8 @@ Duration: 10s
         """
         id = 16162
         name = {'爆发击', 'Burst Strike'}
+        attack_type = physic
+        damage_potency = 380
 
     class Nebula(ActionBase):
         """
@@ -107,6 +304,7 @@ Duration: 15s
         """
         id = 16148
         name = {'Nebula', '星云'}
+        status_to_target = Status.Nebula
 
     class DemonSlaughter(ActionBase):
         """
@@ -118,6 +316,9 @@ Combo Bonus: Adds a Cartridge to your Powder Gauge
         id = 16149
         name = {'恶魔杀', 'Demon Slaughter'}
         combo_action = 16141
+        attack_type = physic
+        damage_potency = 100
+        combo_damage_potency = 160
 
     class Aurora(ActionBase):
         """
@@ -130,6 +331,7 @@ Maximum Charges: 2:):)
         """
         id = 16151
         name = {'Aurora', '极光'}
+        status_to_target = Status.Aurora
 
     class Superbolide(ActionBase):
         """
@@ -139,6 +341,7 @@ Duration: 10s
         """
         id = 16152
         name = {'Superbolide', '超火流星'}
+        status_to_target = Status.Superbolide
 
     class SonicBreak(ActionBase):
         """
@@ -151,6 +354,8 @@ This weaponskill does not share a recast timer with any other actions.
         """
         id = 16153
         name = {'Sonic Break', '音速破'}
+        attack_type = physic
+        damage_potency = 300
 
     class RoughDivide(ActionBase):
         """
@@ -160,6 +365,8 @@ Cannot be executed while bound.
         """
         id = 16154
         name = {'粗分斩', 'Rough Divide'}
+        attack_type = physic
+        damage_potency = 150
 
     class GnashingFang(ActionBase):
         """
@@ -171,6 +378,8 @@ This weaponskill does not share a recast timer with any other actions.
         """
         id = 16146
         name = {'烈牙', 'Gnashing Fang'}
+        attack_type = physic
+        damage_potency = 360
 
     class SavageClaw(ActionBase):
         """
@@ -183,6 +392,8 @@ Duration: 10s:):)
         id = 16147
         name = {'Savage Claw', '猛兽爪'}
         combo_action = 16146
+        attack_type = physic
+        damage_potency = 440
 
     class WickedTalon(ActionBase):
         """
@@ -195,6 +406,8 @@ Duration: 10s:):)
         id = 16150
         name = {'凶禽爪', 'Wicked Talon'}
         combo_action = 16147
+        attack_type = physic
+        damage_potency = 520
 
     class BowShock(ActionBase):
         """
@@ -206,6 +419,9 @@ Duration: 15s
         """
         id = 16159
         name = {'Bow Shock', '弓形冲波'}
+        attack_type = physic
+        damage_potency = 150
+        status_to_target = Status.BowShock
 
     class HeartOfLight(ActionBase):
         """
@@ -216,6 +432,7 @@ Duration: 15s
         """
         id = 16160
         name = {'Heart of Light', '光之心'}
+        status_to_target = Status.HeartOfLight
 
     class HeartOfStone(ActionBase):
         """
@@ -247,6 +464,8 @@ Can only be executed when Ready to Rip.
         """
         id = 16156
         name = {'Jugular Rip', '撕喉'}
+        attack_type = physic
+        damage_potency = 180
 
     class AbdomenTear(ActionBase):
         """
@@ -256,6 +475,8 @@ Can only be executed when Ready to Tear.
         """
         id = 16157
         name = {'Abdomen Tear', '裂膛'}
+        attack_type = physic
+        damage_potency = 220
 
     class EyeGouge(ActionBase):
         """
@@ -265,6 +486,8 @@ Can only be executed when Ready to Gouge.
         """
         id = 16158
         name = {'穿目', 'Eye Gouge'}
+        attack_type = physic
+        damage_potency = 260
 
     class FatedCircle(ActionBase):
         """
@@ -273,6 +496,8 @@ Cartridge Cost: 1
         """
         id = 16163
         name = {'命运之环', 'Fated Circle'}
+        attack_type = physic
+        damage_potency = 290
 
     class Bloodfest(ActionBase):
         """
@@ -287,6 +512,8 @@ Delivers an attack with a potency of 700.
         """
         id = 16165
         name = {'爆破领域', 'Blasting Zone'}
+        attack_type = physic
+        damage_potency = 700
 
     class HeartOfCorundum(ActionBase):
         """
@@ -305,6 +532,7 @@ Duration: 20s
         """
         id = 25758
         name = {'Heart of Corundum'}
+        status_to_target = Status.HeartOfCorundum, Status.ClarityOfCorundum, Status.CatharsisOfCorundum
 
     class Hypervelocity(ActionBase):
         """
@@ -314,6 +542,8 @@ Can only be executed when Ready to Blast.
         """
         id = 25759
         name = {'Hypervelocity'}
+        attack_type = physic
+        damage_potency = 180
 
     class DoubleDown(ActionBase):
         """
@@ -323,3 +553,6 @@ This weaponskill does not share a recast timer with any other actions.
         """
         id = 25760
         name = {'Double Down'}
+        attack_type = physic
+        damage_potency = 1200
+        aoe_scale = 0.8

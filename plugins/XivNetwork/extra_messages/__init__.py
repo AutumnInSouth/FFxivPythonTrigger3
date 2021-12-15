@@ -3,11 +3,20 @@ from FFxivPythonTrigger.decorator import event
 
 from ..message_processors.zone_server.status_effect_list import ServerStatusEffectListEvent
 from ..message_processors.zone_server.effect_result import ServerEffectResultsEvent
+from ..message_processors.zone_server.actor_control_self import FadeInEvent, BarrierUpEvent, UnknownDirectorUpdateEvent
 from .actor_add_remove_effect import ActorAddEffectEvent, ActorRemoveEffectEvent
+from .combat_reset import CombatResetEvent
 
 
 class ExtraNetworkMessage(PluginBase):
     name = "ExtraNetworkMessage"
+
+    def __init__(self):
+        super().__init__()
+        self.register_event(FadeInEvent.id, lambda evt: process_event(CombatResetEvent(evt)))
+        self.register_event(BarrierUpEvent.id, lambda evt: process_event(CombatResetEvent(evt)))
+        self.register_event(UnknownDirectorUpdateEvent.id,
+                            lambda evt: process_event(CombatResetEvent(evt)) if evt.struct_message.param2 == 0x40000016 else None)
 
     @event(ServerStatusEffectListEvent.id)
     def zone_server_status_effect_list(self, evt: ServerStatusEffectListEvent):

@@ -85,8 +85,13 @@ def find_signature_point(signature: str, unique=True):
         raise ValueError(f"Signature is not unique, {len(data)} results found")
     address, offsets = data[0]
     if len(offsets) != 1:
-        raise ValueError(f"Bad Signature, {len(data)} offsets found in signature")
+        raise ValueError(f"Bad Signature, {len(offsets)} offsets found in signature")
     return offsets[0] + address
+
+
+def get_original_text(offset: int, length: int):
+    start = offset - section_virtual_address
+    return section_data[start:start + length]
 
 
 special_chars_map = {i for i in b'()[]{}?*+-|^$\\.&~# \t\n\r\v\f'}

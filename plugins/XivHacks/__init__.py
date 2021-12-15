@@ -1,15 +1,16 @@
 import base64
-from ctypes import *
 from pathlib import Path
+from struct import unpack
 from typing import TYPE_CHECKING
 
 import math
 
-from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version
+from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_version, game_ext
 from FFxivPythonTrigger.decorator import BindValue, event
 from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import read_memory, write_float, read_int, read_ubytes, write_ubytes, write_ubyte
+from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct, PointerStruct
+from FFxivPythonTrigger.text_pattern import get_original_text
 from . import afix
 from .sigs import sigs
 from .struct import MinMax, ActionParam, ActionEffectEntry
@@ -44,6 +45,10 @@ hack_network_moving = True
 hack_knock_ani_lock = True
 hack_hit_box = True
 no_misdirect = True
+no_forced_march = True
+status_no_lock_move = True
+anti_afk = game_ext == 4
+jump = True
 
 
 class XivHacks(PluginBase):
@@ -108,6 +113,7 @@ class XivHacks(PluginBase):
         if hack_network_moving:
             self.register_moving_swing()
 
+        self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
         self.storage.save()
 
     def onunload(self):
@@ -115,6 +121,11 @@ class XivHacks(PluginBase):
         self.zoom_cam_distance_reset_set(False)
         self.zoom_cam_no_collision_set(False)
         self.ninja_stiff_set(False)
+        self.set_no_misdirect(False)
+        self.set_cutscene_skip(False)
+        self.set_no_forced_march(False)
+        if anti_afk: self.set_anti_afk(False)
+        self.set_jump(None)
 
     # zoom
     if hack_zoom:
@@ -367,4 +378,38 @@ class XivHacks(PluginBase):
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_misdirect(self, new_val, old_val):
             self.set_no_misdirect(new_val)
+            return True
+
+    if no_forced_march:
+        def set_no_forced_march(self, mode):
+            write_int(self._address['no_forced_march'], 0 if mode else self.forced_march_original)
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def no_forced_march(self, new_val, old_val):
+            self.set_no_forced_march(new_val)
+            return True
+
+    if anti_afk:
+        def set_anti_afk(self, mode):
+            write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
+            new_code = b'\x90' * 5 if mode else get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
+            write_ubytes(self._address['afk_timer_write2'], bytearray(new_code))
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def anti_afk(self, new_val, old_val):
+            self.set_anti_afk(new_val)
+            return True
+    else:
+        anti_afk = False
+
+    if jump:
+        def set_jump(self, val=None):
+            if val is None:
+                write_ubytes(self._address['jump_write'], bytearray(b'\x66\x66\x26\x41'))
+            else:
+                write_float(self._address['jump'], val)
+
+        @BindValue.decorator(default=10.4, init_set=True, auto_save=True)
+        def jump(self, new_val, old_val):
+            self.set_jump(new_val)
             return True

@@ -56,7 +56,7 @@ BardSong = EnumStruct(c_ubyte, {
     15: 'minuet',
 }, default='', name="BardSong")
 
-if game_ext==3:
+if game_ext == 3:
     class BardGauge(OffsetStruct({
         'song_milliseconds': (c_ushort, 0),
         'song_procs': (c_ubyte, 2),
@@ -96,12 +96,27 @@ else:
         'song_milliseconds': (c_ushort, 0),
         'song_procs': (c_ubyte, 4),
         'soul_gauge': (c_ubyte, 5),
-        'song_type': (BardSong, 6)
+        '_song_flag': (c_ubyte, 6)
     }, 16)):
         song_milliseconds: int
         song_procs: int
         soul_gauge: int
-        song_type: BardSong
+
+        @property
+        def song_type(self):
+            return BardSong(self._song_flag & 0xf)
+
+        @property
+        def wanderer_coda(self):
+            return bool(self._song_flag & 0b1000000)
+
+        @property
+        def mage_coda(self):
+            return bool(self._song_flag & 0b10000)
+
+        @property
+        def army_coda(self):
+            return bool(self._song_flag & 0b100000)
 
 
     class SummonerGauge(OffsetStruct({

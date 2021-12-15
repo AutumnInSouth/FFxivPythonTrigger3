@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from FFxivPythonTrigger import PluginBase
-from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.decorator import event, re_event
 
 from ..utils import add_omen
 

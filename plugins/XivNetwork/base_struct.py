@@ -2,6 +2,7 @@ from ctypes import *
 from datetime import datetime
 from functools import cached_property
 
+from FFxivPythonTrigger.logger import error
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 
@@ -36,7 +37,11 @@ class BundleHeader(OffsetStruct({
 
     @cached_property
     def message_time(self):
-        return datetime.fromtimestamp(self.epoch/1000)
+        try:
+            return datetime.fromtimestamp(self.epoch / 1000)
+        except Exception:
+            error('XivNetworkBundleHeaderStruct', f"invalid epoch {self.epoch}")
+            return datetime.now()
 
 
 class MessageHeader(OffsetStruct({
@@ -59,5 +64,3 @@ class MessageHeader(OffsetStruct({
     unk3: int
     sec: int
     unk4: int
-
-

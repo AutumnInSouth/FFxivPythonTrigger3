@@ -12,9 +12,8 @@ from .extra_omens import ExtraOmens
 if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
 
-
 get_action_data_interface = CFUNCTYPE(POINTER(utils.action_struct), c_int64)
-
+remove_omen_interface = CFUNCTYPE(c_void_p, c_void_p)
 if game_ext == 4:
     add_omen_interface = CFUNCTYPE(
         c_void_p,  # rtn: pointer of the new omen
@@ -45,12 +44,15 @@ class OmenReflect(PluginBase):
         self._get_action_data = get_action_data_interface(am.scan_point(
             'get_action_data', 'E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4'
         ))
-
+        self.remove_omen_addr = am.scan_address(
+            'remove_omen', '48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 33 FF 48 8B 89 ? ? ? ? 48 85 C9 74 ? E8 ? ? ? ? 48 8B 8B ? ? ? ?'
+        )
         if game_ext == 4:
             self._add_omen_addr = am.scan_address('add_omen', '48 89 5C 24 ? 48 89 6C 24 ? F3 0F 11 54 24 ?')
         else:
             self._add_omen_addr = am.scan_address('add_omen_ext3', 'F3 0F 11 54 24 ? 53 56')
-
+        self._remove_omen = remove_omen_interface(self.remove_omen_addr)
+        self._add_omen_orig = add_omen_interface(self._add_omen_addr)
         self._add_omen_orig = add_omen_interface(self._add_omen_addr)
         self.log_record = set()
         self.register_makeup()
@@ -80,6 +82,9 @@ class OmenReflect(PluginBase):
 
         return self._add_omen(source_actor_ptr, pos, facing, byref(omen_data))
 
+    def remove_omen(self, source_actor_ptr):
+        return self._remove_omen(source_actor_ptr)
+
     @event("plugin_load:XivNetwork")
     def register_makeup(self, _=None):
         try:
@@ -88,7 +93,7 @@ class OmenReflect(PluginBase):
             self.logger.warning("XivNetwork is not found")
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
-        #self.logger(message_header,struct_message)
+        # self.logger(message_header,struct_message)
         struct_message.display_delay = int(struct_message.display_delay / 6)
         return struct_message
 

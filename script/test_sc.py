@@ -1,12 +1,6 @@
-from ctypes import *
+from FFxivPythonTrigger.saint_coinach import status_sheet
+print(status_sheet[0]['as'])
 
-from FFxivPythonTrigger import plugins
-
-
-def add_omen(source_actor, target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier: int = 0):
-    return plugins.OmenReflect.add_omen(byref(source_actor), target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier)
-
-
-me = plugins.XivMemory.actor_table.me
-pos = me.pos
-add_omen(me, (pos.x, pos.y, pos.z), pos.r, 188, 11, 40, 10)
+for col_id in range(31):
+    col = status_sheet.header.get_column(col_id)
+    print(status_sheet.header.sheet_definition.get_column_name(col_id),col.offset,col.type)

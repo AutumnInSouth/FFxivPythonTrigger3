@@ -2,7 +2,7 @@ from ctypes import addressof
 from functools import cache
 from typing import TYPE_CHECKING, Iterable, Tuple
 
-from FFxivPythonTrigger import plugins
+from FFxivPythonTrigger import plugins, game_ext
 
 if TYPE_CHECKING:
     from FFxivPythonTrigger.popular_struct import Position
@@ -37,6 +37,20 @@ def action_type_check(action_id, actor) -> bool:
 
 def action_distance_check(action_id, source_actor, target_actor):
     return _func_action_distance_check(action_id, addressof(source_actor), addressof(target_actor))
+
+
+if game_ext > 3:
+    _func_action_recast_ms = lambda a, b, c, d: 0
+
+
+    def action_recast_time(action_id: int) -> float:
+        return _func_action_recast_ms(1, action_id, _action_data(action_id), 0) / 1000
+else:
+    _func_action_recast_ms = lambda a, b, c: 0
+
+
+    def action_recast_time(action_id: int) -> float:
+        return _func_action_recast_ms(1, action_id, 0) / 1000
 
 
 def get_me_actor() -> 'Actor':

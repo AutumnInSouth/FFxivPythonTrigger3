@@ -127,6 +127,7 @@ else:
         'pc_target_id': (c_uint, 0x1f0),
         'pc_target_id_2': (c_uint, 0x230),
         'npc_target_id': (c_uint, 0x1818),
+        'omen_ptr': (c_ulonglong, 0x1870),
         'b_npc_target_id': (c_uint, 0x18d8),
         'current_world': (c_ushort, 0x19b4),
         'home_world': (c_ushort, 0x19b6),
