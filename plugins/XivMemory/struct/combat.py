@@ -46,28 +46,16 @@ class CoolDownGroups(CoolDownGroup * 100):
         return self[59]
 
 
-if game_ext == 3:
-    class Enemy(OffsetStruct({
-        'id': (c_uint, 0),
-        'can_select': (c_uint, 4),
-        'hp_percent': (c_int, 8),
-        'cast_percent': (c_int, 16),
-    })):
-        id: int
-        can_select: int
-        hp_percent: int
-        cast_percent: int
-else:
-    class Enemy(OffsetStruct({
-        'hp_percent': (c_int, 0),
-        'enmity_percent': (c_int, 4),
-        'id': (c_uint, 0xc),
-        'can_select': (c_uint, 0x10),
-    }, 0x18)):
-        id: int
-        can_select: int
-        hp_percent: int
-        enmity_percent: int
+class Enemy(OffsetStruct({
+    'hp_percent': (c_int, 0),
+    'enmity_percent': (c_int, 4),
+    'id': (c_uint, 0xc),
+    'can_select': (c_uint, 0x10),
+}, 0x18 if game_ext == 4 else 0x14)):
+    id: int
+    can_select: int
+    hp_percent: int
+    enmity_percent: int
 
 
 class SkillQueue(OffsetStruct({

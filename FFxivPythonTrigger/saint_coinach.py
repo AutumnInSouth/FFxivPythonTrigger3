@@ -2,7 +2,7 @@ import os
 
 import pysaintcoinach
 from pathlib import Path
-from FFxivPythonTrigger import game_language
+from FFxivPythonTrigger import game_ext,game_language
 
 from .logger import info
 
@@ -13,11 +13,13 @@ else:
 
     game_dir = Path(PROCESS_FILENAME).parent
 
-match game_language:
-    case 'chs':
+match game_ext:
+    case 3:
         def_path = Path(os.getcwd()) / 'DefinitionsExt3'
-    case _:
+    case 4:
         def_path = Path(os.getcwd()) / 'DefinitionsExt4'
+    case _:
+        raise ValueError('Unsupported game version')
 
 language = pysaintcoinach.ex.language.Language(game_language)
 realm = pysaintcoinach.ARealmReversed(game_dir, language, def_path)

@@ -372,7 +372,7 @@ class XivCombat(PluginBase):
         def record(self, occur_time_ms: int, source_id: int, source_name: str, str_evt: str):
             with self.record_lock:
                 if self.record_file is None:
-                    self.record_file = open(self.storage.path / f'record_{int(time.time())}.log', 'w+')
+                    self.record_file = open(self.storage.path / f'record_{int(time.time())}.log', 'w+', encoding='utf-8')
                 self.record_file.write(f"{occur_time_ms}|{source_id:x}|{source_name}|{str_evt}\n")
                 self.record_file.flush()
 
