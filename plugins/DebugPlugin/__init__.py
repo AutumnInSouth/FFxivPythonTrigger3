@@ -66,7 +66,7 @@ class DebugPlugin(PluginBase):
     def status_effect(self, evt):
         self.logger(evt)
 
-    # @event("network/zone/server/actor_control/dot")
+    @event("network/zone/server/actor_control/dot")
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
@@ -82,7 +82,7 @@ class DebugPlugin(PluginBase):
 
     @re_event(r"network/zone/server/effect_(add|remove)")
     def network_zone_server_effect_add(self, evt, _=None):
-        if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
+        #if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
             self.logger(evt,evt.raw_event.id)
             if evt.raw_event.id =='network/zone/server/status_effect_list':
                 self.logger('',','.join(str(e.effect_id) for e in evt.raw_event.new_effects),','.join(str(e.effect_id) for e in evt.raw_event.old_effects))

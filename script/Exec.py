@@ -146,7 +146,7 @@ for actor in plugins.XivMemory.actor_table:
         cnt += 1
 print(cnt)
 """
-t = requests.post("http://127.0.0.1:2019/exec",c23.encode('utf-8')).text
+t = requests.post("http://127.0.0.1:2020/exec",c22.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])

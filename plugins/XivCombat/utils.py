@@ -85,7 +85,7 @@ def cnt_enemy(data: 'LogicData', ability):
     return target, cnt
 
 
-def res_lv(data: 'LogicData'):
+def res_lv(data: 'LogicData', max_ttk: float = 10):
     match data.config['resource']:
         case define.RESOURCE_SQUAND:
             return 2
@@ -94,7 +94,7 @@ def res_lv(data: 'LogicData'):
         case define.RESOURCE_STINGY:
             return 0
         case _:
-            return int(data.max_ttk > 10)
+            return int(data.max_ttk > max_ttk)
 
 
 def find_area_belongs_to_me(data: 'LogicData'):

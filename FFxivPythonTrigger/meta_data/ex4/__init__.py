@@ -38,7 +38,7 @@ class Status(
     dark_knight.Status,
     # dragoon.Status,
     gunbreaker.Status,
-    # machinist.Status,
+    machinist.Status,
     # monk.Status,
     # ninja.Status,
     paladin.Status,
