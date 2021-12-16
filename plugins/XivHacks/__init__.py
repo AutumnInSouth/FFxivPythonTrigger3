@@ -1,6 +1,6 @@
 import base64
 from pathlib import Path
-from struct import unpack
+from threading import Lock
 from typing import TYPE_CHECKING
 
 import math
@@ -46,6 +46,7 @@ hack_knock_ani_lock = True
 hack_hit_box = True
 no_misdirect = True
 no_forced_march = True
+cutscene_skip = True
 status_no_lock_move = True
 anti_afk = game_ext == 4
 jump = True
@@ -103,29 +104,34 @@ class XivHacks(PluginBase):
 
         # afix
         if hack_afix:
-            self.afix_adjust_mode = True
-            self.afix_adjust_sig = 0
-            self.afix_set_sig = 0x93
-            self.afix_work = False
             self.register_afix()
 
         # moving swing
         if hack_network_moving:
             self.register_moving_swing()
 
-        self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
+        if no_forced_march:
+            self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
+
         self.storage.save()
 
     def onunload(self):
-        self.zoom_set(self.version_data['zoom_defaults'])
-        self.zoom_cam_distance_reset_set(False)
-        self.zoom_cam_no_collision_set(False)
-        self.ninja_stiff_set(False)
-        self.set_no_misdirect(False)
-        self.set_cutscene_skip(False)
-        self.set_no_forced_march(False)
-        if anti_afk: self.set_anti_afk(False)
-        self.set_jump(None)
+        if hack_zoom:
+            self.zoom_set(self.version_data['zoom_defaults'])
+            self.zoom_cam_distance_reset_set(False)
+            self.zoom_cam_no_collision_set(False)
+        if hack_ninja_stiff:
+            self.ninja_stiff_set(False)
+        if no_misdirect:
+            self.set_no_misdirect(False)
+        if cutscene_skip:
+            self.set_cutscene_skip(False)
+        if no_forced_march:
+            self.set_no_forced_march(False)
+        if anti_afk:
+            self.set_anti_afk(False)
+        if jump:
+            self.set_jump(None)
 
     # zoom
     if hack_zoom:
@@ -247,7 +253,7 @@ class XivHacks(PluginBase):
             return max(hook.original(*args) + self.hit_box_adjust, 0)
 
     # cutscene_skip
-    if 1:
+    if cutscene_skip:
         def set_cutscene_skip(self, mode):
             write_ubyte(self._address['cutscene_skip'], 0x2e if mode else 4)
 
@@ -258,21 +264,46 @@ class XivHacks(PluginBase):
 
     # afix
     if hack_afix:
+        last_move = None
+        afix_adjust_mode = True
+        afix_adjust_sig = 0
+        afix_set_sig = 0x93
         afix_enable = BindValue(default=False, auto_save=True)
         afix_distance = BindValue(default=5, auto_save=True)
 
+        class AFIXWork:
+            def __init__(self):
+                self.val = False
+                self.lock = Lock()
+
+            def __get__(self, instance, owner):
+                return self.val
+
+            def __set__(self, instance, value):
+                with self.lock:
+                    if not value and instance.last_move is not None:
+                        plugins.XivNetwork.send_messages('zone', instance.last_move)
+                        instance.last_move = None
+                    self.val = value
+
+        afix_work = AFIXWork()
+
         @event('network/zone/client/update_position_instance')
         def deal_adjust(self, evt: 'ClientUpdatePositionInstanceEvent'):
+            self.last_move = evt.message_header.msg_type, bytearray(evt.raw_message).copy()
+            if self.afix_work: return None
             self.afix_adjust_mode = True
             self.afix_adjust_sig = evt.struct_message.unk1 & 0xf
 
         @event('network/zone/client/update_position_handler')
         def deal_set(self, evt: 'ClientUpdatePositionHandlerEvent'):
+            self.last_move = evt.message_header.msg_type, bytearray(evt.raw_message).copy()
+            if self.afix_work: return None
             self.afix_adjust_mode = False
             if not (evt.struct_message.unk0 or evt.struct_message.unk1) and 0x10000 > evt.struct_message.unk2 > 0:
                 self.afix_set_sig = evt.struct_message.unk2
 
-        def goto(self, new_x=None, new_y=None, new_r=None, stop=False):
+        def goto_msg(self, new_x=None, new_y=None, new_r=None, stop=False):
             c = plugins.XivMemory.coordinate
             if new_r is None: new_r = c.r
             target = {
@@ -293,15 +324,12 @@ class XivHacks(PluginBase):
             else:
                 msg = {'r': new_r, 'pos': target, 'unk2': self.afix_set_sig if stop else 0}
                 code = "UpdatePositionHandler"
-            self.logger.debug(f'goto x:{target["x"]:.2f} y:{target["y"]:.2f} z:{target["z"]:.2f} r:{new_r:.2f}')
-            plugins.XivNetwork.send_messages('zone', (code, msg))
+            return (code, msg)
 
         @event('network/zone/server/action_effect')
         def coor_return(self, evt: 'ActionEffectEvent'):
-            if not self.afix_work or evt.source_id != plugins.XivMemory.player_info.id or evt.action_type != 'action':
-                return
-            self.goto(stop=True)
-            self.afix_work = False
+            if self.afix_work and evt.source_id == plugins.XivMemory.player_info.id and evt.action_type == 'action':
+                self.afix_work = False
 
         @event("plugin_load:XivNetwork")
         def register_afix(self, _=None):
@@ -331,8 +359,9 @@ class XivHacks(PluginBase):
                             else:
                                 new_r = c.r
                                 new_r = new_r + (-math.pi if new_r > 0 else math.pi)
+                                self.last_move = self.goto_msg(stop=True)
                                 self.afix_work = True
-                                self.goto(*xy, new_r)
+                                plugins.XivNetwork.send_messages('zone', self.goto_msg(*xy, new_r))
             return struct_message
 
     # moving swing & movement hacks
@@ -405,7 +434,7 @@ class XivHacks(PluginBase):
     if jump:
         def set_jump(self, val=None):
             if val is None:
-                write_ubytes(self._address['jump_write'], bytearray(b'\x66\x66\x26\x41'))
+                write_ubytes(self._address['jump'], bytearray(b'\x66\x66\x26\x41'))
             else:
                 write_float(self._address['jump'], val)
 

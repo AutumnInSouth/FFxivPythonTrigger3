@@ -28,7 +28,7 @@ afix_skills = {
 }
 
 
-def get_nearest(me_pos, target, mode, dis=3):
+def get_nearest(me_pos, target, mode, dis=6):
     radius = target.hitbox_radius + dis - 0.5
     if mode == SIDE:
         area1 = sector(target.pos.x, target.pos.y, radius, angle, target.pos.r + math.pi / 2)
@@ -39,7 +39,7 @@ def get_nearest(me_pos, target, mode, dis=3):
     elif mode == BACK:
         area = sector(target.pos.x, target.pos.y, radius, angle, target.pos.r - math.pi)
     else:
-        area = target.hitbox()
+        area = Point(target.pos.x, target.pos.y).buffer(radius)
 
     area = area.difference(Point(target.pos.x, target.pos.y).buffer(0.5))
     me = Point(me_pos.x, me_pos.y)

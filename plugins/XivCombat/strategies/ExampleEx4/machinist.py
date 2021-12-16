@@ -82,20 +82,19 @@ class MachinistLogic(Strategy):
         else:
             single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('分裂弹')))
             if data.actor_distance_effective(single_target) > 25: return
-        if data.skill_unlocked(a('弹射')):
-            aoe_target, aoe_cnt = cnt_enemy(data, ricochet)
-        else:
-            aoe_target, aoe_cnt = single_target, 0
+
         ricochet_cd = data[a('弹射')]
         gauss_round_cd = data[a('虹吸弹')]
         if data.me.level < 74:
             ricochet_cd -= 30
             gauss_round_cd -= 30
+
         if min(ricochet_cd, gauss_round_cd) < 15:
             if gauss_round_cd <= ricochet_cd:
                 return UseAbility(a('虹吸弹'), single_target.id)
             else:
-                return UseAbility(a('弹射'), aoe_target.id)
+                return UseAbility(a('弹射'), cnt_enemy(data, ricochet)[0].id)
+
         if data.gauge.battery >= 90:
             return UseAbility(a('车式浮空炮塔'), single_target.id)
 
@@ -117,6 +116,6 @@ class MachinistLogic(Strategy):
             if gauss_round_cd <= ricochet_cd:
                 return UseAbility(a('虹吸弹'), single_target.id)
             else:
-                return UseAbility(a('弹射'), aoe_target.id)
+                return UseAbility(a('弹射'), cnt_enemy(data, ricochet)[0].id)
         if data.gauge.battery >= 50:
             return UseAbility(a('车式浮空炮塔'), single_target.id)
