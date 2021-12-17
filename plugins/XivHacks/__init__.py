@@ -1,6 +1,7 @@
 import base64
 from pathlib import Path
 from threading import Lock
+from traceback import format_exc
 from typing import TYPE_CHECKING
 
 import math
@@ -24,6 +25,8 @@ if TYPE_CHECKING:
 action_hook_args_type = [c_int, c_int64, c_int64, POINTER(ActionParam), POINTER(ActionEffectEntry * 8), POINTER(c_ulonglong)]
 DEFAULT_SALOCK_FIX1 = 0.35
 DEFAULT_SALOCK_FIX2 = 0.5
+
+command = "@hacks"
 
 
 def in_out_log(func):
@@ -114,6 +117,7 @@ class XivHacks(PluginBase):
             self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
 
         self.storage.save()
+        self.register_command()
 
     def onunload(self):
         if hack_zoom:
@@ -132,6 +136,25 @@ class XivHacks(PluginBase):
             self.set_anti_afk(False)
         if jump:
             self.set_jump(None)
+
+    @event("plugin_load:Command")
+    def register_command(self, _):
+        try:
+            plugins.Command.register(self, command, self.process_cmd)
+        except PluginNotFoundException:
+            self.logger.warning("Command is not found")
+
+    def process_cmd(self, args):
+        try:
+            cmd = args[0]
+            expression = ' '.join(args[1:])
+            if isinstance(getattr(self.__class__, cmd, None), BindValue):
+                setattr(self, cmd, eval(expression))
+            else:
+                self.logger.warning("Command not found")
+        except Exception as e:
+            self.logger.error(str(e))
+            self.logger.error(format_exc())
 
     # zoom
     if hack_zoom:
