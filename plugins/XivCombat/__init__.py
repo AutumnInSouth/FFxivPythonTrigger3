@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import time
 
 from FFxivPythonTrigger import PluginBase, AddressManager, plugins, PluginNotFoundException, game_ext
-from FFxivPythonTrigger.decorator import event, BindValue
+from FFxivPythonTrigger.decorator import event, BindValue, EventCall, ReEventCall
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
@@ -76,13 +76,19 @@ action_distance_check_interface = CFUNCTYPE(c_int64, c_uint, c_int64, c_int64)
 action_data_interface = CFUNCTYPE(c_int64, c_int64)
 action_recast_interface = CFUNCTYPE(c_int, c_int, c_int, c_int64, c_int64) if game_ext > 3 else CFUNCTYPE(c_int, c_int, c_int, c_byte)
 all_strategies = {}
-
+strategy_events = {}
 for file in (Path(__file__).parent / 'strategies').iterdir():
     if file.is_dir() and (file / '__init__.py').exists() or file.is_file() and file.suffix == '.py':
         module = import_module(f'{__package__}.strategies.{file.stem}')
-        for obj in module.__dict__.values():
-            if isclass(obj) and issubclass(obj, strategies.Strategy) and obj != strategies.Strategy:
+        for name, obj in module.__dict__.items():
+            if isinstance(obj, (EventCall, ReEventCall)):
+                strategy_events[f"{file.stem}|{name}"] = obj
+            elif isclass(obj) and issubclass(obj, strategies.Strategy) and obj != strategies.Strategy:
                 all_strategies.setdefault(obj.job, {})[obj.name] = obj()
+
+if strategy_events:
+    strategy_events['name'] = "XivCombatStrategyEvent"
+    XivCombatStrategyEvent = type('XivCombatStrategyEvent', (PluginBase,), strategy_events)
 
 status_cant_action = {status.key for status in status_sheet if status['LockActions']}
 
@@ -112,10 +118,7 @@ class XivCombat(PluginBase):
             api._func_action_type_check = action_type_check_interface(self._address['action_type_check'])
             api._func_action_distance_check = action_distance_check_interface(self._address['action_distance_check'])
             api._func_action_recast_ms = action_recast_interface(self._address['action_recast_ms'])
-            self.hot_bar_process_hook(self, self._address['hot_bar_process'])
 
-            self.common_config = default_common_config | self.common_config
-            self.storage.save()
             self.work = False
             self.work_lock = Lock()
             self.ability_cnt = 0
@@ -126,6 +129,12 @@ class XivCombat(PluginBase):
             self.record_file = None
             self.record_lock = Lock()
             self.register_command()
+            self.prev_job = None
+            self.layout_set_lock = Lock()
+
+            self.common_config = default_common_config | self.common_config
+            self.storage.save()
+            self.hot_bar_process_hook(self, self._address['hot_bar_process'])
 
             self.register_event('network/zone/server/combat_reset', lambda evt: self.new_monitor())
 
@@ -165,6 +174,7 @@ class XivCombat(PluginBase):
         @common_config.setter
         def common_config(self, value):
             self.storage.data['common_config'] = value
+            self.layout_config_update()
 
         @property
         def strategy_config(self) -> dict:
@@ -183,10 +193,14 @@ class XivCombat(PluginBase):
                 ).setdefault(
                     utils.job_name(), {}
                 )[strategy.name] = value
+                self.layout_config_update()
 
         @property
         def current_strategy(self) -> strategies.Strategy | None:
             job_name = utils.job_name()
+            if job_name != self.prev_job:
+                self.prev_job = job_name
+                self.layout_config_update()
             strategy_name = self.storage.data.setdefault('strategy_pairing', {}).get(job_name)
             if strategy_name is None and job_name in all_strategies:
                 strategy = next(iter(all_strategies[job_name].values()))
@@ -208,6 +222,7 @@ class XivCombat(PluginBase):
                 self.storage.data.setdefault('strategy_pairing', {})[job_name] = value.name
             else:
                 raise TypeError("strategy must be a string or a subclass of strategies.Strategy")
+            self.layout_config_update()
 
         def get_logic_data(self):
             data = logic_data.LogicData(self.common_config | self.strategy_config, self)
@@ -361,6 +376,7 @@ class XivCombat(PluginBase):
                             except:
                                 new = ' '.join(args[3:])
                             config[args[2]] = new
+                            self.layout_config_update()
                             return f"{old} => {new}"
                         case unk:
                             self.logger.error(f"unknown arg: {unk}")
@@ -474,3 +490,30 @@ class XivCombat(PluginBase):
 
         def layout_new_monitor(self):
             return bool(self.new_monitor())
+
+        def layout_config_update(self):
+            job = utils.job_name()
+            self.client_event('config_update', {
+                'job': job,
+                'current_strategy': getattr(self.current_strategy, 'name', None),
+                'strategies': [strategy for strategy in all_strategies.get(job, {}).keys()],
+                'common_config': self.common_config,
+                'strategy_config': self.strategy_config,
+            })
+            return True
+
+        def layout_set(self, set_type: int, set_key: str, set_value: str):
+            with self.layout_set_lock:
+                match set_type:
+                    case 1:
+                        self.current_strategy = set_value
+                    case 2 | 3 as t:
+                        config = self.common_config if t == 2 else self.strategy_config
+                        try:
+                            new = eval(set_value, {}, define.__dict__)
+                        except:
+                            new = set_value
+                        config[set_key] = new
+                        self.layout_config_update()
+                    case _:
+                        raise ValueError(f'unknown set_type {set_type}')

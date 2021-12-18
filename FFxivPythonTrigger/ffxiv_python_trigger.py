@@ -182,11 +182,7 @@ class PluginController(object):
         self.started = False
         store_values = self.plugin.storage.data.setdefault(self.plugin.bind_values_store_key, dict())
         for attr_name, attr in self.plugin.__class__.__dict__.items():
-            if isinstance(attr, ReEventCall):
-                self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
-            elif isinstance(attr, EventCall):
-                self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
-            elif isinstance(attr, BindValue):
+            if isinstance(attr, BindValue):
                 attr.key = attr_name
                 self.bind_values[attr_name] = store_values.get(attr_name, attr.default)
 
@@ -231,6 +227,11 @@ class PluginController(object):
         register_re_event(pattern, callback)
 
     def start_plugin(self):
+        for attr_name, attr in self.plugin.__class__.__dict__.items():
+            if isinstance(attr, ReEventCall):
+                self.register_re_event(attr.pattern, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
+            elif isinstance(attr, EventCall):
+                self.register_event(attr.event_id, getattr(self.plugin, attr_name), attr.limit_sec, attr.min_interval)
         for p_hook in self.hook_to_start:
             try:
                 p_hook.install_and_enable()
