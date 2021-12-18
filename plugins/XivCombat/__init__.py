@@ -509,10 +509,13 @@ class XivCombat(PluginBase):
                         self.current_strategy = set_value
                     case 2 | 3 as t:
                         config = self.common_config if t == 2 else self.strategy_config
+                        old = config.get(set_key, None)
                         try:
                             new = eval(set_value, {}, define.__dict__)
                         except:
                             new = set_value
+                        if type(new) != type(old):
+                            raise Exception('type mismatch')
                         config[set_key] = new
                         self.layout_config_update()
                     case _:
