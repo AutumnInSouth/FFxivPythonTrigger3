@@ -35,9 +35,9 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
-        #self.omen_create(self, BASE_ADDR + 0x6FF1C0)
-        self.action_recast(self, BASE_ADDR + 0x07DE990)
-
+        # self.omen_create(self, BASE_ADDR + 0x6FF1C0)
+        # self.action_recast(self, BASE_ADDR + 0x07DE990)
+        self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
     # """_QWORD *__fastcall sub_1406F9730(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6)"""
     #
     # @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
@@ -61,12 +61,26 @@ class TestHook(PluginBase):
                         f" {facing:.2f} {action_data[0]}")
         return hook.original(source_actor_ptr, web_pos, facing, action_data, a5, a6)
 
-    #_QWORD *__fastcall sub_1407DE990(int a1, __int64 a2, __int64 a3, __int64 a4)
+    # _QWORD *__fastcall sub_1407DE990(int a1, __int64 a2, __int64 a3, __int64 a4)
     @PluginHook.decorator(c_int, [c_int, c_int64, c_int64, c_int64], True)
     def action_recast(self, hook, a1, a2, a3, a4):
-        self.cnt+=1
-        if self.cnt>=10:
+        self.cnt += 1
+        if self.cnt >= 10:
             hook.uninstall()
         ans = hook.original(a1, a2, a3, a4)
         self.logger(f"{ans} {a1} {a2:x} {a3:x} {a4:x}")
+        return ans
+
+    """_BYTE *__fastcall sub_1416014C0(_QWORD *a1,unsigned int a2)"""
+
+    @PluginHook.decorator(c_int64, [c_int64, c_uint], True)
+    def sub_1416014C0(self, hook, a1, a2):
+        self.cnt += 1
+        if self.cnt >= 1000:
+            hook.uninstall()
+        ans = hook.original(a1, a2)
+        str=read_string(ans)
+        if str == "金刚极意":
+            self.logger(f"{ans:x} {a1:x} {a2} {str}")
+            hook.uninstall()
         return ans

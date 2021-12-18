@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from FFxivPythonTrigger import PluginBase, plugins, AddressManager, PluginNotFoundException, game_ext
 from FFxivPythonTrigger.decorator import event
-from FFxivPythonTrigger.saint_coinach import action_sheet, action_names, territory_type_names
+from FFxivPythonTrigger.saint_coinach import action_sheet, territory_type_names
 from . import utils
 from .reflect import reflect_data
 from .extra_omens import ExtraOmens
