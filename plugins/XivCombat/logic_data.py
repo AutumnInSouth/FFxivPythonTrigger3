@@ -153,7 +153,7 @@ class LogicData(object):
             case define.ALL_IN_COMBAT | define.ALL_CAN_ATTACK as k:
                 all_enemy = [actor for actor in api.get_can_select() if self.is_target_attackable(actor)]
                 if k == define.ALL_IN_COMBAT:
-                    all_enemy = [actor for actor in all_enemy if actor.is_in_combat]
+                    all_enemy = [actor for actor in all_enemy if actor.is_in_combat and self.is_target_attackable(actor)]
             case k:
                 raise Exception(f'invalid targets {k}')
         return sorted(all_enemy, key=self.actor_distance_effective)

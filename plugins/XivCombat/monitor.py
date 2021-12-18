@@ -154,12 +154,12 @@ class Monitor:
                 elif 'combo' in effect.tags:
                     if source_actor:
                         source_actor.last_combo = effect.param
-            if target_actor.actor and target_id < 0x40000000:
-                if is_actor_status_can_damage(target_actor.actor) != is_invincible:
-                    try:
-                        getattr(invincible_actor, 'add' if is_invincible else 'remove')(target_id)
-                    except KeyError:
-                        pass
+            if target_actor.actor and target_id > 0x40000000 and is_actor_status_can_damage(
+                    target_actor.actor) == is_invincible and action_event.source_id == plugins.XivMemory.player_info.id:
+                try:
+                    getattr(invincible_actor, 'add' if is_invincible else 'remove')(target_id)
+                except KeyError:
+                    pass
         self.process_outdated_effects()
         return True
 

@@ -30,7 +30,6 @@ class GunBreakerStrategy(Strategy):
             single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('闪雷弹')))
             if not single_target: return
             single_distance = data.actor_distance_effective(single_target)
-
         if set(data.effects.keys()).intersection(continuations):
             return UseAbility(a('续剑'), single_target.id, ability_type=define.AbilityType.oGCD) if single_distance <= 3 else None
 
