@@ -340,6 +340,20 @@ class SamuraiGauge(OffsetStruct({
         return bool(self.sen_bits & 4)
 
 
+class ReaperGauge(OffsetStruct({
+    'souls': (c_ubyte, 0),
+    'shroud': (c_ubyte, 1),
+    'enshrouded_remain_ms': (c_ushort, 2),
+    'lemure_shroud': (c_ubyte, 4),
+    'void_shroud': (c_ubyte, 5)
+}, 16)):
+    souls: int
+    shroud: int
+    enshrouded_remain_ms: int
+    lemure_shroud: int
+    void_shroud: int
+
+
 gauges = {
     'Paladin': PaladinGauge,  # 骑士PLD
     'Monk': MonkGauge,  # 武僧MNK
@@ -359,4 +373,5 @@ gauges = {
     'RedMage': RedMageGauge,  # 赤魔法师RDM
     'Gunbreaker': GunbreakerGauge,  # 绝枪战士GNB
     'Dancer': DancerGauge,  # 舞者DNC
+    'Reaper': ReaperGauge,  # 舞者DNC
 }

@@ -84,5 +84,8 @@ class Dot(ComboBase):
         return 100 if t_effects[poison].timer < t_effects[wind].timer else 113
 
 
-combos = [Single,Multi, Dot]
-
+combos = [
+    Single,
+    Multi,
+    # Dot #与自动战斗多目标dot冲突，暂时不使用
+]
