@@ -105,7 +105,7 @@ else:
         'e_npc_id': (c_uint, 0x80),
         'owner_id': (c_uint, 0x84),
         'type': (ActorType, 0x8c),
-        'sub_type': (ActorType, 0x8d),
+        'sub_type': (c_ubyte, 0x8d),
         'is_friendly': (c_ubyte, 0x8e),
         'effective_distance_x': (c_ubyte, 0x90),
         'player_target_status': (c_ubyte, 0x91),
@@ -151,7 +151,7 @@ class Actor(OffsetStruct(_actor_struct)):
     e_npc_id: int
     owner_id: int
     type: ActorType
-    sub_type: ActorType
+    sub_type: int
     is_friendly: int
     effective_distance_x: int
     player_target_status: int
