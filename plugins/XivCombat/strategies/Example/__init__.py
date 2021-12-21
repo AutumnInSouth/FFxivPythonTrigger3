@@ -8,3 +8,4 @@ if game_ext == 3:
     from .dragoon import DragoonLogic
     from .monk import MonkLogic
     from .astrologian import AstrologianLogic
+    from .blm_pvp import BlmPvpLogic, blm_pvp_effect_remove, blm_pvp_record_thunder

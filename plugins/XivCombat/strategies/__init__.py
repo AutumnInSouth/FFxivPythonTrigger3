@@ -1,9 +1,9 @@
 from functools import cached_property
-from typing import Optional, Union, Tuple, Callable, TYPE_CHECKING
-from ..define import AbilityType
+from typing import Tuple, Callable, TYPE_CHECKING
 
 from XivCombat import api
 from XivCombat.define import HQ_FIRST
+from ..define import AbilityType
 
 if TYPE_CHECKING:
     from ..logic_data import LogicData
@@ -43,19 +43,22 @@ class UseCommon(_Using):
         self.target_id = target_id
 
 
+AnyUse = UseAbility | UseItem | UseCommon | None
+
+
 class Strategy(object):
     name = ""
     job = ""
     fight_only: bool = True
     default_data = {}
 
-    def global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
+    def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         pass
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         pass
 
-    def common_ability(self, data: 'LogicData') -> UseAbility | UseItem | UseCommon | None:
+    def common_ability(self, data: 'LogicData') -> AnyUse:
         pass
 
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
