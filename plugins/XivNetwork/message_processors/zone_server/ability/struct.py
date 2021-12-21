@@ -100,7 +100,7 @@ class ServerActionEffect16(OffsetStruct({
     'padding4': c_uint,
     'target_id': c_ulonglong * 16,
     'padding5': c_uint,
-}), ServerActionEffectType):
+}, 0x4BC), ServerActionEffectType):
     max_count = 16
 
 
