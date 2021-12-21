@@ -128,11 +128,13 @@ def single(data: 'LogicData'):
     if data.me.current_mp < 10000:
         return 8864
 
+
 def get_buff(data: 'LogicData'):
     b = source_dmg_modify(data.effects)
     if data.gauge.umbral_stacks > 0:
         b *= 1.2
     return b * 0.95
+
 
 class BlmPvpLogic(Strategy):
     name = 'ny/blm_pvp'
@@ -148,8 +150,8 @@ class BlmPvpLogic(Strategy):
         has_speed = 1987 in data.effects or self.buff > perf_counter() - 1
         if data.gauge.foul_count:
             kill_line = 2400 * get_buff(data)
-            kill_line_targets = [enemy for enemy in enemies_25 if enemy.enemy.currentHP < kill_line]
-            if kill_line_targets: return UseAbility(17774, max(kill_line_targets, key=lambda x: x.enemy.currentHP).enemy)
+            kill_line_targets = [enemy for enemy in enemies_25 if enemy.enemy.current_hp < kill_line]
+            if kill_line_targets: return UseAbility(17774, max(kill_line_targets, key=lambda x: x.enemy.current_hp).enemy)
         if enemies_25_aoe and data.gauge.umbral_stacks > 0:
             if 1365 in data.effects and not has_speed:
                 aoe_target = max(enemies_25_aoe, key=lambda x: (x.total_aoe, x.total_aoe_non_thunder))
@@ -177,7 +179,7 @@ class BlmPvpLogic(Strategy):
                     aoe_target = max(enemies_20_aoe, key=lambda x: (x.total_aoe_thunder, x.total_aoe))
                     return UseAbility(aoe(data), aoe_target.enemy)
         target_with_thunder = [enemy for enemy in enemies_25 if enemy.thunder > 3]
-        single_target = min(target_with_thunder if target_with_thunder else enemies_25, key=lambda x: x.enemy.currentHP)
+        single_target = min(target_with_thunder if target_with_thunder else enemies_25, key=lambda x: x.enemy.current_hp)
         if has_speed:
             return UseAbility((single(data) or 8864) if data.gauge.umbral_stacks else aoe(data), single_target.enemy)
         if 1365 in data.effects and data.effects[1365].timer < 5:
