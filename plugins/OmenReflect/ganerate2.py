@@ -18,11 +18,13 @@ action_sheet_chs = pysaintcoinach.ARealmReversed(
 
 def name(action_id):
     name = action_sheet[action_id]['Name']
+    if not name: return '? '
     try:
-        name += ' / ' + action_sheet_chs[action_id]['Name']
+        chs_name = action_sheet_chs[action_id]['Name']
     except:
-        pass
-    return name
+        return name + ' '
+    if chs_name == name: return name + ' '
+    return f'{name} / {chs_name} '
 
 
 @cache
@@ -66,5 +68,5 @@ d = {a1: a2 for a1, a2 in {action.key: find_omen(action.key) for action in actio
 with open('reflect.py', 'w', encoding='utf-8') as f:
     f.write("reflect_data = {\n")
     for k, v in d.items():
-        f.write(f"    {k}: {v}, # {name(k)}\n")
+        f.write(f"    {k}: {v},  # {name(k)}\n")
     f.write("}\n")
