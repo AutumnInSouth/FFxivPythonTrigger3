@@ -1,11 +1,3 @@
-from pathlib import Path
-
-import pysaintcoinach
-# reflect
-
-black_lists = {
-    22000: {19789},
-}
 white_list = {
     22748: 229,  # 空无的恶意e12s
     22710: 229,  # 拒绝之手e12s
@@ -86,35 +78,8 @@ white_list = {
     27793: 28,
     27794: 28,
     **{s: 28 for s in range(28433, 28437)},  # The Mothercrystal|Hydaelyn|Aureole|
+    26024: 107,  # The Mothercrystal|Hydaelyn|26024|Heros's Glory
 }
-# realm = pysaintcoinach.ARealmReversed(r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game', pysaintcoinach.Language.chinese_simplified)
-realm = pysaintcoinach.ARealmReversed(
-    r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game',
-    pysaintcoinach.Language.english,
-    Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt4')
-)
-realm_chs = pysaintcoinach.ARealmReversed(
-    r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game',
-    pysaintcoinach.Language.chinese_simplified,
-    Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt4')
-)
-action_sheet = realm.game_data.get_sheet('Action')
-action_sheet_chs = realm_chs.game_data.get_sheet('Action')
-chs_name = lambda key:action_sheet_chs[key]['Name']
-
-compare_field = ['Animation{Start}', 'VFX', 'Animation{End}', 'ActionTimeline{Hit}']
-# idx: 'CastType', 'EffectRange', 'XAxisModifier'
-action_with_omen = [action for action in action_sheet if action['Omen'].key]
-action_idx = {}
-action_name_idx = {}
-for action in action_with_omen:
-    key = action['CastType'], action['EffectRange'], action['XAxisModifier']
-    if action['Omen'].key not in {
-        203, 278, 139, 229, 314,  # 击退
-        27, 152, 165, 251  # 扩散
-    }:
-        action_idx.setdefault(key, []).append(action)
-    action_name_idx.setdefault(action['Name'], {}).setdefault(key, []).append(action)
 
 translate = {
     110: 1,
@@ -137,28 +102,20 @@ translate = {
 }
 
 
-def find_reflect(action_id):
-    if not action_id % 1000: print(action_id)
-    action_data = action_sheet[action_id]
-    if action_data['Omen'].key or action_data['CastType'] < 2 or not action_data['Cast<100ms>']: return 0
-    key = action_data['CastType'], action_data['EffectRange'], action_data['XAxisModifier']
-    allow_action = action_name_idx.get(action_data['Name'], {}).get(key) or action_idx.get(key)
-    if not allow_action: return 0
-    black_list = black_lists.get(action_id)
-    if black_list: allow_action = [a for a in allow_action if a.key not in black_list]
-    if not allow_action: return 0
-    select = min(allow_action, key=lambda a: (-sum(a[f] == action_data[f] for f in compare_field), a['Omen'].key))
-    # print(action_id, action_data, select, ';', ','.join(a['Name'] for a in allow_action))
-    return translate.get(select['Omen'].key, select['Omen'].key)
+def get_translate(old_omen):
+    return translate.get(old_omen, old_omen)
 
 
-# print(find_reflect(22294))
-
-
-d = {action.key: (white_list[action.key] if action.key in white_list else find_reflect(action.key))
-                            for action in action_sheet}
-d = {a1: a2 for a1, a2 in d.items() if a2 and a1 != a2}
-import pprint
-
-with open('reflect.py', 'w') as f:
-    f.write('reflect_data = ' + pprint.pformat(d, indent=4))
+cast_type_omen_default = {
+    2: 1,
+    3: 4,
+    4: 2,
+    5: 1,
+    6: 1,
+    7: 1,
+    8: 2,
+    10: 108,
+    11: 188,
+    12: 2,
+    13: 4,
+}

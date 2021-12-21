@@ -48,7 +48,7 @@ class GunBreakerStrategy(Strategy):
             return UseAbility(a('Double Down'), aoe_target.id)
         if data[a('烈牙')] < data.gcd and data.gauge.cartridges and res and (in_no_mercy or no_mercy_cd + 7 > data.recast_time(a('烈牙'))):
             return UseAbility(a('烈牙'), single_target.id)
-        if res and in_no_mercy and data[a('音速破')] < data.gcd:
+        if res and data[a('烈牙')] and in_no_mercy and data[a('音速破')] < data.gcd:
             return UseAbility(a('音速破'), single_target.id)
         if data.gauge.continuation_state:
             return UseAbility(a('烈牙'), single_target.id)

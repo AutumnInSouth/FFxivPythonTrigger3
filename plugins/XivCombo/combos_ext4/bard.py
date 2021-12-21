@@ -47,6 +47,7 @@ class Single(ComboBase):
     def combo(me):
         return 98 if me.effects.has(122) else 97
 
+
 class Multi(ComboBase):
     action_id = 16494
     combo_id = "brd/multi"
