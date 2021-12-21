@@ -62,12 +62,12 @@ class GunbreakerLogic(Strategy):
     name = "gunbreaker_logic"
     job = "Gunbreaker"
 
-    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Tuple[int, int]|None:
         if action_id in {16151,16161}:
             mo_target = api.get_mo_target()
             if mo_target: return action_id, mo_target.id
 
-    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         cartridges_full = data.combo_id in [16139, 16141 if data.me.level >= 40 else -1] and data.gauge.cartridges == 2
         cnt = count_enemy(data)
         res = res_lv(data)
@@ -101,7 +101,7 @@ class GunbreakerLogic(Strategy):
             return UseAbility(16149)
         return UseAbility(16137 if cnt < 2 or data.me.level < 10 else 16141)
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         has_spec = 1842 in data.effects or 1843 in data.effects or 1844 in data.effects
         if data.target_distance > 3: return
         if has_spec: return UseAbility(16155)

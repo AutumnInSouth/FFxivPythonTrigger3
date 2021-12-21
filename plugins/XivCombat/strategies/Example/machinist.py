@@ -54,7 +54,7 @@ class MachinistLogic(Strategy):
     name = "machinist_logic"
     job = "Machinist"
 
-    def global_cool_down_ability(self, data: logic_data.LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: logic_data.LogicData) -> AnyUse:
         hsid = 2872 if data.me.level < 76 else 16500
         single = is_single(data)
         res_use = res_lv(data)
@@ -76,7 +76,7 @@ class MachinistLogic(Strategy):
         else:
             return data.use_ability_to_target(16497 if data.gauge.overheat_ms and data.me.level >= 52 else 2870)
 
-    def non_global_cool_down_ability(self, data: logic_data.LogicData) -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: logic_data.LogicData) -> AnyUse:
         hsid = 2872 if data.me.level < 76 else 16500
         res_use = res_lv(data)
         if data.target_distance > 25:

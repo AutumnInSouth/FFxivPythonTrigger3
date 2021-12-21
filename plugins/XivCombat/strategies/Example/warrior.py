@@ -80,12 +80,12 @@ class WarriorLogic(Strategy):
     def __init__(self):
         self.last_buff = 0
 
-    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Tuple[int, int]|None:
         if action_id in {16464, 7540, 7538}:
             mo_target = api.get_mo_target()
             if mo_target: return action_id, mo_target.id
 
-    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         need_red = data.me.level >= 50 and (90 not in data.effects or data.effects[90].timer < 10)
         use_green = data.combo_id == 37 and (data.me.level < 50 or 90 in data.effects and data.effects[90].timer > 30)
         s = 7389 if data.me.level >= 70 else 38
@@ -108,7 +108,7 @@ class WarriorLogic(Strategy):
             return UseAbility(37)
         return UseAbility(31)
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         if res_lv(data) and (data.me.level < 50 or 90 in data.effects):
             s = 7389 if data.me.level >= 70 else 38
             if not data[s] and data[52] > 60 and 1897 not in data.effects:

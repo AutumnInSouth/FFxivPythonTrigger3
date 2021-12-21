@@ -1,6 +1,6 @@
-from XivCombat.strategies import *
 from XivCombat import define
 from XivCombat.multi_enemy_selector import Rectangle, select
+from XivCombat.strategies import *
 
 """
 7541,内丹,8
@@ -92,12 +92,12 @@ class DragoonLogic(Strategy):
         'jump_distance': 0,
     }
 
-    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Optional[Tuple[int, int]]:
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Tuple[int, int] | None:
         if action_id in {7398}:
             mo_target = api.get_mo_target()
             if mo_target: return action_id, mo_target.id
 
-    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         target, cnt = cnt_enemy(data, a1)
         has_next = set(data.effects.keys()).intersection(combo_buff) or data.me.level >= combo_lv.get(data.combo_id, 99)
         if data.me.level >= 40 and cnt and (cnt >= 3 or data.target_distance > 4 and not has_next):
@@ -122,7 +122,7 @@ class DragoonLogic(Strategy):
             return UseAbility(78)
         return UseAbility(75)
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         if not res_lv(data): return
         if not (data[3553] or data.gauge.blood_or_life_ms) and data.gauge.stance != 2: return UseAbility(3553)
         if not data[83] and data.combo_id == (78 if data.me.level >= 26 else 75): return UseAbility(83)

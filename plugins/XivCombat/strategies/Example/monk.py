@@ -80,7 +80,7 @@ class MonkLogic(Strategy):
         'jump_distance': 0,
     }
 
-    def global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         if data.target_distance > 4:
             if data.me.level >= 54 and data.gauge.chakra_stacks < 5:
                 return UseAbility(3546)
@@ -102,7 +102,7 @@ class MonkLogic(Strategy):
             return UseAbility(74)
         return UseAbility(53)
 
-    def non_global_cool_down_ability(self, data: 'LogicData') -> Optional[Union[UseAbility, UseItem, UseCommon]]:
+    def non_global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
         if not res_lv(data) or data.target_distance > 4: return
         buff_skills = [data[s] for s in [7396, 7395, 69] if data[s] < 70]
         t, cnt = cnt_enemy(data, a2)
