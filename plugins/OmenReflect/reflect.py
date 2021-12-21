@@ -3169,8 +3169,8 @@ reflect_data = {
     22047: 107,  # the Art of Darkness / 暗之战技 
     22056: 1,  # Anti-air Particle Beam / 高射式波动炮 
     22057: 302,  # Full-perimeter Particle Beam / 扫射式波动炮 
-    22061: 114,  # Blastburn / 火燃爆 
-    22084: 114,  # Blastburn / 火燃爆 
+    22061: 2,  # Blastburn / 火燃爆 
+    22084: 2,  # Blastburn / 火燃爆 
     22096: 1,  # Burnished Glory / 光焰圆光 
     22098: 2,  # Burnt Strike / 燃烧击 
     22099: 114,  # Blastburn / 火燃爆 
@@ -3183,14 +3183,14 @@ reflect_data = {
     22128: 2,  # Bright Pulse / 闪光 
     22129: 2,  # Bright Pulse / 闪光 
     22137: 2,  # Burnt Strike / 燃烧击 
-    22138: 114,  # Blastburn / 火燃爆 
+    22138: 2,  # Blastburn / 火燃爆 
     22139: 2,  # Burnt Strike / 燃烧击 
     22140: 2,  # Burnout / 雷燃爆 
     22141: 2,  # Burnt Strike / 燃烧击 
     22142: 1,  # Shining Blade / 光明之刃 
     22152: 15,  # Resounding Crack / 魔乱流 
     22153: 108,  # Resonant Winds / 魔旋风 
-    22159: 114,  # Blastburn / 火燃爆 
+    22159: 2,  # Blastburn / 火燃爆 
     22166: 2,  # Burnout / 雷燃爆 
     22174: 1,  # Shining Blade / 光明之刃 
     22180: 1,  # Burnished Glory / 光焰圆光 
@@ -3718,14 +3718,14 @@ reflect_data = {
     26070: 1,  # Mousa's Scorn 
     26071: 1,  # Heros's Radiance 
     26072: 1,  # Magos's Radiance 
-    26073: 107,  # Gaoler's Flail 
-    26074: 107,  # Gaoler's Flail 
+    26073: 194,  # Gaoler's Flail 
+    26074: 194,  # Gaoler's Flail 
     26075: 1,  # Gaoler's Flail 
     26076: 1,  # Gaoler's Flail 
     26077: 108,  # Gaoler's Flail 
     26078: 108,  # Gaoler's Flail 
-    26079: 4,  # Aetherflail 
-    26080: 4,  # Aetherflail 
+    26079: 194,  # Aetherflail 
+    26080: 194,  # Aetherflail 
     26081: 1,  # Aetherflail 
     26082: 1,  # Aetherflail 
     26083: 108,  # Aetherflail 
@@ -3742,11 +3742,8 @@ reflect_data = {
     26248: 1,  # Explosion 
     26256: 28,  # Lateral Aureole 
     26267: 1,  # Ashplume 
-    26269: 1,  # Charplume 
     26281: 1,  # Dead Rebirth 
-    26288: 1,  # Flare of Condemnation 
     26289: 1,  # 獄炎の火花 
-    26291: 1,  # Heat of Condemnation 
     26296: 1,  # Scorched Exaltation 
     26422: 2,  # Frowny Face 
     26423: 2,  # Smiley Face 
@@ -3779,8 +3776,6 @@ reflect_data = {
     26610: 1,  # Adikia 
     26613: 1,  # Apomnemoneumata 
     26614: 1,  # Sewage Deluge 
-    26633: 1,  # Tainted Flood 
-    26638: 1,  # Doubled Impact 
     26639: 1,  # Murky Depths 
     26688: 1,  # Woeful Fulgurance 
     26690: 53,  # Lethal Levin 
@@ -3830,13 +3825,10 @@ reflect_data = {
     27077: 1,  # Ode to Lost Love 
     27079: 1,  # Divine Call 
     27080: 1,  # Divine Call 
-    27192: 1,  # Acid Mekhane 
-    27193: 1,  # Lava Mekhane 
     27200: 1,  # Bloodrake 
     27204: 1,  # Burst 
     27205: 1,  # Burst 
     27206: 1,  # Burst 
-    27216: 1,  # Elegant Evisceration 
     27217: 1,  # Decollation 
     27219: 1,  # Twister 
     27221: 1,  # Spark 
@@ -3965,7 +3957,6 @@ reflect_data = {
     28364: 1,  # Airborne Explosion 
     28374: 1,  # Extinction Flare 
     28375: 1,  # Extinction Flare 
-    28379: 1,  # Darkened Blaze 
     28382: 1,  # Dead Rebirth 
     28386: 1,  # Craniotomy 
     28391: 181,  # Hydroshot 

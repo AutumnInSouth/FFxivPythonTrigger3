@@ -34,8 +34,9 @@ def name(action_id):
 def end_type_omen_map():
     _map = {}
     for action in action_sheet:
-        omen = generate_data.white_list.get(action.key, getattr(action['Omen'], 'key', 0))
+        omen = getattr(action['Omen'], 'key', 0)
         if not omen: continue
+        omen = generate_data.white_list.get(action.key, omen)
         key = getattr(action['Animation{End}'], 'key', 0), action['CastType']
         if key[0] == 0 or key[0] in action_time_line_black_list or key[1] < 2: continue
         _map.setdefault(key, set()).add(omen)
@@ -46,8 +47,9 @@ def end_type_omen_map():
 def name_end_type_omen_map():
     _map = {}
     for action in action_sheet:
-        omen = generate_data.white_list.get(action.key, getattr(action['Omen'], 'key', 0))
+        omen = getattr(action['Omen'], 'key', 0)
         if not omen: continue
+        omen = generate_data.white_list.get(action.key, omen)
         key = action['Name'], getattr(action['Animation{End}'], 'key', 0), action['CastType']
         if key[1] == 0 or key[2] < 2: continue
         _map.setdefault(key, set()).add(omen)

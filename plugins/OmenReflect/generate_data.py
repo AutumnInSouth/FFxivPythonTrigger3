@@ -84,6 +84,17 @@ white_list = {
     26073: 194,  # The Gates of Pandæmonium|Gaoler's Flail
     26074: 194,  # The Gates of Pandæmonium|Gaoler's Flail
     26085: 0,  # The Gates of Pandæmonium|Pitiless Flail
+    26079: 194,  # The Gates of Pandæmonium|Aetherflail
+    26080: 194,  # The Gates of Pandæmonium|Aetherflail
+    26638: 0,  # The Stagnant Limbo|Doubled Impact
+    26633: 0,  # The Stagnant Limbo|Tainted Flood
+    26288: 0,  # The Fervid Limbo|Flare of Condemnation
+    26269: 0,  # The Fervid Limbo|Charplume
+    26291: 0,  # The Fervid Limbo|Heat of Condemnation
+    28379: 0,  # The Fervid Limbo|Darkened Blaze
+    27192: 0,  # The Sanguine Limbo|Acid Mekhane
+    27193: 0,  # The Sanguine Limbo|Lava Mekhane
+    27216: 0,  # The Sanguine Limbo|Elegant Evisceration
 }
 
 translate = {
