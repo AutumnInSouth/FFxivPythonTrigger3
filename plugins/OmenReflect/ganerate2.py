@@ -4,16 +4,20 @@ from pathlib import Path
 import pysaintcoinach
 import generate_data
 
-action_sheet = pysaintcoinach.ARealmReversed(
+realm = pysaintcoinach.ARealmReversed(
     r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game',
     pysaintcoinach.Language.english,
     Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt4')
-).game_data.get_sheet('Action')
+)
+action_sheet = realm.game_data.get_sheet('Action')
 action_sheet_chs = pysaintcoinach.ARealmReversed(
     r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game',
     pysaintcoinach.Language.chinese_simplified,
     Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt3')
 ).game_data.get_sheet('Action')
+
+action_time_line_black_list = {row.key for row in realm.game_data.get_sheet('ActionTimeline') if '[SKL_ID]' in row['Key']}
+print(action_time_line_black_list)
 
 
 def name(action_id):
@@ -31,10 +35,10 @@ def name(action_id):
 def end_type_omen_map():
     _map = {}
     for action in action_sheet:
-        omen = getattr(action['Omen'], 'key', 0)
+        omen = generate_data.white_list.get(action.key) or getattr(action['Omen'], 'key', 0)
         if not omen: continue
         key = getattr(action['Animation{End}'], 'key', 0), action['CastType']
-        if key[0] == 0 or key[1] < 2: continue
+        if key[0] == 0 or key[0] in action_time_line_black_list or key[1] < 2: continue
         _map.setdefault(key, set()).add(omen)
     return {k: generate_data.get_translate(min(v)) for k, v in _map.items()}
 
@@ -43,7 +47,7 @@ def end_type_omen_map():
 def name_end_type_omen_map():
     _map = {}
     for action in action_sheet:
-        omen = getattr(action['Omen'], 'key', 0)
+        omen = generate_data.white_list.get(action.key) or getattr(action['Omen'], 'key', 0)
         if not omen: continue
         key = action['Name'], getattr(action['Animation{End}'], 'key', 0), action['CastType']
         if key[1] == 0 or key[2] < 2: continue

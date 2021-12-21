@@ -236,7 +236,7 @@ reflect_data = {
     2419: 297,  # Eye of the Beholder / 眼魔之眼 
     2441: 1,  # Curtain Call / 谢幕的疯狂 
     2456: 1,  # Hailstorm / 冰雹 
-    2465: 3,  # Glacier Bash / 冰河怒击 
+    2465: 4,  # Glacier Bash / 冰河怒击 
     2466: 1,  # Diamond Dust / 钻石星尘 
     2468: 1,  # Whiteout / 白化视界 
     2490: 1,  # Spit / 吐出 
@@ -318,7 +318,7 @@ reflect_data = {
     3016: 2,  # Double Dive / 双重俯冲 
     3028: 1,  # Baleful Roar / 凶恶怒号 
     3042: 1,  # Hailstorm / 冰雹 
-    3049: 3,  # Glacier Bash / 冰河怒击 
+    3049: 4,  # Glacier Bash / 冰河怒击 
     3052: 1,  # Whiteout / 白化视界 
     3094: 1,  # ? 
     3099: 1,  # Thousand-year Storm / 千年风雪 
@@ -341,12 +341,12 @@ reflect_data = {
     3250: 2,  # Sulphurous Breath / 硫磺吐息 
     3254: 1,  # Ululation / 狂吠 
     3275: 1,  # Level 100 Flare / 100级核爆 
-    3277: 93,  # Level 150 Death / 150级即死 
+    3277: 1,  # Level 150 Death / 150级即死 
     3281: 1,  # Mortal Gaze / 死亡视线 
     3282: 1,  # Discordance / 咆哮五重奏 
     3289: 1,  # Radiance / 光球爆炸 
     3297: 2,  # Zero-form Particle Beam / 零式波动炮 
-    3302: 13,  # Particle Beam / 波动放射 
+    3302: 1,  # Particle Beam / 波动放射 
     3308: 1,  # Object 130 / 物体130 
     3316: 1,  # Aero II / 烈风 
     3320: 1,  # Missile / 导弹 
@@ -374,7 +374,7 @@ reflect_data = {
     3472: 2,  # Wild Charge / 狂野冲锋 
     3499: 1,  # Mortal Gaze / 死亡视线 
     3503: 2,  # Blazing Trail / 炽热弥漫 
-    3519: 3,  # Repel / 跳读 
+    3519: 4,  # Repel / 跳读 
     3572: 1,  # Aero III / 暴风 
     3600: 1,  # Helios / 阳星 
     3601: 1,  # Aspected Helios / 阳星相位 
@@ -389,12 +389,12 @@ reflect_data = {
     3696: 1,  # Winds of Winter / 凛冬之风 
     3719: 1,  # Prelude to Slaughter / 猛焰【序】 
     3722: 1,  # Prelude to Slaughter / 猛焰【序】 
-    3723: 15,  # Slaughter / 猛焰【破】 
+    3723: 4,  # Slaughter / 猛焰【破】 
     3731: 1,  # Bloody Fuller / 神通力 
     3758: 1,  # Final Liberation / 光焰【灭】 
     3763: 1,  # Bloody Fuller / 神通力 
     3772: 1,  # Prelude to Liberation / 光焰【序】 
-    3776: 15,  # Liberation / 光焰【破】 
+    3776: 4,  # Liberation / 光焰【破】 
     3778: 1,  # Liberation / 光焰【破】 
     3798: 1,  # Leafstorm / 绿叶风暴 
     3806: 1,  # Mad Dash / 疯狂泼溅 
@@ -408,10 +408,10 @@ reflect_data = {
     3840: 1,  # Digititis / 指尖 
     3841: 1,  # Ferrofluid / 磁石 
     3847: 1,  # Wash Away / 冲净 
-    3848: 93,  # Digititis / 指尖 
-    3849: 3,  # Equal Concentration / 水量均等化 
+    3848: 1,  # Digititis / 指尖 
+    3849: 1,  # Equal Concentration / 水量均等化 
     3850: 1,  # Hand of Pain / 苦痛之手 
-    3858: 3,  # Ferrofluid / 磁石 
+    3858: 1,  # Ferrofluid / 磁石 
     3889: 1,  # Electric Cachexia / 雷云放射 
     3901: 1,  # Self-detonate / 雾散爆发 
     3902: 1,  # Cyclonic Separation / 旋风分离 
@@ -426,8 +426,8 @@ reflect_data = {
     3971: 3,  # 10-tonze Slash / 十吨挥打 
     3972: 1,  # Disorienting Groan / 吼叫 
     3973: 1,  # Disorienting Groan / 吼叫 
-    3979: 93,  # Aetherochemical Explosive / 魔科学炸弹 
-    3981: 3,  # the Educator / 管教 
+    3979: 1,  # Aetherochemical Explosive / 魔科学炸弹 
+    3981: 1,  # the Educator / 管教 
     3992: 1,  # Thunder Thrust / 闪雷刺 
     3995: 4,  # Ripper Claw / 撕裂利爪 
     3996: 1,  # Fireball / 火球 
@@ -452,9 +452,9 @@ reflect_data = {
     4149: 1,  # Altar Pyre / 圣坛火葬 
     4162: 1,  # Black Nebula / 暗黑星云 
     4174: 4,  # Forward Fulguration / 王权闪光 
-    4175: 3,  # Flank Fulguration / 王权闪光 
-    4176: 3,  # Flank Fulguration / 王权闪光 
-    4177: 3,  # Rear Fulguration / 王权闪光 
+    4175: 4,  # Flank Fulguration / 王权闪光 
+    4176: 4,  # Flank Fulguration / 王权闪光 
+    4177: 4,  # Rear Fulguration / 王权闪光 
     4195: 1,  # Lightning Storm / 百雷 
     4198: 1,  # Ancient Quaga / 古代爆震 
     4201: 1,  # the Dragon's Gaze / 龙眼之邪 
@@ -499,10 +499,10 @@ reflect_data = {
     4857: 1,  # Digititis / 指尖 
     4858: 1,  # Ferrofluid / 磁石 
     4863: 1,  # Wash Away / 冲净 
-    4864: 93,  # Digititis / 指尖 
-    4865: 3,  # Equal Concentration / 水量均等化 
+    4864: 1,  # Digititis / 指尖 
+    4865: 1,  # Equal Concentration / 水量均等化 
     4866: 1,  # Hand of Pain / 痛苦之手 
-    4870: 3,  # Ferrofluid / 磁石 
+    4870: 1,  # Ferrofluid / 磁石 
     4880: 1,  # Celestial Stasis / 星天停止 
     4885: 1,  # Aero Blast / 疾风爆发 
     4912: 1,  # Bangyzoom / 突击命令 
@@ -536,7 +536,7 @@ reflect_data = {
     5096: 1,  # Mortal Revolution / 致命进化 
     5102: 1,  # Prelude to Slaughter / 猛焰【序】 
     5105: 1,  # Prelude to Slaughter / 猛焰【序】 
-    5106: 15,  # Slaughter / 猛焰【破】 
+    5106: 4,  # Slaughter / 猛焰【破】 
     5113: 1,  # Bloody Fuller / 神通力 
     5126: 1,  # Swift Slaughter / 猛焰【急】 
     5137: 4,  # Ripper Claw / 撕裂利爪 
@@ -591,7 +591,7 @@ reflect_data = {
     5506: 1,  # Malkuth / 王国 
     5507: 1,  # Revelation / 天启 
     5508: 1,  # Ascension / 上升气流 
-    5536: 3,  # Gobhook / 刚猛勾拳 
+    5536: 4,  # Gobhook / 刚猛勾拳 
     5547: 1,  # Gyrating Glare / 激情的闪光 
     5561: 1,  # Dollhouse / 变成人偶 
     5566: 1,  # Zoomdoom / 哥布火箭 
@@ -602,7 +602,7 @@ reflect_data = {
     5599: 1,  # Cure IV / 圣疗 
     5609: 1,  # Panzerschreck / 反坦克火箭筒 
     5610: 1,  # Panzerschreck / 反坦克火箭筒 
-    5614: 33,  # Sizzlebeam / 哥布式波动炮 
+    5614: 2,  # Sizzlebeam / 哥布式波动炮 
     5615: 1,  # Sizzlespark / 哥布林火花 
     5619: 1,  # Mind Blast / 精神冲击 
     5627: 2,  # Supercharge / 超突击 
@@ -631,7 +631,7 @@ reflect_data = {
     5773: 1,  # Diamond Storm / 钻石风暴 
     5778: 2,  # Gallop / 飞驰 
     5787: 1,  # Disorienting Groan / 吼叫 
-    5788: 5,  # Oogle / 石化视线 
+    5788: 4,  # Oogle / 石化视线 
     5792: 3,  # 10-tonze Slash / 十吨挥打 
     5815: 1,  # Kugelblitz / 球状闪电 
     5823: 2,  # Gallop / 飞驰 
@@ -650,7 +650,7 @@ reflect_data = {
     5868: 1,  # Revelation / 天启 
     5869: 1,  # Ascension / 上升气流 
     5876: 1,  # Zoomdoom / 哥布火箭 
-    5879: 33,  # Sizzlebeam / 哥布式波动炮 
+    5879: 2,  # Sizzlebeam / 哥布式波动炮 
     5880: 1,  # Sizzlespark / 哥布林火花 
     5886: 1,  # Kugelblitz / 球状闪电 
     5900: 1,  # Final Punch / 终极双重火箭飞拳 
@@ -712,7 +712,7 @@ reflect_data = {
     6229: 1,  # Trembling Epigraph / 碑文地震 
     6230: 1,  # Flaring Epigraph / 碑文核爆 
     6232: 181,  # Murderous Shriek / 恶念尖叫 
-    6233: 27,  # Big Burst / 大爆炸 
+    6233: 1,  # Big Burst / 大爆炸 
     6235: 1,  # Electric Cachexia / 雷云放射 
     6237: 2,  # Tight Tornado / 高压龙卷 
     6274: 1,  # Void Fire II / 虚空烈炎 
@@ -738,7 +738,7 @@ reflect_data = {
     6469: 1,  # Bibliocide / 焚书 
     6470: 1,  # Sea of Flames / 火海 
     6471: 2,  # Slosh / 突进 
-    6473: 93,  # Seal of Night and Day / 刻印 
+    6473: 1,  # Seal of Night and Day / 刻印 
     6475: 203,  # Ferrofluid / 磁石 
     6478: 1,  # Check Out / 选集 
     6485: 1,  # On the Properties of Darkness II / 昏暗之章 
@@ -763,7 +763,7 @@ reflect_data = {
     6573: 1,  # Execute / 处决 
     6575: 1,  # Execute / 处决 
     6576: 4,  # Thunder II / 震雷 
-    6577: 3,  # Execute / 处决 
+    6577: 4,  # Execute / 处决 
     6582: 1,  # Divine Spark / 灼热视线 
     6584: 4,  # Gnostic Rant / 魔枪乱舞 
     6590: 1,  # Cloudy Heavens / 阴云天堂 
@@ -805,12 +805,12 @@ reflect_data = {
     6775: 1,  # GA-100 / 百式聚能炮 
     6777: 128,  # Right Laser Sword / 右光剑 
     6778: 128,  # Left Laser Sword / 左光剑 
-    6783: 3,  # Laser X Sword / 交叉光剑 
+    6783: 4,  # Laser X Sword / 交叉光剑 
     6787: 2,  # Blassty Charge / 摧毁者冲击 
     6788: 1,  # Whirlwind / 龙卷风 
     6789: 5,  # Spin Crusher / 回旋碎踢 
     6793: 1,  # Aetheric Sever / 以太光剑 
-    6799: 13,  # Gobspin Zoomdrops / 哥布流大回旋斩 
+    6799: 1,  # Gobspin Zoomdrops / 哥布流大回旋斩 
     6803: 2,  # Gobslice Mooncrops / 哥布流月牙斩 
     6827: 1,  # Gobbieboom / 哥布爆炸 
     6828: 1,  # Gobskin / 哥布防御 
@@ -990,13 +990,13 @@ reflect_data = {
     7996: 13,  # Electric Whorl / 电漩涡 
     7997: 2,  # Epigraph / 碑文魔法 
     8000: 1,  # Trembling Epigraph / 碑文地震 
-    8003: 354,  # Mucus Spray / 粘液喷雾 
+    8003: 108,  # Mucus Spray / 粘液喷雾 
     8007: 1,  # Incinerating Lahar / 火山泥流爆 
     8009: 1,  # Black Blood / 暗血 
     8010: 1,  # Hex / 恶咒 
     8012: 1,  # 111-tonze Swing / 百十一吨回转 
     8013: 1,  # 1111-tonze Swing / 千百十一吨回转 
-    8014: 3,  # 11-tonze Swipe / 十一吨横扫 
+    8014: 4,  # 11-tonze Swipe / 十一吨横扫 
     8023: 1,  # Hydroball / 水力球 
     8024: 1,  # Sea Swallows All / 漩涡 
     8025: 1,  # Overtow / 潮起 
@@ -1034,7 +1034,7 @@ reflect_data = {
     8243: 2,  # Stormsplitter / 破浪斩 
     8246: 1,  # Ukehi / 祈请 
     8269: 1,  # Electromagnetic Field / 电磁力场 
-    8270: 93,  # Mindjack / 精神劫持 
+    8270: 1,  # Mindjack / 精神劫持 
     8271: 1,  # Mana Burst / 魔力爆发 
     8272: 27,  # Magitek Disruptor / 魔导干扰器 
     8286: 1,  # Demimagicks / 亚魔法 
@@ -1083,12 +1083,12 @@ reflect_data = {
     8915: 1,  # Tiiimbeeer / 震木 
     8931: 1,  # Dark Star / 暗星 
     8950: 1,  # Dimensional Wave / 次元波动 
-    8951: 3,  # Ribbit / 呱呱呱呱呱！ 
+    8951: 4,  # Ribbit / 呱呱呱呱呱！ 
     8952: 1,  # Squelch / 喀喀喀喀喀！ 
     8953: 1,  # Oink / 哼哼哼哼哼！ 
     8954: 1,  # Mindjack / 精神控制 
     8959: 138,  # Gusting Gouge / 削风 
-    8961: 152,  # the Game / 游戏开始 
+    8961: 1,  # the Game / 游戏开始 
     8977: 1,  # White Wind / 白风 
     8984: 203,  # Super Cyclone / 超级气旋 
     8986: 1,  # Concentrativity / 压缩剑气 
@@ -1120,7 +1120,7 @@ reflect_data = {
     9220: 1,  # Meteor / 陨石 
     9221: 1,  # Meteor / 陨石 
     9222: 1,  # Black Hole / 黑洞 
-    9227: 3,  # Zombie Breath / 死亡吐息 
+    9227: 4,  # Zombie Breath / 死亡吐息 
     9228: 5,  # Clearout / 横扫 
     9232: 2,  # Outer Antilight / 外围暗黑光 
     9235: 2,  # White Antilight / 生者暗黑光 
@@ -1139,12 +1139,12 @@ reflect_data = {
     9293: 2,  # Terminal Antilight / 终末暗黑光 
     9296: 1,  # Concentrativity / 压缩剑气 
     9317: 1,  # Dimensional Wave / 次元波动 
-    9318: 3,  # Ribbit / 呱呱呱呱呱！ 
+    9318: 4,  # Ribbit / 呱呱呱呱呱！ 
     9319: 1,  # Mindjack: Forward March / 精神控制：前进 
     9320: 1,  # Mindjack: About Face / 精神控制：后退 
     9321: 1,  # Mindjack: Left Face / 精神控制：左转 
     9322: 1,  # Mindjack: Right Face / 精神控制：右转 
-    9325: 152,  # the Game / 游戏开始 
+    9325: 1,  # the Game / 游戏开始 
     9344: 1,  # Full Bullet / 全弹发射 
     9347: 1,  # Stotram / 赞歌 
     9360: 1,  # the Pall of Light / 光之瀑布 
@@ -1165,7 +1165,7 @@ reflect_data = {
     9414: 1,  # Meteor / 陨石 
     9415: 1,  # Meteor / 陨石 
     9416: 1,  # Black Hole / 黑洞 
-    9419: 3,  # Zombie Breath / 死亡吐息 
+    9419: 4,  # Zombie Breath / 死亡吐息 
     9429: 1,  # 2-tonze Magitek Missile / 大型魔导飞弹 
     9438: 27,  # Self-detonate / 雾散爆发 
     9464: 5,  # Tenka Goken / 天下五剑 
@@ -1201,7 +1201,7 @@ reflect_data = {
     9682: 1,  # Falling Boulder / 大落石 
     9683: 1,  # Falling Rock / 落石 
     9686: 1,  # Demolish / 破魔震 
-    9687: 3,  # Rock Cutter / 石刃 
+    9687: 4,  # Rock Cutter / 石刃 
     9688: 1,  # Quake IV / 激震 
     9691: 1,  # Hellfire / 地狱之火炎 
     9692: 1,  # Judgment Bolt / 制裁之雷 
@@ -1223,7 +1223,7 @@ reflect_data = {
     9760: 1,  # Dark Ultima / 暗黑究极 
     9774: 1,  # Fire IV / 炽炎 
     9776: 1,  # Unholy Sacrifice / 恶魔僵尸 
-    9800: 1,  # Wormwail / 神龙啸 
+    9800: 108,  # Wormwail / 神龙啸 
     9808: 1,  # Rising Seas / 水平面上升 
     9810: 1,  # Hydro Push / 水力推行 
     9818: 1,  # Shifting Light / 变化光 
@@ -1287,7 +1287,7 @@ reflect_data = {
     10163: 1,  # Demi Ultima / 亚究极 
     10168: 152,  # Allagan Flare / 亚拉戈核爆 
     10174: 1,  # 100-tonze Swing / 百吨回转 
-    10187: 27,  # Reaper's Gale / 镰风 
+    10187: 1,  # Reaper's Gale / 镰风 
     10195: 1,  # Hell of Waves / 玄冥波 
     10202: 1,  # Heavenly Strike / 天雷掌 
     10203: 15,  # Sweep the Leg / 旋体脚 
@@ -1300,22 +1300,22 @@ reflect_data = {
     10283: 1,  # Demonic Howl / 恶魔啸 
     10284: 1,  # Demonic Howl / 恶魔啸 
     10317: 1,  # Demonic Howl / 恶魔啸 
-    10323: 3,  # Mangle / 龙颚 
+    10323: 4,  # Mangle / 龙颚 
     10326: 2,  # Rush / 突进 
     10327: 1,  # Fire Breath / 火焰吐息 
     10329: 1,  # Flaming Recoil / 火焰反冲 
     10331: 1,  # Flaming Recoil / 火焰反冲 
     10335: 181,  # Fireball / 火球 
     10337: 182,  # Rush / 突进 
-    10339: 3,  # Mangle / 龙颚 
-    10346: 3,  # Mangle / 龙颚 
+    10339: 4,  # Mangle / 龙颚 
+    10346: 4,  # Mangle / 龙颚 
     10349: 2,  # Rush / 突进 
     10350: 1,  # Fire Breath / 火焰吐息 
     10352: 1,  # Flaming Recoil / 火焰反冲 
     10354: 1,  # Flaming Recoil / 火焰反冲 
     10358: 181,  # Fireball / 火球 
     10360: 182,  # Rush / 突进 
-    10362: 3,  # Mangle / 龙颚 
+    10362: 4,  # Mangle / 龙颚 
     10377: 1,  # Water III / 狂水 
     10379: 1,  # Wings of Woe / 悲伤之翼 
     10386: 5,  # Savage Swipe / 强击 
@@ -1341,7 +1341,7 @@ reflect_data = {
     10473: 1,  # Forsaken / 遗弃末世 
     10477: 1,  # Light of Judgment / 制裁之光 
     10486: 4,  # All Things Ending / 消灭之脚 
-    10489: 3,  # All Things Ending / 消灭之脚 
+    10489: 4,  # All Things Ending / 消灭之脚 
     10490: 1,  # Heartless Angel / 无心天使 
     10491: 1,  # Heartless Archangel / 无心大天使 
     10494: 2,  # Wings of Destruction / 破坏之翼 
@@ -1449,9 +1449,9 @@ reflect_data = {
     11103: 2,  # Crimson Cyclone / 深红旋风 
     11110: 1,  # Geocrush / 大地粉碎 
     11111: 1,  # Upheaval / 大怒震 
-    11117: 3,  # Granite Impact / 花岗岩冲击 
+    11117: 1,  # Granite Impact / 花岗岩冲击 
     11119: 9,  # Landslide / 地裂 
-    11121: 33,  # Landslide / 地裂 
+    11121: 2,  # Landslide / 地裂 
     11122: 1,  # Self-detonate / 雾散爆发 
     11124: 1,  # Dark IV / 冥暗 
     11131: 1,  # Homing Lasers / 诱导射线 
@@ -1498,7 +1498,7 @@ reflect_data = {
     11298: 9,  # Landslide / 地裂 
     11299: 1,  # Cyclone / 气旋 
     11301: 1,  # Water Drop / 水块 
-    11305: 3,  # Stone Breath / 石化吐息 
+    11305: 4,  # Stone Breath / 石化吐息 
     11306: 1,  # Magnetic Lysis / 磁场崩坏 
     11308: 1,  # Solar Storm / 太阳风暴 
     11321: 1,  # Explosion / 爆炸 
@@ -1506,7 +1506,7 @@ reflect_data = {
     11325: 1,  # Water IV / 骇水 
     11344: 203,  # Tsunami / 大海啸 
     11349: 1,  # Explosion / 爆炸 
-    11359: 3,  # Dispose / 执行清理 
+    11359: 4,  # Dispose / 执行清理 
     11361: 181,  # Pulverize / 执行粉碎 
     11364: 1,  # Incinerate / 执行焚烧 
     11365: 1,  # Accelerate / 执行贯穿 
@@ -1546,7 +1546,7 @@ reflect_data = {
     11437: 4,  # Unmoving Troika / 不动三段 
     11439: 1,  # Nightbloom / 月下彼岸花 
     11440: 1,  # Nightbloom / 月下彼岸花 
-    11448: 3,  # Granite Impact / 花岗岩冲击 
+    11448: 1,  # Granite Impact / 花岗岩冲击 
     11464: 1,  # Incinerate / 执行焚烧 
     11465: 1,  # ? 
     11466: 1,  # Divide by Three / 算术：3的倍数 
@@ -1557,7 +1557,7 @@ reflect_data = {
     11482: 1,  # Tri-shackle / 三重惩戒 
     11484: 1,  # Fire IV / 炽炎 
     11489: 2,  # Crimson Cyclone / 深红旋风 
-    11497: 3,  # Dispose / 执行清理 
+    11497: 4,  # Dispose / 执行清理 
     11517: 1,  # Geocrush / 大地粉碎 
     11528: 1,  # Mount Huaguo / 花果山 
     11530: 181,  # Fireball / 火球 
@@ -1566,7 +1566,7 @@ reflect_data = {
     11563: 181,  # Flurry / 雨夹雪 
     11565: 1,  # Snow Squall / 雪风暴 
     11573: 1,  # Earthquake / 地震 
-    11576: 3,  # Lithic Breath / 石质吐息 
+    11576: 4,  # Lithic Breath / 石质吐息 
     11592: 1,  # Water III / 狂水 
     11598: 1,  # Rake / 利爪 
     11612: 1,  # Incinerate / 执行焚烧 
@@ -1602,7 +1602,7 @@ reflect_data = {
     11789: 184,  # Stone Gaze / 石化凝视 
     11792: 1,  # Primordial Roar / 原始嚎叫 
     11793: 185,  # 11-tonze Swipe / 十一吨横扫 
-    11801: 176,  # Extensible Tendrils / 藤条抽打 
+    11801: 188,  # Extensible Tendrils / 藤条抽打 
     11808: 1,  # Chilling Vapor / 冷气 
     11809: 1,  # Pulp / 重压 
     11812: 1,  # Freezing Vapor / 寒气 
@@ -1628,11 +1628,11 @@ reflect_data = {
     11922: 1,  # Eye of the Fire / 惧乱之眼 
     11928: 1,  # Ancient Flare / 古代核爆 
     11935: 4,  # Dextral Icecleave / 右侧冰刃斩 
-    11936: 5,  # Sinistral Icecleave / 左侧冰刃斩 
-    11937: 5,  # Cold Kick / 冻踢 
+    11936: 4,  # Sinistral Icecleave / 左侧冰刃斩 
+    11937: 4,  # Cold Kick / 冻踢 
     11938: 1,  # Snowstorm / 暴风雪 
-    11939: 5,  # Snowbloom / 雪华斩 
-    11940: 111,  # Windlash / 寒风旋 
+    11939: 4,  # Snowbloom / 雪华斩 
+    11940: 108,  # Windlash / 寒风旋 
     11943: 1,  # Rain of Pain / 痛苦之雨 
     11947: 1,  # Force of Will / 妖气解放 
     11953: 5,  # the Dragon's Breath / 雷电吐息 
@@ -1641,12 +1641,12 @@ reflect_data = {
     11971: 5,  # Bubble Bath / 泡泡浴 
     11984: 1,  # Blanket Thunder / 万雷 
     11987: 1,  # Lunar Cry / 月下咆哮 
-    12103: 3,  # Tenka Goken / 天下五剑 
+    12103: 4,  # Tenka Goken / 天下五剑 
     12174: 1,  # Blinding Burst / 致盲冲击 
     12188: 1,  # Bloodburst / 血爆 
     12190: 1,  # Wile of the Tengu / 天狗妙计 
     12193: 1,  # Paralyze III / 强麻痹 
-    12205: 3,  # Predator Claws / 猎食爪 
+    12205: 4,  # Predator Claws / 猎食爪 
     12208: 1,  # Ululation / 狂吠 
     12210: 1,  # Subduction / 地层俯冲 
     12214: 1,  # Ancient Quaga / 古代爆震 
@@ -1659,7 +1659,7 @@ reflect_data = {
     12281: 1,  # Allagan Fear / 亚拉戈恐惧 
     12282: 1,  # Filoplumage / 绒毛羽 
     12291: 1,  # 128-tonze Swing / 百廿八吨回转 
-    12293: 3,  # 32-tonze Swipe / 卅二吨重击 
+    12293: 4,  # 32-tonze Swipe / 卅二吨重击 
     12298: 1,  # Black Nebula / 暗黑星云 
     12305: 182,  # Burning Bright / 明亮电光 
     12321: 1,  # Water III / 狂水 
@@ -1683,7 +1683,7 @@ reflect_data = {
     12431: 1,  # the Ram's Voice / 寒冰咆哮 
     12432: 1,  # the Dragon's Voice / 雷电咆哮 
     12442: 1,  # Hex / 恶咒 
-    12444: 3,  # 11-tonze Swipe / 十一吨横扫 
+    12444: 4,  # 11-tonze Swipe / 十一吨横扫 
     12450: 5,  # Elbow Drop / 落肘 
     12451: 2,  # Glower / 怒视 
     12452: 1,  # 100-tonze Swing / 百吨回转 
@@ -1726,7 +1726,7 @@ reflect_data = {
     12742: 1,  # Akh Morn / 死亡轮回 
     12754: 181,  # Thunderstorm / 雷暴 
     12760: 1,  # Metta-giri / 居合多段斩 
-    12773: 3,  # Tiny Song / 缩小旋律 
+    12773: 1,  # Tiny Song / 缩小旋律 
     12781: 1,  # Ame-no-Murakumo / 天之丛云 
     12785: 1,  # Enchain / 捕获 
     12788: 1,  # Zanma Zanmai / 斩魔三昧 
@@ -1754,8 +1754,8 @@ reflect_data = {
     12899: 128,  # Starboard Wave Cannon / 右舷齐射·波动炮 
     12900: 128,  # Larboard Wave Cannon / 左舷齐射·波动炮 
     12901: 128,  # Larboard Wave Cannon / 左舷齐射·波动炮 
-    12902: 3,  # Starboard Wave Cannon Surge / 右舷齐射·零式波动炮 
-    12904: 3,  # Larboard Wave Cannon Surge / 左舷齐射·零式波动炮 
+    12902: 4,  # Starboard Wave Cannon Surge / 右舷齐射·零式波动炮 
+    12904: 4,  # Larboard Wave Cannon Surge / 左舷齐射·零式波动炮 
     12906: 1,  # Atomic Ray / 原子射线 
     12907: 1,  # Electric Slide / 欧米茄滑跃 
     12908: 1,  # Atomic Ray / 原子射线 
@@ -1831,7 +1831,7 @@ reflect_data = {
     13263: 1,  # Eye of the Fire / 惧乱之眼 
     13264: 1,  # Bad Water / 污染水 
     13277: 1,  # Dramatic Flare / 炎翔击 
-    13278: 279,  # Center of Convection / 豪焰旋 
+    13278: 108,  # Center of Convection / 豪焰旋 
     13280: 1,  # Rain of Ire / 枪之雨 
     13283: 1,  # Raging Inferno / 怒火中烧 
     13287: 1,  # Ardent Caress / 烈焰过境 
@@ -1842,10 +1842,10 @@ reflect_data = {
     13314: 1,  # Stygian Release / 冥气环绕 
     13315: 1,  # Villainous Rebuke / 良心谴责 
     13317: 1,  # Void Call / 虚无召唤 
-    13322: 3,  # Sadistic Attack / 残虐攻击 
-    13323: 3,  # Sadistic Attack / 残虐攻击 
+    13322: 4,  # Sadistic Attack / 残虐攻击 
+    13323: 4,  # Sadistic Attack / 残虐攻击 
     13324: 1,  # Ravening Shadow / 阴阳崩坏 
-    13325: 143,  # Ravening Shadow / 阴阳崩坏 
+    13325: 108,  # Ravening Shadow / 阴阳崩坏 
     13330: 1,  # On the Properties of Gravity / 重力之章 
     13331: 181,  # Thunderstorm / 雷暴 
     13336: 2,  # Earthquake / 地震 
@@ -1884,8 +1884,8 @@ reflect_data = {
     13520: 1,  # Finale / 终章 
     13536: 1,  # Bomb Toss / 投弹 
     13537: 1,  # Gobsway Rumblerocks / 哥布流大怒震 
-    13547: 3,  # Corrosive Bile / 腐蚀咬 
-    13551: 3,  # Toad Choir / 青蛙歌唱队 
+    13547: 4,  # Corrosive Bile / 腐蚀咬 
+    13551: 4,  # Toad Choir / 青蛙歌唱队 
     13552: 1,  # Imp Choir / 河童歌唱队 
     13637: 1,  # Twisted Talent / 污秽仪式 
     13641: 1,  # the Final Sky / 末日流星 
@@ -1963,7 +1963,7 @@ reflect_data = {
     14358: 1,  # ●エピグラフ・クエイク 
     14365: 1,  # Obliterate / 破魔震 
     14376: 1,  # Metta-giri / 居合多段斩 
-    14389: 3,  # Tiny Song / 缩小旋律 
+    14389: 1,  # Tiny Song / 缩小旋律 
     14397: 1,  # Ame-no-Murakumo / 天之丛云 
     14401: 1,  # Enchain / 捕获 
     14404: 1,  # Zanma Zanmai / 斩魔三昧 
@@ -1971,9 +1971,9 @@ reflect_data = {
     14423: 1,  # Judgment Blade / 不动无明剑 
     14433: 1,  # Heavenly Judgment / 圣天击灭斩 
     14437: 1,  # Cleansing Flame / 圣光烧却击 
-    14438: 107,  # Thunder Slash / 雷鸣剑 
+    14438: 4,  # Thunder Slash / 雷鸣剑 
     14439: 1,  # Divine Light / 幻光波 
-    14442: 281,  # Whirling Zantetsuken / 旋·斩铁剑 
+    14442: 108,  # Whirling Zantetsuken / 旋·斩铁剑 
     14443: 2,  # Lateral Zantetsuken / 片·斩铁剑 
     14444: 2,  # Lateral Zantetsuken / 片·斩铁剑 
     14447: 1,  # Levinwhorl / 涡雷 
@@ -2058,15 +2058,15 @@ reflect_data = {
     14890: 1,  # High Voltage / 高压电流 
     14899: 1,  # Disseminate / 魔力飞散 
     14904: 1,  # Burst / 大爆炸 
-    14913: 152,  # Shockwave / 震荡波 
+    14913: 1,  # Shockwave / 震荡波 
     14916: 4,  # Nectar Refill / 甘甜花蜜填充 
     14917: 4,  # Nectar Refill / 甘甜花蜜填充 
-    14918: 5,  # Nectar Refill / 甘甜花蜜填充 
+    14918: 4,  # Nectar Refill / 甘甜花蜜填充 
     14921: 4,  # Spine Lash / 脊柱打击 
     14930: 1,  # Thundris Shriek / 献血的飨宴 
     14933: 1,  # Hellsnap / 地狱咬 
     14934: 1,  # Hellclap / 地狱拍 
-    14935: 240,  # Dead or Undead / 僵尸猛击 
+    14935: 108,  # Dead or Undead / 僵尸猛击 
     14936: 1,  # Dead or Undead / 僵尸猛击 
     14937: 1,  # Dead or Undead / 僵尸猛击 
     14938: 185,  # Trunk Tawse / 象鼻抽打 
@@ -2088,7 +2088,7 @@ reflect_data = {
     14994: 1,  # Akh Morn / 死亡轮回 
     14998: 1,  # Diffractive Break / 衍射裂破 
     14999: 2,  # Hot Tail / 燃烧之尾 
-    15000: 3,  # the Scarlet Whisper / 真红吐息 
+    15000: 4,  # the Scarlet Whisper / 真红吐息 
     15001: 1,  # the Scarlet Price / 真红之珠 
     15012: 152,  # Encinder / 焚化炉 
     15013: 1,  # Pyroclastic Surge / 火山碎屑喷涌 
@@ -2118,8 +2118,8 @@ reflect_data = {
     15333: 1,  # Wind Unbound / 无拘之风 
     15341: 4,  # Big Ripper Claw / 撕裂大利爪 
     15342: 184,  # Heavy Tail Smash / 重尾部碎击 
-    15343: 152,  # Heavy Tail Swing / 重回旋尾 
-    15366: 3,  # Terrifying Glance / 恐惧之瞳 
+    15343: 1,  # Heavy Tail Swing / 重回旋尾 
+    15366: 4,  # Terrifying Glance / 恐惧之瞳 
     15372: 1,  # Ancient Aero III / 古代暴风 
     15373: 1,  # On the Properties of Darkness / 昏暗之章 
     15383: 181,  # Banish III / 强放逐 
@@ -2164,13 +2164,13 @@ reflect_data = {
     15587: 1,  # Shadow Wreck / 暗影毁灭 
     15590: 1,  # Head Toss / 甩尾锤 
     15596: 1,  # High Pressure / 高压 
-    15599: 3,  # Swift Spill / 强制放水 
+    15599: 4,  # Swift Spill / 强制放水 
     15601: 1,  # Intestinal Crank / 绞肠 
     15602: 188,  # Heretic's Fork / 异端十字叉 
-    15605: 13,  # Breaking Wheel / 碎轮 
+    15605: 108,  # Breaking Wheel / 碎轮 
     15608: 1,  # Censure / 执行 
     15609: 188,  # Heretic's Fork / 异端十字叉 
-    15610: 1,  # Breaking Wheel / 碎轮 
+    15610: 108,  # Breaking Wheel / 碎轮 
     15613: 203,  # Cyclone Wing / 旋风之翼 
     15643: 2,  # Conviction Marcato / 坚信 
     15667: 1,  # Being Mortal / 终有一死 
@@ -2180,14 +2180,14 @@ reflect_data = {
     15681: 1,  # Puck's Breath / 帕克的吐息 
     15684: 203,  # Puck's Rebuke / 帕克的指责 
     15686: 1,  # Spring Shower / 爆炸飞散 
-    15690: 128,  # Divination Rune / 魔之符文 
+    15690: 4,  # Divination Rune / 魔之符文 
     15691: 1,  # Bright Sabbath / 欢快的安息日 
     15697: 1,  # Being Mortal / 终有一死 
     15698: 1,  # Pease / 豌豆爆炸 
     15702: 1,  # Puck's Caprice / 帕克的随想 
     15703: 1,  # Puck's Breath / 帕克的吐息 
     15706: 1,  # Spring Shower / 爆炸飞散 
-    15707: 128,  # Divination Rune / 魔之符文 
+    15707: 4,  # Divination Rune / 魔之符文 
     15708: 1,  # Bright Sabbath / 欢快的安息日 
     15715: 1,  # Charge Eradicated / 歼灭弹 
     15716: 1,  # Beastly Roar / 残虐咆哮 
@@ -2218,8 +2218,8 @@ reflect_data = {
     15877: 1,  # Aquatic Lance / 水之枪 
     15878: 1,  # Marine Mayhem / 海之骚动 
     15886: 188,  # Heretic's Fork / 异端十字叉 
-    15887: 13,  # Breaking Wheel / 碎轮 
-    15888: 176,  # Extensible Tendrils / 藤条抽打 
+    15887: 108,  # Breaking Wheel / 碎轮 
+    15888: 188,  # Extensible Tendrils / 藤条抽打 
     15893: 1,  # Sap Shower / 喷洒汁液 
     15895: 1,  # Arbor Storm / 树木风暴 
     15899: 1,  # Thunderstorm / 雷暴 
@@ -2282,7 +2282,7 @@ reflect_data = {
     16591: 185,  # 2000-mina swipe / 二千迈纳横扫 
     16592: 1,  # ? 
     16594: 1,  # Disorienting Groan / 吼叫 
-    16601: 3,  # 2000-mina slash / 二千迈纳挥打 
+    16601: 4,  # 2000-mina slash / 二千迈纳挥打 
     16604: 1,  # 200,000-mina swing / 二十万迈纳回转 
     16605: 185,  # 2000-mina swipe / 二千迈纳横扫 
     16606: 1,  # Disorienting Groan / 吼叫 
@@ -2308,7 +2308,7 @@ reflect_data = {
     16670: 2,  # Fault Line / 断层线 
     16673: 211,  # Magnitude 5.0 / 震级5.0 
     16682: 1,  # Tumult / 怒震 
-    16686: 3,  # Explosion / 爆炸 
+    16686: 1,  # Explosion / 爆炸 
     16687: 2,  # Earthen Fist / 大地之拳 
     16688: 2,  # Earthen Fist / 大地之拳 
     16689: 2,  # Earthen Fist / 大地之拳 
@@ -2325,7 +2325,7 @@ reflect_data = {
     16732: 2,  # Shadow Stream / 暗影流 
     16735: 1,  # Dark Eruption / 暗炎喷发 
     16738: 1,  # Dual Strike / 双重强袭 
-    16739: 3,  # Echo of the Lost / 逝者的回声 
+    16739: 4,  # Echo of the Lost / 逝者的回声 
     16740: 4,  # Echo of the Lost / 逝者的回声 
     16748: 1,  # Chorus of the Lost / 逝者的合唱 
     16753: 2,  # Polydegmon's Purgation / 冥王净化 
@@ -2342,14 +2342,14 @@ reflect_data = {
     16811: 4,  # Tail Smash / 尾部碎击 
     16815: 1,  # Punitive Light / 惩罚之光 
     16818: 2,  # Lumen Infinitum / 流明无限 
-    16819: 1,  # Fourfold Suffering / 四苦之歌 
+    16819: 108,  # Fourfold Suffering / 四苦之歌 
     16824: 1,  # Seductive Sonata / 诱惑奏鸣曲 
     16825: 1,  # Song of Torment / 苦闷之歌 
     16826: 1,  # Royal Flush / 污泥内无双 
     16827: 108,  # Bog Bequest / 污泥外无双 
     16829: 1,  # Gravity Force / 重力领域 
     16830: 5,  # Rusting Claw / 锈爪 
-    16831: 3,  # Tail Drive / 尾部打击 
+    16831: 4,  # Tail Drive / 尾部打击 
     16832: 2,  # Words of Woe / 灾厄之语 
     16833: 1,  # the Spin / 龙卷回旋 
     16834: 1,  # Being Mortal / 终有一死 
@@ -2366,9 +2366,9 @@ reflect_data = {
     16901: 1,  # Banish III / 强放逐 
     16926: 1,  # Uplift / 隆起 
     16927: 1,  # Uplift / 隆起 
-    16957: 107,  # the Lion's Breath / 火焰吐息 
-    16958: 3,  # the Ram's Breath / 寒冰吐息 
-    16959: 3,  # the Dragon's Breath / 雷电吐息 
+    16957: 4,  # the Lion's Breath / 火焰吐息 
+    16958: 4,  # the Ram's Breath / 寒冰吐息 
+    16959: 4,  # the Dragon's Breath / 雷电吐息 
     16962: 1,  # the Ram's Voice / 寒冰咆哮 
     16963: 108,  # the Dragon's Voice / 雷电咆哮 
     16965: 1,  # Bog Body / 沼地遗尸 
@@ -2394,7 +2394,7 @@ reflect_data = {
     17093: 1,  # Sanctified Fire II / 圣化烈炎 
     17107: 2,  # ? 
     17116: 1,  # Ronkan Medica II / 隆卡医济 
-    17129: 3,  # Howling Triumph / 胜利长啸 
+    17129: 4,  # Howling Triumph / 胜利长啸 
     17134: 1,  # Rumbling Thunder / 轰鸣闪电 
     17136: 1,  # Preternatural Roar / 灵妙咆哮 
     17140: 50,  # Thunderbolt / 霹雳 
@@ -2439,11 +2439,11 @@ reflect_data = {
     17435: 1,  # Tsunami / 大海啸 
     17436: 1,  # Tsunami / 大海啸 
     17438: 1,  # the Path of Light / 光之波动 
-    17440: 3,  # Fevered Flagellation / 鞭笞 
+    17440: 4,  # Fevered Flagellation / 鞭笞 
     17441: 2,  # Second Circle / 第二圆环 
     17442: 152,  # Cleansing Fire / 净化火炎 
-    17446: 5,  # Left Cheek / 左扫 
-    17448: 3,  # Right Cheek / 右扫 
+    17446: 4,  # Left Cheek / 左扫 
+    17448: 4,  # Right Cheek / 右扫 
     17453: 1,  # To the Winds / 爆炸四散 
     17468: 1,  # Explosive Juggling / 杂技炸弹 
     17469: 1,  # Come One, Come All / 揽客 
@@ -2460,7 +2460,7 @@ reflect_data = {
     17573: 2,  # Fustuarium / 刑罚 
     17576: 1,  # Final Bastion / 女王之盾 
     17588: 1,  # Nashmeira's Curtsy / ナシュメラの仕舞 
-    17597: 13,  # Royal Decree / 圣旨 
+    17597: 1,  # Royal Decree / 圣旨 
     17599: 1,  # Mindjack / 精神控制 
     17607: 111,  # Disquiet / 动摇 
     17608: 188,  # Disquiet / 動揺 
@@ -2485,7 +2485,7 @@ reflect_data = {
     17831: 1,  # Disquiet / 动摇 
     17841: 1,  # Embroiling Flame / 气炎万丈 
     17844: 1,  # Tartarean Meteor / 地狱陨石 
-    17847: 3,  # Cryptcall / 死灭诅咒 
+    17847: 4,  # Cryptcall / 死灭诅咒 
     17848: 1,  # Tartarean Abyss / 地狱深渊 
     17849: 1,  # Tartarean Quake / 地狱地震 
     17856: 1,  # Petro Eyes / 石化之眼 
@@ -2500,9 +2500,9 @@ reflect_data = {
     17934: 4,  # Ultrasonics / 超声波 
     17955: 1,  # Terrifying Glance / 恐惧之瞳 
     17973: 184,  # Cold Gaze / 冷酷凝视 
-    18009: 1,  # Cycle of Retribution / 复仇连续剑 
-    18015: 3,  # Numbing Noise / 先声夺人 
-    18016: 3,  # Tail Snap / 劈啪尾 
+    18009: 108,  # Cycle of Retribution / 复仇连续剑 
+    18015: 4,  # Numbing Noise / 先声夺人 
+    18016: 4,  # Tail Snap / 劈啪尾 
     18017: 4,  # Stone Gaze / 石化凝视 
     18018: 1,  # Body Slam / 躯体震击 
     18019: 181,  # Sabotendance / 仙人刺舞 
@@ -2513,15 +2513,15 @@ reflect_data = {
     18027: 183,  # Trounce / 呵斥 
     18029: 1,  # Bafflement Bulb / 飞散性惑乱花粉块 
     18031: 1,  # Metamorphic Blast / 变质岩波 
-    18032: 3,  # Hydrate / 化水 
+    18032: 4,  # Hydrate / 化水 
     18041: 1,  # Petrifying Eye / 石化眼 
     18046: 5,  # Poison Breath / 剧毒吐息 
     18056: 1,  # Ancient Aero III / 古代暴风 
     18072: 1,  # Tartarean Twister / 地狱龙卷 
     18090: 1,  # Sanctified Fire III / 圣化爆炎 
     18091: 1,  # Sanctified Dark / 圣化黑暗 
-    18098: 3,  # Numbing Noise / 先声夺人 
-    18099: 3,  # Tail Snap / 劈啪尾 
+    18098: 4,  # Numbing Noise / 先声夺人 
+    18099: 4,  # Tail Snap / 劈啪尾 
     18100: 1,  # Numbing Noise / 先声夺人 
     18101: 1,  # Tail Snap / 劈啪尾 
     18121: 2,  # Tidal Wave / 巨浪 
@@ -2535,7 +2535,7 @@ reflect_data = {
     18170: 1,  # Puck's Caprice / 帕克的随想 
     18171: 1,  # Puck's Breath / 帕克的吐息 
     18174: 1,  # Spring Shower / 爆炸飞散 
-    18175: 128,  # Divination Rune / 魔之符文 
+    18175: 4,  # Divination Rune / 魔之符文 
     18176: 1,  # Bright Sabbath / 欢快的安息日 
     18179: 1,  # War and Pease / 豌豆大爆炸 
     18182: 1,  # Uplift / 隆起 
@@ -2620,7 +2620,7 @@ reflect_data = {
     18520: 108,  # Radiant Sacrament / 拜火圣礼 
     18526: 188,  # Inception / 时空潜行 
     18549: 1,  # Eternal Darkness / 黑暗命运 
-    18567: 13,  # Radiant Sacrament / 拜火圣礼 
+    18567: 108,  # Radiant Sacrament / 拜火圣礼 
     18568: 188,  # Sacrament / 十字圣礼 
     18577: 1,  # Ordained Punishment / 诛罚 
     18580: 1,  # Irresistible Grace / 株连 
@@ -2823,7 +2823,7 @@ reflect_data = {
     19833: 1,  # Akh Morn / 死亡轮回 
     19835: 1,  # Morn Afah / 无尽顿悟 
     19836: 1,  # Wyrm's Lament / 圣龙咆哮 
-    19837: 27,  # Icelit Dragonsong / 冰与光的龙诗 
+    19837: 1,  # Icelit Dragonsong / 冰与光的龙诗 
     19864: 1,  # Akh Morn / 死亡轮回 
     19865: 1,  # Akh Rhai / 天光轮回 
     19869: 188,  # Frigid Needle / 冰针 
@@ -2972,7 +2972,7 @@ reflect_data = {
     20659: 1,  # Pyroplexy / 火卒 
     20666: 1,  # Catching Fire / 广域燃烧 
     20669: 1,  # Slow Deflagration / 低速爆轰 
-    20672: 5,  # Basic Training / 进行教育 
+    20672: 4,  # Basic Training / 进行教育 
     20674: 3,  # Train / 进行教育 
     20676: 1,  # Order / 下达命令 
     20677: 1,  # Divide by Three / 算术：3的倍数 
@@ -2980,7 +2980,7 @@ reflect_data = {
     20679: 1,  # Divide by Five / 算术：5的倍数 
     20680: 1,  # Indivisible / 算术：质数 
     20681: 1,  # Incinerate / 执行焚烧 
-    20683: 5,  # Train / 进行教育 
+    20683: 4,  # Train / 进行教育 
     20685: 3,  # Train / 进行教育 
     20687: 1,  # Incinerate / 执行焚烧 
     20689: 1,  # 高圧拡散ヴォルト 
@@ -3011,7 +3011,7 @@ reflect_data = {
     20858: 1,  # Molting Plumage / 换羽 
     20888: 1,  # Prime Blade / 斩机击：填充 
     20889: 2,  # Prime Blade / 斩机击：填充 
-    20890: 51,  # Prime Blade / 斩机击：填充 
+    20890: 108,  # Prime Blade / 斩机击：填充 
     20891: 1,  # Three Parts Disdain / 三连冲击斩 
     20909: 1,  # R012: Laser / R012：激光 
     20910: 1,  # R012: Laser / R012：激光 
@@ -3024,8 +3024,8 @@ reflect_data = {
     20921: 1,  # Electric Burst / エレクトリックバースト 
     20922: 1,  # Volcanic Howl / ヴォルカニックハウル 
     20926: 242,  # Firestarter / 纵火 
-    20942: 3,  # False Thunder / 伪雷 
-    20943: 3,  # False Thunder / 伪雷 
+    20942: 4,  # False Thunder / 伪雷 
+    20943: 4,  # False Thunder / 伪雷 
     20962: 1,  # False Demon Eye / 恶魔义眼 
     20967: 1,  # Accursed Light / 凶魔光 
     20976: 2,  # Dive Formation / 一齐突击 
@@ -3064,9 +3064,9 @@ reflect_data = {
     21346: 1,  # Sideslip / 侧滑 
     21355: 1,  # Diamond Dust / 钻石星尘 
     21359: 1,  # Hailstorm / 冰雹 
-    21365: 3,  # Glacier Bash / 冰河怒击 
+    21365: 4,  # Glacier Bash / 冰河怒击 
     21366: 1,  # Whiteout / 白化视界 
-    21381: 3,  # Summer's Flame / 红莲火焰 
+    21381: 4,  # Summer's Flame / 红莲火焰 
     21396: 1,  # Dynamic Sensory Jammer / 运动体探知干扰器 
     21418: 2,  # Swiftbreach / 急速上浮 
     21420: 1,  # ? 
@@ -3077,7 +3077,7 @@ reflect_data = {
     21432: 1,  # Burst / 爆炸 
     21433: 1,  # Burst / 爆炸 
     21434: 1,  # Burst / 爆炸 
-    21438: 3,  # Trunk Smash / 象鼻碎击 
+    21438: 4,  # Trunk Smash / 象鼻碎击 
     21439: 181,  # Rear / 怒踏 
     21445: 1,  # Lightning Shower / 雷光雨 
     21455: 1,  # Spectral Gust / 幻光旋风 
@@ -3092,17 +3092,17 @@ reflect_data = {
     21509: 1,  # Lunar Cry / 月下咆哮 
     21513: 1,  # 2-tonze Magitek Missile / 大型魔导飞弹 
     21521: 1,  # Accelerate / 执行贯穿 
-    21522: 5,  # Dispose / 执行清理 
+    21522: 4,  # Dispose / 执行清理 
     21535: 1,  # Prime Blade / 斩机击：填充 
     21536: 2,  # Prime Blade / 斩机击：填充 
-    21537: 51,  # Prime Blade / 斩机击：填充 
+    21537: 108,  # Prime Blade / 斩机击：填充 
     21538: 1,  # Ventilate / 执行冷却 
     21539: 1,  # Brainstorm / 晃脑 
     21542: 1,  # Accelerate / 执行贯穿 
-    21543: 5,  # Dispose / 执行清理 
-    21544: 5,  # Dispose / 执行清理 
-    21548: 5,  # Dispose / 执行清理 
-    21549: 5,  # Dispose / 执行清理 
+    21543: 4,  # Dispose / 执行清理 
+    21544: 4,  # Dispose / 执行清理 
+    21548: 4,  # Dispose / 执行清理 
+    21549: 4,  # Dispose / 执行清理 
     21555: 5,  # Grand Sword / 巨剑 
     21568: 1,  # Electromagnetic Field / 电磁力场 
     21570: 2,  # Exhaust / 排气 
@@ -3160,9 +3160,9 @@ reflect_data = {
     21998: 1,  # Obscure Woods / 暗黑森林 
     21999: 1,  # Empty Plane / 暗黑天空 
     22000: 1,  # Flood of Emptiness / 暗之泛滥：暗黑天空 
-    22017: 3,  # the Second Art of Darkness / 二重暗之战技 
+    22017: 4,  # the Second Art of Darkness / 二重暗之战技 
     22018: 4,  # the Second Art of Darkness / 二重暗之战技 
-    22019: 3,  # the Third Art of Darkness / 三重暗之战技 
+    22019: 4,  # the Third Art of Darkness / 三重暗之战技 
     22020: 4,  # the Third Art of Darkness / 三重暗之战技 
     22039: 203,  # Waste Away / 枯萎 
     22046: 107,  # the Art of Darkness / 暗之战技 
@@ -3189,34 +3189,34 @@ reflect_data = {
     22141: 2,  # Burnt Strike / 燃烧击 
     22142: 1,  # Shining Blade / 光明之刃 
     22152: 15,  # Resounding Crack / 魔乱流 
-    22153: 111,  # Resonant Winds / 魔旋风 
+    22153: 108,  # Resonant Winds / 魔旋风 
     22159: 2,  # Blastburn / 火燃爆 
     22166: 2,  # Burnout / 雷燃爆 
     22174: 1,  # Shining Blade / 光明之刃 
     22180: 1,  # Burnished Glory / 光焰圆光 
     22226: 1,  # シャドウスワンプ 
-    22233: 128,  # Barbs of Agony / 痛苦钩刺 
+    22233: 4,  # Barbs of Agony / 痛苦钩刺 
     22238: 1,  # Void Pulse / 虚无悸动 
     22247: 1,  # Deepshadow Nova / 深影新星 
-    22248: 3,  # Giga Slash / ギガスラッシュ 
-    22249: 107,  # Giga Slash / 十亿斩击 
+    22248: 4,  # Giga Slash / ギガスラッシュ 
+    22249: 4,  # Giga Slash / 十亿斩击 
     22251: 4,  # Giga Slash / ギガスラッシュ 
-    22252: 107,  # Giga Slash / 十亿斩击 
-    22254: 3,  # Implosion / インプロージョン 
-    22255: 107,  # Implosion / 向心聚爆 
-    22257: 3,  # Implosion / インプロージョン 
-    22258: 107,  # Implosion / 向心聚爆 
-    22263: 107,  # Giga Slash / ギガスラッシュ 
-    22267: 107,  # Giga Slash / ギガスラッシュ 
-    22271: 107,  # Implosion / インプロージョン 
-    22275: 107,  # Implosion / インプロージョン 
-    22281: 107,  # Giga Slash / 十亿斩击 
-    22285: 107,  # Giga Slash / 十亿斩击 
-    22289: 107,  # Implosion / 向心聚爆 
-    22293: 107,  # Implosion / 向心聚爆 
+    22252: 4,  # Giga Slash / 十亿斩击 
+    22254: 4,  # Implosion / インプロージョン 
+    22255: 4,  # Implosion / 向心聚爆 
+    22257: 4,  # Implosion / インプロージョン 
+    22258: 4,  # Implosion / 向心聚爆 
+    22263: 4,  # Giga Slash / ギガスラッシュ 
+    22267: 4,  # Giga Slash / ギガスラッシュ 
+    22271: 4,  # Implosion / インプロージョン 
+    22275: 4,  # Implosion / インプロージョン 
+    22281: 4,  # Giga Slash / 十亿斩击 
+    22285: 4,  # Giga Slash / 十亿斩击 
+    22289: 4,  # Implosion / 向心聚爆 
+    22293: 4,  # Implosion / 向心聚爆 
     22294: 203,  # Distant Scream / 影之狂吠 
     22295: 1,  # Throne of Shadow / 影之王权 
-    22314: 128,  # Barbs of Agony / 痛苦钩刺 
+    22314: 4,  # Barbs of Agony / 痛苦钩刺 
     22325: 1,  # Void Pulse / 虚无悸动 
     22336: 1,  # Deepshadow Nova / 深影新星 
     22340: 1,  # Fusion / 合为一体 
@@ -3230,7 +3230,7 @@ reflect_data = {
     22380: 4,  # Firebreathe / 岩浆吐息 
     22387: 2,  # Hot Charge / 炽热冲锋 
     22389: 184,  # Heat Breath / 灼热吐息 
-    22413: 5,  # Flailing Strike / 回转乱打 
+    22413: 4,  # Flailing Strike / 回转乱打 
     22424: 203,  # Crazed Rampage / 狂暴乱舞 
     22447: 1,  # Malediction of Agony / 苦闷的诅咒 
     22453: 2,  # Creeping Miasma / 瘴气流 
@@ -3367,7 +3367,7 @@ reflect_data = {
     23098: 1,  # Mimicked Flare / 模仿：核爆 
     23100: 1,  # Mimicked Holy / 模仿：神圣 
     23113: 1,  # Mimicked Doom Impending / 模仿：怪死宣告 
-    23114: 152,  # Mimicked Imp Song / 模仿：河童之歌 
+    23114: 1,  # Mimicked Imp Song / 模仿：河童之歌 
     23117: 1,  # Gogo Fire III / 格格式爆炎 
     23128: 1,  # Gogo Flare / 格格式核爆 
     23130: 1,  # Gogo Holy / 格格式神圣 
@@ -3518,13 +3518,13 @@ reflect_data = {
     24059: 1,  # Hellfire / 地狱之火炎 
     24062: 27,  # Agony of the Damned / 灵狱咆哮 
     24077: 1,  # Crystalline Stingers / 水晶刺 
-    24078: 13,  # Aetherial Stingers / 以太刺 
+    24078: 1,  # Aetherial Stingers / 以太刺 
     24095: 203,  # Blight / 毒雾 
     24106: 1,  # Aethertide / 魔流术 
     24107: 1,  # Marching Breath / 康复阵 
     24150: 108,  # 74 Degrees / 射水 
     24170: 1,  # ●ナパーム 
-    24171: 1,  # ●ナパーム 
+    24171: 108,  # ●ナパーム 
     24189: 1,  # Pyrokinesis / 火动 
     24200: 1,  # Mannatheihwon Flame / 曼托瓦之炎 
     24206: 1,  # Pyrodoxy / 火念 
@@ -3553,7 +3553,7 @@ reflect_data = {
     24447: 2,  # Tusk Charge / 尖牙冲锋 
     24491: 2,  # Aetherial Bullet / 以太炮 
     24508: 1,  # Outrage / 震怒 
-    24509: 27,  # Auri Doomstead / 敖龙厄运 
+    24509: 1,  # Auri Doomstead / 敖龙厄运 
     24514: 2,  # Claw Swipe / 利爪突进 
     24515: 2,  # Claw Swipe / 利爪突进 
     24525: 129,  # Auri Arts / 敖龙技巧 
@@ -3561,7 +3561,7 @@ reflect_data = {
     24527: 1,  # Auri Arts / 敖龙技巧 
     24528: 203,  # Vertical Cleave / 纵劈 
     24535: 1,  # Outrage / 震怒 
-    24536: 27,  # Auri Doomstead / 敖龙厄运 
+    24536: 1,  # Auri Doomstead / 敖龙厄运 
     24537: 2,  # Claw Swipe / 利爪突进 
     24538: 2,  # Claw Swipe / 利爪突进 
     24547: 129,  # Auri Arts / 敖龙技巧 
@@ -3694,7 +3694,7 @@ reflect_data = {
     25957: 2,  # Carapace > Fore Arms 2.0 /  
     25958: 2,  # Carapace > Rear Guns 2.0 /  
     25960: 4,  # Fore Arms > Rear Guns 2.0 /  
-    25963: 3,  # Rear Guns > Fore Arms 2.0 /  
+    25963: 4,  # Rear Guns > Fore Arms 2.0 /  
     25972: 1,  # Hellburner /  
     26005: 188,  # ? 
     26007: 3,  # ? 
@@ -3705,7 +3705,7 @@ reflect_data = {
     26036: 1,  # Radiant Halo 
     26040: 1,  # Dichroic Spectrum 
     26041: 1,  # Bright Spectrum 
-    26047: 5,  # Heros's Sundering 
+    26047: 4,  # Heros's Sundering 
     26048: 1,  # Mousa's Scorn 
     26049: 1,  # Heros's Radiance 
     26050: 1,  # Magos's Radiance 
@@ -3714,7 +3714,7 @@ reflect_data = {
     26054: 3,  # ? 
     26057: 1,  # ? 
     26064: 1,  # Radiant Halo 
-    26069: 5,  # Heros's Sundering 
+    26069: 4,  # Heros's Sundering 
     26070: 1,  # Mousa's Scorn 
     26071: 1,  # Heros's Radiance 
     26072: 1,  # Magos's Radiance 
@@ -3804,7 +3804,7 @@ reflect_data = {
     26874: 351,  # Chitinous Trace 
     26875: 352,  # Chitinous Trace 
     26878: 1,  # Chitinous Advance 
-    26879: 1,  # Chitinous Advance 
+    26879: 108,  # Chitinous Advance 
     26882: 1,  # Stygian Vapor 
     26892: 1,  # Lightning Storm 
     26898: 1,  # Hiemal Storm 
@@ -3812,7 +3812,7 @@ reflect_data = {
     26908: 1,  # Heavensward 
     26914: 1,  # Lightning Storm 
     26915: 1,  # Chitinous Reversal 
-    26916: 1,  # Chitinous Reversal 
+    26916: 108,  # Chitinous Reversal 
     26921: 1,  # Judgment Bolt 
     26923: 1,  # Hellfire 
     26938: 1,  # Diamond Dust 
@@ -3827,7 +3827,7 @@ reflect_data = {
     27067: 1,  # Waterga IV 
     27068: 1,  # Tidal Guillotine 
     27069: 4,  # Ancient Blizzard 
-    27076: 1,  # Rotting Elegy 
+    27076: 108,  # Rotting Elegy 
     27077: 1,  # Ode to Lost Love 
     27079: 1,  # Divine Call 
     27080: 1,  # Divine Call 
@@ -3852,7 +3852,7 @@ reflect_data = {
     27234: 184,  # Brackish Rain 
     27248: 183,  # Spiritus 
     27269: 2,  # Energy Wave 
-    27270: 128,  # Tail Swipe 
+    27270: 4,  # Tail Swipe 
     27272: 1,  # Sonic Howl 
     27286: 1,  # Onerous Guilt 
     27288: 1,  # Enduring Grudge 
@@ -3897,8 +3897,8 @@ reflect_data = {
     27482: 1,  # Ultimate Fate 
     27491: 1,  # Ania 
     27492: 1,  # Extreme Impact 
-    27495: 194,  # Left Hammer 
-    27496: 194,  # Right Hammer 
+    27495: 4,  # Left Hammer 
+    27496: 4,  # Right Hammer 
     27499: 194,  # Octuple Slammer 
     27500: 194,  # Octuple Slammer 
     27502: 1,  # Existential Dread 
@@ -3909,22 +3909,22 @@ reflect_data = {
     27607: 57,  # Explosion 
     27635: 1,  # Minax Glare 
     27636: 1,  # Heliovoid 
-    27637: 240,  # Ancient Blizzard III 
+    27637: 108,  # Ancient Blizzard III 
     27638: 1,  # Ancient Flare 
     27640: 1,  # Eternal Damnation 
-    27641: 3,  # Fore Interment 
-    27642: 107,  # Rear Interment 
-    27643: 3,  # Right Interment 
-    27644: 3,  # Left Interment 
+    27641: 4,  # Fore Interment 
+    27642: 4,  # Rear Interment 
+    27643: 4,  # Right Interment 
+    27644: 4,  # Left Interment 
     27647: 1,  # Eternal Damnation 
-    27652: 240,  # Ancient Blizzard III 
+    27652: 108,  # Ancient Blizzard III 
     27653: 1,  # Whispers Manifest 
     27654: 1,  # Whispers Manifest 
-    27659: 240,  # Whispers Manifest 
-    27661: 107,  # Fore Interment 
-    27662: 3,  # Rear Interment 
-    27663: 3,  # Right Interment 
-    27664: 3,  # Left Interment 
+    27659: 108,  # Whispers Manifest 
+    27661: 4,  # Fore Interment 
+    27662: 4,  # Rear Interment 
+    27663: 4,  # Right Interment 
+    27664: 4,  # Left Interment 
     27671: 1,  # Cleaning 
     27681: 1,  # Double Hex Eye 
     27687: 1,  # Kokytos 
@@ -3932,7 +3932,7 @@ reflect_data = {
     27704: 1,  # Ancient Flare 
     27705: 1,  # Whispers Manifest 
     27706: 1,  # Whispers Manifest 
-    27716: 3,  # Beacon of Hope 
+    27716: 1,  # Beacon of Hope 
     27736: 1,  # ? 
     27737: 1,  # Crystalline Stone III 
     27738: 1,  # Crystalline Blizzard III 

@@ -78,7 +78,11 @@ white_list = {
     27793: 28,
     27794: 28,
     **{s: 28 for s in range(28433, 28437)},  # The Mothercrystal|Hydaelyn|Aureole|
-    26024: 107,  # The Mothercrystal|Hydaelyn|26024|Heros's Glory
+    26024: 107,  # The Mothercrystal|Hydaelyn|26024|Heros's Glory,
+    28066: 0,  # The Gates of Pandæmonium|Gaoler's Flail
+    28067: 0,  # The Gates of Pandæmonium|Gaoler's Flail
+    26073: 107,  # The Gates of Pandæmonium|Gaoler's Flail
+    26074: 107,  # The Gates of Pandæmonium|Gaoler's Flail
 }
 
 translate = {
