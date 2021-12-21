@@ -60,7 +60,7 @@ class DebugPlugin(PluginBase):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
             "network/undefined/zone/server/ActorMove",
-        ] or len(evt.raw_message)<200: return
+        ]: return
         self.logger.debug(evt.id, evt, len(evt.raw_message))
 
     # @event("network/zone/server/actor_control_self/unk_143")
