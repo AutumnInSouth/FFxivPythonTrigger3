@@ -52,6 +52,9 @@ def blm_pvp_record_thunder(evt: 'ActionEffectEvent'):
         if new_buff:
             adjust = dmg / base_dmg
             thunder_records[target_id] = ThunderRecord(max_dmg, int(dot_dmg * adjust), dmg)
+        elif dmg and target_id in thunder_records:
+            thunder_records[target_id].taken_damage += dmg
+            thunder_records[target_id].last_time = time()
 
 
 @event('network/zone/server/effect_remove')

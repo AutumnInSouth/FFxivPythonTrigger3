@@ -360,6 +360,8 @@ class XivHacks(PluginBase):
                 plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'ActionSend', self.makeup_action_send)
             except PluginNotFoundException:
                 self.logger.warning("XivNetwork is not found")
+            except ValueError as e:
+                self.logger.error(e)
 
         def makeup_action_send(self, bundle_header, message_header, raw_message, struct_message: 'ClientActionSend'):
             me = plugins.XivMemory.actor_table.me
@@ -401,6 +403,8 @@ class XivHacks(PluginBase):
                 plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving_handler)
             except PluginNotFoundException:
                 self.logger.warning("XivNetwork is not found")
+            except ValueError as e:
+                self.logger.error(e)
 
         def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
             if self.moving_swing_enable:
