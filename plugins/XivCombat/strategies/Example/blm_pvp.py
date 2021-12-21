@@ -10,6 +10,12 @@ if TYPE_CHECKING:
     from XivNetwork.extra_messages.actor_add_remove_effect import ActorRemoveEffectEvent
 
 
+class UseAbility(UseAbility):
+    def __init__(self, ability_id: int, target=None):
+        super().__init__(ability_id, target.id if target else None)
+        if target is not None and target != api.get_me_actor(): api.set_current_target(target)
+
+
 class ThunderRecord:
     def __init__(self, max_damage: float, dot_damage: float, initial_damage: float):
         self.last_time = time()
@@ -36,7 +42,7 @@ thunder_records = {}
 
 
 @event('network/zone/server/action_effect')
-def blm_pvp_record_thunder(evt: 'ActionEffectEvent'):
+def blm_pvp_record_thunder(plugin, evt: 'ActionEffectEvent'):
     if evt.action_type != 'action' or evt.source_id != api.get_me_actor().id: return
     if evt.action_id in thunder_actions:
         base_dmg, max_dmg, dot_dmg = thunder_actions[evt.action_id]
@@ -59,7 +65,7 @@ def blm_pvp_record_thunder(evt: 'ActionEffectEvent'):
 
 
 @event('network/zone/server/effect_remove')
-def blm_pvp_effect_remove(evt: 'ActorRemoveEffectEvent'):
+def blm_pvp_effect_remove(plugin, evt: 'ActorRemoveEffectEvent'):
     if evt.effect_id != 2075 and evt.effect_id != 1324 or evt.source_id != api.get_me_actor().id:
         return
     try:
