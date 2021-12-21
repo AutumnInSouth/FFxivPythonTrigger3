@@ -81,8 +81,9 @@ white_list = {
     26024: 107,  # The Mothercrystal|Hydaelyn|26024|Heros's Glory,
     28066: 0,  # The Gates of Pandæmonium|Gaoler's Flail
     28067: 0,  # The Gates of Pandæmonium|Gaoler's Flail
-    26073: 107,  # The Gates of Pandæmonium|Gaoler's Flail
-    26074: 107,  # The Gates of Pandæmonium|Gaoler's Flail
+    26073: 194,  # The Gates of Pandæmonium|Gaoler's Flail
+    26074: 194,  # The Gates of Pandæmonium|Gaoler's Flail
+    26085: 0,  # The Gates of Pandæmonium|Pitiless Flail
 }
 
 translate = {

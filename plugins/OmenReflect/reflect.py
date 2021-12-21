@@ -3169,8 +3169,8 @@ reflect_data = {
     22047: 107,  # the Art of Darkness / 暗之战技 
     22056: 1,  # Anti-air Particle Beam / 高射式波动炮 
     22057: 302,  # Full-perimeter Particle Beam / 扫射式波动炮 
-    22061: 2,  # Blastburn / 火燃爆 
-    22084: 2,  # Blastburn / 火燃爆 
+    22061: 114,  # Blastburn / 火燃爆 
+    22084: 114,  # Blastburn / 火燃爆 
     22096: 1,  # Burnished Glory / 光焰圆光 
     22098: 2,  # Burnt Strike / 燃烧击 
     22099: 114,  # Blastburn / 火燃爆 
@@ -3183,14 +3183,14 @@ reflect_data = {
     22128: 2,  # Bright Pulse / 闪光 
     22129: 2,  # Bright Pulse / 闪光 
     22137: 2,  # Burnt Strike / 燃烧击 
-    22138: 2,  # Blastburn / 火燃爆 
+    22138: 114,  # Blastburn / 火燃爆 
     22139: 2,  # Burnt Strike / 燃烧击 
     22140: 2,  # Burnout / 雷燃爆 
     22141: 2,  # Burnt Strike / 燃烧击 
     22142: 1,  # Shining Blade / 光明之刃 
     22152: 15,  # Resounding Crack / 魔乱流 
     22153: 108,  # Resonant Winds / 魔旋风 
-    22159: 2,  # Blastburn / 火燃爆 
+    22159: 114,  # Blastburn / 火燃爆 
     22166: 2,  # Burnout / 雷燃爆 
     22174: 1,  # Shining Blade / 光明之刃 
     22180: 1,  # Burnished Glory / 光焰圆光 
@@ -3718,8 +3718,8 @@ reflect_data = {
     26070: 1,  # Mousa's Scorn 
     26071: 1,  # Heros's Radiance 
     26072: 1,  # Magos's Radiance 
-    26073: 4,  # Gaoler's Flail 
-    26074: 4,  # Gaoler's Flail 
+    26073: 107,  # Gaoler's Flail 
+    26074: 107,  # Gaoler's Flail 
     26075: 1,  # Gaoler's Flail 
     26076: 1,  # Gaoler's Flail 
     26077: 108,  # Gaoler's Flail 
@@ -3730,7 +3730,6 @@ reflect_data = {
     26082: 1,  # Aetherflail 
     26083: 108,  # Aetherflail 
     26084: 108,  # Aetherflail 
-    26085: 2,  # Pitiless Flail 
     26088: 2,  # 懲罰連撃・聖爆鎖 
     26089: 1,  # Shining Cells 
     26090: 1,  # Slam Shut 
@@ -3956,8 +3955,6 @@ reflect_data = {
     28026: 1,  # Apomnemoneumata 
     28027: 1,  # Apomnemoneumata 
     28028: 1,  # Apomnemoneumata 
-    28066: 3,  # Gaoler's Flail 
-    28067: 3,  # Gaoler's Flail 
     28271: 1,  # Aero III 
     28286: 182,  # Dispelling Wind 
     28318: 1,  # Rueful Outburst 
