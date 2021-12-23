@@ -34,7 +34,7 @@ class Status(
     bard.Status,
     # black_mage.Status,
     # blue_mage.Status,
-    # dancer.Status,
+    dancer.Status,
     dark_knight.Status,
     # dragoon.Status,
     gunbreaker.Status,
@@ -51,4 +51,4 @@ class Status(
     # reaper.Status,
     # sage.Status,
     common.Status,
-):pass
+): pass

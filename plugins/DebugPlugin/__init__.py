@@ -11,31 +11,38 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        # plugins.XivNetwork.register_packet_fixer(self, 'zone', True, 'ActorCast', self.make_up)
+        #plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'EventStart', self.make_up)
         # plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving_handler)
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
-        struct_message.unk0 = 0
+        self.logger(struct_message)
+        # if struct_message.category == 4:
+        #     struct_message.event_id = 0x1f6
+        self.logger(struct_message)
         return struct_message
 
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    # @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
-            "network/unknown/zone/client/567",
+            #"network/unknown/zone/client/567",
             "network/undefined/zone/server/ActorMove",
             # "network/zone/server/actor_update_hp_mp_tp",
             # "network/zone/server/actor_control_self/unk_143",
-            "network/unknown/zone/server/541",
-            "network/unknown/zone/server/728",
+            #"network/unknown/zone/server/541",
+            #"network/unknown/zone/server/728",
             # "network/zone/server/status_effect_list",
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message),
                     '\n', evt.str_event())
+
+    @re_event(r"^network/.*/client/")
+    def discover_client_event(self, evt, match: re.Match):
+        self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
 
     # @event('network/unknown/zone/client/399')
     def craft_action(self, evt):
@@ -55,7 +62,7 @@ class DebugPlugin(PluginBase):
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
 
-    @re_event(r"^network/(unknown/|undefined/)?zone/")
+    # @re_event(r"^network/(unknown/|undefined/)?zone/")
     def discover_event2(self, evt, match: re.Match):
         if evt.id in [
             "network/zone/server/actor_update_hp_mp_tp",
@@ -67,13 +74,13 @@ class DebugPlugin(PluginBase):
     def status_effect(self, evt):
         self.logger(evt)
 
-    #@event("network/zone/server/actor_control/dot")
+    # @event("network/zone/server/actor_control/dot")
     def dot_event(self, evt):
         self.logger(evt.id, evt, evt.status_id)
 
     # @event("network/zone/server/action_effect")
     def discover_event3(self, evt):
-        #if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
+        # if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
         self.logger(evt)
         # self.logger(evt.struct_message)
         # s = []
@@ -81,16 +88,18 @@ class DebugPlugin(PluginBase):
         #     for _e in e:
         #         self.logger(t, _e.raw_entry)
 
-    #@re_event(r"network/zone/server/effect_(add|remove)")
+    # @re_event(r"network/zone/server/effect_(add|remove)")
     def network_zone_server_effect_add(self, evt, _=None):
-        #if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
-            self.logger(evt,evt.raw_event.id)
-            if evt.raw_event.id =='network/zone/server/status_effect_list':
-                self.logger('',','.join(str(e.effect_id) for e in evt.raw_event.new_effects),','.join(str(e.effect_id) for e in evt.raw_event.old_effects))
-        # n_e = [status_names.get(e.effect_id,e.effect_id) for e in evt.struct_message.effects if e.effect_id]
-        # self.logger(evt.struct_message.struct_size,len(evt.raw_message))
-        # self.logger(evt.raw_message.hex(' '))
-        # if n_e: self.logger(getattr(plugins.XivMemory.actor_table.get_actor_by_id(evt.message_header.actor_id),'name','?'),n_e)
+        # if evt.actor_id == getattr(plugins.XivMemory.targets.focus, 'id', 0):
+        self.logger(evt, evt.raw_event.id)
+        if evt.raw_event.id == 'network/zone/server/status_effect_list':
+            self.logger('', ','.join(str(e.effect_id) for e in evt.raw_event.new_effects),
+                        ','.join(str(e.effect_id) for e in evt.raw_event.old_effects))
+
+    # n_e = [status_names.get(e.effect_id,e.effect_id) for e in evt.struct_message.effects if e.effect_id]
+    # self.logger(evt.struct_message.struct_size,len(evt.raw_message))
+    # self.logger(evt.raw_message.hex(' '))
+    # if n_e: self.logger(getattr(plugins.XivMemory.actor_table.get_actor_by_id(evt.message_header.actor_id),'name','?'),n_e)
 
     # @re_event(r"^network/")
     def discover_event_from_target(self, evt, match: re.Match):

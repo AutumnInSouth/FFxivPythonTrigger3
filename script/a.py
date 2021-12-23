@@ -1,14 +1,11 @@
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.memory import *
 
-
-def main():
-    # _QWORD *__fastcall sub_1407DE990(int a1, __int64 a2, __int64 a3, __int64 a4)
-    return plugins.XivNetwork.send_messages('zone', ("EventStart", {
-        'target_id': plugins.XivMemory.targets.current.id,
-        'event_id': 32197,
-        'category': 3
-    }))
-
-
-main()
+argus: list[str]
+eid = int(argus[0])
+plugins.XivNetwork.send_messages('zone', ("EventStart", {
+    'target_id': plugins.XivMemory.actor_table.me.id,
+    # 'target_id': plugins.XivMemory.targets.current.b_npc_id,
+    'event_id': eid & 0xffff,
+    'category': eid >> 16,
+}))

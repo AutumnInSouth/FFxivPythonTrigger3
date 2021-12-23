@@ -11,8 +11,8 @@ if TYPE_CHECKING:
 
 
 class UseAbility(UseAbility):
-    def __init__(self, ability_id: int, target=None):
-        super().__init__(ability_id, target.id if target else None)
+    def __init__(self, ability_id: int, target=None, *args, **kwargs):
+        super().__init__(ability_id, target.id if target else None, *args, **kwargs)
         if target is not None and target != api.get_me_actor(): api.set_current_target(target)
 
 
@@ -25,7 +25,7 @@ class ThunderRecord:
 
     def remain(self):
         dot_time = time() - self.last_time
-        if dot_time > 15: return 10000
+        if dot_time > 15: return 0
         dot_damage = dot_time // 3 * self.dot_damage
         return self.max_damage - self.taken_damage - dot_damage
 
@@ -34,11 +34,12 @@ def thunder_remain(target_id):
     try:
         return thunder_records[target_id].remain()
     except KeyError:
-        return 1e+99
+        return 0
 
 
 thunder_actions = {8861: (400, 8000, 400), 8860: (2400, 8000, 400), 18935: (200, 4000, 200), 18936: (1200, 4000, 200)}
 thunder_records = {}
+lb_skill_ids = {3360, 3361, 4249}
 
 
 @event('network/zone/server/action_effect')
@@ -78,12 +79,7 @@ class BlmEnemy(object):
     def __init__(self, enemy, data: 'LogicData'):
         self.enemy = enemy
         self.effects = enemy.effects.get_dict(source=data.me.id)
-        if 2075 in self.effects:
-            self.thunder = self.effects[2075].timer
-        elif 1324 in self.effects:
-            self.thunder = self.effects[1324].timer
-        else:
-            self.thunder = 0
+        self.thunder = thunder_remain(self.enemy.id)
         self.hitbox = circle(enemy.pos.x, enemy.pos.y, 0.1)
         self.dis = data.actor_distance_effective(enemy)
         self.total_aoe = 0
@@ -146,14 +142,36 @@ class BlmPvpLogic(Strategy):
     name = 'ny/blm_pvp'
     job = 'BlackMage_pvp'
 
-    def __init__(self):
-        self.buff = 0
-        self.s = 0
+    def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> Tuple[int, int] | None:
+        if action_id == 8869:
+            move_targets = [member for member in data.valid_party if member.id != data.me.id and
+                            data.actor_distance_effective(member) < 26 and data.target_action_check(8869, member)]
+            if move_targets:
+                _move_targets = [member for member in move_targets if get_nearby_alliance(data, member) > 4]
+                if _move_targets: move_targets = _move_targets
+                # move_target = max(move_targets, key=lambda target: get_nearest_enemy_distance(data, target))
+                move_target = min(move_targets, key=lambda target: (get_nearby_enemy(data, target), - get_nearest_enemy_distance(data, target)))
+                if get_nearest_enemy_distance(data, move_target) < get_nearest_enemy_distance(data, data.me):
+                    return action_id, data.me.id
+                return action_id, move_target.id
+        elif action_id == 17775:
+            enemies, enemies_25, enemies_25_aoe = get_enemy_data(data)
+            if enemies_25:
+                target = max(enemies_25_aoe, key=lambda x: x.total_aoe) if enemies_25_aoe else min(enemies_25, key=lambda x: x.dis)
+                return 17775, target.enemy.id
+        elif action_id == 3361:
+            enemies, enemies_25, enemies_25_aoe = get_enemy_data(data, 8)
+            if enemies_25:
+                target = max(enemies_25_aoe, key=lambda x: x.total_aoe) if enemies_25_aoe else min(enemies_25, key=lambda x: x.enemy.current_hp)
+                return 3361, target.enemy.id
 
     def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
+        if data.me.current_hp / data.me.max_hp <= 0.7 and data[18943] <= 30:
+            data.me.current_hp += 3000
+            return UseAbility(18943, data.me)
         enemies, enemies_25, enemies_25_aoe = get_enemy_data(data)
         if not enemies_25: return
-        has_speed = 1987 in data.effects or self.buff > perf_counter() - 1
+        has_speed = 1987 in data.effects or 20 > data.pvp_skill_cd(17685) > 14
         if data.gauge.foul_count:
             kill_line = 2400 * get_buff(data)
             kill_line_targets = [enemy for enemy in enemies_25 if enemy.enemy.current_hp < kill_line]
@@ -168,9 +186,8 @@ class BlmPvpLogic(Strategy):
                 aoe_target = max(enemies_25_thunder, key=lambda x: x.total_aoe)
                 if data.gauge.foul_count > 1:
                     return UseAbility(8865, aoe_target.enemy)
-                if self.buff < perf_counter() - 15 and data.me.current_mp >= 4000 and aoe_target.total_aoe > 2:
-                    self.buff = perf_counter()
-                    return UseAbility(17685)
+                if not data.pvp_skill_cd(17685) and data.me.current_mp >= 4000 and aoe_target.total_aoe > 2:
+                    return UseAbility(17685, ability_type=AbilityType.oGCD)
                 if has_speed: return UseAbility(aoe(data), aoe_target.enemy)
                 if data.gauge.foul_count and aoe_target.total_aoe > 3:
                     return UseAbility(8865, aoe_target.enemy)
@@ -195,7 +212,11 @@ class BlmPvpLogic(Strategy):
         if not data.is_moving and data.gauge.umbral_ms > 3000:
             t = single(data)
             if t: return UseAbility(t, single_target.enemy)
-        change_line = 6000 if enemies_25_aoe and (data.gauge.foul_count or self.buff < perf_counter() - 15) else 10000
+        if not data[17775]:
+            for enemy in enemies_25:
+                if enemy.enemy.casting_id in lb_skill_ids:
+                    return UseAbility(17775, enemy.actor, ability_type=AbilityType.oGCD)
+        change_line = 6000 if enemies_25_aoe and (data.gauge.foul_count or not data.pvp_skill_cd(17685)) else 10000
         if (data.me.current_mp >= 4000 and data.gauge.umbral_stacks > 0) or data.me.current_mp >= change_line:
             return UseAbility(8858, single_target.enemy)
         return UseAbility(8859, single_target.enemy)
