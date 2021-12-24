@@ -42,7 +42,7 @@ class Status(
     # monk.Status,
     # ninja.Status,
     paladin.Status,
-    # red_mage.Status,
+    red_mage.Status,
     # samurai.Status,
     # scholar.Status,
     # summoner.Status,

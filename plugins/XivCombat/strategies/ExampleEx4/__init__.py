@@ -5,3 +5,4 @@ if game_ext == 4:
     from .dark_knight import DarkKnightStrategy
     from .gun_breaker import GunBreakerStrategy
     from .machinist import MachinistLogic
+    from .red_mage import RDMLogic

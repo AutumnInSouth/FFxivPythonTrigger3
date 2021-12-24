@@ -90,23 +90,17 @@ class LogicData(object):
             case define.FOCUSED:
                 return api.get_focus_target()
             case define.DISTANCE_NEAREST:
-                if not valid_enemies: return None
-                return min(valid_enemies, key=self.actor_distance_effective)
+                return min(valid_enemies, key=self.actor_distance_effective, default=None)
             case define.DISTANCE_FURTHEST:
-                if not valid_enemies: return None
-                return max(valid_enemies, key=self.actor_distance_effective)
+                return max(valid_enemies, key=self.actor_distance_effective, default=None)
             case define.HP_HIGHEST:
-                if not valid_enemies: return None
-                return max(valid_enemies, key=lambda x: x.current_hp)
+                return max(valid_enemies, key=lambda x: x.current_hp, default=None)
             case define.HP_LOWEST:
-                if not valid_enemies: return None
-                return min(valid_enemies, key=lambda x: x.current_hp)
+                return min(valid_enemies, key=lambda x: x.current_hp, default=None)
             case define.HPP_HIGHEST:
-                if not valid_enemies: return None
-                return max(valid_enemies, key=lambda x: x.current_hp / x.max_hp)
+                return max(valid_enemies, key=lambda x: x.current_hp / x.max_hp, default=None)
             case define.HPP_LOWEST:
-                if not valid_enemies: return None
-                return min(valid_enemies, key=lambda x: x.current_hp / x.max_hp)
+                return min(valid_enemies, key=lambda x: x.current_hp / x.max_hp, default=None)
 
     @cached_property
     def valid_party(self):

@@ -22,12 +22,19 @@ class UseAbility(_Using):
                  target_id: int = None,
                  ability_type: AbilityType = None,
                  target_position: Tuple[float, float, float] = None,
-                 wait_until: Callable = None):
+                 wait_until: Callable = None,
+                 wait_period: float = .1,
+                 max_wait_time: float = 2.,
+                 rtn_period: float = .4,
+                 ):
         self.ability_id = ability_id
         self.target_id = target_id
         self.ability_type = ability_type
         self.target_position = target_position
         self.wait_until = wait_until
+        self.wait_period = wait_period
+        self.max_wait_time = max_wait_time
+        self.rtn_period = rtn_period
 
 
 class UseItem(_Using):

@@ -146,7 +146,15 @@ for actor in plugins.XivMemory.actor_table:
         cnt += 1
 print(cnt)
 """
-t = requests.post("http://127.0.0.1:2020/exec",c22.encode('utf-8')).text
+c24="""
+unload_module('XivCombat')
+import sys
+for m in list(sys.modules.keys()):
+    if m.startswith('FFxivPythonTrigger.meta_data'):
+        del sys.modules[m]
+reload_module('XivCombat')
+"""
+t = requests.post("http://127.0.0.1:2020/exec",c24.encode('utf-8')).text
 
 d = json.loads(t)
 if 'print' in d: print(d['print'])

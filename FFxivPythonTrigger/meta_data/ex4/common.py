@@ -2,11 +2,16 @@ from ..base import *
 
 
 class Status:
-    pass
+    class Swiftcast(StatusBase):
+        id = 167
+        name = {'即刻咏唱', 'Swiftcast'}
+
+    class Raise(StatusBase):
+        id = 148
+        name = {'Raise', '复活'}
 
 
 class Actions:
-
     class Return(ActionBase):
         """
 Instantly return to your current home point.

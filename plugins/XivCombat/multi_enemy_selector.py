@@ -101,7 +101,7 @@ def select(data: 'LogicData', valid_enemies: list['Actor'], ability: AbilityType
     if not valid_enemies: return None, 0
     if ability.type:
         enemies = [Enemy(data, target, ability) for target in valid_enemies]
-        selected = max(enemies, key=lambda enemy: (enemy.calc(enemies), enemy.target.current_hp))
+        selected = max(enemies, key=lambda enemy: (enemy.calc(enemies), enemy.target == data.target, enemy.target.current_hp))
         return selected.target, selected.calc_targets
     else:
         aoe = ability.aoe_shape(data, data.target)

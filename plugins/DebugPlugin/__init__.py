@@ -11,7 +11,7 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        #plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'EventStart', self.make_up)
+        # plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'EventStart', self.make_up)
         # plugins.XivNetwork.register_packet_fixer(self, 'zone', False, 'UpdatePositionHandler', self.makeup_moving_handler)
 
     def make_up(self, bundle_header, message_header, raw_message, struct_message):
@@ -24,23 +24,23 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    #@re_event(r"^network/")
+    # @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
-            #"network/unknown/zone/client/567",
+            # "network/unknown/zone/client/567",
             "network/undefined/zone/server/ActorMove",
             # "network/zone/server/actor_update_hp_mp_tp",
             # "network/zone/server/actor_control_self/unk_143",
-            #"network/unknown/zone/server/541",
-            #"network/unknown/zone/server/728",
+            # "network/unknown/zone/server/541",
+            # "network/unknown/zone/server/728",
             # "network/zone/server/status_effect_list",
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message),
                     '\n', evt.str_event())
 
-    @re_event(r"^network/.*/client/")
+    # @re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
 
@@ -114,6 +114,10 @@ class DebugPlugin(PluginBase):
                 "add:", ','.join(str(e.effect_id) for e in evt.add_effects),
                 "remove:", ','.join(str(e.effect_id) for e in evt.remove_effects),
             )
+
+    @event('network/zone/server/npc_spawn')
+    def discover_npc_spawn(self, evt):
+        self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.struct_message, '\n', evt.raw_message.hex(' '))
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

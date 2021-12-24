@@ -215,7 +215,7 @@ class BlmPvpLogic(Strategy):
         if not data[17775]:
             for enemy in enemies_25:
                 if enemy.enemy.casting_id in lb_skill_ids:
-                    return UseAbility(17775, enemy.actor, ability_type=AbilityType.oGCD)
+                    return UseAbility(17775, enemy.enemy, ability_type=AbilityType.oGCD)
         change_line = 6000 if enemies_25_aoe and (data.gauge.foul_count or not data.pvp_skill_cd(17685)) else 10000
         if (data.me.current_mp >= 4000 and data.gauge.umbral_stacks > 0) or data.me.current_mp >= change_line:
             return UseAbility(8858, single_target.enemy)

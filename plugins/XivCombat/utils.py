@@ -30,6 +30,7 @@ def use_item(to_use: strategies.UseItem):
                 api.use_item(to_use.item_id, False, to_use.target_id)
             elif api.get_backpack_item_count(to_use.item_id, True):
                 api.use_item(to_use.item_id, True, to_use.target_id)
+    return .6
 
 
 @cache
@@ -41,15 +42,19 @@ def use_ability(to_use: strategies.UseAbility):
     if to_use.ability_id is None: return
     if is_area_action(to_use.ability_id):
         api.reset_ani_lock()
-        if to_use.target_position: api.use_area_action(to_use.ability_id, *to_use.target_position, 0xe0000000)
+        if to_use.target_position:
+            api.use_area_action(to_use.ability_id, *to_use.target_position, 0xe0000000)
         actor = api.get_actor_by_id(to_use.target_id) if to_use.target_id != 0xe0000000 else api.get_me_actor()
-        if actor is not None:  api.use_area_action(to_use.ability_id, actor.pos.x, actor.pos.y, actor.pos.z, actor.id)
+        if actor is not None:
+            api.use_area_action(to_use.ability_id, actor.pos.x, actor.pos.y, actor.pos.z, actor.id)
     else:
         api.use_action(to_use.ability_id, to_use.target_id)
-        if to_use.wait_until:
-            prev = perf_counter()
-            while not to_use.wait_until() and perf_counter() - prev < 2:
-                time.sleep(0.1)
+    if to_use.wait_until:
+        prev = perf_counter()
+        while not to_use.wait_until() and perf_counter() - prev < to_use.max_wait_time:
+            time.sleep(to_use.wait_period)
+        return 0
+    return to_use.rtn_period
 
 
 @cache

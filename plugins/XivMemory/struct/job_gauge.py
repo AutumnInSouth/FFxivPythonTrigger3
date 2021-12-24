@@ -10,9 +10,11 @@ def byte_get_bit(byte: int, start: int, length: int):
 class RedMageGauge(OffsetStruct({
     'white_mana': (c_ubyte, 0),
     'black_mana': (c_ubyte, 1),
+    'mana_stacks': (c_ubyte, 2),
 }, 16)):
     white_mana: int
     black_mana: int
+    mana_stacks: int
 
 
 class WarriorGauge(OffsetStruct({

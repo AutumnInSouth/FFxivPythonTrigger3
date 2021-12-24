@@ -18,6 +18,7 @@ from .map_effect import MapEffect
 from .market_board_item_listing import MarketBoardItemList
 from .market_board_item_listing_count import MarketBoardItemListCount
 from .market_board_item_listing_history import MarketBoardItemListHistory
+from .npc_spawn import NpcSpawn
 from .retainer_information import RetainerInformation
 from .status_effect_list import StatusEffectList, StatusEffectList2, BossStatusEffectList
 from .triple_triad_game_data import TripleTriadGameData

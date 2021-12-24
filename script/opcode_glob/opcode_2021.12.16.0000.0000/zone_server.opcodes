@@ -14,6 +14,7 @@ ContainerInfo|358
 CurrencyCrystalInfo|107
 DesynthResult|14D
 EffectResult|11C
+EffectResultBasic|24C
 EventFinish|1A6
 EventPlay|396
 EventPlay128|34E
@@ -53,6 +54,8 @@ ResultDialog|330
 RetainerInformation|3A9
 SomeDirectorUnk4|159
 StatusEffectList|2D2
+StatusEffectList2|256
+StatusEffectList3|106
 SubmarineExplorationResult|3BF
 SubmarineProgressionStatus|9C
 SubmarineStatusList|10E
@@ -62,3 +65,9 @@ UpdateHpMpTp|2B1
 UpdateInventorySlot|131
 UpdateSearchInfo|F1
 WeatherChange|1FD
+Effect|1d0
+AoeEffect8|2b0
+AoeEffect16|2be
+MapEffect|233
+AoeEffect24|288
+AoeEffect32|238

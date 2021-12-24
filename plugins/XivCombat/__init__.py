@@ -300,9 +300,9 @@ class XivCombat(PluginBase):
                                           f"type:{api.action_type_check(to_use.ability_id, to_use.actor)}\t"
                                           f"ray:{data.target_action_check(to_use.ability_id, to_use.actor)}/{new_data.target_action_check(to_use.ability_id, to_use.actor)}\t"
                                           f"distance:{data.actor_distance_effective(to_use.actor)}/{new_data.actor_distance_effective(to_use.actor)}\t")
-                    utils.use_ability(to_use)
+                    return utils.use_ability(to_use)
                 elif isinstance(to_use, strategies.UseItem):  # 使用道具，应该只有食物或者爆发药吧？
-                    utils.use_item(to_use)
+                    return utils.use_item(to_use)
                 elif isinstance(to_use, strategies.UseCommon):  # 通用技能——特指疾跑
                     api.reset_ani_lock()  # 因为有动画锁就会卡掉do_action，所以需要直接清除（请注意使用频率）
                     api.use_common(to_use.ability_id, to_use.target_id)
