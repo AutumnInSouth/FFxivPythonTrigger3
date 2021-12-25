@@ -24,21 +24,22 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    # @re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
-            # "network/unknown/zone/client/567",
+            "network/unknown/zone/client/161",
+            "network/unknown/zone/server/533",
             "network/undefined/zone/server/ActorMove",
-            # "network/zone/server/actor_update_hp_mp_tp",
-            # "network/zone/server/actor_control_self/unk_143",
-            # "network/unknown/zone/server/541",
+            "network/zone/server/actor_update_hp_mp_tp",
+            "network/zone/server/actor_control_self/unk_143",
             # "network/unknown/zone/server/728",
-            # "network/zone/server/status_effect_list",
+            "network/zone/server/status_effect_list",
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message),
-                    '\n', evt.str_event())
+                    # '\n', evt.str_event()
+                    )
 
     # @re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
@@ -61,6 +62,22 @@ class DebugPlugin(PluginBase):
 
         }, 24)
         self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
+
+    # @event('network/unknown/zone/client/375')
+    def mix_stone_action(self, evt):
+        struct = OffsetStruct({
+            'event_id': c_ushort,
+            'category': c_ushort,
+            'unk0': c_uint,
+            'cnt': c_uint,
+            'slots': OffsetStruct({
+                'container_id': c_uint,
+                'slot_id': c_ushort,
+                'cnt': c_ushort,
+            }) * 5
+        }, 72)
+        # self.logger('|'.join(f"{k}:{v:x}" for k, v in struct.from_buffer(evt.raw_message).get_data(True).items()))
+        self.logger(struct.from_buffer(evt.raw_message).get_data(True))
 
     # @re_event(r"^network/(unknown/|undefined/)?zone/")
     def discover_event2(self, evt, match: re.Match):
@@ -115,7 +132,7 @@ class DebugPlugin(PluginBase):
                 "remove:", ','.join(str(e.effect_id) for e in evt.remove_effects),
             )
 
-    @event('network/zone/server/npc_spawn')
+    # @event('network/zone/server/npc_spawn')
     def discover_npc_spawn(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.struct_message, '\n', evt.raw_message.hex(' '))
 

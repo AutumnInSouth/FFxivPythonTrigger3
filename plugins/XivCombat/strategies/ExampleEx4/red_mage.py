@@ -179,7 +179,7 @@ class RDMLogic(Strategy):
                 ) else a('赤火炎'),
                 single_target.id)
 
-        if res and must_acceleration and data[a('鼓励')] and data[a('倍增')]:
+        if res and must_acceleration:
             return use_acceleration(data, True)
 
         if aoe_cnt > 2 and data.me.level >= 18:
