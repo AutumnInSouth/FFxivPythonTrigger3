@@ -23,6 +23,7 @@ if game_ext == 4:
     max_materia = 9
     want_materia = {
         27: 8,
+        22: 8,
         44: 8,
         11: 8,
         70: 8,

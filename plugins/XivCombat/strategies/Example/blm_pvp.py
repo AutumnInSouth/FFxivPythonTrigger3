@@ -174,7 +174,7 @@ class BlmPvpLogic(Strategy):
         has_speed = 1987 in data.effects or 20 > data.pvp_skill_cd(17685) > 14
         if data.gauge.foul_count:
             kill_line = 2400 * get_buff(data)
-            kill_line_targets = [enemy for enemy in enemies_25 if enemy.enemy.current_hp < kill_line]
+            kill_line_targets = [enemy for enemy in enemies_25 if enemy.enemy.current_hp < kill_line and enemy.enemy.type == 'player']
             if kill_line_targets: return UseAbility(17774, max(kill_line_targets, key=lambda x: x.enemy.current_hp).enemy)
         if enemies_25_aoe and data.gauge.umbral_stacks > 0:
             if 1365 in data.effects and not has_speed:

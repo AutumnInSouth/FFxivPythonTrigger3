@@ -83,6 +83,7 @@ mubiaojianshang30 = [
     2020,  # 干预 没有铁壁附加效果只有20 但是两个buff是一样的 按高的算
 ]
 mubiaojianshang50 = [
+    1431,  # ys塔
     1240,  # 必杀剑·地天
     # 抵消伤害的盾，我不会查盾值，先全当作50%减伤算
     # 1308,  # 至黑之夜
@@ -136,10 +137,17 @@ zijijianshang40 = [
 
 def source_dmg_modify(effects: dict):
     b = 1
+
     for i in range(2131, 2136):
         if i in effects:
             b += 0.1 * (i - 2130)
             break
+    if 1465 in effects:
+        b *= 1 + (.02 * effects[1465].param)
+    if 1730 in effects:
+        b *= 1.5
+    if 1729 in effects:
+        b *= 1.5
     for i in zijizengshang5:
         if i in effects:
             b *= 1.05

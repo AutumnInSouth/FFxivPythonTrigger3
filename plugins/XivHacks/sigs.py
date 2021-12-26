@@ -94,17 +94,28 @@ sigs = {
         'add': BASE_ADDR
     },
     **({
+           "afk_timer_write": {
+               'call': find_signature_address,
+               'param': "75 ? 0F 28 C7 0F 28 CF",
+               'add': BASE_ADDR
+           },
+           "afk_timer_write2": {
+               'call': find_signature_address,
+               'param': "F3 0F 11 51 ? 33 C9",
+               'add': BASE_ADDR
+           },
+       } if game_ext == 4 else {
         "afk_timer_write": {
             'call': find_signature_address,
-            'param': "75 ? 0F 28 C7 0F 28 CF",
+            'param': "F3 0F 58 87 ? ? ? ? F3 0F 58 8F ? ? ? ? 33 F6",
             'add': BASE_ADDR
         },
         "afk_timer_write2": {
             'call': find_signature_address,
-            'param': "F3 0F 11 51 ? 33 C9",
+            'param': "F3 0F 58 87 ? ? ? ? F3 0F 11 87 ? ? ? ? 45 84 F6",
             'add': BASE_ADDR
         },
-    } if game_ext==4 else {}),
+    }),
     "jump": {
         # 'call': find_signature_address,
         # 'param': "66 66 26 41",

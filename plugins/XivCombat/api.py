@@ -32,11 +32,16 @@ def _action_data(action_id):
 
 
 def action_type_check(action_id, actor) -> bool:
-    return _func_action_type_check(action_id, _action_data(action_id), addressof(actor))
+    a = addressof(actor)
+    if not a: return False
+    return _func_action_type_check(action_id, _action_data(action_id), a)
 
 
 def action_distance_check(action_id, source_actor, target_actor):
-    return _func_action_distance_check(action_id, addressof(source_actor), addressof(target_actor))
+    a_s = addressof(source_actor)
+    a_t = addressof(target_actor)
+    if not a_s or not a_t: return False
+    return _func_action_distance_check(action_id, a_s, a_t)
 
 
 if game_ext > 3:

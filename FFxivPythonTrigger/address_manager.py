@@ -24,7 +24,7 @@ class AddressManager(object):
         return self.get(key, find_signature_point, sig, add=BASE_ADDR + add)
 
     def get(self, key: str, call: Callable, param: any = None, add=0, **kwargs):
-        if key in self.storage and not self.force_search:
+        if key in self.storage and param == self.storage[key]['param'] and not self.force_search:
             offset = self.storage[key]['offset']
             address = offset + BASE_ADDR
             msg = "address load [{address}] [+{offset}] \"{name}\""

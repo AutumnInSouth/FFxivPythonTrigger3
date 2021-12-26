@@ -51,7 +51,7 @@ no_misdirect = True
 no_forced_march = True
 cutscene_skip = True
 status_no_lock_move = True
-anti_afk = game_ext == 4
+anti_afk = True or game_ext == 4
 jump = True
 
 
@@ -446,10 +446,17 @@ class XivHacks(PluginBase):
             return True
 
     if anti_afk:
-        def set_anti_afk(self, mode):
-            write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
-            new_code = b'\x90' * 5 if mode else get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
-            write_ubytes(self._address['afk_timer_write2'], bytearray(new_code))
+        if game_ext == 3:
+            def set_anti_afk(self, mode):
+                new_code1 = b'\x90' * 16 if mode else get_original_text(self._address['afk_timer_write'] - BASE_ADDR, 16)
+                new_code2 = b'\x90' * 8 if mode else get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 8)
+                write_ubytes(self._address['afk_timer_write'], bytearray(new_code1))
+                write_ubytes(self._address['afk_timer_write2'], bytearray(new_code2))
+        else:
+            def set_anti_afk(self, mode):
+                write_ubyte(self._address['afk_timer_write'], 0xeb if mode else 0x75)
+                new_code = b'\x90' * 5 if mode else get_original_text(self._address['afk_timer_write2'] - BASE_ADDR, 5)
+                write_ubytes(self._address['afk_timer_write2'], bytearray(new_code))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def anti_afk(self, new_val, old_val):

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Tuple, Iterable
 
 from FFxivPythonTrigger.utils.shape import sector, circle, rotated_rect
 
@@ -97,8 +97,9 @@ class Enemy(object):
         return self.calc_targets
 
 
-def select(data: 'LogicData', valid_enemies: list['Actor'], ability: AbilityType) -> Tuple['Actor|None', int]:
-    if not valid_enemies: return None, 0
+def select(data: 'LogicData', valid_enemies: Iterable['Actor'], ability: AbilityType) -> Tuple['Actor|None', int]:
+    if not valid_enemies:
+        return None, 0
     if ability.type:
         enemies = [Enemy(data, target, ability) for target in valid_enemies]
         selected = max(enemies, key=lambda enemy: (enemy.calc(enemies), enemy.target == data.target, enemy.target.current_hp))
