@@ -49,7 +49,7 @@ class Effects(Effect * 30):
     def has(self, status_id: int, source: Optional[int] = None):
         for effect in self:
             if effect.buff_id == status_id and (source is None or effect.actor_id == source):
-                return effect.timer
+                return effect.timer or 0.1
         return 0
 
 

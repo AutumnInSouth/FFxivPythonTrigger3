@@ -1,21 +1,21 @@
-from time import time, perf_counter
-
-from FFxivPythonTrigger.decorator import event
 from XivCombat.strategies import *
 from XivCombat.multi_enemy_selector import FarCircle, NearCircle, select
 from .pvp_dmg_effects import source_dmg_modify, target_dmg_modify
 
-if TYPE_CHECKING:
-    from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
-    from XivNetwork.extra_messages.actor_add_remove_effect import ActorRemoveEffectEvent
-
 
 class UseAbility(UseAbility):
-    def __init__(self, ability_id: int, target=None, calc_dmg: int = 0, *args, **kwargs):
-        super().__init__(ability_id, target.id if target else None, *args, **kwargs)
+    def __init__(self, ability_id: int, target=None, calc_dmg: int = 0, wait_until=None, *args, **kwargs):
+        super().__init__(ability_id, target.id if target else None, *args, wait_until=wait_until or self.cb, **kwargs)
+        self._target = target
+        self._calc_dmg = calc_dmg
         if target is not None and target != api.get_me_actor():
             api.set_current_target(target)
-            target.current_hp -= int(calc_dmg)
+
+    def cb(self):
+        if self._target:
+            self._target.current_hp -= int(self._calc_dmg)
+        return True
+
 
 
 def get_static_dmg(data: 'LogicData'):
@@ -40,6 +40,7 @@ class NinjaEnemy:
         self.taken_damage_modify = target_dmg_modify(actor)
         self.efficient_hp = actor.current_hp / self.taken_damage_modify
         self.total_dmg = 0
+        self.is_robot = actor.effects.has(1420)
         self.distance = data.actor_distance_effective(actor)
 
     def calc_total_dmg(self, static_dmg: int, self_dmg_modify: float):
@@ -100,7 +101,7 @@ class NinPvpLogic(Strategy):
 
             if not data[8815] and data.gauge.ninki_amount >= 50:
                 return UseAbility(8815, target.actor, 1000 * self_dmg_modify * target.taken_damage_modify)
-        single_target = min((enemy for enemy in enemies if enemy.distance <= 5), key=lambda x: x.efficient_hp, default=None)
+        single_target = min((enemy for enemy in enemies if enemy.distance <= 5), key=lambda x: (not x.is_robot, x.efficient_hp), default=None)
         if 1316 in data.effects or 1315 in data.effects:
             if single_target and 1316 in data.effects and data.effects[1316].timer <= 2:
                 return UseAbility(17735, single_target.actor, 1200 * self_dmg_modify * single_target.taken_damage_modify)
@@ -121,9 +122,9 @@ class NinPvpLogic(Strategy):
             enemies_in_five = [enemy for enemy in enemies if enemy.distance <= 5]
             if enemies_in_five:
                 aoe_target, aoe_cnt = select(data, (enemy.actor for enemy in enemies), circle)
-                if aoe_cnt:
+                if aoe_cnt>2:
                     if data.combo_id == 18921: return UseAbility(18922)
-                    if aoe_cnt >= 2: return UseAbility(18921)
+                    return UseAbility(18921)
                 if data.combo_id == 8808:
                     return UseAbility(8809, single_target.actor, 1400 * self_dmg_modify * single_target.taken_damage_modify)
                 if data.combo_id == 8807:
@@ -139,4 +140,3 @@ class NinPvpLogic(Strategy):
             fire_target, fire_cnt = select(data, (enemy.actor for enemy in enemies), fire)
             if fire_cnt >= 2: return UseAbility(17731, fire_target)
             if single_target: return UseAbility(8815, single_target.actor, 2000 * self_dmg_modify * single_target.taken_damage_modify)
-

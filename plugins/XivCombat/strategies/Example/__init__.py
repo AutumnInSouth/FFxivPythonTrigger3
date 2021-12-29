@@ -10,3 +10,4 @@ if game_ext == 3:
     from .astrologian import AstrologianLogic
     from .blm_pvp import BlmPvpLogic, blm_pvp_effect_remove, blm_pvp_record_thunder
     from .nin_pvp import NinPvpLogic
+    from .gnb_pvp import GnbPvpLogic

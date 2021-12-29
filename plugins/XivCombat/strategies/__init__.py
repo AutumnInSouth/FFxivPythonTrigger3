@@ -25,7 +25,7 @@ class UseAbility(_Using):
                  wait_until: Callable = None,
                  wait_period: float = .1,
                  max_wait_time: float = 2.,
-                 rtn_period: float = .4,
+                 rtn_period: float = .2,
                  ):
         self.ability_id = ability_id
         self.target_id = target_id
