@@ -17,3 +17,5 @@ for row in materia_sheet:
             print(e)
         finally:
             sleep(1)
+from ctypes import windll
+windll.kernel32.Beep(500,1000)

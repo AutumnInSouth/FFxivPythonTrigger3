@@ -25,7 +25,9 @@ jobs = {
     34: '武士',  # 武士SAM
     35: '赤魔',  # 赤魔法师RDM
     37: '绝枪',  # 绝枪战士GNB
-    38: '舞者'  # 舞者DNC
+    38: '舞者',  # 舞者DNC
+    39: '镰刀',  # RPR
+    40: '贤者',  # SGE
 }
 
 jobs_order = [
@@ -34,6 +36,7 @@ jobs_order = [
     '绝枪',
     '骑士',
     '武士',
+    '镰刀',
     '武僧',
     '忍者',
     '龙骑',
@@ -46,6 +49,7 @@ jobs_order = [
     '白魔',
     '占星',
     '学者',
+    '贤者',
 ]
 
 jobs_k = {v: k for k, v in jobs.items()}
@@ -94,14 +98,13 @@ class RockJail(PluginBase):
         except PluginNotFoundException:
             self.logger.warning("Command is not found")
 
-
     def process_command(self, args):
         try:
             msg = self._process_command(args)
             if msg is not None:
-                plugins.XivMemory.calls.do_text_command('/e '+msg)
+                plugins.XivMemory.calls.do_text_command('/e ' + msg)
         except Exception as e:
-            plugins.XivMemory.calls.do_text_command('/e '+str(e))
+            plugins.XivMemory.calls.do_text_command('/e ' + str(e))
 
     def _process_command(self, args):
         if args:
@@ -109,9 +112,9 @@ class RockJail(PluginBase):
                 self.test_mode = True
             elif args[0] == "d":
                 self.test_mode = False
-            elif args[0]=="order":
+            elif args[0] == "order":
                 mode = 'p' if len(list(plugins.XivMemory.party.main_party())) > 1 else 'e'
-                msg='\n'.join([f"{i+1}:{n}" for i,n in enumerate(jobs_order)])
+                msg = '\n'.join([f"{i + 1}:{n}" for i, n in enumerate(jobs_order)])
                 plugins.XivMemory.calls.do_text_command(f"""/{mode} 默认顺序：\n{msg}\n<se.6>""")
                 return
             else:

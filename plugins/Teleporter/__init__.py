@@ -64,6 +64,10 @@ class Teleporter(PluginBase):
                 del data[args[1]]
                 self.storage.save()
                 return f'{zone_id}({len(data)}):' + '/'.join(data.keys())
+            case 'mo':
+                l = plugins.XivMemory.utils.mo_location
+                if l is not None: coordinate.set(*l)
+
         dis = float(args[1])
         match args[0]:
             case 'north' | 'n':

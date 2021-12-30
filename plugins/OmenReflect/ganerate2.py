@@ -16,6 +16,7 @@ action_sheet_chs = pysaintcoinach.ARealmReversed(
     Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3\DefinitionsExt3')
 ).game_data.get_sheet('Action')
 
+omen_sheet = realm.game_data.get_sheet('Omen')
 action_time_line_black_list = {row.key for row in realm.game_data.get_sheet('ActionTimeline') if '[SKL_ID]' in row['Key']}
 
 
@@ -90,5 +91,7 @@ with open('reflect.py', 'w', encoding='utf-8') as f:
     f.write("reflect_data = {\n")
     for k, v in d.items():
         a = action_sheet[k]
-        f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']} | {a['Animation{End}']} \n")
+        o = omen_sheet[v]
+        f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']}/{a['EffectRange']}/{a['XAxisModifier']}/{a['Cast<100ms>']/100}s |"
+                f" {a['Animation{End}']} => {o['Path']} \n")
     f.write("}\n")

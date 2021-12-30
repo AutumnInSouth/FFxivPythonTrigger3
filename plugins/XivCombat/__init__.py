@@ -311,41 +311,40 @@ class XivCombat(PluginBase):
                 return max(0.4, default_period)
             return default_period
 
-    def hot_bar_process(self, a1, block_p, strategy: strategies.Strategy):
+    def hot_bar_process(self, a1, block, strategy: strategies.Strategy):
         try:
-            block = block_p[0]
             with self.work_lock:
                 t = api.get_current_target()
                 t_id = api.get_me_actor().id if t is None else t.id
-                if block.type == 1:
-                    action_id = block.param
-                    data = self.get_logic_data()
-                    to_use = strategy.process_ability_use(data, block.param, t_id)
-                    if to_use is not None:
-                        if not isinstance(to_use, strategies.UseAbility):
-                            to_use = strategies.UseAbility(*to_use)
-                    else:
-                        to_use = strategies.UseAbility(action_id, t_id)
-                    if to_use.target_id is None:
-                        target = data.target
-                        to_use.target_id = data.me.id if target is None else target.id
-                    self.ability_cnt += 1
-                    use_ability(to_use)
-                    return 1
-                elif block.type == 2 or block.type == 10:
-                    api.reset_ani_lock()
+                action_id = block.param
+                data = self.get_logic_data()
+                to_use = strategy.process_ability_use(data, block.param, t_id)
+                if to_use is not None:
+                    if not isinstance(to_use, strategies.UseAbility):
+                        to_use = strategies.UseAbility(*to_use)
+                else:
+                    to_use = strategies.UseAbility(action_id, t_id)
+                if to_use.target_id is None:
+                    target = data.target
+                    to_use.target_id = data.me.id if target is None else target.id
+                self.ability_cnt += 1
+                use_ability(to_use)
+                return 1
         except Exception as e:
             self.logger.error(str(e))
             self.logger.error(traceback.format_exc())
-        return self.hot_bar_process_hook_obj.original(a1, block_p)
 
     @PluginHook.decorator(c_ubyte, [c_int64, POINTER(HotbarBlock)], True)
     def hot_bar_process_hook(self, hook, a1, block_p):
         try:
             strategy = self.current_strategy
             if strategy is not None and self.common_config['enable']:
-                self.create_mission(self.hot_bar_process, a1, block_p, strategy)
-                return 1
+                block = block_p[0]
+                if block.type == 1:
+                    self.create_mission(self.hot_bar_process, a1, block, strategy)
+                    return 1
+                elif block.type == 2 or block.type == 10:
+                    api.reset_ani_lock()
         except Exception as e:
             self.logger.error(str(e))
             self.logger.error(traceback.format_exc())

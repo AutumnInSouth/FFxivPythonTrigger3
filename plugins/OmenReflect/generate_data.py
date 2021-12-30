@@ -1,4 +1,9 @@
 white_list = {
+    10527: 0,
+    10518: 1,
+    10516: 14,
+    10524: 2,
+    10535: 229,
     22748: 229,  # 空无的恶意e12s
     22710: 229,  # 拒绝之手e12s
     22129: 2,  # 闪光e11s
@@ -64,6 +69,7 @@ white_list = {
     25677: 0,  # The Aitiascope|Livia the Undeterred|25677|Ignis Odi
     25923: 0,  # The Dead Ends|Caustic Grebuloff|25923|Befoulment
     25924: 0,  # The Dead Ends|Caustic Grebuloff|25924|Befoulment
+    25928: 0,  # No Future | 2 | mon_sp/gimmick/n4r2_boss3_gimmick03
     28359: 0,  # The Dead Ends|Peacekeeper|28359|Infantry Deterrent
     25946: 0,  # The Dead Ends|Ra-la|25946|Benevolence
     25948: 0,  # The Dead Ends|Ra-la|25948|Still Embrace

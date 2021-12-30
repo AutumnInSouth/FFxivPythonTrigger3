@@ -61,7 +61,7 @@ class GunBreakerStrategy(Strategy):
         brutal_shell = data.combo_id == a('残暴弹') and data.me.level >= 26 and not data.config['single_shield']
         if brutal_shell or data.combo_id == a('恶魔切') and data.me.level >= 40:
             gcd = data.recast_time(a('迅连斩'))
-            if no_mercy_cd < data.gcd < 1.3 and data.gauge.cartridges:
+            if res and no_mercy_cd < data.gcd < 1.3 and data.gauge.cartridges:
                 return UseAbility(a('无情'), data.me.id, ability_type=define.AbilityType.oGCD)
             if res and data.gauge.cartridges == max_cartridges and no_mercy_cd > gcd * 2:
                 if no_mercy_cd < gcd: return UseAbility(a('闪雷弹'), single_target.id)
