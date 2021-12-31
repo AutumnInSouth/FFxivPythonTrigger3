@@ -94,8 +94,8 @@ sigs = {
         'add': BASE_ADDR
     },
     "no_hysteria": {
-        'call': find_signature_address,
-        'param': "0F 84 ? ? ? ? 83 E9 ? 0F 84 ? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 42 8B 54 AE ?",
+        'call': find_signature_point,
+        'param': "0F 84 * * * * 83 E9 ? 0F 84 ? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 42 8B 54 AE ?",
         'add': BASE_ADDR
     },
     "move_effect_switch_end": {

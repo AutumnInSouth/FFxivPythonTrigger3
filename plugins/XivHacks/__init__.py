@@ -462,13 +462,13 @@ class XivHacks(PluginBase):
 
     if no_hysteria:
         def set_no_hysteria(self, mode):
-            d = self.no_hysteria_jz if mode else bytearray(get_original_text(self._address['no_hysteria'] - BASE_ADDR, 6))
+            d = self.no_hysteria_jmp if mode else bytearray(get_original_text(self._address['no_hysteria'] - BASE_ADDR, 5))
             write_ubytes(self._address['no_hysteria'], d)
 
         @cached_property
-        def no_hysteria_jz(self):
+        def no_hysteria_jmp(self):
             dif = self._address['move_effect_switch_end'] - self._address['no_hysteria'] - 6
-            return bytearray(b'\x0F\x84' + dif.to_bytes(4, 'little', signed=True))
+            return bytearray(b'\xE9' + dif.to_bytes(4, 'little', signed=True))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_hysteria(self, new_val, old_val):
