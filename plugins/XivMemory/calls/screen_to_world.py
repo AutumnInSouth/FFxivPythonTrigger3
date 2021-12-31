@@ -4,12 +4,14 @@ import glm
 import win32api
 import win32gui
 
-from FFxivPythonTrigger.utils.glm import transform_coordinate
 from FFxivPythonTrigger.window import CURRENT_HWND
 
 get_camera_matrix_interface = CFUNCTYPE(c_int64)
 screen_to_world_interface = CFUNCTYPE(c_bool, POINTER(c_float), POINTER(c_float), c_float, POINTER(c_float), POINTER(c_int))
-unk = (c_int * 3)(0x4000, 0x4000, 0x0)
+flag = (c_int * 3)(0x4000, 0x4000, 0x0)
+
+
+def trans(v4: glm.vec4): return glm.vec3(v4 / v4.w)
 
 
 class ScreenToWorld:
@@ -17,15 +19,19 @@ class ScreenToWorld:
         self._original = screen_to_world_interface(screen_to_world_address)
         self._get_camera_matrix = get_camera_matrix_interface(get_camera_matrix_address)
 
-    def original(self, local_x: int, local_y: int, ray_distance: float = 10000.):
+    def original(self, local_x, local_y, ray_distance=10000.):
         matrix_singleton = cast(self._get_camera_matrix() + 0x1b4, POINTER(c_float))
         view_projection_matrix = glm.inverse(glm.mat4(*matrix_singleton[:16]))
-        screen_pos_3d = glm.vec3(local_x / matrix_singleton[16] * 2 - 1, -(local_y / matrix_singleton[17] * 2 - 1), 0)
-        cam_pos = transform_coordinate(screen_pos_3d, view_projection_matrix)
+        screen_pos_3d = glm.vec4(
+            local_x / matrix_singleton[16] * 2 - 1,
+            -(local_y / matrix_singleton[17] * 2 - 1),
+            0, 1
+        )
+        cam_pos = trans(view_projection_matrix * screen_pos_3d)
         screen_pos_3d.z = 1
-        clip_pos = transform_coordinate(screen_pos_3d, view_projection_matrix) - cam_pos
+        clip_pos = trans(view_projection_matrix * screen_pos_3d) - cam_pos
         world_pos_array = (c_float * 32)()
-        success = self._original(glm.value_ptr(cam_pos), glm.value_ptr(glm.normalize(clip_pos)), ray_distance, world_pos_array, unk)
+        success = self._original(glm.value_ptr(cam_pos), glm.value_ptr(glm.normalize(clip_pos)), ray_distance, world_pos_array, flag)
         if not success: raise ValueError('screen_to_world failed')
         return world_pos_array[0], world_pos_array[2], world_pos_array[1]
 

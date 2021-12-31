@@ -85,12 +85,22 @@ sigs = {
     },
     "no_misdirect": {
         'call': find_signature_address,
-        'param': "0F 84 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? BA ? ? ? ? 48 8D 0D ? ? ? ? 0F B6 D8 E8 ? ? ? ? 84 C0 0F 84 ? ? ? ?",
+        'param': "48 8B 0E B2 ? E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 48 8D 0D ? ? ? ?",
         'add': BASE_ADDR
     },
     "no_forced_march": {
         'call': find_signature_address,
-        'param': "? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 48 8B 0E 48 81 C1 ? ? ? ?",
+        'param': "48 8B 0E B2 ? E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 48 8B 0D ? ? ? ?",
+        'add': BASE_ADDR
+    },
+    "no_hysteria": {
+        'call': find_signature_address,
+        'param': "0F 84 ? ? ? ? 83 E9 ? 0F 84 ? ? ? ? 83 F9 ? 0F 85 ? ? ? ? 42 8B 54 AE ?",
+        'add': BASE_ADDR
+    },
+    "move_effect_switch_end": {
+        'call': find_signature_address,
+        'param': "41 0F B6 47 ? 3C ? 0F 84 ? ? ? ?",
         'add': BASE_ADDR
     },
     **({

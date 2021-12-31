@@ -66,7 +66,10 @@ class Teleporter(PluginBase):
                 return f'{zone_id}({len(data)}):' + '/'.join(data.keys())
             case 'mo':
                 l = plugins.XivMemory.utils.mo_location
-                if l is not None: coordinate.set(*l)
+                if l is not None:
+                    coordinate.set(*l)
+                    return 'success'
+                return 'mo location is not found'
 
         dis = float(args[1])
         match args[0]:

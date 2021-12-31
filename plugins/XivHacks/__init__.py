@@ -1,4 +1,5 @@
 import base64
+from functools import cached_property
 from pathlib import Path
 from threading import Lock
 from traceback import format_exc
@@ -53,6 +54,7 @@ cutscene_skip = True
 status_no_lock_move = True
 anti_afk = True or game_ext == 4
 jump = True
+no_hysteria = True
 
 
 class XivHacks(PluginBase):
@@ -113,9 +115,6 @@ class XivHacks(PluginBase):
         if hack_network_moving:
             self.register_moving_swing()
 
-        if no_forced_march:
-            self.forced_march_original = int.from_bytes(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 4), 'little', signed=True)
-
         self.storage.save()
         self.register_command()
 
@@ -132,6 +131,10 @@ class XivHacks(PluginBase):
             self.set_cutscene_skip(False)
         if no_forced_march:
             self.set_no_forced_march(False)
+        if no_misdirect:
+            self.set_no_misdirect(False)
+        if no_hysteria:
+            self.set_no_hysteria(False)
         if anti_afk:
             self.set_anti_afk(False)
         if jump:
@@ -429,7 +432,13 @@ class XivHacks(PluginBase):
 
     if no_misdirect:
         def set_no_misdirect(self, mode):
-            write_ubytes(self._address['no_misdirect'], bytearray(b'\x90\xe9' if mode else b'\x0f\x84'))
+            d = self.no_misdirect_jmp if mode else bytearray(get_original_text(self._address['no_misdirect'] - BASE_ADDR, 5))
+            write_ubytes(self._address['no_misdirect'], d)
+
+        @cached_property
+        def no_misdirect_jmp(self):
+            dif = self._address['move_effect_switch_end'] - self._address['no_misdirect'] - 5
+            return bytearray(b'\xE9' + dif.to_bytes(4, 'little', signed=True))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_misdirect(self, new_val, old_val):
@@ -438,11 +447,32 @@ class XivHacks(PluginBase):
 
     if no_forced_march:
         def set_no_forced_march(self, mode):
-            write_int(self._address['no_forced_march'], 0 if mode else self.forced_march_original)
+            d = self.no_forced_march_jmp if mode else bytearray(get_original_text(self._address['no_forced_march'] - BASE_ADDR, 5))
+            write_ubytes(self._address['no_forced_march'], d)
+
+        @cached_property
+        def no_forced_march_jmp(self):
+            dif = self._address['move_effect_switch_end'] - self._address['no_forced_march'] - 5
+            return bytearray(b'\xE9' + dif.to_bytes(4, 'little', signed=True))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
         def no_forced_march(self, new_val, old_val):
             self.set_no_forced_march(new_val)
+            return True
+
+    if no_hysteria:
+        def set_no_hysteria(self, mode):
+            d = self.no_hysteria_jz if mode else bytearray(get_original_text(self._address['no_hysteria'] - BASE_ADDR, 6))
+            write_ubytes(self._address['no_hysteria'], d)
+
+        @cached_property
+        def no_hysteria_jz(self):
+            dif = self._address['move_effect_switch_end'] - self._address['no_hysteria'] - 6
+            return bytearray(b'\x0F\x84' + dif.to_bytes(4, 'little', signed=True))
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def no_hysteria(self, new_val, old_val):
+            self.set_no_hysteria(new_val)
             return True
 
     if anti_afk:

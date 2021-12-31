@@ -311,14 +311,13 @@ class XivCombat(PluginBase):
                 return max(0.4, default_period)
             return default_period
 
-    def hot_bar_process(self, a1, block, strategy: strategies.Strategy):
+    def hot_bar_process(self, action_id, strategy: strategies.Strategy):
         try:
             with self.work_lock:
                 t = api.get_current_target()
                 t_id = api.get_me_actor().id if t is None else t.id
-                action_id = block.param
                 data = self.get_logic_data()
-                to_use = strategy.process_ability_use(data, block.param, t_id)
+                to_use = strategy.process_ability_use(data, action_id, t_id)
                 if to_use is not None:
                     if not isinstance(to_use, strategies.UseAbility):
                         to_use = strategies.UseAbility(*to_use)
@@ -341,7 +340,7 @@ class XivCombat(PluginBase):
             if strategy is not None and self.common_config['enable']:
                 block = block_p[0]
                 if block.type == 1:
-                    self.create_mission(self.hot_bar_process, a1, block, strategy)
+                    self.create_mission(self.hot_bar_process, block.param, strategy)
                     return 1
                 elif block.type == 2 or block.type == 10:
                     api.reset_ani_lock()
