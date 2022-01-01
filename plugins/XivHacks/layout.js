@@ -94,6 +94,11 @@ module.exports = vue.defineComponent({
              <el-switch v-model="value.value" />
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="action_no_move" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="action_no_move">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
     <el-divider/>
     <h4>Zoom</h4>
     <fpt-bind-item attr="zoom_cam_distance_reset"  :plugin="plugin" v-slot="{value}">

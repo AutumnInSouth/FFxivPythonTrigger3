@@ -55,6 +55,7 @@ status_no_lock_move = True
 anti_afk = True or game_ext == 4
 jump = True
 no_hysteria = True
+action_no_move = True
 
 
 class XivHacks(PluginBase):
@@ -139,6 +140,8 @@ class XivHacks(PluginBase):
             self.set_anti_afk(False)
         if jump:
             self.set_jump(None)
+        if action_no_move:
+            self.set_action_no_move(False)
 
     @event("plugin_load:Command")
     def register_command(self, _):
@@ -505,4 +508,13 @@ class XivHacks(PluginBase):
         @BindValue.decorator(default=10.4, init_set=True, auto_save=True)
         def jump(self, new_val, old_val):
             self.set_jump(new_val)
+            return True
+
+    if action_no_move:
+        def set_action_no_move(self, mode):
+            write_ubyte(self._address['action_no_move'], 0xc3 if mode else get_original_text(self._address['action_no_move'] - BASE_ADDR, 1)[0])
+
+        @BindValue.decorator(default=False, init_set=True, auto_save=True)
+        def action_no_move(self, new_val, old_val):
+            self.set_action_no_move(new_val)
             return True

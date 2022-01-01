@@ -103,6 +103,11 @@ sigs = {
         'param': "41 0F B6 47 ? 3C ? 0F 84 ? ? ? ?",
         'add': BASE_ADDR
     },
+    "action_no_move": {
+        'call': find_signature_address,
+        'param': "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B F1 0F 29 74 24 ? 48 8B 89 ? ? ? ? 0F 28 F3",
+        'add': BASE_ADDR
+    },
     **({
            "afk_timer_write": {
                'call': find_signature_address,
