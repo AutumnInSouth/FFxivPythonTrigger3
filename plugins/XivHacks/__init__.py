@@ -470,7 +470,7 @@ class XivHacks(PluginBase):
 
         @cached_property
         def no_hysteria_jmp(self):
-            dif = self._address['move_effect_switch_end'] - self._address['no_hysteria'] - 6
+            dif = self._address['move_effect_switch_end'] - self._address['no_hysteria'] - 5
             return bytearray(b'\xE9' + dif.to_bytes(4, 'little', signed=True))
 
         @BindValue.decorator(default=False, init_set=True, auto_save=True)
