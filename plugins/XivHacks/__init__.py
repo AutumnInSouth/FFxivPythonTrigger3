@@ -46,7 +46,8 @@ hack_ninja_stiff = True
 hack_speed = True
 hack_afix = True
 hack_network_moving = True
-hack_knock_ani_lock = True
+hack_ani_lock = True
+hack_anti_knock = True
 hack_hit_box = True
 no_misdirect = True
 no_forced_march = True
@@ -89,8 +90,11 @@ class XivHacks(PluginBase):
             self.SwingReadHook(self, self._address["swing_read"])
             self.SwingSyncHook(self, self._address["swing_sync"])
 
-        if hack_knock_ani_lock:
+        if hack_ani_lock:
             self.ActionHook(self, self._address["action_hook"])  # anti knock & skill animation lock
+
+        if hack_anti_knock:
+            self.ActionEffectHook(self, self._address["action_effect_hook"])
 
         # ninja_stiff
         if hack_ninja_stiff:
@@ -212,9 +216,7 @@ class XivHacks(PluginBase):
             return max(hook.original(a1) - self.swing_reduce, 0)
 
     # anti knock & skill animation lock
-    if hack_knock_ani_lock:
-        anti_knock = BindValue(default=False, auto_save=True)
-
+    if hack_ani_lock:
         def set_local_ani_lock(self, new_val=None):
             address = self._address["skill_animation_lock_local"]
             if new_val is None:
@@ -239,17 +241,15 @@ class XivHacks(PluginBase):
             data = action_param_ptr[0]
             if data.time > self.skill_animation_lock_time:
                 data.time = self.skill_animation_lock_time
-            if self.anti_knock:
-                for i in range(data.target_cnt):
-                    if target_ids[i] != plugins.XivMemory.player_info.id: continue
-                    for j, e in enumerate(effects[i]):
-                        if not e.type:
-                            break
-                        elif e.type == 0x20 or e.type == 0x21:
-                            s = addressof(e)
-                            d = read_ubytes(s + ActionEffectEntry.struct_size, (7 - j) * ActionEffectEntry.struct_size)
-                            write_ubytes(s, d)
             return hook.original(a1, a2, a3, action_param_ptr, effects, target_ids)
+
+    if hack_anti_knock:
+        anti_knock = BindValue(default=False, auto_save=True)
+
+        @PluginHook.decorator(c_void_p, [c_int64, c_int64, c_int64, c_uint, c_int, c_uint, c_int64, c_int, c_ubyte], True)
+        def ActionEffectHook(self, hook, a1, a2, a3, a4, a5, a6, a7, a8, a9):
+            if self.anti_knock and 0x20 <= read_ubyte(a7) <= 0x22: return
+            return hook.original(a1, a2, a3, a4, a5, a6, a7, a8, a9)
 
     # ninja_stiff
     if hack_ninja_stiff:

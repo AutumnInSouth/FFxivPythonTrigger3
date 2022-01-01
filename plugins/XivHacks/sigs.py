@@ -59,6 +59,12 @@ sigs = {
         'param': "41 C7 45 08 ? ? ? ? EB ? 41 C7 45 08",
         'add': BASE_ADDR,
     },
+    "action_effect_hook": {
+        'call': find_signature_address,
+        'param': "40 55 53 56 57 41 54 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B 3D ? ? ? ?",
+        'add': BASE_ADDR,
+    },
+
     "ninj_stiff": {
         'call': find_ninj_stiff_addr,
         'param': "E8 * * * * C6 83 ? ? ? ? ? EB ? 0F 57 C9",
