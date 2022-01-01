@@ -85,7 +85,7 @@ sigs = {
     },
     "no_misdirect": {
         'call': find_signature_address,
-        'param': "48 8B 0E B2 ? E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 48 8D 0D ? ? ? ?",
+        'param': "48 8B 0E F3 44 0F 10 0D ? ? ? ?",
         'add': BASE_ADDR
     },
     "no_forced_march": {
