@@ -48,7 +48,6 @@ class MoAction(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p],True)
     def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
-        self.logger.debug(f"type: {action_type} id: {action_id} target: {target_id}")
 
         if action_type == 1:
             if is_area_action(action_id):
