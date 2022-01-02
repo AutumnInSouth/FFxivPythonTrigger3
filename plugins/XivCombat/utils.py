@@ -82,11 +82,12 @@ def s(status_name: str) -> int:
     return status[status_name].id
 
 
-def cnt_enemy(data: 'LogicData', ability):
+def cnt_enemy(data: 'LogicData', ability, default_target=None):
+    if default_target is None: default_target = data.target
     target, cnt = multi_enemy_selector.select(data, data.valid_enemies, ability)
-    if not cnt: return data.target, 0
-    if data.config['single'] == define.FORCE_SINGLE: return data.target, 1
-    if data.config['single'] == define.FORCE_MULTI: return data.target, 3
+    if not cnt: return default_target, 0
+    if data.config['single'] == define.FORCE_SINGLE: return default_target, 1
+    if data.config['single'] == define.FORCE_MULTI: return default_target, 3
     return target, cnt
 
 

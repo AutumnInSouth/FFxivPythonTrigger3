@@ -23,6 +23,13 @@ Able to execute Fountainfall or Bloodshower.
         id = 2694
         name = {'Flourishing Flow'}
 
+    class FlourishingFinish(StatusBase):
+        """
+Able to execute Tillana.
+        """
+        id = 2698
+        name = {'Flourishing Finish'}
+
     class StandardFinish(StatusBase):
         """
 >> 2105, Standard Finish, Damage dealt is increased.
@@ -401,7 +408,7 @@ Can only be executed while under the effect of Flourishing Flow.
         attack_type = physic
         damage_potency = 180
 
-    class FanDanceIi(ActionBase):
+    class FanDanceII(ActionBase):
         """
 Delivers an attack with a potency of 100 to all nearby enemies.
 Additional Effect: 50% chance of granting Threefold Fan Dance
@@ -472,7 +479,7 @@ Duration: 20s:):)
         id = 16011
         name = {'Devilment', '进攻之探戈'}
 
-    class FanDanceIii(ActionBase):
+    class FanDanceIII(ActionBase):
         """
 Delivers an attack to target and all enemies nearby it with a potency of 200 for the first enemy, and 50% less for all remaining enemies.
 Can only be executed while under the effect of Threefold Fan Dance.
@@ -698,7 +705,7 @@ Triggers the cooldown of weaponskills, step actions, and finish actions upon exe
         damage_potency = 360
         aoe_scale = 0.5
 
-    class FanDanceIv(ActionBase):
+    class FanDanceIV(ActionBase):
         """
 Delivers an attack to all enemies in a cone before you with a potency of 300 for the first enemy, and 50% less for all remaining enemies.
 Can only be executed while under the effect of Fourfold Fan Dance.

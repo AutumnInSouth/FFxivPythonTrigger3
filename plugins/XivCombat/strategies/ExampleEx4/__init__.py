@@ -6,3 +6,4 @@ if game_ext == 4:
     from .gun_breaker import GunBreakerStrategy
     from .machinist import MachinistLogic
     from .red_mage import RDMLogic
+    from .dancer import DncLogic
