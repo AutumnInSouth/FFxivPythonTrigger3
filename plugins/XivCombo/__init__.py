@@ -5,6 +5,7 @@ from traceback import format_exc
 
 from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, plugins, game_ext
 from FFxivPythonTrigger.hook import PluginHook
+from FFxivPythonTrigger.saint_coinach import action_sheet, action_names
 
 get_icon_sig = "E8 * * * * 44 8B C0 8B D7 48 8B CB E8 ? ? ? ? 84 C0"
 is_icon_replaceable_sig = "81 F9 ? ? ? ? 7F ? 81 F9 ? ? ? ? 0F 8D ? ? ? ? 83 C1 ?"
@@ -67,6 +68,15 @@ class XivCombo(PluginBase):
 
     def get_all_combo(self):
         return {action_id: {
-            combo.combo_id: {'title': combo.title, 'desc': combo.desc}
+            combo.combo_id: {
+                'title': combo.title,
+                'desc': combo.desc,
+            }
             for combo in combos.values()
         } for action_id, combos in self.all_combo.items()}
+
+    def get_actions_data(self):
+        return {action_id: {
+            'name': action_names[action_id],
+            'category': action_sheet[action_id]['ClassJobCategory']['Name'],
+        } for action_id in self.all_combo.keys()}
