@@ -56,8 +56,7 @@ class DncLogic(Strategy):
             if data.gauge.current_step < max_step:
                 return UseAbility(dnc_step_skill_mapping[data.gauge.step[data.gauge.current_step].raw_value], data.me.id)
             else:
-                _, dance_cnt = cnt_enemy(data, dance)
-                if dance_cnt > len(data.valid_enemies) // 2:
+                if cnt_enemy(data, dance)[1] > len(data.valid_enemies) // 2:
                     return UseAbility(a('技巧舞步') if max_step == 4 else a('标准舞步'), data.me.id)
                 else:
                     return

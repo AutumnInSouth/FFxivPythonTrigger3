@@ -35,6 +35,7 @@ sigs = {
 
 class MoAction(PluginBase):
     name = "MoAction"
+    layout = str(Path(__file__).parent / 'layout.js')
 
     def __init__(self):
         super().__init__()
@@ -46,17 +47,27 @@ class MoAction(PluginBase):
     def check_action_target(self, action_id, target_entity):
         return self.action_type_check(action_id, self.get_action_data(action_id), byref(target_entity))
 
-    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p],True)
-    def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
+    set_tt = BindValue(default=False, auto_save=True)
+    set_mo = BindValue(default=False, auto_save=True)
 
+    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p], True)
+    def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
         if action_type == 1:
             if is_area_action(action_id):
-                l = plugins.XivMemory.utils.mo_location
-                if l is not None:
-                    plugins.XivMemory.calls.do_action_location(1, action_id, *l, target_id)
-                    return 1
+                if self.set_mo:
+                    l = plugins.XivMemory.utils.mo_location
+                    if l is not None:
+                        plugins.XivMemory.calls.do_action_location(1, action_id, *l, target_id)
+                        return 1
             else:
-                target = plugins.XivMemory.utils.mo_entity
-                if target is not None and self.check_action_target(action_id, target):
-                    return hook.original(action_manager_address, action_type, action_id, target.id, unk1, unk2, unk3, unk4)
+                target = self.set_mo and plugins.XivMemory.utils.mo_entity or plugins.XivMemory.targets.current
+                if target is not None:
+                    if self.check_action_target(action_id, target):
+                        self.logger.info(f"Doing action {action_id} on {target.name}")
+                        return hook.original(action_manager_address, action_type, action_id, target.id, unk1, unk2, unk3, unk4)
+                    else:
+                        tt = plugins.XivMemory.actor_table.get_actor_by_id(target.pc_target_id_2)
+                        if tt is not None and self.check_action_target(action_id, tt):
+                            self.logger.info(f"Doing action {action_id} on {tt.name}")
+                            return hook.original(action_manager_address, action_type, action_id, tt.id, unk1, unk2, unk3, unk4)
         return hook.original(action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4)
