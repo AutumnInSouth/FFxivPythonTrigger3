@@ -71,9 +71,9 @@ class DarkKnightStrategy(Strategy):
             old_mp = data.me.current_mp
             if data.skill_unlocked(a('暗黑锋')) and flood_of_darkness_cnt < 3:
                 if data.actor_distance_effective(single_target) <= 3:
-                    return UseAbility(a('暗黑锋'), single_target.id, wait_until=lambda data: data.me.current_mp < old_mp)
+                    return UseAbility(a('暗黑锋'), single_target.id, wait_until=lambda : data.me.current_mp < old_mp)
             else:
-                return UseAbility(a('暗黑波动'), flood_of_darkness_target.id, wait_until=lambda data: data.me.current_mp < old_mp)
+                return UseAbility(a('暗黑波动'), flood_of_darkness_target.id, wait_until=lambda : data.me.current_mp < old_mp)
         if not res: return
         # data.plugin.logger(data.effect_time(s('腐秽大地')))
         if data.me.level >= 86 and not data[a('Salt and Darkness')] and data.effect_time(s('腐秽大地')):
