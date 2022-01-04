@@ -1,0 +1,12 @@
+ActionSend|34d
+#ChatHandler|2F8
+ClientTrigger|E7
+#InventoryModifyHandler|97
+#MarketBoardPurchaseHandler|FD
+#SetSearchInfoHandler|1A1
+UpdatePositionHandler|21b
+UpdatePositionInstance|a3
+##EventAction|1BF
+#EventFinish|24c
+#EventStart|1ac
+#MarketBoardQueryItemCount|3d9
