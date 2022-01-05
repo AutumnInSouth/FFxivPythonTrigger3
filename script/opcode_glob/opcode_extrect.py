@@ -4,7 +4,7 @@ import requests
 
 url = r"https://raw.githubusercontent.com/karashiiro/FFXIVOpcodes/master/opcodes.json"
 idx = {
-    "5.58": "2021.12.16.0000.0000",
+    "5.58": "2021.12.24.0000.0000",
 }
 outputs = {
     'ServerZoneIpc': 'zone_server.opcodes',

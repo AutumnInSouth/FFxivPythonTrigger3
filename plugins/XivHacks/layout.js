@@ -147,6 +147,16 @@ module.exports = vue.defineComponent({
              <el-switch v-model="value.value" />
         </el-form-item>
     </fpt-bind-item>
+    <fpt-bind-item attr="no_kill_enable" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="no_kill_enable">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
+    <fpt-bind-item attr="no_kill_skip_auth" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="no_kill_skip_auth">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
     <fpt-bind-item attr="anti_afk" :plugin="plugin" v-slot="{value}">
         <el-form-item label="anti_afk">
              <el-switch v-model="value.value" />

@@ -1,9 +1,10 @@
 import math
 
 from shapely.geometry import Point
-
-from FFxivPythonTrigger.utils.shape import sector
 from shapely.ops import cascaded_union, nearest_points
+
+from FFxivPythonTrigger import game_ext
+from FFxivPythonTrigger.utils.shape import sector
 
 FRONT = 1
 SIDE = 2

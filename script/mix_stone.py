@@ -8,7 +8,7 @@ evt_category = 0xb
 evt_id = 0xae
 
 if game_ext == 4:
-    stone_request_opcode = 507
+    stone_request_opcode = 719
     stone_request_struct = OffsetStruct({
         'event_id': c_ushort,  # 0xae
         'category': c_ushort,  # 0x0b
@@ -20,17 +20,18 @@ if game_ext == 4:
             'cnt': c_ushort,
         }) * 5
     }, 72)
-    max_materia = 9
+    max_materia = 10
     want_materia = {
         27: 8,
         22: 8,
-        44: 8,
-        11: 8,
-        70: 8,
-        71: 8,
-        72: 8,
-        73: 8,
-        10: 8
+        45: 8,
+        # 44: 8,
+        # 11: 8,
+        # 70: 8,
+        # 71: 8,
+        # 72: 8,
+        # 73: 8,
+        # 10: 8
     }
 else:
     stone_request_opcode = 375
@@ -106,7 +107,7 @@ while True:
     to_mix = []
     to_mix_cnt = 0
     for item in backpack_materia:
-        if item[4]!=current_lv:
+        if item[4] != current_lv:
             current_lv = item[4]
             to_mix_cnt = 0
             to_mix = []

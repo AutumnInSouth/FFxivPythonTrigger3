@@ -10,7 +10,7 @@ for row in materia_sheet:
         print(item_names.get(item.key))
         try:
             for item in plugins.Pmb.query(item.key):
-                if item['price_per_unit'] <= 500:
+                if item['price_per_unit'] <= 400:
                     plugins.Pmb.buy(item)
                     sleep(.5)
         except Exception as e:

@@ -57,6 +57,7 @@ anti_afk = True or game_ext == 4
 jump = True
 no_hysteria = True
 action_no_move = True
+no_kill = True
 
 
 class XivHacks(PluginBase):
@@ -119,6 +120,9 @@ class XivHacks(PluginBase):
         # moving swing
         if hack_network_moving:
             self.register_moving_swing()
+
+        if no_kill:
+            self.no_kill_hook(self, self._address['no_kill'])
 
         self.storage.save()
         self.register_command()
@@ -518,3 +522,19 @@ class XivHacks(PluginBase):
         def action_no_move(self, new_val, old_val):
             self.set_action_no_move(new_val)
             return True
+
+    if no_kill:
+        no_kill_enable = BindValue(default=False, auto_save=True)
+        no_kill_skip_auth = BindValue(default=False, auto_save=True)
+
+        @PluginHook.decorator(c_ubyte, [c_int64, c_int64, c_int64], True)
+        def no_kill_hook(self, hook, a1, a2, a3):
+            if self.no_kill_enable:
+                num = read_int(a3 + 8) if read_ubyte(a3) & 0xf else 0
+                if num:
+                    if self.no_kill_skip_auth and num == 340780:
+                        self.logger.debug('no_kill_hook: skip auth error')
+                    else:
+                        write_longlong(a3 + 8, 81536)
+                        self.logger.debug('no_kill_hook: skip kill')
+            return hook.original(a1, a2, a3)

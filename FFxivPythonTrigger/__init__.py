@@ -9,3 +9,4 @@ except Exception:
     game_version = None
 else:
     from .ffxiv_python_trigger import *
+    from fpt_plugins_type import *

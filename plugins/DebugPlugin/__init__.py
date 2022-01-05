@@ -28,8 +28,6 @@ class DebugPlugin(PluginBase):
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
-            "network/unknown/zone/client/161",
-            "network/unknown/zone/server/533",
             "network/undefined/zone/server/ActorMove",
             "network/zone/server/actor_update_hp_mp_tp",
             "network/zone/server/actor_control_self/unk_143",

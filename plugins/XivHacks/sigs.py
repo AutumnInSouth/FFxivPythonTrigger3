@@ -145,4 +145,9 @@ sigs = {
         'param': "48 8D 0D * * * * E8 ? ? ? ? EB ? 48 8B 0D ? ? ? ? B2 ?",
         'add': BASE_ADDR + 0x54
     },
+    "no_kill": {
+        'call': find_signature_address,
+        'param': "40 53 48 83 EC 30 48 8B D9 49 8B C8 E8 ?? ?? ?? ?? 8B D0",
+        'add': BASE_ADDR
+    }
 }

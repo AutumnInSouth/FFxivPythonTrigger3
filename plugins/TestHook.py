@@ -37,7 +37,9 @@ class TestHook(PluginBase):
         self.cnt = 0
         # self.omen_create(self, BASE_ADDR + 0x6FF1C0)
         # self.action_recast(self, BASE_ADDR + 0x07DE990)
-        self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
+        # self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
+        self.sub_140A41260(self, BASE_ADDR + 0xA41260)
+
     # """_QWORD *__fastcall sub_1406F9730(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6)"""
     #
     # @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
@@ -79,8 +81,18 @@ class TestHook(PluginBase):
         if self.cnt >= 1000:
             hook.uninstall()
         ans = hook.original(a1, a2)
-        str=read_string(ans)
+        str = read_string(ans)
         if str == "金刚极意":
             self.logger(f"{ans:x} {a1:x} {a2} {str}")
             hook.uninstall()
         return ans
+
+    """__int64 __fastcall sub_140A41260(int a1, int a2, int a3, int a4, int a5, __int64 a6, __int64 a7, __int64 a8)"""
+
+    @PluginHook.decorator(c_int64, [c_int, c_int, c_int, c_int, c_int, c_int64, c_int64, c_int64], True)
+    @err_catch
+    def sub_140A41260(self,hook,*args):
+        self.logger(f"{args}")
+        res = hook.original(*args)
+        self.logger(f"{res}")
+        return res
