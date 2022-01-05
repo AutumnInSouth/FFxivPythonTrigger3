@@ -103,6 +103,8 @@ white_list = {
     27192: 0,  # The Sanguine Limbo|Acid Mekhane
     27193: 0,  # The Sanguine Limbo|Lava Mekhane
     27216: 0,  # The Sanguine Limbo|Elegant Evisceration
+    28070: 15,  # The Gates of Pandæmonium|Erichthonios|28070|Gaoler's Flail
+    28075: 15,  # The Gates of Pandæmonium|Erichthonios|28070|Gaoler's Flail
 }
 
 translate = {
