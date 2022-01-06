@@ -39,9 +39,9 @@ def ast(me):
 sge_dot = {2614, 2615, 24314}
 
 
-@combo_func(24314, "sge/dot", "Eukrasian Dosis III 替换 gcd")
+@combo_func(24290, "sge/dot", "Eukrasian Dosis III 替换 gcd")
 def sge(me):
-    return 24293 if me.level >= 30 and target_has_dot(me.id, sge_dot) < 2.5 else 24283
+    return 24283 if me.level >= 30 and (me.effects.has(2606) or target_has_dot(me.id, sge_dot) < 2.5) else 24290
 
 
 combos = [whm, sch, ast, sge]
