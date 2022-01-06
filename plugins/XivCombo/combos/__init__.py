@@ -18,3 +18,24 @@ class ComboBase(object):
             the action id to return
         """
         return 0
+
+
+def combo_func(c_action_id, c_combo_id, c_title, c_desc=''):
+    """
+    decorator to make a combo
+    """
+
+    def decorator(func):
+        class Combo(ComboBase):
+            action_id = c_action_id
+            combo_id = c_combo_id
+            title = c_title
+            desc = c_desc
+
+            @staticmethod
+            def combo(me):
+                return func(me)
+
+        return Combo
+
+    return decorator

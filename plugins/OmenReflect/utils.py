@@ -6,10 +6,6 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 c = 3.0518043 * 0.0099999998
 
 
-def col_offset(col_name):
-    return action_sheet.header.get_column(action_sheet.header.sheet_definition.find_column(col_name)).offset
-
-
 def web_to_raw(pos):
     return pos * c - 1000
 
@@ -17,6 +13,9 @@ def web_to_raw(pos):
 def raw_to_web(pos):
     return int((pos + 1000) / c)
 
+
+def col_offset(col_name):
+    return action_sheet.header.get_column(action_sheet.header.sheet_definition.find_column(col_name)).offset
 
 action_struct = OffsetStruct({
     'omen': (c_ushort, col_offset('Omen')),
