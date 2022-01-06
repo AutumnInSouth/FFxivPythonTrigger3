@@ -126,7 +126,7 @@ class BardLogic(Strategy):
         res = res_lv(data)
         if not res: return
 
-        if song == 'minuet' and data.gauge.song_procs > 2:
+        if song == 'minuet' and data.gauge.song_procs > (2 if data.gauge.song_milliseconds > 3000 else 0):
             return UseAbility(a('完美音调'), single_target.id)
 
         minuet = data[a('放浪神的小步舞曲')]
