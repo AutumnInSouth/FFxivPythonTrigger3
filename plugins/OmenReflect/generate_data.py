@@ -107,6 +107,8 @@ white_list = {
     28075: 15,  # The Gates of Pandæmonium|Erichthonios|28070|Gaoler's Flail
     26646: 107,  # The Stagnant Limbo|Hippokampos|26646|Winged Cataract|7.70s|0|0(13/60/0)=>4|
     26674: 0,  # The Stagnant Limbo|Hippokampos|26674|Doubled Impact|4.70s|0|0(2/6/0)=>1|
+    26667: 0,  # The Stagnant Limbo|Hippokampos|26667|Ominous Bubbling|7.70s|0|0(2/6/0)=>1|
+    26680: 0,  # The Stagnant Limbo|Hippokampos|26680|Tainted Flood|4.70s|0|0(2/6/0)=>1
 }
 
 translate = {

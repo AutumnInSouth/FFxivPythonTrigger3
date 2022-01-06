@@ -38,20 +38,14 @@ class TestHook(PluginBase):
         # self.omen_create(self, BASE_ADDR + 0x6FF1C0)
         # self.action_recast(self, BASE_ADDR + 0x07DE990)
         # self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
-        self.sub_140A41260(self, BASE_ADDR + 0xA41260)
+        # self.sub_140A41260(self, BASE_ADDR + 0xA41260)
+        # self.set_omen_create(self, BASE_ADDR + 0x6F9C60)
 
-    # """_QWORD *__fastcall sub_1406F9730(__int64 a1, unsigned int a2, unsigned int a3, __int64 a4, int a5, int a6)"""
-    #
-    # @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
-    # def omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
-    #     true_pos = [web_to_true(pos[0]), web_to_true(pos[1]), web_to_true(pos[2])]
-    #     self.logger(f"{read_string(source_actor_ptr + 0x30)} {skill_type} {action_id} {true_pos} {facing} {a6}")
-    #     #self.create_mission(self.recall, 5, [source_actor_ptr, skill_type, action_id, pos, facing, a6])
-    #     return hook.original(source_actor_ptr, skill_type, action_id, pos, facing, a6)
-    #
-    # def recall(self, after, argus):
-    #     sleep(after)
-    #     self.omen_create_hook.original(*argus)
+    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
+    def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
+        """E8 ? ? ? ? 41 80 7E ? ? 0F 85 ? ? ? ? F3 0F 10 1D ? ? ? ?"""
+        self.logger(f"{source_actor_ptr:x} {skill_type} {action_id} {pos} {facing} {a6}")
+        return hook.original(source_actor_ptr, skill_type, action_id, pos, facing, a6)
 
     """__int64 __fastcall sub_1406FF1C0(__int64 source_actor_ptr, unsigned __int16 *web_pos, float a3, __int64 action_data, float a5, unsigned int a6)"""
 
@@ -91,7 +85,7 @@ class TestHook(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int, c_int, c_int, c_int, c_int, c_int64, c_int64, c_int64], True)
     @err_catch
-    def sub_140A41260(self,hook,*args):
+    def sub_140A41260(self, hook, *args):
         self.logger(f"{args}")
         res = hook.original(*args)
         self.logger(f"{res}")
