@@ -3,10 +3,12 @@ from FFxivPythonTrigger import plugins
 
 
 def target_has_dot(me_id, dots):
-    effects = plugins.XivMemory.targets.current.effects.get_dict(source=me_id)
-    for dot in dots:
-        if dot in effects:
-            return effects[dot].timer
+    t=plugins.XivMemory.targets.current
+    if t:
+        effects = t.effects.get_dict(source=me_id)
+        for dot in dots:
+            if dot in effects:
+                return effects[dot].timer
     return 0
 
 
