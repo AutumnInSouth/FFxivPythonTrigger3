@@ -67,7 +67,7 @@ def combo_should_not_break(lv: int):
 
 
 class RDMLogic(Strategy):
-    name = "rdm_logic"
+    name = "ny/rdm_logic"
     fight_only = False
     job = 'RedMage'
     default_data = {

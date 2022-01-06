@@ -211,7 +211,7 @@ class LogicData(object):
     @cache
     def effect_time(self, effect_id: int):
         if effect_id in self.effects:
-            return self.effects[effect_id].timer
+            return self.effects[effect_id].timer+0.01
         return 0
 
     @cached_property

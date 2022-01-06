@@ -45,7 +45,7 @@ class Status(
     red_mage.Status,
     # samurai.Status,
     # scholar.Status,
-    # summoner.Status,
+    summoner.Status,
     # warrior.Status,
     # white_mage.Status,
     # reaper.Status,

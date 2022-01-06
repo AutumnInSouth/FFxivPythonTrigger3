@@ -124,19 +124,25 @@ else:
     class SummonerGauge(OffsetStruct({
         'stance_ms': (c_ushort, 0),
         'summon_ms': (c_ushort, 2),
-        'previous': (c_ushort, 4),
+        'previous': (c_ubyte, 4),
+        'previous_glam': (c_ubyte, 5),
         'attunement': (c_ubyte, 6),
         'flags': (c_ubyte, 7),
     }, 16)):
         stance_ms: int
         summon_ms: int
         previous: int
+        previous_glam: int
         attunement: int
         flags: int
 
         @property
         def aether_flow_stacks(self):
             return self.flags & 0b0011
+
+        @property
+        def summon_type(self):
+            return (self.flags >> 2) & 0b11
 
         @property
         def phoenix_ready(self):

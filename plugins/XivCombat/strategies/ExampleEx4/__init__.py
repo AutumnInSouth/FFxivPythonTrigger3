@@ -7,3 +7,4 @@ if game_ext == 4:
     from .machinist import MachinistLogic
     from .red_mage import RDMLogic
     from .dancer import DncLogic
+    from .summoner import SmnLogic

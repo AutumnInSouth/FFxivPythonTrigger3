@@ -12,12 +12,12 @@ Cure Potency: (source.job==28?(source.level>=85?180:150):150)
         id = 802
         name = {'Embrace', '仙光的拥抱'}
 
-    class Ruin(ActionBase):
+    class RuinSch(ActionBase):
         """
 Deals unaspected damage with a potency of 150.
         """
         id = 17869
-        name = {'Ruin', '毁灭'}
+        name = {'Ruin(Sch)', '毁灭（学者）'}
 
     class Bio(ActionBase):
         """
@@ -145,7 +145,7 @@ Can only be executed while in combat.
         id = 166
         name = {'Aetherflow', '以太超流'}
 
-    class EnergyDrain(ActionBase):
+    class EnergyDrainSch(ActionBase):
         """
 Deals unaspected damage with a potency of 100.
 Additional Effect: Absorbs a portion of damage dealt as HP
@@ -153,7 +153,7 @@ Additional Effect: Absorbs a portion of damage dealt as HP
 :):)Aetherflow Gauge Cost: 1
         """
         id = 167
-        name = {'能量吸收 - 学者', 'Energy Drain - Scholar'}
+        name = {'能量吸收（学者）', 'Energy Drain(Sch)'}
 
     class Lustrate(ActionBase):
         """

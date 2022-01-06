@@ -1,20 +1,35 @@
 from ..base import *
 
-class Status:
 
+class Status:
     class RadiantAegis(StatusBase):
         id = 2702
         name = {'Radiant Aegis', '守护之光'}
 
+    class IfritsFavor(StatusBase):
+        id = 2724
+        name = {'Ifrit\'s Favor'}
+
+    class GarudasFavor(StatusBase):
+        id = 2725
+        name = {'Garuda\'s Favor'}
+
+    class TitansFavor(StatusBase):
+        id = 2853
+        name = {'Titan\'s Favor'}
+
+    class FurtherRuin(StatusBase):
+        id = 2701
+        name = {'Further Ruin'}
+
 
 class Actions:
-
-    class Ruin(ActionBase):
+    class RuinSmn(ActionBase):
         """
 Deals unaspected damage with a potency of 240.
         """
         id = 163
-        name = {'Ruin', '毁灭'}
+        name = {'Ruin(Smn)', '毁灭（召唤）'}
         damage_potency = 240
         attack_type = magic
 
@@ -104,7 +119,7 @@ Aetherflow Gauge Cost: 1
         id = 181
         name = {'溃烂爆发', 'Fester'}
 
-    class EnergyDrain(ActionBase):
+    class EnergyDrainSmn(ActionBase):
         """
 Deals unaspected damage with a potency of 200.
 Additional Effect: Aetherflow II(source.job==27?(source.level>=62?
@@ -113,7 +128,7 @@ Duration: 60s:):)(source.job==27?(source.level>=52?
 Shares a recast timer with Energy Siphon.:):)
         """
         id = 16508
-        name = {'能量吸收 - 召唤师', 'Energy Drain - Summoner'}
+        name = {'能量吸收（召唤师）', 'Energy Drain(Smn)'}
 
     class SummonTopaz(ActionBase):
         """
@@ -377,7 +392,7 @@ Titan's Favor Effect: Action changes to Mountain Buster
 Garuda's Favor Effect: Action changes to Slipstream:):)
         """
         id = 25822
-        name = {'Astral Flow' ,'星极超流'}
+        name = {'Astral Flow', '星极超流'}
 
     class RuinIv(ActionBase):
         """
@@ -398,7 +413,7 @@ Can only be executed in combat and while Carbuncle is summoned.
         id = 25801
         name = {'Searing Light', '炽热之光'}
 
-    class SearingLight(ActionBase):
+    class SearingLightPet(ActionBase):
         """
 Increases damage dealt by self and nearby party members by 3%.
 Duration: 30s
@@ -406,7 +421,7 @@ Duration: 30s
 >> 2703, Searing Light, Damage dealt is increased.
         """
         id = 25842
-        name = {'Searing Light', '炽热之光'}
+        name = {'Searing Light(Pet)', '炽热之光（召唤兽）'}
 
     class SummonBahamut(ActionBase):
         """

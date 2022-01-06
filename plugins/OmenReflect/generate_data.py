@@ -100,6 +100,7 @@ white_list = {
     26269: 0,  # The Fervid Limbo|Charplume
     26291: 0,  # The Fervid Limbo|Heat of Condemnation
     28379: 0,  # The Fervid Limbo|Darkened Blaze
+    26299: 0,  # The Fervid Limbo|Darkened Blaze
     27192: 0,  # The Sanguine Limbo|Acid Mekhane
     27193: 0,  # The Sanguine Limbo|Lava Mekhane
     27216: 0,  # The Sanguine Limbo|Elegant Evisceration

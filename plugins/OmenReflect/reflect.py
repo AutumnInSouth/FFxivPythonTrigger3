@@ -3763,7 +3763,6 @@ reflect_data = {
     26281: 1,  # Dead Rebirth | 2/60/0/1.0s | mon_sp/[SKL_ID]/mon_sp010 => general_1bf 
     26289: 1,  # 獄炎の火花 | 2/6/0/0.5s | mon_sp/gimmick/n5r3_boss_gimmick07 => general_1bf 
     26296: 1,  # Scorched Exaltation | 2/60/0/0.5s | mon_sp/[SKL_ID]/mon_sp008 => general_1bf 
-    26299: 1,  # Darkened Blaze | 2/60/0/2.2s | mon_sp/[SKL_ID]/mon_sp001 => general_1bf 
     26303: 1,  # Fireplume | 2/15/0/0.6s | mon_sp/gimmick/n5r3_boss_gimmick01 => general_1bf 
     26305: 1,  # Fireplume | 2/10/0/0.2s | mon_sp/gimmick/n5r3_boss_gimmick02 => general_1bf 
     26311: 1,  # Gloryplume | 2/15/0/0.6s | mon_sp/gimmick/n5r3_boss_gimmick01 => general_1bf 
