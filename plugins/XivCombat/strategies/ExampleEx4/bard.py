@@ -112,13 +112,11 @@ class BardLogic(Strategy):
         song = data.gauge.song_type.value
         blood_letter = data[a('失血箭')]
         if data.me.level < 84: blood_letter -= 15
-        can_use_blood_letter = blood_letter < 15
         if data.skill_unlocked(a('死亡箭雨')):
             rain_of_death_target, rain_of_death_cnt = cnt_enemy(data, rain_of_death)
         else:
             rain_of_death_target, rain_of_death_cnt = single_target, 0
-        # data.plugin.logger(f'song: {song}, {data[a("失血箭")]:.2f},{blood_letter:.2f}')
-        if can_use_blood_letter and blood_letter < (10 if song == 'ballad' else 3):
+        if blood_letter < (10 if song == 'ballad' else 3):
             if rain_of_death_cnt > 1:
                 return UseAbility(a('死亡箭雨'), rain_of_death_target.id)
             else:
@@ -154,7 +152,7 @@ class BardLogic(Strategy):
                 return UseAbility(a('战斗之声'), data.me.id)
             if not data[a('Radiant Finale')]:
                 coda_cnt = sum([data.gauge.wanderer_coda, data.gauge.mage_coda, data.gauge.army_coda])
-                if coda_cnt and (coda_cnt>=3 or data.gauge.song_milliseconds > 35000):
+                if coda_cnt and (coda_cnt >= 3 or data.gauge.song_milliseconds > 35000):
                     return UseAbility(a('Radiant Finale'), data.me.id)
             if not data[a('纷乱箭')] and (data.ability_cnt or data.gcd < 2):
                 if data.gcd > 1.5: return
@@ -164,7 +162,7 @@ class BardLogic(Strategy):
                     ready = s('直线射击预备') not in data.effects
                 if ready:
                     return UseAbility(a('纷乱箭'), data.me.id)
-            if can_use_blood_letter:
+            if blood_letter < (30 if data.me.level>=84 else 15):
                 if rain_of_death_cnt > 1:
                     return UseAbility(a('死亡箭雨'), rain_of_death_target.id)
                 else:
