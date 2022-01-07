@@ -22,7 +22,7 @@ from .utils import is_area_action, use_ability
 from .monitor import Monitor
 
 if TYPE_CHECKING:
-    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent, EffectRemoveEvent
+    from XivNetwork.message_processors.zone_server.actor_control import HotEvent, DotEvent, DeathEvent, TargetIconEvent
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
     from XivNetwork.extra_messages.actor_add_remove_effect import ActorAddEffectEvent, ActorRemoveEffectEvent
     from XivNetwork.message_processors.zone_server.actor_cast import ServerActorCastEvent
@@ -400,6 +400,11 @@ class XivCombat(PluginBase):
 
         def process_monitor(self, occur_time, func, evt):
             getattr(self.get_monitor_with_check(occur_time), func)(occur_time, evt)
+
+        @event('network/zone/server/actor_control/target_icon')
+        def actor_control_target_icon(self, evt:'TargetIconEvent'):
+            if self.enable_record:
+                self.record(int(evt.bundle_header.epoch), evt.target_id, evt.target_name, evt.str_event())
 
         @event('network/zone/server/actor_cast')
         def actor_cast_event(self, evt: 'ServerActorCastEvent'):

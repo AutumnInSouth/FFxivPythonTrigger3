@@ -23,7 +23,7 @@ from .logger import Logger, Log, log_handler, DEBUG
 from .memory import PROCESS_FILENAME
 from .rpc_server import RpcServer, RpcFuncHandler
 from .storage import ModuleStorage, get_module_storage, BASE_PATH
-from .utils import Counter, wait_until,async_raise
+from .utils import Counter, wait_until, async_raise
 from .close_mutex import close_mutex
 
 EVENT_MULTI_THREAD = True
@@ -49,7 +49,6 @@ def client_log(log: Log):
     _client_log_history.append(log)
     if len(_client_log_history) > 100: _client_log_history = _client_log_history[-50:]
     server_event('fpt_log', log)
-
 
 
 class Mission(Thread):
@@ -168,6 +167,7 @@ class PluginBase(object):
 
 class PluginController(object):
     def __init__(self, plugin: 'PluginBase'):
+        self.package = ''
         self.bind_values = {}
         self.plugin: PluginBase = plugin
         self.events: list[Tuple[any, EventCallback]] = list()
@@ -219,7 +219,7 @@ class PluginController(object):
         register_event(event_id, callback)
 
     def register_re_event(self, pattern: Union[Pattern[str], re.Pattern], call: Callable, limit_sec=None, min_interval=0):
-        self.plugin.logger.debug(f"register re_event {call.__name__} by pattern {pattern}")
+        # self.plugin.logger.debug(f"register re_event {call.__name__} by pattern {pattern}")
         if not isinstance(pattern, re.Pattern):
             pattern = re.compile(pattern)
         callback = EventCallback(self.plugin, call, limit_sec, min_interval)
@@ -363,6 +363,7 @@ def unload_plugin(plugin_name) -> bool:
 def register_module(module: ModuleType | str) -> List[PluginBase]:
     installed = []
     if type(module) == str:
+        module_name = module
         _logger.debug("try load plugin \"%s\" dynamically" % module)
         try:
             try:
@@ -374,10 +375,14 @@ def register_module(module: ModuleType | str) -> List[PluginBase]:
             _logger.error('error occurred during import module:\" %s\"' % module)
             _logger.error('error trace:\n' + format_exc())
             raise Exception("module import error")
+    else:
+        module_name = module.__name__
     for attr_name in dir(module):
         attr = getattr(module, attr_name)
         if isclass(attr) and issubclass(attr, PluginBase) and attr != PluginBase:
-            installed.append(register_plugin(attr))
+            plugin = register_plugin(attr)
+            plugin.controller.package = module_name
+            installed.append(plugin)
     return installed
 
 

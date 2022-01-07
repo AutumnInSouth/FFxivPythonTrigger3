@@ -8,7 +8,8 @@ import time
 
 from FFxivPythonTrigger import PluginBase, AddressManager, BindValue, process_event, Counter
 from FFxivPythonTrigger.decorator import unload_callback, re_event
-from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct
+from FFxivPythonTrigger.memory import read_memory
+from FFxivPythonTrigger.memory.struct_factory import _OffsetStruct, OffsetStruct
 from FFxivPythonTrigger.utils import WaitRecall
 from .extra_messages import ExtraNetworkMessage
 from .base_struct import BundleHeader, MessageHeader
@@ -22,6 +23,7 @@ send_sig = "48 83 EC ? 48 8B 49 ? 45 33 C9 FF 15 ? ? ? ? 85 C0"
 chat_recv_buffer_sig = "48 8D 15 * * * * 48 8B CF E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CF E8 ? ? ? ? 45 8D 47 ?"
 lobby_recv_buffer_sig = "48 8D 15 * * * * 48 8B CF E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CF E8 ? ? ? ? 44 8D 46 ?"
 zone_recv_buffer_sig = "48 8D 15 * * * * 48 8B CE E8 ? ? ? ? 48 8D 15 ? ? ? ? 48 8B CE E8 ? ? ? ? 45 8D 47 ?"
+fix_param_sig = "8B 0D * * * * 8B 15 ? ? ? ? 44 8B 05 ? ? ? ?"
 scope_name = ["chat", "lobby", "zone"]
 
 packet_fixer_interface = Callable[[BundleHeader, MessageHeader, bytearray, _OffsetStruct | None], bytearray | _OffsetStruct | None]
@@ -30,6 +32,16 @@ send_message_interface = Tuple[int | str, bytearray | bytes | _OffsetStruct | di
 allow_response_interface = Tuple[int | str, response_check_interface] | int | str
 
 response_check_all_true = lambda e: True
+
+
+class FixParam(OffsetStruct({
+    'a1': (c_uint, 0),
+    'a2': (c_uint, 4),
+    'a3': (c_uint, 0xc),
+})):
+    @property
+    def value(self):
+        return min(self.a1 + self.a3 - self.a2, 0)
 
 
 @cache
@@ -112,6 +124,8 @@ class XivNetwork(PluginBase):
         self.chat_buffer_hook = BufferProcessorHook(self, am.scan_point('chat_buffer', chat_recv_buffer_sig), 0)
         self.lobby_buffer_hook = BufferProcessorHook(self, am.scan_point('lobby_buffer', lobby_recv_buffer_sig), 1)
         self.zone_buffer_hook = BufferProcessorHook(self, am.scan_point('zone_buffer', zone_recv_buffer_sig), 2)
+        self._fix_param = read_memory(FixParam, am.scan_point('fix_param', fix_param_sig))
+
         self.pings = dict()
 
         self.sockets = {}
@@ -122,6 +136,10 @@ class XivNetwork(PluginBase):
         self._packet_fixer = [dict() for _ in range(6)]
         self.magic_backup = [BundleHeader() for _ in range(3)]
         self.header_backup = [MessageHeader() for _ in range(3)]
+
+    @property
+    def fix_param(self):
+        return self._fix_param.value
 
     def guess_socket_type(self, bundle_header: BundleHeader, messages: list[bytearray]):
         if not bundle_header.magic0:
@@ -237,7 +255,7 @@ class XivNetwork(PluginBase):
     def register_packet_fixer(self, scope: int | str, is_server: bool, opcode: int | str, method: packet_fixer_interface):
         scope = scope_idx(scope)
         opcode = get_opcode(scope, is_server, opcode)
-        scope= scope * 2 + is_server
+        scope = scope * 2 + is_server
         self._packet_fixer[scope].setdefault(opcode, set()).add(method)
         self.logger(self._packet_fixer)
 

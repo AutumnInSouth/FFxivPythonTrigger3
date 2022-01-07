@@ -1,9 +1,3 @@
-styles = `
-.XivCombo .el-collapse-item__header, .XivCombo .el-collapse-item__wrap{
-    background-color: transparent;
-}
-`
-
 module.exports = vue.defineComponent({
     name: 'XivCombo',
     props: ['plugin'],
@@ -22,7 +16,11 @@ module.exports = vue.defineComponent({
 
         const style = document.createElement('style')
         style.setAttribute('type', 'text/css')
-        style.innerHTML = styles
+        style.innerHTML = `
+.XivCombo .el-collapse-item__header, .XivCombo .el-collapse-item__wrap{
+    background-color: transparent;
+}
+`
         const head = document.getElementsByTagName('head')[0]
 
         vue.onMounted(() => {

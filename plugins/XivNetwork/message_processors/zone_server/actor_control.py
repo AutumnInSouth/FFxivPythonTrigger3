@@ -126,13 +126,15 @@ class TargetIconEvent(ActorControlEvent):
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
-        self.icon_id = struct_message.param1
+        self.icon_id = struct_message.param1 + plugins.XivNetwork.fix_param
 
     def _text(self):
-        return f"{self.target_name} was marked as {self.icon_id:x}."
+        return f'target icon {self.target_name}({self.target_id:x}) {self.icon_id:x}|' \
+               f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}'
 
     def _str_event(self):
-        return f"network_actor_mark|{self.target_name}|{self.icon_id}"
+        return f'network_actor_mark|{self.target_name}|{self.icon_id:x}|' \
+               f'{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}'
 
 
 class JobChangeEvent(ActorControlEvent):
@@ -241,6 +243,7 @@ category_event_map = {
     21: EffectRemoveEvent,
     23: dot_hot_event,
     4: CombatStateChangeEvent,
+    34: TargetIconEvent,
 }
 
 
