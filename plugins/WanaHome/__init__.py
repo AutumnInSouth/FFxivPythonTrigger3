@@ -44,6 +44,14 @@ def place_name(place_id):
     return territory_type_sheet[place_id]['PlaceName']['Name']
 
 
+@cache
+def rev_place_name(place_name):
+    for row in territory_type_sheet:
+        if row['PlaceName']['Name'] == place_name:
+            return row.key
+    return 0
+
+
 def price_lv(price: int):
     if price < 4000000:
         return 'S'
@@ -197,8 +205,9 @@ class WanaHome(PluginBase):
                         self.logger.info(f"{key} reduced price from {old} Gil to {new} Gil")
                     else:
                         need_save = True
-                        data[key][0] = datetime.now().timestamp()
-                        data[key][1] = price
+                        data[key] = [datetime.now().timestamp(), price, {
+                            'world_id': current_world_id, 'territory_id': rev_place_name(territory), 'ward_id': ward_id, 'house_id': house_id
+                        }]
                         self.logger.info(f"{key} cool down refresh to {new} Gil")
             self._world_data[current_world] = new_world_data
             if len(diff.index):
