@@ -150,3 +150,9 @@ cast_type_omen_default = {
     12: 2,
     13: 4,
 }
+
+delay_percent = {
+    26354: 1,
+    26355: 1,
+    26356: 1,
+}

@@ -223,7 +223,7 @@ class WanaHome(PluginBase):
 
     def frame_work(self):
         if self.auto_search_period and \
-                self.prev_search_time+ self.auto_search_period <= time.time()  and \
+                self.prev_search_time + self.auto_search_period <= time.time() and \
                 not self.is_searching and plugins.XivMemory.actor_table.me:
             self.create_mission(self.full_search, limit_sec=0)
 

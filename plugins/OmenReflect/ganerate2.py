@@ -95,3 +95,10 @@ with open('reflect.py', 'w', encoding='utf-8') as f:
         f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']}/{a['EffectRange']}/{a['XAxisModifier']}/{a['Cast<100ms>']/100}s |"
                 f" {a['Animation{End}']} => {o['Path']} \n")
     f.write("}\n")
+
+    f.write("delay_percent = {\n")
+    for k, v in generate_data.delay_percent.items():
+        a = action_sheet[k]
+        f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']}/{a['EffectRange']}/{a['XAxisModifier']}/{a['Cast<100ms>'] / 100}s |"
+                f" {a['Animation{End}']} \n")
+    f.write("}\n")

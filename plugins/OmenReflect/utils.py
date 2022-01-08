@@ -17,6 +17,7 @@ def raw_to_web(pos):
 def col_offset(col_name):
     return action_sheet.header.get_column(action_sheet.header.sheet_definition.find_column(col_name)).offset
 
+
 action_struct = OffsetStruct({
     'omen': (c_ushort, col_offset('Omen')),
     'cast_type': (c_ubyte, col_offset('CastType')),
@@ -77,3 +78,20 @@ cast type:
 [12] = "Line - No Padding",
 [13] = "Cone / Fan - No Padding",
 """
+
+cast_type_name = {
+    0: 'unk_0',
+    1: 'unk_1',
+    2: 'Circle - No Padding',
+    3: 'Cone / Fan - With Padding',
+    4: 'Line - Static Length',
+    5: 'Circle - With Padding',
+    6: 'Circle - Meteor Types',
+    7: 'Circle - Ground Targeting, sometimes leaves a puddle',
+    8: 'Line - Follows Player so Length Adjusts',
+    9: 'unk_9',
+    10: 'Donut - No Padding',
+    11: 'Cross (Two Lines) - No Padding',
+    12: 'Line - No Padding',
+    13: 'Cone / Fan - No Padding',
+}

@@ -4093,3 +4093,8 @@ reflect_data = {
     28435: 28,  # Lateral Aureole | 1/0/0/0.5s | mon_sp/[SKL_ID]/mon_sp038 => gl_fan150_1bf 
     28436: 28,  # Lateral Aureole | 13/40/0/0.55s | mon_sp/gimmick/monster_hanyou_hitclip_nomi_saisoku => gl_fan150_1bf 
 }
+delay_percent = {
+    26354: 1,  # Flames of Asphodelos | 13/60/0/0.7s | mon_sp/gimmick/n5r3_boss_gimmick06 
+    26355: 1,  # Flames of Asphodelos | 13/60/0/0.8s | mon_sp/gimmick/n5r3_boss_gimmick06 
+    26356: 1,  # Flames of Asphodelos | 13/60/0/0.9s | mon_sp/gimmick/n5r3_boss_gimmick06 
+}
