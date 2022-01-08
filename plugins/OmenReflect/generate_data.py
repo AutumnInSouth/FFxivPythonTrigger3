@@ -110,6 +110,8 @@ white_list = {
     26674: 0,  # The Stagnant Limbo|Hippokampos|26674|Doubled Impact|4.70s|0|0(2/6/0)=>1|
     26667: 0,  # The Stagnant Limbo|Hippokampos|26667|Ominous Bubbling|7.70s|0|0(2/6/0)=>1|
     26680: 0,  # The Stagnant Limbo|Hippokampos|26680|Tainted Flood|4.70s|0|0(2/6/0)=>1
+    26362: 13,  # Burning Twister | 10/20/0/1.9s | mon_sp/gimmick/n5r3_boss_gimmick09 => gl_sircle_1005bf
+    26361: 203,  # Dark Twister | 2/60/0/1.7s | mon_sp/gimmick/a2fe_boss_gimmick03 => general_1bf
 }
 
 translate = {
