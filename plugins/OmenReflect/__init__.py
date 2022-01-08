@@ -110,8 +110,8 @@ class OmenReflect(PluginBase):
     def add_action_omen_hook(self, hook, source_actor_ptr, skill_type, action_id, pos_ptr, facing_float, display_delay):
         if display_delay:
             delay_p = delay_percent.get(action_id, 6)
-            self.logger.debug(f'lower delay of {action_id} - {display_delay:.2f} by //{delay_p}')
-            display_delay = display_delay // delay_p
+            self.logger.debug(f'lower delay of {action_id} - {display_delay:.2f} by /{delay_p}')
+            display_delay = display_delay / delay_p
         return hook.original(source_actor_ptr, skill_type, action_id, pos_ptr, facing_float, display_delay)
 
     enable_record = BindValue(default=False,auto_save=True)
