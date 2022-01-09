@@ -21,7 +21,7 @@ def p3s_target_icon_1(output, e: 'TargetIconEvent') -> None:
             if last_rec < e.bundle_header.epoch - 1000:
                 last_rec = e.bundle_header.epoch
                 rec_icons.clear()
-            rec_icons.append((e.target_actor.job.short_name, e.icon_id - 268, e.target_id == plugins.XivMemory.player_info.id))
+            rec_icons.append((e.target_actor.job.short_name, e.icon_id - 268))
             if len(rec_icons) >= 8:
                 rec_icons.sort(key=lambda x: x[1])
                 output(f"""
@@ -35,5 +35,5 @@ def p3s_target_icon_1(output, e: 'TargetIconEvent') -> None:
 def p3s_target_icon_2(output, e: 'TargetIconEvent') -> None:
     global last_rec
     if 268 <= e.icon_id <= 276 and e.target_id == plugins.XivMemory.player_info.id:
-        p = getattr(plugins.XivMemory.markings.way_mark, ['one', 'two', 'three', 'four'][e.icon_id - 268 % 4])
-        plugins.XivMemory.coordinate.set(p.x, p.y, p.z)
+        p = getattr(plugins.XivMemory.markings.way_mark, ['one', 'two', 'three', 'four'][(e.icon_id - 268) % 4])
+        if p.is_active: plugins.XivMemory.coordinate.set(p.x, p.y, p.z)
