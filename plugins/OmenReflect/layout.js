@@ -2,6 +2,8 @@ const float_fmt = (num) => {
     if (typeof num !== 'number') num = parseFloat(num);
     return num.toFixed(2);
 }
+const zpad = (num, pad_len) => ('0'.repeat(pad_len) + num).slice(-pad_len);
+
 const loading_action = {
     'name': "loading...",
     'cast_type': "loading...",
@@ -63,19 +65,25 @@ module.exports = vue.defineComponent({
         const history_page = vue.ref(1);
         const history_page_size = vue.ref(10);
         const show_relative_time = vue.ref(false);
-        const filter_history = vue.reactive({'source': '', 'action': '',})
+        const filter_history = vue.reactive({'source': [], 'action': [],})
         const source_names = vue.ref([]);
         const action_names = vue.computed(() => [...new Set(Object.values(action_data).map(a => a.name))]);
-        const shown_history = vue.computed(() => {
-            //get history of page in desc order
+
+        const filtered_history = vue.computed(()=>{
             let data = history.value
-            if (filter_history.action) data = data.filter(h => action_data[h.cast.action].name === filter_history.action);
-            if (filter_history.source) data = data.filter(h => h.source.name === filter_history.source);
+            if (filter_history.action.length) data = data.filter(h => filter_history.action.includes(action_data[h.cast.action].name));
+            if (filter_history.source.length) data = data.filter(h => filter_history.source.includes(h.source.name));
+            return data;
+        })
+
+        const shown_history = vue.computed(() => {
             const page_start = (history_page.value - 1) * history_page_size.value;
-            return data.slice(page_start, page_start + history_page_size.value);
+            return filtered_history.value.slice(page_start, page_start + history_page_size.value);
         });
 
         const reset = () => {
+            filter_history.source = [];
+            filter_history.action = [];
             history.value = [];
             source_names.value = [];
             start_time = 0;
@@ -89,10 +97,10 @@ module.exports = vue.defineComponent({
                 const dif_ms = epoch - start_time;
                 const sec = Math.floor(dif_ms / 1000);
                 const min = Math.floor(sec / 60);
-                return `${min}:${sec % 60}.${Math.floor(dif_ms % 1000 / 100)}`;
+                return `${zpad(min, 2)}:${zpad(sec % 60, 2)}.${Math.floor(dif_ms % 1000 / 100)}`;
             } else {
                 const d = new Date(epoch);
-                return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+                return `${zpad(d.getHours(), 2)}:${zpad(d.getMinutes(), 2)}:${zpad(d.getSeconds(), 2)}`;
             }
         }
 
@@ -156,6 +164,7 @@ module.exports = vue.defineComponent({
             date_fmt,
             show_relative_time,
             shown_history,
+            filtered_history,
             float_fmt
         }
     },
@@ -215,19 +224,13 @@ module.exports = vue.defineComponent({
             <el-tab-pane class="bg-white rounded-bottom p-2" label="history">
                 <el-form  :model="filter_history" :inline="true">
                     <el-form-item label="source" >
-                        <el-select v-model="filter_history.source">
-                            <el-option label="any" value=""/>
-                            <el-option v-for="s in source_names" :key="s" :label="s" :value="s"/>
-                        </el-select>
+                        <el-select-v2 style="min-width: 300px" v-model="filter_history.source" :options="source_names.map(n => ({value: n, label:n}))" filterable multiple clearable/>
                     </el-form-item>
                     <el-form-item label="action">
-                        <el-select v-model="filter_history.action">
-                            <el-option label="any" value=""/>
-                            <el-option v-for="a in action_names" :key="a" :label="a" :value="a"/>
-                        </el-select>
+                        <el-select-v2 style="min-width: 300px" v-model="filter_history.action" :options="action_names.map(n => ({value: n, label:n}))" filterable multiple clearable/>
                     </el-form-item>
                 </el-form>
-                 <el-pagination v-model:currentPage="history_page" :page-size="history_page_size" layout="prev,pager,next,jumper" :total="history.length"/>
+                 <el-pagination v-model:currentPage="history_page" :page-size="history_page_size" layout="prev,pager,next,jumper" :total="filtered_history.length"/>
                  <el-table :data="shown_history">
                     <el-table-column prop="epoch" label="时间">
                         <template v-slot="{row}">

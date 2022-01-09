@@ -29,7 +29,7 @@ def omen_name(omen_id: int):
 def action_data(action_id: int):
     action = action_sheet[action_id]
     return {
-        'name': action['Name'],
+        'name': action['Name'] or '-',
         'cast_type': utils.cast_type_name.get(action['CastType']) or f"Unknown ({action['CastType']})",
         'effect_range': action['EffectRange'],
         'x_axis_modifier': action['XAxisModifier'],

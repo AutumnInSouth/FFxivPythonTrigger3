@@ -8,7 +8,7 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 class DebugPlugin(PluginBase):
     name = "DebugPlugin"
-    layout = str(Path(__file__).parent / 'layout.js')
+    #layout = str(Path(__file__).parent / 'layout.js')
 
     def __init__(self):
         super().__init__()
