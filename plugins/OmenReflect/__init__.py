@@ -136,6 +136,22 @@ class OmenReflect(PluginBase):
                     },
                 },
             })
+            zone_id = plugins.XivMemory.zone_id
+            msg = evt.struct_message
+            key = (zone_id, evt.source_actor.name, evt.action_id, msg.display_action_id)
+            if key not in self.log_record:
+                self.log_record.add(key)
+                try:
+                    action = action_sheet[evt.action_id]
+                except KeyError:
+                    return
+                self.logger.debug(
+                    f"{territory_type_names.get(zone_id, 'unk')}|{evt.source_actor.name}|"
+                    # f"{msg.display_action_id}|{action_names.get(msg.display_action_id, 'unk')}|"
+                    f"{evt.action_id}|{action['Name']}|{evt.cast_time:.2f}s|{evt.struct_message.display_delay}|"
+                    f"{action['Omen'].key}({action['CastType']}/{action['EffectRange']}/{action['XAxisModifier']})=>{reflect_data.get(evt.action_id)}|",
+                    # '\n', msg
+                )
 
     def layout_get_action_data(self, action_id):
         return action_data(action_id)

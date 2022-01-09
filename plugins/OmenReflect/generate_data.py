@@ -112,6 +112,9 @@ white_list = {
     26680: 0,  # The Stagnant Limbo|Hippokampos|26680|Tainted Flood|4.70s|0|0(2/6/0)=>1
     26362: 13,  # Burning Twister | 10/20/0/1.9s | mon_sp/gimmick/n5r3_boss_gimmick09 => gl_sircle_1005bf
     26361: 203,  # Dark Twister | 2/60/0/1.7s | mon_sp/gimmick/a2fe_boss_gimmick03 => general_1bf
+    19395: 0,  # 甘多夫雷平原|拉姆|19395|雷电强袭|4.70s|0|0(2/5/0)=>1|
+    19404: 203,  # 甘多夫雷平原|拉姆|19404|雷霆之力|4.70s|0|0(2/100/0)=>1|
+    0x4bf9: 0,
 }
 
 translate = {
