@@ -78,7 +78,7 @@ module.exports = vue.defineComponent({
     <el-divider>请输入python表达式！</el-divider>
     <el-form-item :label="config_data.job">
         <el-select v-model="edit_config_data.current_strategy">
-            <el-option v-for="(name,i) in config_data.strategies" :key="i" :label="name" :value="name"></el-option>
+            <el-option v-for="name in config_data.strategies" :key="name" :label="name" :value="name"/>
         </el-select>
     </el-form-item>
     <el-divider/>

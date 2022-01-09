@@ -46,6 +46,15 @@ class RaidHelper(PluginBase):
         for evt, map_triggers in self.triggers_re_evt.items():
             self.logger.debug(f"Registered re_event {evt} for {sum(len(m) for m in map_triggers.values())} triggers")
             self.register_re_event(evt, self.process_event(map_triggers))
+        enable_triggers = self.storage.data.get("bind_values", {}).get("enable_triggers", {})
+
+        self.enable_triggers = {
+            str(map_id): {
+                title: enable_triggers.get(str(map_id), {}).get(title, False)
+                for title in triggers.keys()
+            }
+            for map_id, triggers in self.triggers_map.items()
+        }
 
     in_game_output = BindValue(default=0, auto_save=True)
     in_game_output_sound_effect = BindValue(default=0, auto_save=True)
@@ -60,17 +69,6 @@ class RaidHelper(PluginBase):
                 if title in map_triggers:
                     map_triggers[title].enabled = enabled
         return True
-
-    def start(self):
-        enable_triggers = self.enable_triggers
-        self.enable_triggers = {
-            str(map_id): {
-                title: enable_triggers.get(str(map_id), {}).get(title, False)
-                for title in triggers.keys()
-            }
-            for map_id, triggers in self.triggers_map.items()
-        }
-        self.logger.debug(f"start enable_triggers: {self.enable_triggers}")
 
     def trigger_output(self, output_str: str, log_output: bool = None, in_game_output: bool = None, in_game_output_sound_effect: bool = None):
         if log_output is None:
