@@ -56,17 +56,21 @@ def p3s_tether(output, e: 'TetherEvent') -> None:
             tethers.append((e.target_id, e.source_id))
             if current_act == 2 and len(tethers) == 4:
                 wait_until(lambda: len(icons) == 7 or None, 5)
-                for a1_id, a2_id in tethers:
-                    a1 = plugins.XivMemory.actor_table.get_actor_by_id(a1_id)
-                    a2 = plugins.XivMemory.actor_table.get_actor_by_id(a2_id)
-                    if icons.get(a1_id) == 301 or icons.get(a2_id) == 301:
-                        output(f"AOE: {a1.job.short_name} - {a2.job.short_name}")
-                    elif icons.get(a1_id) == 302 or icons.get(a2_id) == 302:
-                        output(f"靠近: {a1.job.short_name} - {a2.job.short_name}")
-                    elif icons.get(a1_id) == 303 or icons.get(a2_id) == 303:
-                        output(f"分攤: {a1.job.short_name} - {a2.job.short_name}")
-                    else:
-                        output(f"未知: {a1.job.short_name} - {a2.job.short_name}")
+                process_act2_tethers(output)
+
+
+def process_act2_tethers(output):
+    for a1_id, a2_id in tethers:
+        a1 = plugins.XivMemory.actor_table.get_actor_by_id(a1_id)
+        a2 = plugins.XivMemory.actor_table.get_actor_by_id(a2_id)
+        if icons.get(a1_id) == 301 or icons.get(a2_id) == 301:
+            output(f"AOE: {a1.job.short_name} - {a2.job.short_name}")
+        elif icons.get(a1_id) == 302 or icons.get(a2_id) == 302:
+            output(f"靠近: {a1.job.short_name} - {a2.job.short_name}")
+        elif icons.get(a1_id) == 303 or icons.get(a2_id) == 303:
+            output(f"分攤: {a1.job.short_name} - {a2.job.short_name}")
+        else:
+            output(f"未知: {a1.job.short_name} - {a2.job.short_name}")
 
 
 @p4s('詠唱收集', 'network/zone/server/actor_cast')
