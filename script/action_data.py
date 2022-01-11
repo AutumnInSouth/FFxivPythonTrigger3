@@ -42,16 +42,4 @@ class action_struct(OffsetStruct({
 action_data_call = CFUNCTYPE(c_int64, c_int64)(
     find_signature_point('E8 * * * * 48 8B E8 48 85 C0 74 ? 45 84 E4') + BASE_ADDR)
 
-for row in action_sheet:
-    start = action_data_call(row.key) + 60
-    cnt = 0
-    try:
-        while read_ubyte(start + cnt): cnt += 1
-        while not read_ubyte(start + cnt): cnt += 1
-    except Exception:
-        pass
-    name: bytes = row["Name"].encode('utf-8')
-    # new_len = len(name) + 6
-    # if new_len > cnt: name = name[:cnt - 6]
-    # name += f'|{row.key:0>4X}'.encode('utf-8')
-    write_ubytes(start, bytearray(name.ljust(cnt, b'\0')))
+print(hex(action_data_call(27174)))

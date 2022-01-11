@@ -9,6 +9,9 @@ class RaidTrigger:
         self.event = event
         self.re_event = re_event
 
+    def __call__(self, *args, **kwargs):
+        if self.enabled:
+            return self.func(*args, **kwargs)
 
 
 def raid_trigger(map_id: int, title: str, event: str = None, re_event: str = None):

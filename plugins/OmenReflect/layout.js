@@ -69,7 +69,7 @@ module.exports = vue.defineComponent({
         const source_names = vue.ref([]);
         const action_names = vue.computed(() => [...new Set(Object.values(action_data).map(a => a.name))]);
 
-        const filtered_history = vue.computed(()=>{
+        const filtered_history = vue.computed(() => {
             let data = history.value
             if (filter_history.action.length) data = data.filter(h => filter_history.action.includes(action_data[h.cast.action].name));
             if (filter_history.source.length) data = data.filter(h => filter_history.source.includes(h.source.name));
@@ -111,7 +111,7 @@ module.exports = vue.defineComponent({
             let need_continue = false;
             const current_time = (new Date()).getTime();
             for (const [actor_id, actor] of Object.entries(actors)) {
-                const new_cast_time = (current_time - actor.casting.epoch) / 1000;
+                const new_cast_time = Math.max((current_time - actor.casting.epoch), 0)/ 1000;
                 const duration = parseFloat(actor.casting.cast.duration);
                 actor.info.cast_time = Math.min(new_cast_time, duration);
                 actor.info.progress = Math.min(new_cast_time / duration * 100, 100);

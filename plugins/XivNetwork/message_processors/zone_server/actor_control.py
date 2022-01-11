@@ -196,7 +196,7 @@ class TetherEvent(ActorControlEvent):
 
     def __init__(self, bundle_header, message_header, raw_message, struct_message):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
-        self.source_id = struct_message.param1
+        self.source_id = struct_message.param3
         self.source_name = hex(self.source_id)
         self.type = struct_message.param2
 
@@ -209,7 +209,7 @@ class TetherEvent(ActorControlEvent):
         return f"{self.target_name} tether with {self.source_name} on {self.type}"
 
     def _str_event(self):
-        return f"network_actor_tether|{self.target_name}|{self.source_name}|{self.type}"
+        return f"network_actor_tether|{self.target_name}|{self.source_name}|{self.type}|{self.struct_message.param1:x}|{self.struct_message.param2:x}|{self.struct_message.param3:x}|{self.struct_message.param4:x}"
 
 
 class EffectRemoveEvent(ActorControlEvent):

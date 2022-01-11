@@ -8,7 +8,8 @@ from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 class DebugPlugin(PluginBase):
     name = "DebugPlugin"
-    #layout = str(Path(__file__).parent / 'layout.js')
+
+    # layout = str(Path(__file__).parent / 'layout.js')
 
     def __init__(self):
         super().__init__()
@@ -138,6 +139,10 @@ class DebugPlugin(PluginBase):
     @event('network/zone/server/actor_control/target_icon')
     def actor_control_target_icon(self, evt):
         self.logger(evt.id, evt.target_name, evt.struct_message.param1, evt.icon_id)
+
+    @event('network/zone/server/actor_control/tether')
+    def actor_control_tether(self, evt):
+        self.logger(evt.id, evt.target_name, evt.source_name,evt.str_event())
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

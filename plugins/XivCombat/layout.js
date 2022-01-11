@@ -77,9 +77,11 @@ module.exports = vue.defineComponent({
         <el-button @click="reverse_config_data">reverse</el-button>
     <el-divider>请输入python表达式！</el-divider>
     <el-form-item :label="config_data.job">
-        <el-select v-model="edit_config_data.current_strategy">
-            <el-option v-for="name in config_data.strategies" :key="name" :label="name" :value="name"/>
-        </el-select>
+        <el-radio
+            v-for="name in config_data.strategies"
+            :key="name"
+            v-model="edit_config_data.current_strategy"
+            :label="name" size="large" border>{{name}}</el-radio>
     </el-form-item>
     <el-divider/>
     <el-form-item v-for="(v,k) in edit_config_data.common_config" :key="k" :label="k">
