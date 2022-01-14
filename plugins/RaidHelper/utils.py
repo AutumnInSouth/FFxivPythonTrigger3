@@ -1,7 +1,5 @@
 class RaidTrigger:
     def __init__(self, map_id, title, func, event=None, re_event=None):
-        if not event or re_event:
-            raise Exception("event or re_event must be set")
         self.enabled = False
         self.map_id = map_id
         self.title = title

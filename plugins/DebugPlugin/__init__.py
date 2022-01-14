@@ -142,7 +142,11 @@ class DebugPlugin(PluginBase):
 
     @event('network/zone/server/actor_control/tether')
     def actor_control_tether(self, evt):
-        self.logger(evt.id, evt.target_name, evt.source_name,evt.str_event())
+        self.logger(evt.id, evt.bundle_header.epoch,evt.target_name, evt.source_name, evt.str_event())
+
+    #@event('network/zone/server/actor_control/targetable')
+    def actor_control_targetable(self, evt):
+        self.logger(evt.id, evt.str_event(), evt.struct_message)
 
     # @event(r"network/zone/server/market_board_purchase_handler")
     # def market_board_purchase_handler(self, evt):

@@ -27,8 +27,13 @@ class RaidHelper(PluginBase):
             if ext_path.exists() and (ext_path / '__init__.py').exists():
                 self.logger.debug(f"Loading {ext}...")
                 cnt = 0
-                for file in ext_path.glob('*.py'):
-                    if file.name == '__init__.py': continue
+                for file in ext_path.glob('*'):
+                    if file.is_dir():
+                        if not (file / '__init__.py').exists(): continue
+                    elif file.suffix == '.py':
+                        if file.stem.startswith('_'): continue
+                    else:
+                        continue
                     module = import_module(f'.{ext}.{file.stem}', package=__package__)
                     for name, obj in module.__dict__.items():
                         if isinstance(obj, RaidTrigger):
@@ -81,7 +86,7 @@ class RaidHelper(PluginBase):
             self.logger.info(output_str)
         if in_game_output:
             msg = f"{output_str} <se.{in_game_output_sound_effect}>" if in_game_output_sound_effect else output_str
-            match self.in_game_output:
+            match in_game_output:
                 case 1:  # echo
                     plugins.XivMemory.calls.do_text_command('/e ' + msg)
                 case 2:  # party

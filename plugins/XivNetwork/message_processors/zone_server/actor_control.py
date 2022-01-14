@@ -184,10 +184,10 @@ class TargetableEvent(ActorControlEvent):
     id = ActorControlEvent.id + 'targetable'
 
     def _text(self):
-        return f"{self.target_name} is targetable"
+        return f"{self.target_name} is " + ('targetable' if self.struct_message.param1 else 'untargetable')
 
     def _str_event(self):
-        return f"network_actor_targetable|{self.target_name}"
+        return f"network_actor_targetable|{self.target_name}|{self.struct_message.param1}"
 
 
 class TetherEvent(ActorControlEvent):

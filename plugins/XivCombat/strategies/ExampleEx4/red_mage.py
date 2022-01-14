@@ -156,7 +156,7 @@ class RDMLogic(Strategy):
             if data.me.level >= 52 and (data.me.level < 68 or min_mana >= 60 - data.gauge.mana_stacks * 20):
                 moulienet_target, moulienet_cnt = cnt_enemy(data, moulienet)
                 if moulienet_cnt > 2: return UseAbility(a('魔划圆斩'), moulienet_target.id)
-            if data.gauge.mana_stacks or data[7520] > 100 or max(data.gauge.white_mana, data.gauge.black_mana) > 90 or data.is_moving:
+            if data.gauge.mana_stacks or data[7520] > 100 or max(data.gauge.white_mana, data.gauge.black_mana) > 90 or (data.is_moving and not can_acceleration):
                 if min_mana >= (50 if data.me.level >= 50 else 35 if data.me.level >= 35 else 20) - data.gauge.mana_stacks * 15:
                     if single_distance <= 3:
                         return UseAbility(a('魔回刺'), single_target.id)

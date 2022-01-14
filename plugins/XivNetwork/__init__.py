@@ -2,7 +2,7 @@ from ctypes import *
 from functools import cache
 from pathlib import Path
 from traceback import format_exc
-from typing import Callable, List, Dict, Set, Tuple
+from typing import Callable, List, Dict, Set, Tuple, Union
 
 import time
 
@@ -270,8 +270,8 @@ class XivNetwork(PluginBase):
         except (ValueError, KeyError):
             pass
 
-    def send_messages(self, scope: int | str, messages: send_message_interface | List[send_message_interface],
-                      response: allow_response_interface | List[allow_response_interface] = None,
+    def send_messages(self, scope: int | str, messages: Union[send_message_interface, List[send_message_interface]],
+                      response: Union[allow_response_interface, List[allow_response_interface]] = None,
                       block_response=False, response_timeout=5.):
         _scope = scope_idx(scope)
         _messages = []

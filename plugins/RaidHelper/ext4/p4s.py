@@ -1,7 +1,10 @@
+import math
+from ctypes import byref
 from typing import TYPE_CHECKING
 from threading import Lock
 from FFxivPythonTrigger import plugins, wait_until
-from RaidHelper.utils import map_trigger
+from FFxivPythonTrigger.exceptions import PluginNotFoundException
+from RaidHelper.utils import map_trigger, common_trigger
 
 if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_control import TargetIconEvent, TetherEvent
@@ -11,8 +14,18 @@ p4s = map_trigger(1009)
 
 current_act = 0
 
+
+def add_omen(source_actor, target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier: int = 0):
+    try:
+        plugins.OmenReflect.add_omen(byref(source_actor), target_pos, facing, omen_id, cast_type, effect_range, x_axis_modifier)
+        return True
+    except PluginNotFoundException:
+        return False
+
+
 """
 icon
+300 塔
 301 aoe
 302 靠近
 303 分攤
@@ -28,35 +41,123 @@ icons = {}
 last_icon = 0
 icon_lock = Lock()
 
+fire_aoe_omn = 1, 2, 20
+tower_aoe_omn = 90, 2, 4
+
 
 @p4s('点名收集', 'network/zone/server/actor_control/target_icon')
-def p3s_target_icon(output, e: 'TargetIconEvent') -> None:
+def p4s_target_icon(output, e: 'TargetIconEvent') -> None:
     global last_icon
-    if 301 <= e.icon_id <= 303:
+    if 300 <= e.icon_id <= 303:
         with icon_lock:
-            if last_icon < e.bundle_header.epoch - 1000:
+            if last_icon < e.bundle_header.epoch - 500:
                 last_icon = e.bundle_header.epoch
                 icons.clear()
             icons[e.target_id] = e.icon_id
+            if current_act == 4 and len(icons) == 8:
+                process_act4_icons(output)
 
 
 tethers = []
 last_tether = 0
 tether_lock = Lock()
 
+boss_tethers = []
+last_boss_tether = 0
+boss_tether_lock = Lock()
+
+
+def f_pos(actor):
+    return f"{actor.pos.x:.1f} {actor.pos.y:.1f} {actor.pos.z:.1f}"
+
 
 @p4s('連綫收集', 'network/zone/server/actor_control/tether')
-def p3s_tether(output, e: 'TetherEvent') -> None:
-    global last_tether
+def p4s_tether(output, e: 'TetherEvent') -> None:
+    global last_tether, last_boss_tether
     if e.type == 172:
         with tether_lock:
-            if last_tether < e.bundle_header.epoch - 1000:
+            if last_tether < e.bundle_header.epoch - 500:
                 last_tether = e.bundle_header.epoch
                 tethers.clear()
             tethers.append((e.target_id, e.source_id))
             if current_act == 2 and len(tethers) == 4:
                 wait_until(lambda: len(icons) == 7 or None, 5)
                 process_act2_tethers(output)
+    elif e.type == 173:
+        with boss_tether_lock:
+            actor = e.target_actor
+            boss_tethers.append(actor)
+            boss_tethers_cnt = len(boss_tethers)
+            # output("act:{} boss連綫：{}".format(current_act, boss_tethers_cnt), in_game_output=0)
+            # output("source:{} target：{}".format(f_pos(e.source_actor), f_pos(e.target_actor)), in_game_output=0)
+            if current_act == 1:
+                add_omen(actor, (actor.pos.x, actor.pos.y, actor.pos.z), 0,
+                         *(fire_aoe_omn if boss_tethers_cnt <= 2 or boss_tethers_cnt >= 11 else tower_aoe_omn))
+                if boss_tethers_cnt == 2:
+                    process_act1_boss_tethers(output)
+            elif current_act == 2:
+                add_omen(actor, (actor.pos.x, actor.pos.y, actor.pos.z), 0,
+                         *(fire_aoe_omn if (actor_pos(actor)[1] + 180) % 90 > 45 else tower_aoe_omn))
+                if boss_tethers_cnt == 4:
+                    process_act2_boss_tethers(output)
+            elif current_act == 3 and len(boss_tethers) == 1:
+                process_act3_boss_tethers(output)
+
+
+acts = {
+    27148: 1,
+    28340: 2,
+    28341: 3,
+    28342: 4,
+    27187: 5,
+}
+
+
+@p4s('詠唱收集', 'network/zone/server/actor_cast')
+def p4s_cast(output, e: 'ServerActorCastEvent') -> None:
+    global current_act
+    if e.struct_message.skill_type != 1: return
+    if e.action_id in acts:
+        current_act = acts[e.action_id]
+        boss_tethers.clear()
+
+
+@common_trigger('p4s重置', 'network/zone/server/combat_reset')
+def p4s_reset(output, e):
+    global current_act
+    current_act = 0
+    icons.clear()
+    tethers.clear()
+    boss_tethers.clear()
+
+
+def actor_pos(actor):
+    """
+    return distance and angle sep of actor by actor_id with center of 100,100
+    """
+    x, y = actor.pos.x, actor.pos.y
+    return ((x - 100) ** 2 + (y - 100) ** 2) ** 0.5, math.degrees(math.atan2(100 - x, 100 - y))
+
+
+def process_act1_boss_tethers(output):
+    if abs(boss_tethers[0].pos.x - boss_tethers[1].pos.x) < 5:
+        output("一運安全點：先東西，後南北")
+    else:
+        output("一運安全點：先南北，後東西")
+
+
+def process_act2_boss_tethers(output):
+    if any(-20 < actor_pos(actor)[1] < 0 for actor in boss_tethers):
+        output("二運安全點：先東西，後南北")
+    else:
+        output("二運安全點：先南北，後東西")
+
+
+def process_act3_boss_tethers(output):
+    if actor_pos(boss_tethers[0])[1] < 0:
+        output("三運：先東邊踩塔，後西邊踩塔")
+    else:
+        output("三運：先西邊踩塔，后東邊踩塔")
 
 
 def process_act2_tethers(output):
@@ -73,18 +174,10 @@ def process_act2_tethers(output):
             output(f"未知: {a1.job.short_name} - {a2.job.short_name}")
 
 
-@p4s('詠唱收集', 'network/zone/server/actor_cast')
-def p3s_cast(output, e: 'ServerActorCastEvent') -> None:
-    global current_act
-    if e.struct_message.skill_type != 1: return
-    match e.action_id:
-        case 27148:
-            current_act = 1
-        case 28340:
-            current_act = 2
-        case 28341:
-            current_act = 3
-        case 28342:
-            current_act = 4
-        case 27187:
-            current_act = 5
+def process_act4_icons(output):
+    tower = [aid for aid, icon in icons.items() if icon == 300]
+    aoe = [aid for aid, icon in icons.items() if icon == 301]
+    tower_names = ','.join(plugins.XivMemory.actor_table.get_actor_by_id(aid).job.short_name for aid in tower)
+    aoe_names = ','.join(plugins.XivMemory.actor_table.get_actor_by_id(aid).job.short_name for aid in aoe)
+    output(f"塔: {tower_names}")
+    output(f"AOE: {aoe_names}")

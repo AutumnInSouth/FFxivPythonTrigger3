@@ -116,6 +116,7 @@ white_list = {
     19404: 203,  # 甘多夫雷平原|拉姆|19404|雷霆之力|4.70s|0|0(2/100/0)=>1|
     0x4bf9: 0,
     20144: 228,
+    27150: 90,  # Hemitheos's Thunder III | 2/4/0/0.1s | mon_sp/gimmick/arthur_thunderstome => general_1bf
 }
 
 translate = {
