@@ -136,15 +136,17 @@ class DebugPlugin(PluginBase):
     def discover_npc_spawn(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.struct_message, '\n', evt.raw_message.hex(' '))
 
-    @event('network/zone/server/actor_control/target_icon')
+    # @event('network/zone/server/actor_control/target_icon')
     def actor_control_target_icon(self, evt):
         self.logger(evt.id, evt.target_name, evt.struct_message.param1, evt.icon_id)
 
     @event('network/zone/server/actor_control/tether')
     def actor_control_tether(self, evt):
-        self.logger(evt.id, evt.bundle_header.epoch,evt.target_name, evt.source_name, evt.str_event())
+        target = f"target:{evt.target_name}({evt.target_id:x}) {evt.target_actor.pos.x:.1f} {evt.target_actor.pos.y:.1f} {evt.target_actor.pos.z:.1f}"
+        source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"
+        self.logger(evt.id, evt.type, target, source)
 
-    #@event('network/zone/server/actor_control/targetable')
+    # @event('network/zone/server/actor_control/targetable')
     def actor_control_targetable(self, evt):
         self.logger(evt.id, evt.str_event(), evt.struct_message)
 

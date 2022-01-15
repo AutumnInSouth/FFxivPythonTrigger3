@@ -8,3 +8,4 @@ if game_ext == 4:
     from .red_mage import RDMLogic
     from .dancer import DncLogic
     from .summoner import SmnLogic
+    from .sch import SchLogic

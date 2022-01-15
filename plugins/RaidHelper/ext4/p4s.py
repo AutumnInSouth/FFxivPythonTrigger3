@@ -33,6 +33,7 @@ icon
 
 """
 tether
+165:以太操作
 172:玩家連綫
 173:boss 連綫
 """
@@ -58,6 +59,8 @@ def p4s_target_icon(output, e: 'TargetIconEvent') -> None:
                 process_act4_icons(output)
 
 
+aether_tether_lock = Lock()
+
 tethers = []
 last_tether = 0
 tether_lock = Lock()
@@ -67,14 +70,16 @@ last_boss_tether = 0
 boss_tether_lock = Lock()
 
 
-def f_pos(actor):
-    return f"{actor.pos.x:.1f} {actor.pos.y:.1f} {actor.pos.z:.1f}"
-
-
 @p4s('連綫收集', 'network/zone/server/actor_control/tether')
 def p4s_tether(output, e: 'TetherEvent') -> None:
     global last_tether, last_boss_tether
-    if e.type == 172:
+    if e.type == 165:
+        with aether_tether_lock:
+            if e.target_id in pinax_actor:
+                del pinax_actor[e.target_id]
+                if len(pinax_actor) == 1:
+                    process_safe_pinax(output)
+    elif e.type == 172:
         with tether_lock:
             if last_tether < e.bundle_header.epoch - 500:
                 last_tether = e.bundle_header.epoch
@@ -88,8 +93,6 @@ def p4s_tether(output, e: 'TetherEvent') -> None:
             actor = e.target_actor
             boss_tethers.append(actor)
             boss_tethers_cnt = len(boss_tethers)
-            # output("act:{} boss連綫：{}".format(current_act, boss_tethers_cnt), in_game_output=0)
-            # output("source:{} target：{}".format(f_pos(e.source_actor), f_pos(e.target_actor)), in_game_output=0)
             if current_act == 1:
                 add_omen(actor, (actor.pos.x, actor.pos.y, actor.pos.z), 0,
                          *(fire_aoe_omn if boss_tethers_cnt <= 2 or boss_tethers_cnt >= 11 else tower_aoe_omn))
@@ -112,6 +115,28 @@ acts = {
     27187: 5,
 }
 
+pinax = {
+    27092: '毒',
+    27125: '毒',
+    27129: '毒',
+    27196: '毒',
+    27093: '火',
+    27126: '火',
+    27130: '火',
+    27197: '火',
+    27095: '雷',
+    27128: '雷',
+    27132: '雷',
+    27199: '雷',
+    27094: '水',
+    27127: '水',
+    27131: '水',
+    27198: '水',
+}
+
+pinax_actor = {}
+safe_pinax = None
+
 
 @p4s('詠唱收集', 'network/zone/server/actor_cast')
 def p4s_cast(output, e: 'ServerActorCastEvent') -> None:
@@ -120,15 +145,21 @@ def p4s_cast(output, e: 'ServerActorCastEvent') -> None:
     if e.action_id in acts:
         current_act = acts[e.action_id]
         boss_tethers.clear()
+    elif e.action_id in pinax:
+        pinax_type = pinax[e.action_id]
+        pinax_actor[e.source_id] = pinax_type
+        if safe_pinax == pinax_type:
+            process_safe_pinax_pos(output, e.source_actor)
 
 
-@common_trigger('p4s重置', 'network/zone/server/combat_reset')
+@p4s('p4s重置', 'network/zone/server/combat_reset')
 def p4s_reset(output, e):
     global current_act
     current_act = 0
     icons.clear()
     tethers.clear()
     boss_tethers.clear()
+    pinax_actor.clear()
 
 
 def actor_pos(actor):
@@ -137,6 +168,26 @@ def actor_pos(actor):
     """
     x, y = actor.pos.x, actor.pos.y
     return ((x - 100) ** 2 + (y - 100) ** 2) ** 0.5, math.degrees(math.atan2(100 - x, 100 - y))
+
+
+def process_safe_pinax(output):
+    global safe_pinax
+    safe_pinax = list(pinax_actor.values())[0]
+    output(f"安全地板：{safe_pinax}")
+
+
+def process_safe_pinax_pos(output, source_actor):
+    global safe_pinax
+    deg = actor_pos(source_actor)[1]
+    if deg < -90:
+        output(f"安全地板：東南({safe_pinax})")
+    elif deg < 0:
+        output(f"安全地板：東北({safe_pinax})")
+    elif deg < 90:
+        output(f"安全地板：西北({safe_pinax})")
+    else:
+        output(f"安全地板：西南({safe_pinax})")
+    safe_pinax = None
 
 
 def process_act1_boss_tethers(output):

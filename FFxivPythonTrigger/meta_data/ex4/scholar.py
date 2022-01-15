@@ -51,7 +51,7 @@ Summons the faerie Selene to fight at your side. When set to guard, automaticall
         id = 17216
         name = {'Summon Selene', '夕月召唤'}
 
-    class WhisperingDawn(ActionBase):
+    class WhisperingDawnPet(ActionBase):
         """
 Gradually restores the HP of all nearby party members.
 Cure Potency: 80
@@ -60,7 +60,7 @@ Duration: 21s
 >> 315, Whispering Dawn, Regenerating HP over time.
         """
         id = 803
-        name = {'仙光的低语', 'Whispering Dawn'}
+        name = {'仙光的低语（召唤兽）', 'Whispering Dawn(Pet)'}
 
     class WhisperingDawn(ActionBase):
         """
