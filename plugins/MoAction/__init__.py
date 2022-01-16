@@ -62,8 +62,8 @@ class MoAction(PluginBase):
     @err_catch
     def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
         if unk2 == 2 and self.ac_in_queue: unk2 = 0
-        action_id = self.get_icon(0, action_id)
         if action_type == 1:
+            action_id = self.get_icon(action_manager_address, action_id)
             if is_area_action(action_id):
                 if self.set_mo:
                     l = plugins.XivMemory.utils.mo_location
