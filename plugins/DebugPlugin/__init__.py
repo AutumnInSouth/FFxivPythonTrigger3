@@ -13,7 +13,7 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
+        #plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
 
     def m_e(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.header.action_animation_id = 26362
@@ -139,7 +139,7 @@ class DebugPlugin(PluginBase):
     def discover_npc_spawn(self, evt):
         self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.struct_message, '\n', evt.raw_message.hex(' '))
 
-    # @event('network/zone/server/actor_control/target_icon')
+    @event('network/zone/server/actor_control/target_icon')
     def actor_control_target_icon(self, evt):
         self.logger(evt.id, evt.target_name, evt.struct_message.param1, evt.icon_id)
 

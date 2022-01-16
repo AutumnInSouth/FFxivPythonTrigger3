@@ -17,6 +17,11 @@ module.exports = vue.defineComponent({
              <el-switch v-model="value.value" />
         </el-form-item>
     </fpt-bind-item>
+     <fpt-bind-item attr="ac_in_queue" :plugin="plugin" v-slot="{value}">
+        <el-form-item label="ac_in_queue">
+             <el-switch v-model="value.value" />
+        </el-form-item>
+    </fpt-bind-item>
 </el-form>
     `
 });

@@ -7,6 +7,7 @@ from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.saint_coinach import action_sheet
 from FFxivPythonTrigger.address_manager import AddressManager
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
+from FFxivPythonTrigger.utils import err_catch
 
 
 @cache
@@ -49,9 +50,13 @@ class MoAction(PluginBase):
 
     set_tt = BindValue(default=False, auto_save=True)
     set_mo = BindValue(default=False, auto_save=True)
+    ac_in_queue = BindValue(default=False, auto_save=True)
 
-    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_void_p], True)
+    @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, c_int64, c_uint, c_uint, c_int, c_int64], True)
+    @err_catch
     def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
+        if unk2 == 2 and self.ac_in_queue: unk2 = 0
+        # self.logger(f"Do Action: {action_manager_address:x} {action_type:x} {action_id:x} {target_id:x} {unk1:x} {unk2:x} {unk3:x} {unk4:x}")
         if action_type == 1:
             if is_area_action(action_id):
                 if self.set_mo:
