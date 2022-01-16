@@ -31,6 +31,11 @@ sigs = {
         'param': "E8 * * * * 89 9F ? ? ? ? EB ? C7 87 ? ? ? ? ? ? ? ?",
         'add': BASE_ADDR,
     },
+    "get_icon": {
+        'call': find_signature_point,
+        'param': "E8 * * * * 44 8B C0 8B D7 48 8B CB E8 ? ? ? ? 84 C0",
+        'add': BASE_ADDR,
+    }
 }
 
 
@@ -44,6 +49,7 @@ class MoAction(PluginBase):
         self.on_do_action(self, address['do_action'])
         self.get_action_data = CFUNCTYPE(c_void_p, c_int64)(address['action_data_sig'])
         self.action_type_check = CFUNCTYPE(c_bool, c_int64, c_void_p, c_void_p)(address['action_type_check'])
+        self.get_icon = CFUNCTYPE(c_ulonglong, c_ubyte, c_uint)(address['get_icon'])
 
     def check_action_target(self, action_id, target_entity):
         return self.action_type_check(action_id, self.get_action_data(action_id), byref(target_entity))
@@ -56,7 +62,7 @@ class MoAction(PluginBase):
     @err_catch
     def on_do_action(self, hook, action_manager_address, action_type, action_id, target_id, unk1, unk2, unk3, unk4):
         if unk2 == 2 and self.ac_in_queue: unk2 = 0
-        # self.logger(f"Do Action: {action_manager_address:x} {action_type:x} {action_id:x} {target_id:x} {unk1:x} {unk2:x} {unk3:x} {unk4:x}")
+        action_id = self.get_icon(0, action_id)
         if action_type == 1:
             if is_area_action(action_id):
                 if self.set_mo:
