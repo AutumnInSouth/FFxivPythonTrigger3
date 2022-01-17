@@ -1,3 +1,5 @@
+from functools import cache
+
 from idc import *
 from idaapi import *
 from idautils import *
@@ -54,7 +56,8 @@ def find_switch_values(ea: int):
         return sorted(set(res))
 
 
-def process_refs(xrefs):
+def process_refs(ea):
+    xrefs = find_xrefs(ea)
     if 17 not in xrefs:
         raise Exception("No call near xrefs")
     else:
@@ -69,7 +72,7 @@ def find_effect():
     eas = list(sig_search("48 89 5C 24 ? 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B DA 8B F9"))
     try:
         if len(eas) != 1: raise Exception("Error: found %d addresses for Effect" % len(eas))
-        values = process_refs(find_xrefs(eas[0]))
+        values = process_refs(eas[0])
     except Exception as e:
         print(f"[!] Effect: {e}")
     else:
@@ -92,7 +95,7 @@ def find_aoe_effects():
                 continue
         name = f"AoeEffect{l}"
         try:
-            values = process_refs(find_xrefs(get_func(ea).start_ea))
+            values = process_refs(get_func(ea).start_ea)
         except Exception as e:
             print(f"[!] {name}: {e}")
         else:
@@ -104,7 +107,7 @@ def find_actor_control():
         eas = list(sig_search("40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ?"
                               " 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 44 8B BD ? ? ? ?"))
         if len(eas) != 1: raise Exception(f"Error: found {len(eas)} addresses for actor_control main")
-        all_values = list(process_refs(find_xrefs(eas[0])))
+        all_values = list(process_refs(eas[0]))
     except Exception as e:
         print(f"[!] actor_control main: {e}")
         return
@@ -132,12 +135,36 @@ def find_actor_control():
 def find_actor_cast():
     eas = list(sig_search("40 55 56 48 81 EC ? ? ? ? 48 8B EA"))
     try:
-        if len(eas) != 1: raise Exception("Error: found %d addresses for ActorCast" % len(eas))
-        values = process_refs(find_xrefs(eas[0]))
+        if len(eas) != 1: raise Exception("Error: found %d addresses" % len(eas))
+        values = process_refs(eas[0])
     except Exception as e:
         print(f"[!] ActorCast: {e}")
     else:
         print(f"[+] ActorCast: {'|'.join(map(hex, values))}")
+
+
+def find_craft_status():
+    eas = list(sig_search("49 8B C1 48 C1 E8 ? 83 E0 ?"))
+    try:
+        if len(eas) != 1: raise Exception("Error: found %d addresses" % len(eas))
+        values = find_switch_values(eas[0])
+        if not values: raise Exception("No switch values near xrefs")
+    except Exception as e:
+        print(f"[!] CraftStatus: {e}")
+    else:
+        print(f"[+] CraftStatus: {'|'.join(map(hex, values))}")
+
+
+def find_map_effect():
+    eas = list(sig_search("48 89 5C 24 ? 57 48 83 EC ? 48 8B F9 48 8B DA 48 8B 89 58 01 00 00 48 85 C9 74 ? "
+                          "48 8B 01 FF 50 ? 84 C0 74 ? 48 8B 8F ? ? ? ? 8B 03 48 8B 91 ? ? ? ? 39 02 75 ? 48 83 B9"))
+    try:
+        if len(eas) != 1: raise Exception("Error: found %d addresses" % len(eas))
+        values = sum((list(process_refs(get_func(ea).start_ea)) for ea in find_xrefs(eas[0])[19]),start = [])
+    except Exception as e:
+        print(f"[!] MapEffect: {e}\n{traceback.format_exc()}")
+    else:
+        print(f"[+] MapEffect: {'|'.join(map(hex, values))}")
 
 
 if __name__ == "__main__":
@@ -145,4 +172,6 @@ if __name__ == "__main__":
     find_effect()
     find_aoe_effects()
     find_actor_control()
+    find_craft_status()
+    find_map_effect()
     print('done')
