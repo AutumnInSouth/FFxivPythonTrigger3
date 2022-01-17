@@ -99,7 +99,50 @@ def find_aoe_effects():
             print(f"[+] {name}: {'|'.join(map(hex, values))}")
 
 
+def find_actor_control():
+    try:
+        eas = list(sig_search("40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ?"
+                              " 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 44 8B BD ? ? ? ?"))
+        if len(eas) != 1: raise Exception(f"Error: found {len(eas)} addresses for actor_control main")
+        all_values = list(process_refs(find_xrefs(eas[0])))
+    except Exception as e:
+        print(f"[!] actor_control main: {e}")
+        return
+
+    for name, sig in {
+        "ActorControl": "B8 ? ? ? ? 0F B7 13",
+        "ActorControlSelf": "0F B7 13 B8 ? ? ? ?",
+    }.items():
+        try:
+            eas = list(sig_search(sig))
+            if len(eas) != 1: raise Exception(f"Error: found {len(eas)} addresses for {name}")
+            values = find_switch_values(eas[0])
+            if not values: raise Exception("No switch values near xrefs")
+        except Exception as e:
+            print(f"[!] {name}: {e}")
+        else:
+            for v in values: all_values.remove(v)
+            print(f"[+] {name}: {'|'.join(map(hex, values))}")
+    if len(all_values) != 1:
+        print(f"[!] ActorControlTarget: remain {len(all_values)} values")
+    else:
+        print(f"[+] ActorControlTarget: {hex(all_values[0])}")
+
+
+def find_actor_cast():
+    eas = list(sig_search("40 55 56 48 81 EC ? ? ? ? 48 8B EA"))
+    try:
+        if len(eas) != 1: raise Exception("Error: found %d addresses for ActorCast" % len(eas))
+        values = process_refs(find_xrefs(eas[0]))
+    except Exception as e:
+        print(f"[!] ActorCast: {e}")
+    else:
+        print(f"[+] ActorCast: {'|'.join(map(hex, values))}")
+
+
 if __name__ == "__main__":
+    find_actor_cast()
     find_effect()
     find_aoe_effects()
+    find_actor_control()
     print('done')
