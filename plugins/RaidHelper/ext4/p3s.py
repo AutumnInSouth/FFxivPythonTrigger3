@@ -5,6 +5,7 @@ from RaidHelper.utils import map_trigger
 
 if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.actor_control import TargetIconEvent
+    from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
 
 p3s = map_trigger(1007)
 icon_lock = Lock()
@@ -38,7 +39,7 @@ def dark_fire(points=None):
             if points:
                 p = getattr(plugins.XivMemory.markings.way_mark, points[i])
                 if p.is_active: plugins.XivMemory.coordinate.set(p.x, p.y, p.z)
-            output(f"point {i + 1}")
+            output(f"point {i + 1} ({e.icon_id - 267})")
 
     return func
 
@@ -46,3 +47,20 @@ def dark_fire(points=None):
 p3s_target_icon_tp_num = p3s('点名瞬移(数字标点)', target_icon_evt_id)(dark_fire(['one', 'two', 'three', 'four']))
 p3s_target_icon_tp_abc = p3s('点名瞬移(字母标点)', target_icon_evt_id)(dark_fire(['a', 'b', 'c', 'd']))
 p3s_target_icon_tell = p3s('点名提示', target_icon_evt_id)(dark_fire())
+invincible_effects = {
+    325, 394, 529, 656, 671,
+    775, 776, 895, 969, 981,
+    1570, 1697, 1829, 1302,
+    350,  # 大额减伤
+}
+
+
+@p3s('谁手贱暗炎打鳳凰', 'network/zone/server/action_effect')
+def who_attack_phoinix(output, e: 'ActionEffectEvent') -> None:
+    if e.source_actor.type == 'player' and e.action_type == 'action' and e.action_name != 'attack' and any(
+            actor.current_hp and actor.can_select and not actor.effects.get_set().intersection(invincible_effects)
+            for actor in plugins.XivMemory.actor_table.get_actors_by_name('Darkened Fire')
+    ) and all(
+        t.type == 'battle_npc' and t.name == "Phoinix" for t in e.target_actors.values()
+    ):
+        output(f"{e.source_actor.name} use {e.action_name} on Phoinix", in_game_output=2)

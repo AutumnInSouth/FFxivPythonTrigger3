@@ -166,6 +166,16 @@ def find_map_effect():
     else:
         print(f"[+] MapEffect: {'|'.join(map(hex, values))}")
 
+def find_effect_result():
+    try:
+        eas = list(sig_search("0F B6 ? ? 48 8D 8E ? ? ? ? E8 ? ? ? ? 8B"))
+        if len(eas) != 1: raise Exception("Error: found %d addresses" % len(eas))
+        values = process_refs(get_func(eas[0]).start_ea)
+    except Exception as e:
+        print(f"[!] EffectResult: {e}")
+    else:
+        print(f"[+] EffectResult: {'|'.join(map(hex, values))}")
+
 
 if __name__ == "__main__":
     find_actor_cast()
@@ -174,4 +184,5 @@ if __name__ == "__main__":
     find_actor_control()
     find_craft_status()
     find_map_effect()
+    find_effect_result()
     print('done')

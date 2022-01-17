@@ -41,6 +41,7 @@ class SchLogic(Strategy):
     job = 'Scholar'
     default_data = {
         'swift_res': 'none',
+        'no_dot': False,
     }
 
     def global_cool_down_ability(self, data: 'LogicData') -> AnyUse:
@@ -63,9 +64,10 @@ class SchLogic(Strategy):
         else:
             single_target = data.get_target(define.DISTANCE_NEAREST, data.enemy_can_attack_by(a('毁灭（学者）')))
             if not single_target or data.actor_distance_effective(single_target) > 25: return
-        for enemy in data.valid_enemies:
-            if data.ttk(enemy) > 10 and target_has_dots(data, enemy, sch_dot) < 3:
-                return UseAbility(a('毒菌'), single_target.id)
+        if not data.config['no_dot']:
+            for enemy in data.valid_enemies:
+                if data.ttk(enemy) > 10 and target_has_dots(data, enemy, sch_dot) < 3:
+                    return UseAbility(a('毒菌'), single_target.id)
         if data.is_moving:
             return UseAbility(17870, single_target.id)
         else:
