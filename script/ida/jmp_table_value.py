@@ -2,7 +2,9 @@ from idc import *
 from idaapi import *
 from idautils import *
 
-test_sig = "33 D2 48 8B CE E8 ? ? ? ? B0 ? 48 8B 5C 24 ?"
+test_sig = "E8 ? ? ? ? B0 ? 48 8B 5C 24 ? 48 8B 74 24 ? 48 83 C4 ? 5F C3 48 8B CB " \
+           "E8 ? ? ? ? B0 ? 48 8B 5C 24 ? 48 8B 74 24 ? 48 83 C4 ? 5F C3 0F B6 43 ?"
+
 min_ea = inf_get_min_ea()
 max_ea = inf_get_max_ea()
 
@@ -38,19 +40,21 @@ def find_switch_values(ea: int):
     xrefs = find_xrefs(ea)
     while True:
         if 19 in xrefs:
-            res = sum((_find_switch_values(si, ea) for si in xrefs[19]),[])
-            if res: return sorted(res)
-        if 21 in xrefs:
-            ea = xrefs[21][0]
-            xrefs = find_xrefs(ea)
-        elif 19 in xrefs:
-            ea = xrefs[19][0]
-            xrefs = find_xrefs(ea)
+            res = sum((_find_switch_values(si, ea) for si in xrefs[19]), [])
+            if res:
+                return sorted(set(res))
+            else:
+                res = sum((find_switch_values(_ea) for _ea in xrefs[19]), [])
         else:
-            raise Exception(f'not found in {list(xrefs.keys())}')
+            res = []
+
+        if 21 in xrefs:
+            res = sum((find_switch_values(_ea) for _ea in xrefs[21]), res)
+
+        return sorted(set(res))
 
 
 for addr in sig_search(test_sig):
     values = find_switch_values(addr)
-    print(hex(addr), "|".join(map(hex, values)))
+    print(hex(addr), "|".join(map(hex, values)) if values else "None")
 print('done')
