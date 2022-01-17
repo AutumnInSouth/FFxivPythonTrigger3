@@ -54,7 +54,44 @@ def find_switch_values(ea: int):
         return sorted(set(res))
 
 
-for addr in sig_search(test_sig):
-    values = find_switch_values(addr)
-    print(hex(addr), "|".join(map(hex, values)) if values else "None")
+#find effect
+eas = list(sig_search("48 89 5C 24 ? 57 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? 48 8B DA 8B F9"))
+if len(eas) != 1:
+    print("[!] Error: found %d addresses for Effect" % len(eas))
+    exit()
+ea = eas[0]
+f_xrefs = find_xrefs(get_func(ea).start_ea)
+if 17 not in f_xrefs:
+    print("Effect", hex(ea), "No call near xrefs", f_xrefs)
+else:
+    values = set(sum(map(find_switch_values, f_xrefs[17]), []))
+    if not values:
+        print("Effect", hex(ea), "No switch values near xrefs", f_xrefs)
+    else:
+        print("Effect", hex(ea), "|".join(map(hex, values)))
+
+# find aoe effects
+for ea in sig_search("48 8D 93 ?? ?? ?? ?? 48 8D 4C 24 ?? E8 ?? ?? ?? ?? 8B 15 ?? ?? ?? ??"):
+    match get_operand_value(ea, 1):
+        case 0x270:
+            l = 8
+        case 0x4b0:
+            l = 16
+        case 0x6f0:
+            l = 24
+        case 0x930:
+            l = 32
+        case v:
+            print(hex(ea), hex(v), "Unknown")
+            continue
+    name = f"AoeEffect{l}"
+    f_xrefs = find_xrefs(get_func(ea).start_ea)
+    if 17 not in f_xrefs:
+        print(name, hex(ea), "No call near xrefs", f_xrefs)
+    else:
+        values = set(sum(map(find_switch_values,f_xrefs[17]), []))
+        if not values:
+            print(name, hex(ea), "No switch values near xrefs", f_xrefs)
+        else:
+            print(name, hex(ea), "|".join(map(hex, values)))
 print('done')
