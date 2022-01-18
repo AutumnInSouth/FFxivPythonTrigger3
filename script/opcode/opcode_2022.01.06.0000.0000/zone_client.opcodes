@@ -1,0 +1,12 @@
+ChatHandler|374
+ClientTrigger|7C
+InventoryModifyHandler|281
+MarketBoardPurchaseHandler|111
+SetSearchInfoHandler|F5
+UpdatePositionHandler|9A
+UpdatePositionInstance|30A
+ActionSend|2ec
+#EventAction|1BF
+EventFinish|2e3
+EventStart|2bd
+MarketBoardQueryItemCount|226

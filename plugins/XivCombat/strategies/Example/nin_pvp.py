@@ -8,8 +8,8 @@ class UseAbility(UseAbility):
         super().__init__(ability_id, target.id if target else None, *args, wait_until=wait_until or self.cb, **kwargs)
         self._target = target
         self._calc_dmg = calc_dmg
-        if target is not None and target != api.get_me_actor():
-            api.set_current_target(target)
+        # if target is not None and target != api.get_me_actor():
+        #     api.set_current_target(target)
 
     def cb(self):
         if self._target:

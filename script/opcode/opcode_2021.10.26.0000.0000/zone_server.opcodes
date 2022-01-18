@@ -30,6 +30,7 @@ Examine|3CC
 ExamineSearchInfo|2EC
 FreeCompanyDialog|156
 FreeCompanyInfo|19D
+GroupMessage|65
 HousingInfo|2DA
 InitZone|1D6
 InventoryActionAck|30F
@@ -37,6 +38,7 @@ InventoryTransaction|2E4
 InventoryTransactionFinish|66
 ItemInfo|36A
 ItemMarketBoardInfo|1C3
+Logout|3E2
 MarketBoardItemListing|325
 MarketBoardItemListingCount|22D
 MarketBoardItemListingHistory|2C8
@@ -51,9 +53,9 @@ PlayerSpawn|F9
 PlayerStats|17F
 Playtime|255
 PrepareZoning|2D8
+PublicMessage|BB
 ResultDialog|217
 RetainerInformation|8E
-SomeDirectorUnk4|202
 StatusEffectList|15E
 StatusEffectList2|296
 SubmarineExplorationResult|26A

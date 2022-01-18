@@ -1,5 +1,5 @@
 from pathlib import Path
-from csv import DictWriter
+from csv import DictWriter,DictReader
 
 outputs = {
     'ZoneServerIpc': 'zone_server.opcodes',
@@ -16,10 +16,24 @@ versions = {
     '2021.11.28.0000.0000': 'in_6.00',
     '2021.12.16.0000.0000': 'in_6.01',
     '2021.12.24.0000.0000': 'in_6.05',
+    '2022.01.06.0000.0000': 'cn_5.58',
 }
 
 p = Path()
+
 data = {}
+
+for ipc_key, file_name in outputs.items():
+    path=p / f'{ipc_key}.csv'
+    if path.exists():
+        ipc_data = data.setdefault(ipc_key, {})
+        with open(path, 'r') as f:
+            reader = DictReader(f)
+            for row in reader:
+                if not row['key'].startswith('_'):
+                    for pg_ver,val in row.items():
+                        if pg_ver != 'key':
+                            ipc_data.setdefault(row['key'], {})[pg_ver] = val
 
 headers = ['key']
 game_versions = {'key': '_game_ver'}

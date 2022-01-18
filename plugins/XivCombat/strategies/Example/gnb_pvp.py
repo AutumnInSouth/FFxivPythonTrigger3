@@ -7,8 +7,8 @@ class UseAbility(UseAbility):
     def __init__(self, ability_id: int, target=None, *args, **kwargs):
         super().__init__(ability_id, target.id if target else None, *args, **kwargs)
         self._target = target
-        if target is not None and target != api.get_me_actor():
-            api.set_current_target(target)
+        # if target is not None and target != api.get_me_actor():
+        #     api.set_current_target(target)
 
 
 class GnbEnemy:

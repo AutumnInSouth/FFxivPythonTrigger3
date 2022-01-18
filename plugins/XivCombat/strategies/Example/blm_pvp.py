@@ -9,9 +9,17 @@ if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.ability import ActionEffectEvent
     from XivNetwork.extra_messages.actor_add_remove_effect import ActorRemoveEffectEvent
 
+def temp_red_hp(target, dmg):
+    def func():
+        target.hp -= dmg
+        return True
+
+    return func
+
 
 class UseAbility(UseAbility):
-    def __init__(self, ability_id: int, target=None, *args, **kwargs):
+    def __init__(self, ability_id: int, target=None, *args, dmg=0, **kwargs):
+        if dmg: kwargs.setdefault('wait_until', temp_red_hp(target, dmg))
         super().__init__(ability_id, target.id if target else None, *args, **kwargs)
         if target is not None and target != api.get_me_actor(): api.set_current_target(target)
 
