@@ -96,10 +96,7 @@ class GnbPvpLogic(Strategy):
                     case 17706:
                         return UseAbility(17707, single_enemy.actor)
                     case 17707:
-                        # if 2392 in data.effects:
-                        #     return UseAbility(17708, single_enemy.actor)
-                        # else:
-                            return UseAbility(17717, far_enemy.actor)
+                        return UseAbility(17708, far_enemy.actor)
                     case 18910:
                         return UseAbility(18911)
                 if aoe_cnt > 2:
