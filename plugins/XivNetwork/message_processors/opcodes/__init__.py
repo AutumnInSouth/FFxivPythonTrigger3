@@ -5,6 +5,7 @@ from csv import DictReader
 from FFxivPythonTrigger import game_version
 from FFxivPythonTrigger.storage import get_module_storage
 
+scope_name = ["chat", "lobby", "zone"]
 csv_names = [
     'ChatClientIpc',
     'ChatServerIpc',
