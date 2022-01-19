@@ -269,6 +269,7 @@ class XivNetwork(PluginBase):
                 del self._packet_fixer[scope][opcode]
         except (ValueError, KeyError):
             pass
+        self.logger(self._packet_fixer)
 
     def send_messages(self, scope: int | str, messages: Union[send_message_interface, List[send_message_interface]],
                       response: Union[allow_response_interface, List[allow_response_interface]] = None,

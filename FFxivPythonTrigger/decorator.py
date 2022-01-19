@@ -96,9 +96,10 @@ def event(event_id: any, limit_sec: float = 0.1, condition: Optional[ConditionTy
 
 def unload_callback(callback: Union[str, Callable]):
     def decorator(func):
-        def wrapper(self: 'PluginBase', plugin: 'PluginBase', *args, **kwargs):
+        def wrapper(self: 'PluginBase', plugin: 'PluginBase|None', *args, **kwargs):
             _callback = getattr(self, callback) if isinstance(callback, str) else callback
-            plugin.controller.unload_callback.append((_callback, args, kwargs))
+            if plugin is not None:
+                plugin.controller.unload_callback.append((_callback, args, kwargs))
             return func(self, *args, **kwargs)
 
         return wrapper
@@ -141,7 +142,6 @@ class BindValue(object):
             return cls(func.__name__, on_change=func, **kwargs)
 
         return wrapper
-
 
 
 class PluginHook(Hook):

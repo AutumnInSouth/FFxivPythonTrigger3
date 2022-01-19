@@ -41,7 +41,7 @@ class GnbPvpLogic(Strategy):
                         (actor for actor in data.valid_enemies
                          if actor.type == 'player' and
                          data.target_action_check(17890, actor)),
-                        key=lambda actor: (actor.job.is_melee, -actor.current_hp / actor.max_hp),
+                        key=lambda actor: (actor.job.is_range, -actor.current_hp / actor.max_hp),
                         default=None
                     )
                     if enemy is not None:
