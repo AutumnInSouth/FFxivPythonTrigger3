@@ -146,8 +146,18 @@ def process_update(repo: str, base_path: Path | str, force_update: bool = False)
     repo_update_path.mkdir(exist_ok=True)
     latest = get_last_update_date(repo)
     repo_data = get_repo_data(repo)
+    is_init = not repo_data['client_last_update'] or force_update
     if not force_update and latest == repo_data['client_last_update']:
         raise CheckUpdateException("No update")
+
+    if not is_init:
+        update_files = set()
+        for c in get_update_commit(repo):
+            for file in c['modified_files']:
+                update_files.add(file)
+    else:
+        update_files = None
+
     update_zip = repo_update_path / f"{date_to_timestamp(latest)}.zip"
 
     if not update_zip.exists():
@@ -171,24 +181,30 @@ def process_update(repo: str, base_path: Path | str, force_update: bool = False)
         # if same file exists in the base directory and with different content,
         # copy a backup of the old file with adding prefix backup
         # then copy the new file to the base directory
-        for file in tmp_dir.glob('**/*'):
+
+        if is_init:
+            files = tmp_dir.glob('**/*')
+        else:
+            files = (file for file in tmp_dir.glob('**/*') if file.relative_to(tmp_dir) not in update_files)
+
+        for file in files:
             if file.is_file():
                 relative_path = file.relative_to(tmp_dir)
                 file_path = base_path / relative_path
                 # print(f"{file} => {file_path}")
                 if file_path.exists():
                     if not compare_file(file, file_path):
-                        print(f"backup {file_path}")
-                        backup_files.append(relative_path)
-                        file_path.rename(file_path.parent / f"{file_path.stem}.backup{file_path.suffix}")
+                        backup_path = file_path.parent / f"{file_path.stem}.backup{file_path.suffix}"
+                        backup_files.append((relative_path, backup_path))
+                        # print(f"backup {file_path} => {backup_path}")
+                        if backup_path.exists():
+                            backup_path.unlink()
+                        file_path.rename(backup_path)
                     else:
                         continue
+                else:
+                    file_path.parent.mkdir(parents=True, exist_ok=True)
                 file.rename(file_path)
-            else:
-                relative_path = file.relative_to(tmp_dir)
-                dir_path = base_path / relative_path
-                if not dir_path.exists():
-                    dir_path.mkdir(parents=True)
     repo_data['client_last_update'] = latest
     repo_data['new_commits'] = deepcopy(default_repo_data['new_commits'])
     _storage.save()
