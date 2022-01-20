@@ -38,6 +38,7 @@ plugins.XivNetwork.send_messages('zone', [
     }, 16)(event_id=135, category=11, unk2=0x1000000, unk3=3))
 ])
 
+
 try:
     wait_until(lambda: cnt >= 2 or None, timeout=3)
 finally:
