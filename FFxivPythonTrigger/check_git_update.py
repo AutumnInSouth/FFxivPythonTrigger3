@@ -185,7 +185,7 @@ def process_update(repo: str, base_path: Path | str, force_update: bool = False)
         if is_init:
             files = tmp_dir.glob('**/*')
         else:
-            files = (file for file in tmp_dir.glob('**/*') if file.relative_to(tmp_dir) not in update_files)
+            files = (file for file in tmp_dir.glob('**/*') if file.relative_to(tmp_dir) in update_files)
 
         for file in files:
             if file.is_file():
