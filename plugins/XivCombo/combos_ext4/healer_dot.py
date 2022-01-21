@@ -12,6 +12,11 @@ def target_has_dot(me_id, dots):
     return 0
 
 
+def target_is_focus():
+    t = plugins.XivMemory.targets.current
+    return t and t == plugins.XivMemory.targets.focus
+
+
 whm_dot = {1871, 144, 143}
 
 
@@ -34,6 +39,11 @@ ast_dot = {838, 843, 1881}
 @combo_func(16554, "ast/dot", "焚灼替换gcd")
 def ast(me):
     return 16554 if me.level >= 4 and target_has_dot(me.id, ast_dot) < 2.5 else 3596
+
+
+@combo_func(16554, "ast/dot(focus)", "焚灼替换gcd(仅焦点)")
+def ast_focus(me):
+    return 16554 if target_is_focus() and me.level >= 4 and target_has_dot(me.id, ast_dot) < 2.5 else 3596
 
 
 sge_dot = {2614, 2615, 2616}

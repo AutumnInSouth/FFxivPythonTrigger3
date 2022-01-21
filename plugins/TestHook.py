@@ -35,6 +35,8 @@ class TestHook(PluginBase):
     def __init__(self):
         super().__init__()
         self.cnt = 0
+        self.d = set()
+        self.sub_1405D5A30(self, BASE_ADDR + 0x5D5A30)
         # self.omen_create(self, BASE_ADDR + 0x6FF1C0)
         # self.action_recast(self, BASE_ADDR + 0x07DE990)
         # self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
@@ -89,4 +91,12 @@ class TestHook(PluginBase):
         self.logger(f"{args}")
         res = hook.original(*args)
         self.logger(f"{res}")
+        return res
+
+    """__int64 __fastcall sub_1405D5A30(__int64 a1, char a2)"""
+
+    @PluginHook.decorator(c_int64, [c_int64, c_ubyte], True)
+    def sub_1405D5A30(self, hook, a1, a2):
+        res = hook.original(a1, a2)
+        self.logger(f"{res:x} {a1:x} {a2:b}")
         return res

@@ -13,7 +13,7 @@ class DebugPlugin(PluginBase):
 
     def __init__(self):
         super().__init__()
-        #plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
+        # plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
 
     def m_e(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.header.action_animation_id = 26362
@@ -29,7 +29,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    @re_event(r"^network/")
+    # @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -143,7 +143,7 @@ class DebugPlugin(PluginBase):
     def actor_control_target_icon(self, evt):
         self.logger(evt.id, evt.target_name, evt.struct_message.param1, evt.icon_id)
 
-    # @event('network/zone/server/actor_control/tether')
+    @event('network/zone/server/actor_control/tether')
     def actor_control_tether(self, evt):
         target = f"target:{evt.target_name}({evt.target_id:x}) {evt.target_actor.pos.x:.1f} {evt.target_actor.pos.y:.1f} {evt.target_actor.pos.z:.1f}"
         source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"

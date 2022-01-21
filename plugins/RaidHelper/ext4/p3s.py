@@ -1,3 +1,4 @@
+import operator
 from typing import TYPE_CHECKING
 from threading import Lock
 from FFxivPythonTrigger import plugins
@@ -64,3 +65,20 @@ def who_attack_phoinix(output, e: 'ActionEffectEvent') -> None:
         t.type == 'battle_npc' and t.name == "Phoinix" for t in e.target_actors.values()
     ):
         output(f"{e.source_actor.name} use {e.action_name} on Phoinix", in_game_output=2)
+
+
+@p3s('浮游炮放置瞬移', 'network/zone/server/actor_control/target_icon')
+def p3s_target_icon(output, e: 'TargetIconEvent') -> None:
+    if 296 <= e.icon_id <= 299:
+        op = operator.sub if e.target_actor.effects.has(2762) else operator.add
+        t_x, t_y = 100, 100
+        match e.icon_id:
+            case 296:
+                t_x = op(t_x, 10)
+            case 297:
+                t_x = op(t_x, -10)
+            case 298:
+                t_y = op(t_y, 10)
+            case 299:
+                t_y = op(t_y, -10)
+        plugins.XivMemory.coordinate.set(t_x, t_y, plugins.XivMemory.coordinate.z)
