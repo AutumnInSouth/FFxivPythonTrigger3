@@ -59,4 +59,4 @@ def sge_euk(me):
     return 24283 if me.effects.has(2606) else 24290
 
 
-combos = [whm, sch, ast, sge_gcd, sge_euk]
+combos = [whm, sch, ast, ast_focus, sge_gcd, sge_euk]
