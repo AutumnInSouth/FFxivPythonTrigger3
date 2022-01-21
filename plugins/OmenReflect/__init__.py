@@ -81,8 +81,8 @@ class OmenReflect(PluginBase):
 
         self.log_record = set()
 
-    def start(self):
-        for row in action_sheet: self._get_action_data(row.key)[0].omen = reflect_data.get(row.key) or row['Omen'].key
+    # def start(self):
+    #     for row in action_sheet: self._get_action_data(row.key)[0].omen = reflect_data.get(row.key) or row['Omen'].key
 
     def onunload(self):
         for row in action_sheet: self._get_action_data(row.key)[0].omen = row['Omen'].key
@@ -114,7 +114,7 @@ class OmenReflect(PluginBase):
             display_delay = display_delay / delay_p
         return hook.original(source_actor_ptr, skill_type, action_id, pos_ptr, facing_float, display_delay)
 
-    enable_record = BindValue(default=False,auto_save=True)
+    enable_record = BindValue(default=False, auto_save=True)
 
     @event('network/zone/server/actor_cast')
     def on_cast(self, evt: 'ServerActorCastEvent'):
@@ -155,3 +155,12 @@ class OmenReflect(PluginBase):
 
     def layout_get_action_data(self, action_id):
         return action_data(action_id)
+
+    @BindValue.decorator(default=True, init_set=True, auto_save=True)
+    def show_player_skill_omen(self, new_val, old_val):
+        for row in action_sheet:
+            if new_val or not row['IsPlayerAction']:
+                self._get_action_data(row.key)[0].omen = reflect_data.get(row.key) or row['Omen'].key
+            else:
+                self._get_action_data(row.key)[0].omen = row['Omen'].key
+        return True

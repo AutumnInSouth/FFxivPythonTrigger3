@@ -172,6 +172,11 @@ module.exports = vue.defineComponent({
 <el-container class="OmenReflect">
     <el-header>   
         <el-form :inline="true">
+            <el-form-item label="show_player_skill_omen">
+                <fpt-bind-item attr="show_player_skill_omen" :plugin="plugin" v-slot="{value}">
+                    <el-switch v-model="value.value"/>
+                </fpt-bind-item>
+            </el-form-item>
             <el-form-item label="enable">
                 <fpt-bind-item attr="enable_record" :plugin="plugin" v-slot="{value}">
                     <el-switch v-model="value.value"/>
