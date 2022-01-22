@@ -4,6 +4,7 @@ from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.saint_coinach import action_names, realm
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.text_pattern import search_from_text,find_signature_point
 from FFxivPythonTrigger.utils import err_catch
 from XivMemory import se_string
 from OmenReflect.utils import action_struct
@@ -36,12 +37,16 @@ class TestHook(PluginBase):
         super().__init__()
         self.cnt = 0
         self.d = set()
-        self.sub_1405D5A30(self, BASE_ADDR + 0x5D5A30)
+        # self.sub_1405D5A30(self, BASE_ADDR + 0x5D5A30)
         # self.omen_create(self, BASE_ADDR + 0x6FF1C0)
         # self.action_recast(self, BASE_ADDR + 0x07DE990)
         # self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
         # self.sub_140A41260(self, BASE_ADDR + 0xA41260)
         # self.set_omen_create(self, BASE_ADDR + 0x6F9C60)
+
+        for offset, _ in search_from_text("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
+            self.is_key_trigger(self, offset + BASE_ADDR)
+        self.facing_hook(self, BASE_ADDR + find_signature_point("E8 * * * * 80 3D ? ? ? ? ? 0F 28 F0"))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
@@ -100,3 +105,19 @@ class TestHook(PluginBase):
         res = hook.original(a1, a2)
         self.logger(f"{res:x} {a1:x} {a2:b}")
         return res
+
+    """char __fastcall sub_1404BC6B0(__int64 a1, int a2)"""
+
+    @PluginHook.decorator(c_bool, [c_int64, c_uint], True)
+    def is_key_trigger(self, hook, a1, a2):
+        if a2 == 321:
+            return True
+        return hook.original(a1, a2)
+
+    """float __fastcall sub_14115B800(__int64 a1)"""
+
+    @PluginHook.decorator(c_float, [c_int64], True)
+    def facing_hook(self, hook, a1):
+        self.logger(f"{a1:x}")
+        hook.uninstall()
+        return hook.original(a1)
