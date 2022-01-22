@@ -37,14 +37,15 @@ class TerritoryType(XivRow):
     def weather_rate(self):
         if self._weather_rate is not None:
             return self._weather_rate
-        if self._weather_groups is None:
-            self._weather_groups = self._build_weather_groups()
 
         rate_key = self.as_int32('WeatherRate')
-        self._weather_rate = self._weather_groups.get(rate_key)
-        if self._weather_rate is None:
+        try:
             self._weather_rate = self.sheet.collection.get_sheet('WeatherRate')[rate_key]
-        return self._weather_rate
+            return self._weather_rate
+        except KeyError:
+            # Weather Groups appear to be deprecated.
+            # Just throw an error
+            raise
 
     def __init__(self, sheet: IXivSheet, source_row: IRelationalRow):
         super(TerritoryType, self).__init__(sheet, source_row)
