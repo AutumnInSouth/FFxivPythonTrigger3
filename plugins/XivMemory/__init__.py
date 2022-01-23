@@ -19,6 +19,7 @@ from .struct.party import PartyList
 from .struct.player_info import Player
 from .struct.coordinate import Coordinate
 from .struct.buddy import Buddy
+from .struct.fate import FateManager
 from .hook import ValueBindHook
 from .hook.mo_ui_entity import MoUiEntityHook
 from .hook.chat_log import ChatLogHook
@@ -72,6 +73,7 @@ class XivMemory(PluginBase):
         self.pvp_action = read_memory(PvpAction, self._address['pvp_action'])
         self.markings = read_memory(Markings, self._address['markings'])
         self.buddy = read_memory(Buddy, self._address['buddy_list'])
+        self._fate = read_memory(POINTER(FateManager), self._address['fate_manager'])
         self.coordinate = Coordinate(self._address)
         self.value_bind_hooks = {
             # 'world_id': WorldIdHook(self, self._address["world_id_hook"]),
@@ -110,6 +112,10 @@ class XivMemory(PluginBase):
     @property
     def enemies(self) -> Enemies:
         return self._enemies.value
+
+    @property
+    def fate(self) -> FateManager:
+        return self._fate[0] if self._fate else None
 
     @property
     def gauge(self):
@@ -182,4 +188,4 @@ class XivMemory(PluginBase):
     def __getattr__(self, item):
         if item in self.value_bind_hooks:
             return self.value_bind_hooks[item].value
-        raise AttributeError
+        raise AttributeError(f"{item} not found")

@@ -191,7 +191,12 @@ sigs = {
         'kwargs': {
             'unique': False,
         }
-    }
+    },
+    'fate_manager': {
+        'call': find_signature_point,
+        'param': '48 8B 15 * * * * 48 8B F9 44 0F B7 41',
+        'add': BASE_ADDR,
+    },
 }
 
 enemies_shifts = [0x30, 0x58, 0x98, 0x20, 0x14]
