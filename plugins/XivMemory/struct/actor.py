@@ -82,6 +82,7 @@ if game_ext == 3:
         'level': (c_ubyte, 0x1e3),
         'pc_target_id': (c_uint, 0x1f0),
         'pc_target_id_2': (c_uint, 0x230),
+        'mount_id': (c_uint, 0xEC8),
         'npc_target_id': (c_uint, 0x1818),
         'b_npc_target_id': (c_uint, 0x18d8),
         'current_world': (c_ushort, 0x195c),
@@ -126,6 +127,7 @@ else:
         'level': (c_ubyte, 0x1e1),
         'pc_target_id': (c_uint, 0x1f0),
         'pc_target_id_2': (c_uint, 0x230),
+        'mount_id': (c_ushort, 0xC38),
         'npc_target_id': (c_uint, 0x1818),
         'omen_ptr': (c_ulonglong, 0x1870),
         'b_npc_target_id': (c_uint, 0x18d8),
@@ -186,6 +188,7 @@ class Actor(OffsetStruct(_actor_struct)):
     casting_target_id: int
     casting_progress: float
     casting_time: float
+    mount_id: int
 
     def __hash__(self):
         return self.id | self.b_npc_id
