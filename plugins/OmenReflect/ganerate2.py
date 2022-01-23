@@ -92,7 +92,7 @@ with open('reflect.py', 'w', encoding='utf-8') as f:
     for k, v in d.items():
         a = action_sheet[k]
         o = omen_sheet[v]
-        f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']}/{a['EffectRange']}/{a['XAxisModifier']}/{a['Cast<100ms>']/100}s |"
+        f.write(f"    {k}: {v},  # {name(k)} | {a['CastType']}/{a['EffectRange']}/{a['XAxisModifier']}/{a['Cast<100ms>']/10}s |"
                 f" {a['Animation{End}']} => {o['Path']} \n")
     f.write("}\n")
 
