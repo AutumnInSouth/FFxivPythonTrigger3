@@ -1,6 +1,9 @@
 from ctypes import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
+from FFxivPythonTrigger.saint_coinach import realm
 from ..utils import NetworkZoneServerEvent, BaseProcessors
+
+fate_sheet = realm.game_data.get_sheet('Fate')
 
 
 class ServerActorControlSelf(OffsetStruct({
@@ -59,14 +62,16 @@ class FateInitiEvent(ActorControlSelfEvent):
     def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.fate_id = struct_message.param1
-         # 应该是血量倍数, 因为fate出现时,周围人多时数值是7,人少时是2,同时怪的血量也有所变化
+        # 应该是血量倍数, 因为fate出现时,周围人多时数值是7,人少时是2,同时怪的血量也有所变化
         self.health_multiple = struct_message.param2
+        self.fate = fate_sheet[self.fate_id]
 
     def text(self):
-        return f"fate init | fate_id:{self.fate_id} | health_multiple: {self.health_multiple}"
+        return f"fate {self.fate['Name'] or self.fate_id} init with health_multiple {self.health_multiple}"
 
     def str_event(self):
-        return f"network_actor_fate_init|{self.fate_id}|{self.health_multiple}"
+        return f"network_actor_control_fate_init|{self.fate_id}|{self.fate['Name']}|{self.health_multiple}|{self.struct_message.param3}|" \
+               f"{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
 
 
 class FateStartEvent(ActorControlSelfEvent):
@@ -75,12 +80,14 @@ class FateStartEvent(ActorControlSelfEvent):
     def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.fate_id = struct_message.param1
+        self.fate = fate_sheet[self.fate_id]
 
     def text(self):
-        return f"fate start | fate_id:{self.fate_id}"
+        return f"fate {self.fate['Name'] or self.fate_id} start"
 
     def str_event(self):
-        return f"network_actor_fate_start|{self.fate_id}"
+        return f"network_actor_control_fate_start|{self.fate_id}|{self.fate['Name']}|{self.struct_message.param2}|" \
+               f"{self.struct_message.param3}|{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
 
 
 class FateProgressEvent(ActorControlSelfEvent):
@@ -90,16 +97,14 @@ class FateProgressEvent(ActorControlSelfEvent):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.fate_id = struct_message.param1
         self.progress = struct_message.param2
-        self.unk_1 = struct_message.param3
-        self.unk_2 = struct_message.param4
-        self.unk_3 = struct_message.param5
-        self.unk_4 = struct_message.param6
+        self.fate = fate_sheet[self.fate_id]
 
     def text(self):
-        return f"fate progress | fate_id:{self.fate_id} | progress:{self.progress} | unks: {self.unk_1} {self.unk_2} {self.unk_3} {self.unk_4}"
+        return f"fate {self.fate['Name'] or self.fate_id} set progress {self.progress}"
 
     def str_event(self):
-        return f"network_actor_fate_progress|{self.fate_id}|{self.progress}"
+        return f"network_actor_fate_progress|{self.fate_id}|{self.fate['Name']}|{self.progress}|{self.struct_message.param3}|" \
+               f"{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
 
 
 class FateEndEvent(ActorControlSelfEvent):
@@ -108,12 +113,14 @@ class FateEndEvent(ActorControlSelfEvent):
     def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         super().__init__(bundle_header, message_header, raw_message, struct_message)
         self.fate_id = struct_message.param1
+        self.fate = fate_sheet[self.fate_id]
 
     def text(self):
-        return f"fate end | fate_id:{self.fate_id}"
+        return f"fate {self.fate['Name'] or self.fate_id} end"
 
     def str_event(self):
-        return f"network_actor_fate_end|{self.fate_id}"
+        return f"network_actor_fate_end|{self.fate_id}|{self.fate['Name']}|{self.struct_message.param2}|" \
+               f"{self.struct_message.param3}|{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
 
 
 class DirectorUpdateEvent(ActorControlSelfEvent):
@@ -172,6 +179,14 @@ director_update_map = {
     0x40000003: VictoryEvent,
 }
 
+actor_control_self_map = {
+    505: LimitBreakEvent,
+    2353: FateInitiEvent,
+    2357: FateStartEvent,
+    2358: FateEndEvent,
+    2366: FateProgressEvent,
+}
+
 
 class ActorControlSelf(BaseProcessors):
     opcode = "ActorControlSelf"
@@ -182,16 +197,6 @@ class ActorControlSelf(BaseProcessors):
         match struct_message.category:
             case 109:
                 evt = director_update_map.get(struct_message.param2, UnknownDirectorUpdateEvent)
-            case 505:
-                evt = LimitBreakEvent
-            case 2353:
-                evt = FateInitiEvent
-            case 2357:
-                evt = FateStartEvent
-            case 2358:
-                evt = FateEndEvent
-            case 2366:
-                evt = FateProgressEvent
-            case _:
-                evt = UnknownActorControlSelfEvent
+            case c:
+                evt = actor_control_self_map.get(c, UnknownActorControlSelfEvent)
         return evt(bundle_header, message_header, raw_message, struct_message)
