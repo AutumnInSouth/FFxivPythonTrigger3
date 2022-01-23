@@ -36,6 +36,7 @@ class DebugPlugin(PluginBase):
             "network/undefined/zone/server/ActorMove",
             "network/zone/server/actor_update_hp_mp_tp",
             "network/zone/server/actor_control_self/unk_143",
+            "network/zone/server/actor_control_self/fate_progress",
             # "network/unknown/zone/server/728",
             "network/zone/server/status_effect_list",
         ]: return

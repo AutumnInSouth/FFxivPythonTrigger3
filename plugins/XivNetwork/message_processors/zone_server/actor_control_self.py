@@ -1,4 +1,5 @@
 from ctypes import *
+import struct
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
@@ -51,6 +52,69 @@ class LimitBreakEvent(ActorControlSelfEvent):
 
     def str_event(self):
         return f"network_actor_limit_break|{self.param}"
+
+
+class FateInitiEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'fate_init'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.fate_id = struct_message.param1
+         # 应该是血量倍数, 因为fate出现时,周围人多时数值是7,人少时是2,同时怪的血量也有所变化
+        self.health_multiple = struct_message.param2
+
+    def text(self):
+        return f"fate init | fate_id:{self.fate_id} | health_multiple: {self.health_multiple}"
+
+    def str_event(self):
+        return f"network_actor_fate_init|{self.fate_id}|{self.health_multiple}"
+
+
+class FateStartEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'fate_start'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.fate_id = struct_message.param1
+
+    def text(self):
+        return f"fate start | fate_id:{self.fate_id}"
+
+    def str_event(self):
+        return f"network_actor_fate_start|{self.fate_id}"
+
+
+class FateProgressEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'fate_progress'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.fate_id = struct_message.param1
+        self.progress = struct_message.param2
+        self.unk_1 = struct_message.param3
+        self.unk_2 = struct_message.param4
+        self.unk_3 = struct_message.param5
+        self.unk_4 = struct_message.param6
+
+    def text(self):
+        return f"fate progress | fate_id:{self.fate_id} | progress:{self.progress} | unks: {self.unk_1} {self.unk_2} {self.unk_3} {self.unk_4}"
+
+    def str_event(self):
+        return f"network_actor_fate_progress|{self.fate_id}|{self.progress}"
+
+
+class FateEndEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + 'fate_end'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.fate_id = struct_message.param1
+
+    def text(self):
+        return f"fate end | fate_id:{self.fate_id}"
+
+    def str_event(self):
+        return f"network_actor_fate_end|{self.fate_id}"
 
 
 class DirectorUpdateEvent(ActorControlSelfEvent):
@@ -121,6 +185,14 @@ class ActorControlSelf(BaseProcessors):
                 evt = director_update_map.get(struct_message.param2, UnknownDirectorUpdateEvent)
             case 505:
                 evt = LimitBreakEvent
+            case 2353:
+                evt = FateInitiEvent
+            case 2357:
+                evt = FateStartEvent
+            case 2358:
+                evt = FateEndEvent
+            case 2366:
+                evt = FateProgressEvent
             case _:
                 evt = UnknownActorControlSelfEvent
         return evt(bundle_header, message_header, raw_message, struct_message)
