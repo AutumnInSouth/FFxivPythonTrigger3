@@ -1,5 +1,4 @@
 from ctypes import *
-import struct
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
