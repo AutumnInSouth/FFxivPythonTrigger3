@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebChat</title>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
+    <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+    <style>
+        @font-face {
+            font-family: "xivFont";
+            src: url(https://y2.orztech.com/ffxiv-text-assets/fnt/FFXIV_Lodestone_SSF.ttf) format("truetype");
+        }
+
+        body {
+            font-family: "xivFont", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 160px);
+            max-height: calc(100vh - 160px);
+            overflow-y: scroll
+        }
+
+        .chat-message-left,
+        .chat-message-right {
+            display: flex;
+            flex-shrink: 0
+        }
+
+        .chat-message-left {
+            margin-right: auto
+        }
+
+        .chat-message-right {
+            flex-direction: row-reverse;
+            margin-left: auto
+        }
+
+        .border-top {
+            border-top: 1px solid #dee2e6 !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="container p-0">
+    <div class="py-2 px-4 border-bottom d-lg-block">
+        <div class="d-flex align-items-center py-1">
+            <div class="flex-grow-1 pl-3">
+                <b-form-select v-model="send.channel">
+                    <b-form-select-option v-for="(_,k) in send_channels" :value="k">{{chat_channels[k]}}</b-form-select-option>
+                </b-form-select>
+            </div>
+            <div>
+                <b-button size="lg" variant="outline-secondary">
+                    <b-icon icon="three-dots"></b-icon>
+                </b-button>
+            </div>
+        </div>
+    </div>
+
+    <div ref="chat_messages" class="chat-messages p-4">
+        <div v-for="msg in shown_messages" :class="msg.sender?'chat-message-left pb-4':'chat-message-right pb-4'">
+            <div>
+                <b-img blank blank-color="#666" width="50" height="50" class="m1" rounded="circle" alt="Circle image"></b-img>
+                <div class="text-muted small text-nowrap mt-2" style="text-align: center">{{channel_name(msg.channel)}}</div>
+
+            </div>
+            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3" style="white-space: pre-line">
+                <div class="font-weight-bold text-muted">{{msg.sender || 'you'}}</div>
+                {{msg.msg}}
+                <div class="text-muted small" style="text-align: right">时间戳</div>
+            </div>
+        </div>
+    </div>
+    <b-form @submit="do_send" class="py-3 px-4 border-top">
+        <b-input-group>
+            <b-form-input v-model="send.msg"></b-form-input>
+            <b-input-group-append>
+                <b-button type="submit" variant="primary">
+                    <b-icon icon="chevron-double-right"></b-icon>
+                </b-button>
+            </b-input-group-append>
+        </b-input-group>
+    </b-form>
+</div>
+<script>
+
+    ws = new WebSocket(`ws://${window.location.host}/ws`);
+    chat_channels = {
+        0: "-",
+        1: "调试",
+        2: "紧急",
+        3: "公告",
+        10: "说话",
+        11: "shout",
+        12: "tell_outgoing",
+        13: "tell_incoming",
+        14: "party",
+        15: "alliance",
+        16: "通讯贝1",
+        17: "通讯贝2",
+        18: "通讯贝3",
+        19: "通讯贝4",
+        20: "通讯贝5",
+        21: "通讯贝6",
+        22: "通讯贝7",
+        23: "通讯贝8",
+        24: "部队",
+        27: "新人",
+        28: "情感",
+        29: "情感",
+        30: "yell",
+        32: "cross_party",
+        36: "pvp_team",
+        37: "跨服贝1",
+        56: "默语",
+        58: "system_error",
+        57: "system_message",
+        59: "gathering_system_message",
+        60: "error_message",
+        71: "retainer_sale",
+        101: "跨服贝2",
+        102: "跨服贝3",
+        103: "跨服贝4",
+        104: "跨服贝5",
+        105: "跨服贝6",
+        106: "跨服贝7",
+        107: "跨服贝8",
+    }
+    send_channels = {
+        56: '/e ',
+        10: '/s ',
+        11: '/sh ',
+        14: '/p ',
+        15: '/a ',
+        24: '/fc ',
+        27: '/b ',
+        30: '/y ',
+        16: '/l1 ',
+        17: '/l2 ',
+        18: '/l3 ',
+        19: '/l4 ',
+        20: '/l5 ',
+        21: '/l6 ',
+        22: '/l7 ',
+        23: '/l8 ',
+        37: '/cwl1 ',
+        101: '/cwl2 ',
+        102: '/cwl3 ',
+        103: '/cwl4 ',
+        104: '/cwl5 ',
+        105: '/cwl6 ',
+        106: '/cwl7 ',
+        107: '/cwl8 ',
+    }
+    channel_name = (channel) => channel in chat_channels ? chat_channels[channel] : channel;
+    max_msg_count = 500;
+    kill_msg_count = 100;
+    new Vue({
+        el: '#app',
+        data() {
+            t = (new Date()).getTime() / 1000
+            return {
+                send: {
+                    channel: 56,
+                    msg: "",
+                },
+                groups: {
+                    'name1': [],
+                    'name2': [],
+                    'name3': [],
+                },
+                shown_messages: []
+            }
+        },
+        mounted() {
+            ws.onmessage = (e) => {
+                data = JSON.parse(e.data)
+                last_msg = this.shown_messages[this.shown_messages.length - 1]
+                if (last_msg && last_msg.sender === data.sender && last_msg.channel === data.channel) {
+                    last_msg.msg += '\n' + data.msg
+                    last_msg.epoch = data.epoch
+                } else {
+                    this.shown_messages.push(data)
+                    if (this.shown_messages.length > max_msg_count) {
+                        this.shown_messages.splice(0, kill_msg_count)
+                    }
+                }
+                this.$nextTick(() => {
+                    this.$refs.chat_messages.scrollTop = this.$refs.chat_messages.scrollHeight
+                })
+            }
+        },
+        methods: {
+            do_send(evt) {
+                evt.preventDefault()
+                msg = this.send.msg
+                if(!msg) return
+                if(!msg.startsWith('/'))msg = send_channels[this.send.channel] + msg
+                ws.send(msg)
+                this.send.msg = ''
+            }
+        }
+    });
+</script>
+</body>
+</html>

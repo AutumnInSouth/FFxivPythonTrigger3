@@ -272,7 +272,8 @@ class XivCombat(PluginBase):
             # 判断是否执行
             me = api.get_me_actor()
             if (me is None or not me.current_hp or  # 不存在角色、角色已经死亡
-                    me.casting_time - me.casting_progress > 0.2  # 正在咏唱
+                    me.casting_time - me.casting_progress > 0.2 or  # 正在咏唱
+                    me.mount_id  # 有坐骑
             ):
                 return default_period
             if not api.skill_queue_is_empty():
@@ -402,7 +403,7 @@ class XivCombat(PluginBase):
             getattr(self.get_monitor_with_check(occur_time), func)(occur_time, evt)
 
         @event('network/zone/server/actor_control/target_icon')
-        def actor_control_target_icon(self, evt:'TargetIconEvent'):
+        def actor_control_target_icon(self, evt: 'TargetIconEvent'):
             if self.enable_record:
                 self.record(int(evt.bundle_header.epoch), evt.target_id, evt.target_name, evt.str_event())
 
