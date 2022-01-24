@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>WebChat</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
     <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
@@ -80,7 +80,7 @@
     </div>
     <b-form @submit="do_send" class="py-3 px-4 border-top">
         <b-input-group>
-            <b-form-input v-model="send.msg"></b-form-input>
+            <b-form-input autocomplete="off" v-model="send.msg"></b-form-input>
             <b-input-group-append>
                 <b-button type="submit" variant="primary">
                     <b-icon icon="chevron-double-right"></b-icon>
