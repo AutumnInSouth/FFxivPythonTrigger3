@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>WebChat</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
     <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
@@ -12,11 +12,18 @@
     <style>
         @font-face {
             font-family: "xivFont";
-            src: url(https://y2.orztech.com/ffxiv-text-assets/fnt/FFXIV_Lodestone_SSF.ttf) format("truetype");
+            src: url(./FFXIV_Lodestone_SSF.ttf) format("truetype");
+            unicode-range: U+E020-E0DB;
         }
 
         body {
             font-family: "xivFont", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        }
+
+        i.seicon {
+            display: inline-block;
+            background-image: url(./fonticon_ps5.tex.png);
+            vertical-align: bottom;
         }
 
         .chat-messages {
@@ -41,23 +48,24 @@
             flex-direction: row-reverse;
             margin-left: auto
         }
-
-        .border-top {
-            border-top: 1px solid #dee2e6 !important;
-        }
     </style>
 </head>
 <body>
 <div id="app" class="container p-0">
+    <b-modal id="channel-filter" hide-header hide-footer>
+        <b-form-checkbox-group size="lg" v-model="selected_channel">
+            <b-form-checkbox v-for="(n,k) in chat_channels" :value="parseInt(k)">
+                {{n}}
+            </b-form-checkbox>
+        </b-form-checkbox-group>
+    </b-modal>
     <div class="py-2 px-4 border-bottom d-lg-block">
         <div class="d-flex align-items-center py-1">
             <div class="flex-grow-1 pl-3">
-                <b-form-select v-model="send.channel">
-                    <b-form-select-option v-for="(_,k) in send_channels" :value="k">{{chat_channels[k]}}</b-form-select-option>
-                </b-form-select>
+                {{chat_channels[send.channel]}}
             </div>
             <div>
-                <b-button size="lg" variant="outline-secondary">
+                <b-button v-b-modal.channel-filter size="lg" variant="outline-secondary">
                     <b-icon icon="three-dots"></b-icon>
                 </b-button>
             </div>
@@ -68,18 +76,31 @@
         <div v-for="msg in shown_messages" :class="msg.sender?'chat-message-left pb-4':'chat-message-right pb-4'">
             <div>
                 <b-img blank blank-color="#666" width="50" height="50" class="m1" rounded="circle" alt="Circle image"></b-img>
-                <div class="text-muted small text-nowrap mt-2" style="text-align: center">{{channel_name(msg.channel)}}</div>
-
+                <div class="text-muted small text-nowrap mt-2" style="text-align: center">
+                    <b-btn v-if="msg.channel in send_channels" @click="send.channel = msg.channel" variant="link">
+                        {{channel_name(msg.channel)}}
+                    </b-btn>
+                    <a v-else>{{channel_name(msg.channel)}}</a>
+                </div>
             </div>
             <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3" style="white-space: pre-line">
-                <div class="font-weight-bold text-muted">{{msg.sender || 'you'}}</div>
-                {{msg.msg}}
-                <div class="text-muted small" style="text-align: right">时间戳</div>
+                <div class="font-weight-bold text-muted">
+                    <sestring v-if="msg.sender" :msg="msg.sender"></sestring>
+                    <a v-else>you</a>
+                </div>
+                <sestring :msg="msg.msg"></sestring>
+                <div class="text-muted small" style="text-align: right">{{date_fmt(msg.epoch)}}</div>
             </div>
         </div>
     </div>
     <b-form @submit="do_send" class="py-3 px-4 border-top">
         <b-input-group>
+            <b-input-group-prepend>
+                <b-form-select v-model="send.channel">
+                    <b-form-select-option v-for="(_,k) in send_channels" :value="k">{{chat_channels[k]}}</b-form-select-option>
+                </b-form-select>
+            </b-input-group-prepend>
+
             <b-form-input autocomplete="off" v-model="send.msg"></b-form-input>
             <b-input-group-append>
                 <b-button type="submit" variant="primary">
@@ -90,8 +111,122 @@
     </b-form>
 </div>
 <script>
+    GFData = new Map();
+    GFData.set(0x0001, [0x0000, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0002, [0x0014, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0003, [0x0028, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0004, [0x003C, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0005, [0x0050, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0006, [0x0000, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0007, [0x0014, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0008, [0x0028, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0009, [0x003C, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000A, [0x0050, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000B, [0x0000, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000C, [0x0014, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000D, [0x0028, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000E, [0x003C, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x000F, [0x0050, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0010, [0x003C, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0011, [0x0050, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0012, [0x0000, 0x003C, 0x0036, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0013, [0x0036, 0x003C, 0x0036, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0014, [0x003C, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0015, [0x0000, 0x0050, 0x001C, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0016, [0x001C, 0x0050, 0x0020, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0017, [0x0050, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0018, [0x0000, 0x0064, 0x001C, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0019, [0x001C, 0x0064, 0x0020, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x001A, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000]);
+    GFData.set(0x001B, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0002, 0x0000]);
+    GFData.set(0x001C, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0003, 0x0000]);
+    GFData.set(0x001D, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0004, 0x0000]);
+    GFData.set(0x001E, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0005, 0x0000]);
+    GFData.set(0x001F, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0006, 0x0000]);
+    GFData.set(0x0020, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0007, 0x0000]);
+    GFData.set(0x0021, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0008, 0x0000]);
+    GFData.set(0x0022, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0009, 0x0000]);
+    GFData.set(0x0023, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000A, 0x0000]);
+    GFData.set(0x0024, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000B, 0x0000]);
+    GFData.set(0x0025, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000C, 0x0000]);
+    GFData.set(0x0026, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000D, 0x0000]);
+    GFData.set(0x0027, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000E, 0x0000]);
+    GFData.set(0x0028, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x000F, 0x0000]);
+    GFData.set(0x0029, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0010, 0x0000]);
+    GFData.set(0x002A, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0011, 0x0000]);
+    GFData.set(0x002B, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0012, 0x0000]);
+    GFData.set(0x002C, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0013, 0x0000]);
+    GFData.set(0x002D, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0014, 0x0000]);
+    GFData.set(0x002E, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0015, 0x0000]);
+    GFData.set(0x002F, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0016, 0x0000]);
+    GFData.set(0x0030, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0017, 0x0000]);
+    GFData.set(0x0031, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0018, 0x0000]);
+    GFData.set(0x0032, [0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0019, 0x0000]);
+    GFData.set(0x0033, [0x007C, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0034, [0x0090, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0035, [0x00A4, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0036, [0x0064, 0x0000, 0x000C, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0037, [0x0070, 0x0000, 0x000C, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0038, [0x0064, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0039, [0x0078, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003A, [0x008C, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003B, [0x0064, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003C, [0x0078, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003D, [0x008C, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003E, [0x00A0, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x003F, [0x00A0, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0040, [0x00B8, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0041, [0x00CC, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0042, [0x00E0, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0043, [0x00B4, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0044, [0x00C8, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0045, [0x00EC, 0x00EC, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0046, [0x00B4, 0x0028, 0x0014, 0x0014, 0xFCFC, 0x0000, 0x0000]);
+    GFData.set(0x0047, [0x00C8, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0048, [0x00DC, 0x0028, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0049, [0x00DC, 0x0014, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004A, [0x006C, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004B, [0x0080, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004C, [0x0094, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004D, [0x00A8, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004E, [0x00BC, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x004F, [0x00D0, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0050, [0x00E4, 0x003C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0051, [0x0064, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0052, [0x0078, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0053, [0x008C, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0054, [0x00A0, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0055, [0x00B4, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0056, [0x00C8, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0057, [0x00DC, 0x0050, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0058, [0x0064, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0059, [0x0078, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005A, [0x008C, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005B, [0x00A0, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005C, [0x00B4, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005D, [0x00C8, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005E, [0x00DC, 0x0064, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x005F, [0x0000, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0060, [0x0014, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0061, [0x0028, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0062, [0x003C, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0063, [0x0050, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0064, [0x0064, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0065, [0x0078, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0066, [0x008C, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0067, [0x00A0, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0068, [0x00B4, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0069, [0x00C8, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006A, [0x00DC, 0x0078, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006B, [0x0000, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006C, [0x0014, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006D, [0x0028, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006E, [0x003C, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x006F, [0x0050, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
+    GFData.set(0x0070, [0x0064, 0x008C, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
 
-    ws = new WebSocket(`ws://${window.location.host}/ws`);
+</script>
+<script>
     chat_channels = {
         0: "-",
         1: "调试",
@@ -132,7 +267,7 @@
         105: "跨服贝6",
         106: "跨服贝7",
         107: "跨服贝8",
-    }
+    };
     send_channels = {
         56: '/e ',
         10: '/s ',
@@ -158,11 +293,57 @@
         105: '/cwl6 ',
         106: '/cwl7 ',
         107: '/cwl8 ',
-    }
+    };
     channel_name = (channel) => channel in chat_channels ? chat_channels[channel] : channel;
     max_msg_count = 500;
     kill_msg_count = 100;
-    new Vue({
+    rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize)
+
+    seicon = Vue.component('seicon', {
+        props: ['data', 'lineheight'],
+        template: '<i class="seicon" :style="icon_style()"></i>',
+        methods: {
+            icon_style() {
+                row = GFData.get(this.data)
+                if (!row) return {}
+                const data = [row[0] * 2, 340 + row[1] * 2, row[2] * 2, row[3] * 2, row[4] * 2, row[5] * 2, row[6] * 2];
+                const ratio = (this.lineheight == null ? rem() * 1.5 : this.lineheight) / data[3];
+                return {
+                    backgroundPositionX: -data[0] * ratio + 'px',
+                    backgroundPositionY: -data[1] * ratio + 'px',
+                    width: data[2] * ratio + 'px',
+                    height: data[2] * ratio + 'px',
+                    backgroundSize: 512 * ratio + 'px',
+                }
+            }
+        }
+    })
+    setext = Vue.component('setext', {
+        props: ['data'],
+        template: '<a>{{data}}</a>'
+    })
+    msg_equal = (src, dst) => {
+        if (src === dst) return true
+        if (src === null || dst === null) return false
+        if (src.length !== dst.length) return false
+        for (i = 0; i < src.length; i++) if (src[i].type !== dst[i].type || src[i].data !== dst[i].data) return false
+        return true
+    }
+
+    Vue.component('sestring', {
+        props: ['msg'],
+        template: `<a>
+        <component v-for="(v,k) in msg" :is="type_to_comp(v.type)" :key="k" :data="v.data"/>
+        </a>`,
+        methods: {
+            type_to_comp: (type) => {
+                if (type === 'icon') return seicon
+                return setext
+            }
+        },
+    });
+
+    vm = new Vue({
         el: '#app',
         data() {
             t = (new Date()).getTime() / 1000
@@ -171,43 +352,78 @@
                     channel: 56,
                     msg: "",
                 },
-                groups: {
-                    'name1': [],
-                    'name2': [],
-                    'name3': [],
-                },
-                shown_messages: []
+                selected_channel: [],
+                shown_messages: [],
             }
         },
         mounted() {
-            ws.onmessage = (e) => {
-                data = JSON.parse(e.data)
-                last_msg = this.shown_messages[this.shown_messages.length - 1]
-                if (last_msg && last_msg.sender === data.sender && last_msg.channel === data.channel) {
-                    last_msg.msg += '\n' + data.msg
-                    last_msg.epoch = data.epoch
+            selected = localStorage.getItem('selected_channel')
+            if (selected) this.selected_channel = JSON.parse(selected)
+            else this.selected_channel = [
+                0, 1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+                24, 27, 28, 29, 30, 32, 36, 37, 56, 58, 57, 59, 60, 71, 101, 102,
+                103, 104, 105, 106, 107
+            ]
+
+            this.$watch('selected_channel', (new_val) => {
+                localStorage.setItem('selected_channel', JSON.stringify(new_val))
+            }, {deep: true})
+        },
+        methods: {
+            on_message(e) {
+                data = JSON.parse(e.data);
+                if (!this.selected_channel.includes(data.channel)) return;
+                last_msg = this.shown_messages[this.shown_messages.length - 1];
+                if (last_msg && msg_equal(last_msg.sender, data.sender) && last_msg.channel === data.channel) {
+                    last_msg.msg = last_msg.msg.concat([{
+                        type: 'text',
+                        data: '\n',
+                    }].concat(data.msg));
+                    last_msg.epoch = data.epoch;
                 } else {
                     this.shown_messages.push(data)
                     if (this.shown_messages.length > max_msg_count) {
-                        this.shown_messages.splice(0, kill_msg_count)
+                        this.shown_messages = this.shown_messages.splice(kill_msg_count)
                     }
                 }
                 this.$nextTick(() => {
                     this.$refs.chat_messages.scrollTop = this.$refs.chat_messages.scrollHeight
                 })
-            }
-        },
-        methods: {
+            },
             do_send(evt) {
                 evt.preventDefault()
                 msg = this.send.msg
-                if(!msg) return
-                if(!msg.startsWith('/'))msg = send_channels[this.send.channel] + msg
+                if (!msg) return
+                if (!msg.startsWith('/')) msg = send_channels[this.send.channel] + msg
                 ws.send(msg)
                 this.send.msg = ''
-            }
+            },
+            date_fmt(epoch) {
+                date = new Date(epoch * 1000)
+                hour = date.getHours()
+                return `${hour % 12}:${date.getMinutes()}:${date.getSeconds()} ${hour < 12 ? 'AM' : 'PM'}`
+            },
         }
     });
+
+    ws_init = () => {
+        ws = new WebSocket(`ws://${window.location.host}/ws`);
+        ws.onopen = () => {
+            console.log("Connected to server");
+        }
+        ws.onmessage = vm.on_message
+        ws.onclose = (e) => {
+            console.log('ws closed', e)
+            setTimeout(() => {
+                console.log('reconnecting...');
+                ws_init();
+            }, 3000)
+        }
+    }
+
+    ws_init()
+
+
 </script>
 </body>
 </html>

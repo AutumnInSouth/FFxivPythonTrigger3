@@ -5,11 +5,12 @@ from typing import TYPE_CHECKING
 from pathlib import Path
 
 from FFxivPythonTrigger import PluginBase, plugins, wait_until
-from FFxivPythonTrigger.decorator import unload_callback, event
-from FFxivPythonTrigger.exceptions import PluginNotFoundException, NeedRequirementError
+from FFxivPythonTrigger.decorator import event
+from FFxivPythonTrigger.exceptions import NeedRequirementError
 
 if TYPE_CHECKING:
     from XivMemory.hook.chat_log import ChatLogEvent
+    from XivMemory.se_string import ChatLog
 
 try:
     from aiohttp import web, WSMsgType
@@ -24,6 +25,26 @@ dir = Path(__file__).parent
 
 async def root_handler(request):
     return web.HTTPFound('/index.html')
+
+
+def parse_msg_chain(msg_chain):
+    msg = []
+    for m in msg_chain:
+        if m.Type == 'Icon':
+            msg.append({
+                'type': 'icon',
+                'data': m.icon_id,
+            })
+        elif m.Type == "Text":
+            t = m.text()
+            if msg and msg[-1]['type'] == 'text':
+                msg[-1]['data'] += t
+            else:
+                msg.append({
+                    'type': 'text',
+                    'data': t,
+                })
+    return msg
 
 
 class WebChat(PluginBase):
@@ -64,8 +85,14 @@ class WebChat(PluginBase):
                     except Exception as e:
                         await ws.send_json({
                             'epoch': time.time(),
-                            'sender': 'error',
-                            'text': str(e),
+                            'sender': [{
+                                'type': 'text',
+                                'data': 'error',
+                            }],
+                            'text': [{
+                                'type': 'text',
+                                'data': str(e),
+                            }],
                             'channel': -1,
                         })
                 elif msg.type == WSMsgType.ERROR:
@@ -78,16 +105,20 @@ class WebChat(PluginBase):
     @event("log_event")
     def deal_chat_log(self, evt: 'ChatLogEvent'):
         asyncio.set_event_loop(self.loop)
+        me = plugins.XivMemory.actor_table.me
         data = {
             'epoch': evt.chat_log.timestamp,
-            'sender': (evt.player or '-') if evt.player != plugins.XivMemory.actor_table.me.name else None,
-            'msg': evt.message,
+            'sender': parse_msg_chain(evt.chat_log.sender) if me is None or evt.player != me.name else None,
+            'msg': parse_msg_chain(evt.chat_log.messages),
             'channel': evt.channel_id,
         }
         for cid, ws in self.clients.items():
             asyncio.run(ws.send_json(data))
 
     async def _stop_server(self):
+        for cid, ws in self.clients.items():
+            await ws.close()
+
         await self.runner.shutdown()
         await self.runner.cleanup()
         self.logger.info("HttpApi server closed")
