@@ -368,6 +368,10 @@
             this.$watch('selected_channel', (new_val) => {
                 localStorage.setItem('selected_channel', JSON.stringify(new_val))
             }, {deep: true})
+
+            el = this.$refs.chat_messages
+            el.style['max-height'] = (window.innerHeight - 160) + 'px'
+            el.style['min-height'] = (window.innerHeight - 160) + 'px'
         },
         methods: {
             on_message(e) {
