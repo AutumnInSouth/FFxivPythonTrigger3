@@ -35,6 +35,11 @@ def parse_msg_chain(msg_chain):
                 'type': 'icon',
                 'data': m.icon_id,
             })
+        elif m.Type == 'AutoTranslateKey':
+            msg.append({
+                'type': 'text',
+                'data': f"\ue040{m.text()}\ue041",
+            })
         elif m.Type == "Text":
             t = m.text()
             if msg and msg[-1]['type'] == 'text':

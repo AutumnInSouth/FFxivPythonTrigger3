@@ -49,6 +49,11 @@ sigs = {
         'param': "0f b7 ? * * * * 48 8d ? ? ? f3 0f ? ? 33 d2",
         'add': BASE_ADDR,
     },
+    "map": {
+        'call': find_signature_point,
+        'param': "44 8B 3D * * * * 45 85 FF",
+        'add': BASE_ADDR,
+    },
     "skill_animation_lock": {
         'call': find_signature_point,
         'param': "F3 0F ? ? * * * * 41 F6 47 20",
@@ -67,11 +72,6 @@ sigs = {
     "party": {
         'call': find_signature_point,
         'param': "48 8D 0D * * * * E8 ? ? ? ? 48 8B 4E ? 48 8B D8",
-        'add': BASE_ADDR,
-    },
-    "world_id_hook": {
-        'call': find_signature_address,
-        'param': "48 89 5C 24 ? 57 48 83 EC ? 0F B6 42 ? 48 8B FA 88 81 ? ? ? ? 48 8B D9 0F B6 42 ?",
         'add': BASE_ADDR,
     },
     "mission_info": {

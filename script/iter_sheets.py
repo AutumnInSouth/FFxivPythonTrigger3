@@ -8,8 +8,8 @@ rp = Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3')
 realm_chs = pysaintcoinach.ARealmReversed(game_path_chs, pysaintcoinach.Language.chinese_simplified, rp / 'DefinitionsExt3')  # 国服
 realm_eng = pysaintcoinach.ARealmReversed(game_path_eng, pysaintcoinach.Language.english, rp / 'DefinitionsExt4')  # 国际服
 
-for sheet in realm_eng._game_data.definition.sheet_definitions:
+for sheet in realm_chs._game_data.definition.sheet_definitions:
     try:
-        print(sheet.name,realm_eng.game_data.get_sheet(sheet.name)[2001886])
+        print(sheet.name,realm_chs.game_data.get_sheet(sheet.name)[69492])
     except:
         pass

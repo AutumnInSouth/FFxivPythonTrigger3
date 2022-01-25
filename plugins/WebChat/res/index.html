@@ -65,9 +65,15 @@
                 {{chat_channels[send.channel]}}
             </div>
             <div>
-                <b-button v-b-modal.channel-filter size="lg" variant="outline-secondary">
-                    <b-icon icon="three-dots"></b-icon>
-                </b-button>
+                <b-button-group>
+                    <b-button size="lg" :variant="keep_bottom?'dark':'outline-secondary'" @click="keep_bottom=!keep_bottom">
+                        <b-icon icon="chevron-bar-down"></b-icon>
+                    </b-button>
+                    <b-button v-b-modal.channel-filter variant="outline-secondary">
+                        <b-icon icon="three-dots"></b-icon>
+                    </b-button>
+                </b-button-group>
+
             </div>
         </div>
     </div>
@@ -227,7 +233,7 @@
 
 </script>
 <script>
-    chat_channels = {
+    const chat_channels = {
         0: "-",
         1: "调试",
         2: "紧急",
@@ -268,38 +274,47 @@
         106: "跨服贝7",
         107: "跨服贝8",
     };
-    send_channels = {
-        56: '/e ',
-        10: '/s ',
-        11: '/sh ',
-        14: '/p ',
-        15: '/a ',
-        24: '/fc ',
-        27: '/b ',
-        30: '/y ',
-        16: '/l1 ',
-        17: '/l2 ',
-        18: '/l3 ',
-        19: '/l4 ',
-        20: '/l5 ',
-        21: '/l6 ',
-        22: '/l7 ',
-        23: '/l8 ',
-        37: '/cwl1 ',
-        101: '/cwl2 ',
-        102: '/cwl3 ',
-        103: '/cwl4 ',
-        104: '/cwl5 ',
-        105: '/cwl6 ',
-        106: '/cwl7 ',
-        107: '/cwl8 ',
+    const send_channels = {
+        56: '/e',
+        10: '/s',
+        11: '/sh',
+        14: '/p',
+        15: '/a',
+        24: '/fc',
+        27: '/b',
+        30: '/y',
+        16: '/l1',
+        17: '/l2',
+        18: '/l3',
+        19: '/l4',
+        20: '/l5',
+        21: '/l6',
+        22: '/l7',
+        23: '/l8',
+        37: '/cwl1',
+        101: '/cwl2',
+        102: '/cwl3',
+        103: '/cwl4',
+        104: '/cwl5',
+        105: '/cwl6',
+        106: '/cwl7',
+        107: '/cwl8',
     };
-    channel_name = (channel) => channel in chat_channels ? chat_channels[channel] : channel;
-    max_msg_count = 500;
-    kill_msg_count = 100;
-    rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize)
+    const channel_name = (channel) => channel in chat_channels ? chat_channels[channel] : channel;
+    const max_msg_count = 500;
+    const kill_msg_count = 100;
+    const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const msg_line_break = {type: 'text', data: '\n',}
 
-    seicon = Vue.component('seicon', {
+    const msg_equal = (src, dst) => {
+        if (src === dst) return true
+        if (src === null || dst === null) return false
+        if (src.length !== dst.length) return false
+        for (i = 0; i < src.length; i++) if (src[i].type !== dst[i].type || src[i].data !== dst[i].data) return false
+        return true
+    }
+
+    Vue.component('seicon', {
         props: ['data', 'lineheight'],
         template: '<i class="seicon" :style="icon_style()"></i>',
         methods: {
@@ -317,19 +332,11 @@
                 }
             }
         }
-    })
-    setext = Vue.component('setext', {
+    });
+    Vue.component('setext', {
         props: ['data'],
         template: '<a>{{data}}</a>'
-    })
-    msg_equal = (src, dst) => {
-        if (src === dst) return true
-        if (src === null || dst === null) return false
-        if (src.length !== dst.length) return false
-        for (i = 0; i < src.length; i++) if (src[i].type !== dst[i].type || src[i].data !== dst[i].data) return false
-        return true
-    }
-
+    });
     Vue.component('sestring', {
         props: ['msg'],
         template: `<a>
@@ -337,27 +344,24 @@
         </a>`,
         methods: {
             type_to_comp: (type) => {
-                if (type === 'icon') return seicon
-                return setext
+                if (type === 'icon') return 'seicon'
+                return 'setext'
             }
-        },
+        }
     });
 
-    vm = new Vue({
+    const vm = new Vue({
         el: '#app',
         data() {
-            t = (new Date()).getTime() / 1000
             return {
-                send: {
-                    channel: 56,
-                    msg: "",
-                },
+                send: {channel: 56, msg: "",},
+                keep_bottom: true,
                 selected_channel: [],
                 shown_messages: [],
             }
         },
         mounted() {
-            selected = localStorage.getItem('selected_channel')
+            const selected = localStorage.getItem('selected_channel')
             if (selected) this.selected_channel = JSON.parse(selected)
             else this.selected_channel = [
                 0, 1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
@@ -365,24 +369,24 @@
                 103, 104, 105, 106, 107
             ]
 
-            this.$watch('selected_channel', (new_val) => {
-                localStorage.setItem('selected_channel', JSON.stringify(new_val))
-            }, {deep: true})
+            this.$watch('selected_channel', (new_val) => localStorage.setItem('selected_channel', JSON.stringify(new_val)), {deep: true})
+            this.$watch('keep_bottom', (new_val) => new_val ? this.scroll_to_bottom() : null)
 
-            el = this.$refs.chat_messages
+            const el = this.$refs.chat_messages
             el.style['max-height'] = (window.innerHeight - 160) + 'px'
             el.style['min-height'] = (window.innerHeight - 160) + 'px'
         },
         methods: {
+            scroll_to_bottom() {
+                const el = this.$refs.chat_messages
+                el.scrollTop = el.scrollHeight
+            },
             on_message(e) {
-                data = JSON.parse(e.data);
+                const data = JSON.parse(e.data);
                 if (!this.selected_channel.includes(data.channel)) return;
-                last_msg = this.shown_messages[this.shown_messages.length - 1];
+                const last_msg = this.shown_messages[this.shown_messages.length - 1];
                 if (last_msg && msg_equal(last_msg.sender, data.sender) && last_msg.channel === data.channel) {
-                    last_msg.msg = last_msg.msg.concat([{
-                        type: 'text',
-                        data: '\n',
-                    }].concat(data.msg));
+                    last_msg.msg = [...last_msg.msg, msg_line_break, ...data.msg];
                     last_msg.epoch = data.epoch;
                 } else {
                     this.shown_messages.push(data)
@@ -390,42 +394,36 @@
                         this.shown_messages = this.shown_messages.splice(kill_msg_count)
                     }
                 }
-                this.$nextTick(() => {
-                    this.$refs.chat_messages.scrollTop = this.$refs.chat_messages.scrollHeight
-                })
+                if (this.keep_bottom) this.$nextTick(this.scroll_to_bottom)
             },
             do_send(evt) {
-                evt.preventDefault()
-                msg = this.send.msg
-                if (!msg) return
-                if (!msg.startsWith('/')) msg = send_channels[this.send.channel] + msg
-                ws.send(msg)
-                this.send.msg = ''
+                evt.preventDefault();
+                if (!(msg = this.send.msg)) return;
+                this.send.msg = '';
+                if (!msg.startsWith('/')) window.ws?.send(send_channels[this.send.channel] + ' ' + msg);
+                else if (k = Object.keys(send_channels).find(k => send_channels[k] === msg)) this.send.channel = k;
+                else window.ws?.send(msg);
             },
             date_fmt(epoch) {
-                date = new Date(epoch * 1000)
-                hour = date.getHours()
+                const date = new Date(epoch * 1000)
+                const hour = date.getHours()
                 return `${hour % 12}:${date.getMinutes()}:${date.getSeconds()} ${hour < 12 ? 'AM' : 'PM'}`
             },
         }
     });
 
-    ws_init = () => {
-        ws = new WebSocket(`ws://${window.location.host}/ws`);
-        ws.onopen = () => {
-            console.log("Connected to server");
-        }
-        ws.onmessage = vm.on_message
+    const ws_init = () => {
+        const ws = new WebSocket(`ws://${window.location.host}/ws`);
+        ws.onopen = () => console.log("Connected to server");
+        ws.onmessage = vm.on_message;
         ws.onclose = (e) => {
-            console.log('ws closed', e)
-            setTimeout(() => {
-                console.log('reconnecting...');
-                ws_init();
-            }, 3000)
+            console.log('ws closed,reconnecting...', e);
+            setTimeout(ws_init, 3000);
         }
-    }
+        window.ws = ws;
+    };
 
-    ws_init()
+    ws_init();
 
 
 </script>

@@ -4,7 +4,7 @@ from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.saint_coinach import action_names, realm
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.text_pattern import search_from_text,find_signature_point
+from FFxivPythonTrigger.text_pattern import search_from_text, find_signature_point, find_signature_address
 from FFxivPythonTrigger.utils import err_catch
 from XivMemory import se_string
 from OmenReflect.utils import action_struct
@@ -44,9 +44,15 @@ class TestHook(PluginBase):
         # self.sub_140A41260(self, BASE_ADDR + 0xA41260)
         # self.set_omen_create(self, BASE_ADDR + 0x6F9C60)
 
-        for offset, _ in search_from_text("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
-            self.is_key_trigger(self, offset + BASE_ADDR)
-        self.facing_hook(self, BASE_ADDR + find_signature_point("E8 * * * * 80 3D ? ? ? ? ? 0F 28 F0"))
+        # for offset, _ in search_from_text("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
+        #     self.is_key_trigger(self, offset + BASE_ADDR)
+        # self.facing_hook(self, BASE_ADDR + find_signature_point("E8 * * * * 80 3D ? ? ? ? ? 0F 28 F0"))
+        self.macro_concat(self, BASE_ADDR + find_signature_address(
+            "40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"
+        ))
+        self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
+            "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
+        ))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
@@ -74,38 +80,6 @@ class TestHook(PluginBase):
         self.logger(f"{ans} {a1} {a2:x} {a3:x} {a4:x}")
         return ans
 
-    """_BYTE *__fastcall sub_1416014C0(_QWORD *a1,unsigned int a2)"""
-
-    @PluginHook.decorator(c_int64, [c_int64, c_uint], True)
-    def sub_1416014C0(self, hook, a1, a2):
-        self.cnt += 1
-        if self.cnt >= 1000:
-            hook.uninstall()
-        ans = hook.original(a1, a2)
-        str = read_string(ans)
-        if str == "金刚极意":
-            self.logger(f"{ans:x} {a1:x} {a2} {str}")
-            hook.uninstall()
-        return ans
-
-    """__int64 __fastcall sub_140A41260(int a1, int a2, int a3, int a4, int a5, __int64 a6, __int64 a7, __int64 a8)"""
-
-    @PluginHook.decorator(c_int64, [c_int, c_int, c_int, c_int, c_int, c_int64, c_int64, c_int64], True)
-    @err_catch
-    def sub_140A41260(self, hook, *args):
-        self.logger(f"{args}")
-        res = hook.original(*args)
-        self.logger(f"{res}")
-        return res
-
-    """__int64 __fastcall sub_1405D5A30(__int64 a1, char a2)"""
-
-    @PluginHook.decorator(c_int64, [c_int64, c_ubyte], True)
-    def sub_1405D5A30(self, hook, a1, a2):
-        res = hook.original(a1, a2)
-        self.logger(f"{res:x} {a1:x} {a2:b}")
-        return res
-
     """char __fastcall sub_1404BC6B0(__int64 a1, int a2)"""
 
     @PluginHook.decorator(c_bool, [c_int64, c_uint], True)
@@ -121,3 +95,23 @@ class TestHook(PluginBase):
         self.logger(f"{a1:x}")
         hook.uninstall()
         return hook.original(a1)
+
+    """__int64 __fastcall sub_1406325E0(__int64 a1, __int64 a2, __int64 a3, char a4, unsigned __int16 a5)"""
+    """40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"""
+
+    @PluginHook.decorator(c_int64, [c_int64, c_int64, c_int64, c_char, c_ushort], True)
+    def macro_concat(self, hook, a1, a2, a3, a4, a5):
+        orig = read_string(read_ulonglong(a1 + 136))
+        res = hook.original(a1, a2, a3, a4, a5)
+        new = read_string(read_ulonglong(a1 + 136))
+        self.logger(f"{a1:x} {a2:x} {a3:x} {a4} {a5}\n{orig}\n{new}")
+        return res
+
+    """40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"""
+
+    @PluginHook.decorator(c_int64, [c_int64, POINTER(c_int64)], True)
+    def macro_parse_hook(self, hook, a1, a2):
+        raw=read_memory(c_char * 50, a2[0]).value
+        res = hook.original(a1, a2)
+        self.logger(raw,read_memory(c_char * 50, a2[0]).value,read_string(read_ulonglong(a1 + 136)), hex(res))
+        return res
