@@ -1,0 +1,7 @@
+ChatHandler|1C8
+ClientTrigger|2F1
+InventoryModifyHandler|154
+MarketBoardPurchaseHandler|282
+SetSearchInfoHandler|2BB
+UpdatePositionHandler|147
+UpdatePositionInstance|209
