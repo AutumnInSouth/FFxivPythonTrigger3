@@ -19,10 +19,11 @@ class DoTextCommand(object):
         self._original = do_text_command_interface(func_address)
         self.ui_module = read_memory(PointerStruct(c_void_p, 0), ui_module_ptr_address)
 
-    def original(self, command: str) -> int:
-        encoded_command = command.encode('utf-8')
-        cmd_size = len(encoded_command)
-        cmd = OffsetStruct({"cmd": c_char * cmd_size}, full_size=cmd_size + 30)(cmd=encoded_command)
+    def original(self, command: str | bytes) -> int:
+        if isinstance(command, str):
+            command = command.encode('utf-8')
+        cmd_size = len(command)
+        cmd = OffsetStruct({"cmd": c_char * cmd_size}, full_size=cmd_size + 30)(cmd=command)
         arg = TextCommandStruct(cmd=addressof(cmd), t1=64, tLength=cmd_size + 1, t3=0)
         return self._original(self.ui_module.value, addressof(arg), 0, 0)
 

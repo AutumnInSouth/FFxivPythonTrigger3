@@ -29,26 +29,56 @@ async def root_handler(request):
 
 def parse_msg_chain(msg_chain):
     msg = []
+    skip = False
     for m in msg_chain:
-        if m.Type == 'Icon':
-            msg.append({
-                'type': 'icon',
-                'data': m.icon_id,
-            })
-        elif m.Type == 'AutoTranslateKey':
-            msg.append({
-                'type': 'text',
-                'data': f"\ue040{m.text()}\ue041",
-            })
-        elif m.Type == "Text":
-            t = m.text()
-            if msg and msg[-1]['type'] == 'text':
-                msg[-1]['data'] += t
-            else:
+        match m.Type:
+            case 'Interactable/Item':
                 msg.append({
-                    'type': 'text',
-                    'data': t,
+                    'type': 'item',
+                    'data': {
+                        'id': m.item_id,
+                        'hq': m.is_hq,
+                        'collect': m.is_collect,
+                        'name': m.display_name,
+                    },
                 })
+                skip = True
+            case 'Interactable/MapPositionLink':
+                msg.append({
+                    'type': 'map',
+                    'data': {
+                        'map': m.map_id,
+                        'x': m.map_x,
+                        'y': m.map_y,
+                        'name': m.text()
+                    },
+                })
+                skip = True
+            case 'Interactable/Status':
+                pass
+            case 'Interactable/LinkTerminator':
+                skip = False
+            case _:
+                if skip: continue
+
+        match m.Type:
+            case 'Icon':
+                msg.append({
+                    'type': 'icon',
+                    'data': m.icon_id,
+                })
+            case 'AutoTranslateKey' | 'Text':
+                if m.Type == 'AutoTranslateKey':
+                    text = f"\ue040{m.text()}\ue041"
+                else:
+                    text = m.text()
+                if msg and msg[-1]['type'] == 'text':
+                    msg[-1]['data'] += text
+                else:
+                    msg.append({
+                        'type': 'text',
+                        'data': text,
+                    })
     return msg
 
 
@@ -72,6 +102,7 @@ class WebChat(PluginBase):
         self.routes = dict()
         self.work = False
         self.runner = None
+        self.history = []
 
         self.clients = dict()
         self.client_count = 0
@@ -83,6 +114,8 @@ class WebChat(PluginBase):
         self.clients[cid] = ws
         await ws.prepare(request)
         try:
+            for m in self.history[-200:]:
+                await ws.send_json(m)
             async for msg in ws:
                 if msg.type == WSMsgType.TEXT:
                     try:
@@ -117,6 +150,9 @@ class WebChat(PluginBase):
             'msg': parse_msg_chain(evt.chat_log.messages),
             'channel': evt.channel_id,
         }
+        self.history.append(data)
+        if len(self.history) > 500:
+            self.history = self.history[-200:]
         for cid, ws in self.clients.items():
             asyncio.run(ws.send_json(data))
 

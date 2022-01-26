@@ -4,51 +4,6 @@
     <meta charset="UTF-8"/>
     <title>WebChat</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
-    <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-    <style>
-        @font-face {
-            font-family: "xivFont";
-            src: url(./FFXIV_Lodestone_SSF.ttf) format("truetype");
-            unicode-range: U+E020-E0DB;
-        }
-
-        body {
-            font-family: "xivFont", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-        }
-
-        i.seicon {
-            display: inline-block;
-            background-image: url(./fonticon_ps5.tex.png);
-            vertical-align: bottom;
-        }
-
-        .chat-messages {
-            display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 160px);
-            max-height: calc(100vh - 160px);
-            overflow-y: scroll
-        }
-
-        .chat-message-left,
-        .chat-message-right {
-            display: flex;
-            flex-shrink: 0
-        }
-
-        .chat-message-left {
-            margin-right: auto
-        }
-
-        .chat-message-right {
-            flex-direction: row-reverse;
-            margin-left: auto
-        }
-    </style>
 </head>
 <body>
 <div id="app" class="container p-0">
@@ -116,6 +71,53 @@
         </b-input-group>
     </b-form>
 </div>
+</body>
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"/>
+<script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@thewakingsands/kit-tooltip/dist/bundle.js"></script>
+<style>
+    @font-face {
+        font-family: "xivFont";
+        src: url(./FFXIV_Lodestone_SSF.ttf) format("truetype");
+        unicode-range: U+E020-E0DB;
+    }
+
+    body {
+        font-family: "xivFont", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    }
+
+    i.seicon {
+        display: inline-block;
+        background-image: url(./fonticon_ps5.tex.png);
+        vertical-align: bottom;
+    }
+
+    .chat-messages {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 160px);
+        max-height: calc(100vh - 160px);
+        overflow-y: scroll
+    }
+
+    .chat-message-left,
+    .chat-message-right {
+        display: flex;
+        flex-shrink: 0
+    }
+
+    .chat-message-left {
+        margin-right: auto
+    }
+
+    .chat-message-right {
+        flex-direction: row-reverse;
+        margin-left: auto
+    }
+</style>
 <script>
     GFData = new Map();
     GFData.set(0x0001, [0x0000, 0x0000, 0x0014, 0x0014, 0x0000, 0x0000, 0x0000]);
@@ -314,7 +316,7 @@
         return true
     }
 
-    Vue.component('seicon', {
+    Vue.component('xivicon', {
         props: ['data', 'lineheight'],
         template: '<i class="seicon" :style="icon_style()"></i>',
         methods: {
@@ -333,9 +335,32 @@
             }
         }
     });
-    Vue.component('setext', {
+    Vue.component('xivtext', {
         props: ['data'],
         template: '<a>{{data}}</a>'
+    });
+    Vue.component('xivmap', {
+        props: ['data'],
+        data() {
+            return {
+                map: this.data.map,
+                x: this.data.x,
+                y: this.data.y,
+                show: false,
+            }
+        },
+        methods: {
+            get_url() {
+                return `https://map.wakingsands.com/#f=mark&id=${this.map}&x=${this.x}&y=${this.y}`
+            }
+        },
+        template: '<b-btn @click="show=!show" variant="link">' +
+            '<b-modal size="xl" v-model="show" hide-header hide-footer><iframe style="width: 100%;height: 50vh" :src="get_url()"/></b-modal>' +
+            '\uE0BB{{data.name}}</b-btn>'
+    });
+    Vue.component('xivitem', {
+        props: ['data'],
+        template: '<span :data-ck-item-id="data.id">\uE0BB{{data.name}}</span>'
     });
     Vue.component('sestring', {
         props: ['msg'],
@@ -344,8 +369,16 @@
         </a>`,
         methods: {
             type_to_comp: (type) => {
-                if (type === 'icon') return 'seicon'
-                return 'setext'
+                switch (type) {
+                    case 'icon':
+                        return 'xivicon'
+                    case 'map':
+                        return 'xivmap'
+                    case 'item':
+                        return 'xivitem'
+                    default:
+                        return 'xivtext'
+                }
             }
         }
     });
@@ -369,12 +402,13 @@
                 103, 104, 105, 106, 107
             ]
 
-            this.$watch('selected_channel', (new_val) => localStorage.setItem('selected_channel', JSON.stringify(new_val)), {deep: true})
-            this.$watch('keep_bottom', (new_val) => new_val ? this.scroll_to_bottom() : null)
+            this.$watch('selected_channel', (new_val) => localStorage.setItem('selected_channel', JSON.stringify(new_val)), {deep: true});
+            this.$watch('keep_bottom', (new_val) => new_val ? this.scroll_to_bottom() : null);
 
-            const el = this.$refs.chat_messages
-            el.style['max-height'] = (window.innerHeight - 160) + 'px'
-            el.style['min-height'] = (window.innerHeight - 160) + 'px'
+            const el = this.$refs.chat_messages;
+            el.style['max-height'] = (window.innerHeight - 160) + 'px';
+            el.style['min-height'] = (window.innerHeight - 160) + 'px';
+            // CafeKitTooltip.initTooltip();
         },
         methods: {
             scroll_to_bottom() {
@@ -424,8 +458,7 @@
     };
 
     ws_init();
-
+    CafeKitTooltip.initTooltip();
 
 </script>
-</body>
 </html>

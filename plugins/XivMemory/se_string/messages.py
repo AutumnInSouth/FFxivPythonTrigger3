@@ -2,6 +2,7 @@ from FFxivPythonTrigger.saint_coinach import realm
 from FFxivPythonTrigger.logger import Logger
 from .get_integer import *
 from .keys import *
+from ctypes import c_long
 
 _logger = Logger("chat_log/messages")
 
@@ -287,26 +288,38 @@ class Item(MessageBase):
         return msg
 
 
-#
-# def raw_to_in_game_coord(pos, scale):
-#     c = scale / 100
-#     scaled_pos = pos * c / 1000
-#     return 41 / c * (scaled_pos + 1024) / 2048 + 1.0
-#
-#
-# def in_game_to_raw_coord(pos, scale):
-#     c = scale / 100
-#     return int(((pos - 1) * c / 41 * 2048 - 1024) / c * 1000)
+def raw_to_in_game_coord(pos):
+    return pos / 1000
+
+
+def in_game_to_raw_coord(pos):
+    return pos * 1000
+
+
+c1 = 41 / 2048
+c2 = 102400 * c1
+
+
+def in_game_to_map_coord(pos, scale, offset=0):
+    return (pos + offset) * c1 + c2 / scale + 1
+
+
+def map_to_in_game_coord(pos, scale, offset=0):
+    return (pos - 1 - c2 / scale) / c1 - offset
 
 
 class MapPositionLink(MessageBase):
     Type = "Interactable/MapPositionLink"
 
-    def __init__(self, territory_type_id, map_id, raw_x, raw_y):
+    def __init__(self, territory_type_id, map_id, raw_x, raw_y, x, y, map_x, map_y):
         self.territory_type_id = territory_type_id
         self.map_id = map_id
         self.raw_x = raw_x
         self.raw_y = raw_y
+        self.x = x
+        self.y = y
+        self.map_x = map_x
+        self.map_y = map_y
 
     @property
     def territory_type(self):
@@ -331,12 +344,17 @@ class MapPositionLink(MessageBase):
     def from_buffer(cls, raw: bytearray):
         _, data = extract_interactable_message(raw)
         territory_type_id, map_id = get_packed_integer(data)
-        raw_x = get_integer(data)
-        raw_y = get_integer(data)
-        return cls(territory_type_id, map_id, raw_x, raw_y)
+        raw_x = c_long(get_integer(data)).value
+        raw_y = c_long(get_integer(data)).value
+        map = map_sheet[map_id]
+        x = raw_to_in_game_coord(raw_x)
+        y = raw_to_in_game_coord(raw_y)
+        map_x = in_game_to_map_coord(x, map["SizeFactor"], map["Offset{X}"])
+        map_y = in_game_to_map_coord(y, map["SizeFactor"], map["Offset{Y}"])
+        return cls(territory_type_id, map_id, raw_x, raw_y, x, y, map_x, map_y)
 
     def text(self):
-        return "[%s/%s](%s,%s)" % (self.territory_type['PlaceName'], self.map['PlaceName'], self.raw_x, self.raw_y)
+        return f"{self.map['PlaceName']} ( {self.map_x:.1f}  , {self.map_y:.1f} )"
 
 
 class Status(MessageBase):

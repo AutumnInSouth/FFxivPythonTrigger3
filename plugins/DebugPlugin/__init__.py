@@ -29,7 +29,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    # @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -44,10 +44,14 @@ class DebugPlugin(PluginBase):
         self.logger(evt.id, evt, len(evt.raw_message),
                     # '\n', evt.str_event()
                     )
+        if "unknown" in evt.id:
+            self.logger(evt.raw_message.hex(' '))
 
-    # @re_event(r"^network/.*/client/")
+    #@re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
-        self.logger(evt.id, evt, len(evt.raw_message), '\n', evt.str_event())
+        self.logger(evt.id, evt, len(evt.raw_message))
+        if "unknown" in evt.id:
+            self.logger(evt.raw_message.hex(' '))
 
     # @event('network/unknown/zone/client/399')
     def craft_action(self, evt):
@@ -144,7 +148,7 @@ class DebugPlugin(PluginBase):
     def actor_control_target_icon(self, evt):
         self.logger(evt.id, evt.target_name, evt.struct_message.param1, evt.icon_id)
 
-    @event('network/zone/server/actor_control/tether')
+    #@event('network/zone/server/actor_control/tether')
     def actor_control_tether(self, evt):
         target = f"target:{evt.target_name}({evt.target_id:x}) {evt.target_actor.pos.x:.1f} {evt.target_actor.pos.y:.1f} {evt.target_actor.pos.z:.1f}"
         source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"
@@ -154,7 +158,7 @@ class DebugPlugin(PluginBase):
     def actor_control_targetable(self, evt):
         self.logger(evt.id, evt.str_event(), evt.struct_message)
 
-    @re_event(r"network/zone/server/actor_control_self/fate")
+    #@re_event(r"network/zone/server/actor_control_self/fate")
     def fate_event(self, evt, match):
         self.logger(evt.id, evt, evt.str_event())
 
@@ -173,3 +177,10 @@ class DebugPlugin(PluginBase):
     # @event(r"network/unknown/zone/server/265")
     # def unk_265(self, evt):
     #     self.logger(evt.id, evt, '\n', hex(int.from_bytes(evt.raw_message,byteorder='little')))
+
+
+    @event("log_event")
+    def deal_chat_log(self, evt):
+        for m in evt.chat_log.messages:
+            if m.Type == "Interactable/MapPositionLink":
+                self.logger(m.x,m.y)
