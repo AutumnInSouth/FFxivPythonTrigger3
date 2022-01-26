@@ -225,14 +225,16 @@ class Player(MessageBase):
 
 
 HQ_SYMBOL = "\ue03c"
+COLLECT_SYMBOL = "\ue03d"
 
 
 class Item(MessageBase):
     Type = "Interactable/Item"
 
-    def __init__(self, item_id: int, is_hq: bool = False, display_name: str = None):
+    def __init__(self, item_id: int, is_hq: bool = False, is_collect: bool = False, display_name: str = None):
         self.item_id = item_id
         self.is_hq = is_hq
+        self.is_collect = is_collect
         self._display_name = display_name
 
     @property
@@ -242,31 +244,42 @@ class Item(MessageBase):
                 self._display_name = item_sheet[self.item_id]["Name"]
             except KeyError:
                 self._display_name = "Unknown Item: %s" % self.item_id
+            if self.is_hq:
+                self._display_name += HQ_SYMBOL
+            if self.is_collect:
+                self._display_name += COLLECT_SYMBOL
         return self._display_name
 
     def encode(self):
-        encoded_name = self.display_name + HQ_SYMBOL if self.is_hq else self.display_name
+        encoded_name = self.display_name.encode('utf-8')
+        item_id = self.item_id
+        if self.is_hq: item_id += 1000000
+        if self.is_collect: item_id += 500000
         return pack_interactable_message(EmbeddedInfoType.ITEM_LINK, bytearray([
-            *make_integer(self.item_id + 1000000 if self.is_hq else self.item_id),
+            *make_integer(item_id),
             0x02, 0x01, 0xff,
             *make_integer(len(encoded_name)),
             *encoded_name
         ]))
+
+    def encode_group(self):
+        return self.encode() + LINK_SYMBOL + TextMessage(self.display_name).encode() + LinkTerminator().encode()
 
     @classmethod
     def from_buffer(cls, raw: bytearray):
         _, data = extract_interactable_message(raw)
         item_id = get_integer(data)
         is_hq = item_id > 1000000
-        if is_hq:
-            item_id -= 1000000
+        if is_hq: item_id -= 1000000
+        is_collect = item_id > 500000
+        if is_collect: item_id -= 500000
         if len(data) > 3:
             del data[:3]
             name_len = get_integer(data)
             display_name = data[:name_len].decode('utf-8', errors='ignore').rstrip(HQ_SYMBOL)
         else:
             display_name = None
-        return cls(item_id, is_hq, display_name)
+        return cls(item_id, is_hq, is_collect, display_name)
 
     def text(self):
         msg = "[%s]%s" % (self.item_id, self.display_name)
@@ -311,6 +324,9 @@ class MapPositionLink(MessageBase):
             0xff, 0x01
         ]))
 
+    def encode_group(self):
+        return self.encode() + LINK_SYMBOL + TextMessage(self.text()).encode() + LinkTerminator().encode()
+
     @classmethod
     def from_buffer(cls, raw: bytearray):
         _, data = extract_interactable_message(raw)
@@ -343,9 +359,12 @@ class Status(MessageBase):
     def text(self):
         return status_sheet[self.status_id]["Name"]
 
+    def encode_group(self):
+        return self.encode() + LINK_SYMBOL + TextMessage(self.text()).encode() + LinkTerminator().encode()
+
 
 class QuestLink(MessageBase):
-    Type = "Interactable/"
+    Type = "Interactable/Quest"
 
     def __init__(self, quest_id):
         self.quest_id = quest_id
@@ -355,6 +374,9 @@ class QuestLink(MessageBase):
             *make_integer(self.quest_id - 65536),
             0x1, 0x1,
         ]))
+
+    def encode_group(self):
+        return self.encode() + LINK_SYMBOL + TextMessage(self.text()).encode() + LinkTerminator().encode()
 
     @classmethod
     def from_buffer(cls, raw: bytearray):
@@ -384,7 +406,7 @@ class AutoTranslateKey(MessageBase):
                 break
         if s is None:
             return f"unk_{self.group}/{self.key}"
-            #raise KeyError("[%s] is not a valid group key" % self.group)
+            # raise KeyError("[%s] is not a valid group key" % self.group)
         try:
             return realm.game_data.get_sheet(s)[self.key]["Name"]
         except KeyError:
@@ -454,3 +476,6 @@ class Icon(MessageBase):
 
     def text(self):
         return self.icon_id
+
+
+LINK_SYMBOL = UIForeground(500).encode() + UIGlow(501).encode() + '\ue0bb'.encode('utf-8') + UIForeground(0).encode() + UIGlow(0).encode()

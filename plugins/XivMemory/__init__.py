@@ -22,7 +22,7 @@ from .struct.buddy import Buddy
 from .struct.fate import FateManager
 from .hook import ValueBindHook
 from .hook.mo_ui_entity import MoUiEntityHook
-from .hook.chat_log import ChatLogHook
+from .hook.chat_log import ChatLogHook, PrintChatLogHook
 from .calls.do_action import DoAction, DoActionLocation
 from .calls.do_text_command import DoTextCommand
 from .calls.head_mark import HeadMark
@@ -80,7 +80,8 @@ class XivMemory(PluginBase):
             'mo_ui_entity': MoUiEntityHook(self, self._address["mo_ui_entity_hook"]),
         }
         self.hooks = {
-            'chat_log': ChatLogHook(self, self._address["chat_log_hook"])
+            # 'chat_log': ChatLogHook(self, self._address["chat_log_hook"]),
+            'print_chat_log': PrintChatLogHook(self, self._address["print_chat_log_hook"]),
         }
         self.calls = type('memory_call', (object,), {
             'do_action': DoAction(self._address['do_action'], self._address['action_manager']),

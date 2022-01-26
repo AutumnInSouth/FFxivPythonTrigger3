@@ -1,4 +1,6 @@
 import math
+import traceback
+
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.memory import *
@@ -6,6 +8,7 @@ from FFxivPythonTrigger.saint_coinach import action_names, realm
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.text_pattern import search_from_text, find_signature_point, find_signature_address
 from FFxivPythonTrigger.utils import err_catch
+from FFxivPythonTrigger.game_utils.std_string import StdString
 from XivMemory import se_string
 from OmenReflect.utils import action_struct
 
@@ -30,6 +33,13 @@ def map_to_web(pos):
     return int(((pos - 1) * c / 41 * 2048 - 1024) / c)
 
 
+def find_ptr_end(ptr):
+    i = 0
+    while ptr[i] != 0:
+        i += 1
+    return i
+
+
 class TestHook(PluginBase):
     name = "test_hook"
 
@@ -47,11 +57,15 @@ class TestHook(PluginBase):
         # for offset, _ in search_from_text("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
         #     self.is_key_trigger(self, offset + BASE_ADDR)
         # self.facing_hook(self, BASE_ADDR + find_signature_point("E8 * * * * 80 3D ? ? ? ? ? 0F 28 F0"))
-        self.macro_concat(self, BASE_ADDR + find_signature_address(
-            "40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"
-        ))
-        self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
-            "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
+        # self.macro_concat(self, BASE_ADDR + find_signature_address(
+        #     "40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"
+        # ))
+        # self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
+        #     "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
+        # ))
+
+        self.print_msg_hook(self, BASE_ADDR + find_signature_address(
+            "40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05"
         ))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
@@ -111,7 +125,31 @@ class TestHook(PluginBase):
 
     @PluginHook.decorator(c_int64, [c_int64, POINTER(c_int64)], True)
     def macro_parse_hook(self, hook, a1, a2):
-        raw=read_memory(c_char * 50, a2[0]).value
+        raw = read_memory(c_char * 50, a2[0]).value
         res = hook.original(a1, a2)
-        self.logger(raw,read_memory(c_char * 50, a2[0]).value,read_string(read_ulonglong(a1 + 136)), hex(res))
+        self.logger(raw, read_memory(c_char * 50, a2[0]).value, read_string(read_ulonglong(a1 + 136)), hex(res))
         return res
+
+    # __int64 __fastcall print_msg_hook(__int64 manager, unsigned __int16 channel_id, __int64 p_sender, __int64 p_msg, int sender_id, char parm)
+    # 40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05
+    @PluginHook.decorator(c_int64, [c_int64, c_ushort, POINTER(c_char_p), POINTER(c_char_p), c_uint, c_ubyte], True)
+    def print_msg_hook(self, hook, manager, channel_id, p_sender, p_msg, sender_id, parm):
+        try:
+            from XivMemory.se_string import ChatLog, get_message_chain, group_message_chain
+            sender = group_message_chain(get_message_chain(bytearray(p_sender[0])))
+            msg = group_message_chain(get_message_chain(bytearray(p_msg[0])))
+            need_fix = False
+            for node in msg:
+                if node.Type == "Interactable/Item" and node.is_hq and node.is_collect:
+                    need_fix = True
+                    node._display_name = node.display_name + "(fix)"
+                    node.is_collect = False
+            if need_fix:
+                new_msg = StdString(b''.join(m.encode_group() for m in msg))
+                p_msg = cast(addressof(new_msg), POINTER(c_char_p))
+            sender_str = "".join(str(n) for n in sender)
+            msg_str = "".join(str(n) for n in msg)
+            self.logger(f"({channel_id}/{sender_id:x}/{parm:x}){sender_str}:{msg_str}")
+        except:
+            self.logger.error(traceback.format_exc())
+        return hook.original(manager, channel_id, p_sender, p_msg, sender_id, parm)

@@ -154,6 +154,11 @@ sigs = {
         'param': "48 89 ? ? ? 48 89 ? ? ? 48 89 ? ? ? 57 41 ? 41 ? 48 83 EC ? 48 8B ? ? 48 8B ? 48 2B ? ? 4C 8B",
         'add': BASE_ADDR,
     },
+    "print_chat_log_hook": {
+        'call': find_signature_address,
+        'param': "40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05",
+        'add': BASE_ADDR,
+    },
     "coordinate_main_pointer": {
         'call': find_signature_point,
         'param': "f3 0f ? ? * * * * eb ? 48 8b ? ? ? ? ? e8 ? ? ? ? 48 85",

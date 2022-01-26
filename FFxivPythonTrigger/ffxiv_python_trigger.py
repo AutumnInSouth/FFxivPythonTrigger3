@@ -581,6 +581,11 @@ def init():
     _event_process_mission.start()
     frame_inject.install_and_enable()
 
+    from .game_utils import std_string
+    std_string_addr = address_manager.load(std_string.sigs)
+    std_string._std_string_initialize = std_string.std_string_initialize_interface(std_string_addr['StdStringInitialize'])
+    std_string._std_string_deallocate = std_string.std_string_deallocate_interface(std_string_addr['StdStringDeallocate'])
+
 
 class Plugins(object):
     def __init__(self, plugin_dict):
@@ -670,10 +675,8 @@ _re_events: Dict[re.Pattern, Set['EventCallback']] = dict()
 _allow_create_missions: bool = False
 
 plugins = Plugins(_plugins)
-addresses = AddressManager(LOGGER_NAME, _logger).load({
-    'frame_inject': frame_inject_sig,
-})
-frame_inject: FrameInjectHook = FrameInjectHook(addresses['frame_inject'])
+address_manager = AddressManager(LOGGER_NAME, _logger)
+frame_inject: FrameInjectHook = FrameInjectHook(address_manager.load({'frame_inject': frame_inject_sig, })['frame_inject'])
 
 _server = RpcServer(('', 0), FPTHandler, bind_and_activate=False)
 _server_mission = Mission('server', -1, _server.serve_forever)

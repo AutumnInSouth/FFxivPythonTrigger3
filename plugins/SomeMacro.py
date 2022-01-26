@@ -4,7 +4,7 @@ from ctypes import *
 
 from FFxivPythonTrigger import plugins, PluginBase, AddressManager
 from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import read_memory, write_string, read_ulonglong
+from FFxivPythonTrigger.memory import read_memory, write_string, read_ulonglong, read_int
 from FFxivPythonTrigger.saint_coinach import item_sheet, item_names, realm, status_sheet
 
 quest_sheet = realm.game_data.get_sheet("Quest")
@@ -24,7 +24,7 @@ def parse_actor(name=None, world_id=None, actor_id=None, ):
         return f"<fixed(200,1,{world_id or plugins.XivMemory.actor_table.me.current_world},{name})>"
 
 
-def parse_item(name=None, item_id=None, hq=None, ):
+def parse_item(name=None, item_id=None, hq=None, collect=None, no_tag=None, ):
     if item_id is None and name is None: return
     if item_id is None:
         item_id = item_name_to_id.get(name)
@@ -35,7 +35,10 @@ def parse_item(name=None, item_id=None, hq=None, ):
         name = item_names.get(item_id, 'unk_item')
     if hq:
         item_id += 1000000
-        name += '\ue03c'
+        if not no_tag: name += '\ue03c'
+    if collect:
+        item_id += 500000
+        if not no_tag: name += '\ue03d'
     return f"<fixed(200,4,{item_id},1,0,0,{name})>"
 
 
@@ -112,6 +115,7 @@ class SomeMacro(PluginBase):
         self.c3 = CFUNCTYPE(c_int64, c_int64)(am.scan_address(
             "c3", "80 79 ? ? 75 ? 48 8B 51 ? 41 B8 ? ? ? ?"
         ))
+        self.off = read_int(read_ulonglong(am.scan_point("offset", "48 8D 05 * * * * 4C 89 61 ? 4C 8B FA") + 0x30) + 3)
 
     @PluginHook.decorator(c_int64, [c_int64, POINTER(c_int64)], True)
     def macro_parse_hook(self, hook, a1, a2):
@@ -126,8 +130,8 @@ class SomeMacro(PluginBase):
             if ans:
                 write_string(read_ulonglong(a1 + 136), ans)
                 a2[0] += end + 1
-                buffer = (c_char * 112)()
-                v = self.c1(read_ulonglong(a1 + 912) + 0x690, addressof(buffer), read_ulonglong(a1 + 136))
+                buffer = (c_char * 1024)()
+                v = self.c1(read_ulonglong(a1 + 912) + self.off, addressof(buffer), read_ulonglong(a1 + 136))
                 self.c2(a1 + 32, v)
                 self.c3(addressof(buffer))
                 return 0xffffffff
