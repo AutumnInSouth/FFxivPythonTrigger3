@@ -117,6 +117,10 @@
         flex-direction: row-reverse;
         margin-left: auto
     }
+
+    .ck-popup {
+        z-index: 100;
+    }
 </style>
 <script>
     GFData = new Map();
@@ -303,7 +307,7 @@
         107: '/cwl8',
     };
     const channel_name = (channel) => channel in chat_channels ? chat_channels[channel] : channel;
-    const max_msg_count = 500;
+    const max_msg_count = 200;
     const kill_msg_count = 100;
     const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
     const msg_line_break = {type: 'text', data: '\n',}
@@ -355,12 +359,13 @@
             }
         },
         template: '<b-btn @click="show=!show" variant="link">' +
-            '<b-modal size="xl" v-model="show" hide-header hide-footer><iframe style="width: 100%;height: 50vh" :src="get_url()"/></b-modal>' +
-            '\uE0BB{{data.name}}</b-btn>'
+            '<b-modal size="xl" v-model="show" hide-header hide-footer>' +
+            '<iframe style="width: 100%;height: 50vh" :src="get_url()"/>' +
+            '</b-modal>\uE0BB{{data.name}}</b-btn>'
     });
     Vue.component('xivitem', {
         props: ['data'],
-        template: '<span :data-ck-item-id="data.id">\uE0BB{{data.name}}</span>'
+        template: '<b-btn variant="link" :data-ck-item-id="data.id">\uE0BB{{data.name}}</b-btn>'
     });
     Vue.component('sestring', {
         props: ['msg'],
@@ -371,13 +376,13 @@
             type_to_comp: (type) => {
                 switch (type) {
                     case 'icon':
-                        return 'xivicon'
+                        return 'xivicon';
                     case 'map':
-                        return 'xivmap'
+                        return 'xivmap';
                     case 'item':
-                        return 'xivitem'
+                        return 'xivitem';
                     default:
-                        return 'xivtext'
+                        return 'xivtext';
                 }
             }
         }
@@ -434,9 +439,16 @@
                 evt.preventDefault();
                 if (!(msg = this.send.msg)) return;
                 this.send.msg = '';
-                if (!msg.startsWith('/')) window.ws?.send(send_channels[this.send.channel] + ' ' + msg);
-                else if (k = Object.keys(send_channels).find(k => send_channels[k] === msg)) this.send.channel = k;
-                else window.ws?.send(msg);
+                switch (msg) {
+                    case '/cl':
+                    case '/clear':
+                        this.shown_messages = [];
+                        break;
+                    default:
+                        if (!msg.startsWith('/')) window.ws?.send(send_channels[this.send.channel] + ' ' + msg);
+                        else if (k = Object.keys(send_channels).find(k => send_channels[k] === msg)) this.send.channel = k;
+                        else window.ws?.send(msg);
+                }
             },
             date_fmt(epoch) {
                 const date = new Date(epoch * 1000)

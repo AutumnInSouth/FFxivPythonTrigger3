@@ -297,15 +297,14 @@ def in_game_to_raw_coord(pos):
 
 
 c1 = 41 / 2048
-c2 = 102400 * c1
 
 
 def in_game_to_map_coord(pos, scale, offset=0):
-    return (pos + offset) * c1 + c2 / scale + 1
+    return (pos + offset) * c1 + 2050 / scale + 1
 
 
 def map_to_in_game_coord(pos, scale, offset=0):
-    return (pos - 1 - c2 / scale) / c1 - offset
+    return (pos - 1 - 2050 / scale) / c1 - offset
 
 
 class MapPositionLink(MessageBase):

@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 import time
 from typing import TYPE_CHECKING
 from pathlib import Path
@@ -21,6 +22,7 @@ default_host = "0.0.0.0"
 default_port = 3215
 command = "@WebChat"
 dir = Path(__file__).parent
+special_char = re.compile(r"[\uE020-\uE0DB]")
 
 
 async def root_handler(request):
@@ -114,7 +116,7 @@ class WebChat(PluginBase):
         self.clients[cid] = ws
         await ws.prepare(request)
         try:
-            for m in self.history[-200:]:
+            for m in self.history[-100:]:
                 await ws.send_json(m)
             async for msg in ws:
                 if msg.type == WSMsgType.TEXT:
@@ -142,19 +144,19 @@ class WebChat(PluginBase):
 
     @event("log_event")
     def deal_chat_log(self, evt: 'ChatLogEvent'):
-        asyncio.set_event_loop(self.loop)
+        # asyncio.set_event_loop(self.loop)
         me = plugins.XivMemory.actor_table.me
         data = {
             'epoch': evt.chat_log.timestamp,
-            'sender': parse_msg_chain(evt.chat_log.sender) if me is None or evt.player != me.name else None,
+            'sender': parse_msg_chain(evt.chat_log.sender) if me is None or special_char.sub('', evt.player) != me.name else None,
             'msg': parse_msg_chain(evt.chat_log.messages),
             'channel': evt.channel_id,
         }
         self.history.append(data)
-        if len(self.history) > 500:
-            self.history = self.history[-200:]
+        if len(self.history) > 300:
+            self.history = self.history[-100:]
         for cid, ws in self.clients.items():
-            asyncio.run(ws.send_json(data))
+            self.loop.create_task(ws.send_json(data))
 
     async def _stop_server(self):
         for cid, ws in self.clients.items():

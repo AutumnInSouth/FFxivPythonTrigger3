@@ -7,6 +7,7 @@ from traceback import format_exc
 from FFxivPythonTrigger import EventBase, process_event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.game_utils.std_string import StdString
+from FFxivPythonTrigger.saint_coinach import item_names
 
 from ..se_string import ChatLog, get_message_chain
 
@@ -50,6 +51,7 @@ def fix_chat_log(grouped_msg):
             fix = True
             msg._display_name = msg.display_name + "(fix)"
             msg.is_collect = False
+            if msg.item_id not in item_names: msg.item_id = 1
     return fix
 
 

@@ -210,7 +210,6 @@ reflect_data = {
     2237: 1,  # Iron Kiss / 炮击 | 2/5/0/1.0s | normal/cannon_2 => general_1bf 
     2238: 1,  # Spindly Finger / 雷弹 | 2/5/0/1.0s | normal/cannon_2 => general_1bf 
     2273: 2,  # Rending Snath / 劈裂镰刀 | 4/3/3/2.5s | mon_sp/m0148/mon_sp003 => general02f 
-    2278: 1,  # Thunderstorm / 雷暴 | 2/5/0/4.0s | mon_sp/gimmick/ramuh_banrai_target => general_1bf 
     2279: 1,  # Judgment Bolt / 制裁之雷 | 5/50/0/3.0s | mon_sp/m0123/mon_sp005 => general_1bf 
     2280: 1,  # Chaotic Strike / 混乱冲击 | 6/0/0/3.0s | mon_sp/m0123/mon_sp006 => general_1bf 
     2281: 1,  # Rolling Thunder / 滚雷 | 6/0/0/2.0s | mon_sp/m0123/mon_sp007 => general_1bf 
@@ -235,7 +234,6 @@ reflect_data = {
     2408: 1,  # Spiral Spin / 螺旋震裂 | 5/16/0/4.0s | mon_sp/m0125/mon_sp008 => general_1bf 
     2419: 297,  # Eye of the Beholder / 眼魔之眼 | 3/15/0/4.0s | mon_sp/m0058/mon_sp007 => gl_fan270_1908at 
     2441: 1,  # Curtain Call / 谢幕的疯狂 | 6/100/0/15.0s | mon_sp/m0074/mon_sp011 => general_1bf 
-    2456: 1,  # Hailstorm / 冰雹 | 2/6/0/3.0s | mon_sp/gimmick/shiva_missile => general_1bf 
     2465: 4,  # Glacier Bash / 冰河怒击 | 3/8/0/3.0s | mon_sp/[SKL_ID]/mon_sp008 => gl_fan090_1bf 
     2466: 1,  # Diamond Dust / 钻石星尘 | 5/60/0/9.0s | mon_sp/[SKL_ID]/mon_sp021 => general_1bf 
     2468: 1,  # Whiteout / 白化视界 | 5/18/0/3.0s | mon_sp/[SKL_ID]/mon_sp009 => general_1bf 
@@ -2899,8 +2897,6 @@ reflect_data = {
     20231: 2,  # Cauterize / 灼热俯冲 | 12/40/20/4.0s | mon_sp/[SKL_ID]/hide/mon_sp004 => general02f 
     20233: 1,  # Terror Unleashed / 恐惧释放 | 2/70/0/3.0s | mon_sp/[SKL_ID]/mon_sp019 => general_1bf 
     20235: 1,  # Elddragon Dive / 远古龙炎冲 | 2/70/0/5.0s | mon_sp/[SKL_ID]/mon_sp012 => general_1bf 
-    20251: 1,  # Radiant Meteor / 光之陨石流星 | 2/20/0/6.0s | mon_sp/gimmick/n4ff_boss_gimmick07 => general_1bf 
-    20253: 1,  # Katon: San  / 叁式火遁之术 | 2/6/0/5.0s | mon_sp/gimmick/e3fe_boss_gimmick01 => general_1bf 
     20256: 1,  # Deluge of Death / 死亡暴雨 | 2/100/0/5.0s | mon_sp/gimmick/n4ff_boss_gimmick09 => general_1bf 
     20263: 1,  # Terror Unleashed / 恐惧释放 | 2/70/0/3.0s | mon_sp/[SKL_ID]/mon_sp019 => general_1bf 
     20265: 1,  # Elddragon Dive / 远古龙炎冲 | 2/70/0/5.0s | mon_sp/[SKL_ID]/mon_sp012 => general_1bf 
@@ -4091,4 +4087,5 @@ delay_percent = {
     26354: 1,  # Flames of Asphodelos | 13/60/0/0.7s | mon_sp/gimmick/n5r3_boss_gimmick06 
     26355: 1,  # Flames of Asphodelos | 13/60/0/0.8s | mon_sp/gimmick/n5r3_boss_gimmick06 
     26356: 1,  # Flames of Asphodelos | 13/60/0/0.9s | mon_sp/gimmick/n5r3_boss_gimmick06 
+    20300: 1,  # Imbued Coruscance / 魔法剑技·光明利剑 | 10/60/0/0.7s | mon_sp/[SKL_ID]/mon_sp005 
 }
