@@ -7,9 +7,11 @@ from traceback import format_exc
 from FFxivPythonTrigger import EventBase, process_event
 from FFxivPythonTrigger.hook import PluginHook
 from FFxivPythonTrigger.game_utils.std_string import StdString
-from FFxivPythonTrigger.saint_coinach import item_names
+from FFxivPythonTrigger.saint_coinach import item_names, realm
 
 from ..se_string import ChatLog, get_message_chain
+
+event_item_names = {row.key: row['Singular'] for row in realm.game_data.get_sheet('EventItem')}
 
 
 class ChatLogEvent(EventBase):
@@ -47,11 +49,24 @@ class ChatLogHook(PluginHook):
 def fix_chat_log(grouped_msg):
     fix = False
     for msg in grouped_msg:
-        if msg.Type == "Interactable/Item" and msg.is_hq and msg.is_collect:
-            fix = True
-            msg._display_name = msg.display_name + "(fix)"
-            msg.is_collect = False
-            if msg.item_id not in item_names: msg.item_id = 1
+        if msg.Type == "Interactable/Item":
+            if msg.item_id in item_names:
+                if msg.is_hq and msg.is_collect:
+                    fix = True
+                    msg._display_name = msg.display_name + "[item hq & collect]"
+                    msg.is_collect = False
+            elif msg.item_id in event_item_names:
+                if msg.is_hq or msg.is_collect:
+                    msg._display_name = msg.display_name + f"[evt_item hq:{msg.is_hq} collect:{msg.is_collect}]"
+                    fix = True
+                    msg.is_collect = False
+                    msg.is_hq = False
+            else:
+                fix = True
+                msg._display_name = msg.display_name + f"[未知的item_id:{msg.item_id}]"
+                msg.item_id = 1
+                msg.is_collect = False
+                msg.is_hq = False
     return fix
 
 
@@ -70,14 +85,12 @@ class PrintChatLogHook(PluginHook):
             )
             process_event(ChatLogEvent(chat_log))
 
-            fix_msg = fix_chat_log(chat_log.messages_grouped)
-            if fix_msg:
+            if fix_chat_log(chat_log.messages_grouped):
                 self.plugin.logger.debug(f"a msg is fixed")
                 new_msg = StdString(b''.join(m.encode_group() for m in chat_log.messages_grouped))
                 p_msg = cast(addressof(new_msg), POINTER(c_char_p))
 
-            fix_sender = fix_chat_log(chat_log.sender_grouped)
-            if fix_sender:
+            if fix_chat_log(chat_log.sender_grouped):
                 self.plugin.logger.debug(f"a sender is fixed")
                 new_sender = StdString(b''.join(m.encode_group() for m in chat_log.sender_grouped))
                 p_sender = cast(addressof(new_sender), POINTER(c_char_p))

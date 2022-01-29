@@ -13,6 +13,7 @@ map_sheet = realm.game_data.get_sheet('Map')
 status_sheet = realm.game_data.get_sheet('Status')
 quest_sheet = realm.game_data.get_sheet('Quest')
 completion_sheet = realm.game_data.get_sheet('Completion')
+event_item_sheet = realm.game_data.get_sheet('EventItem')
 
 
 def extract_special_message(raw: bytearray):
@@ -241,10 +242,16 @@ class Item(MessageBase):
     @property
     def display_name(self):
         if self._display_name is None:
-            try:
-                self._display_name = item_sheet[self.item_id]["Name"]
-            except KeyError:
-                self._display_name = "Unknown Item: %s" % self.item_id
+            if self.item_id < 2000000:
+                try:
+                    self._display_name = item_sheet[self.item_id]["Name"]
+                except KeyError:
+                    self._display_name = f"Unknown Item: {self.item_id}"
+            else:
+                try:
+                    self._display_name = event_item_sheet[self.item_id]["Singular"]
+                except KeyError:
+                    self._display_name = f"Unknown Event Item: {self.item_id}"
             if self.is_hq:
                 self._display_name += HQ_SYMBOL
             if self.is_collect:
@@ -270,10 +277,14 @@ class Item(MessageBase):
     def from_buffer(cls, raw: bytearray):
         _, data = extract_interactable_message(raw)
         item_id = get_integer(data)
-        is_hq = item_id > 1000000
-        if is_hq: item_id -= 1000000
-        is_collect = item_id > 500000
-        if is_collect: item_id -= 500000
+        if item_id < 2000000:
+            is_hq = item_id > 1000000
+            if is_hq: item_id -= 1000000
+            is_collect = item_id > 500000
+            if is_collect: item_id -= 500000
+        else:
+            is_hq = False
+            is_collect = False
         if len(data) > 3:
             del data[:3]
             name_len = get_integer(data)

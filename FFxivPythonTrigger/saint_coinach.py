@@ -38,3 +38,5 @@ class_job_sheet = realm.game_data.get_sheet('ClassJob')
 class_job_names = {row.key: row['Name'] for row in class_job_sheet}
 territory_type_sheet = realm.game_data.get_sheet('TerritoryType')
 territory_type_names = {row.key: str(row['PlaceName']) for row in territory_type_sheet}
+event_item_sheet = realm.game_data.get_sheet('EventItem')
+event_item_names = {row.key: row['Name'] for row in event_item_sheet}

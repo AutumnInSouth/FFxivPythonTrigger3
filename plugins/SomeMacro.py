@@ -9,6 +9,8 @@ from FFxivPythonTrigger.saint_coinach import item_sheet, item_names, realm, stat
 
 quest_sheet = realm.game_data.get_sheet("Quest")
 map_sheet = realm.game_data.get_sheet("Map")
+event_item_sheet = realm.game_data.get_sheet('EventItem')
+event_item_names = {row.key: row['Singular'] for row in event_item_sheet}
 
 item_name_to_id = {row['Name']: row.key for row in item_sheet}
 quest_name_to_id = {row['Name']: row.key for row in quest_sheet}
@@ -32,7 +34,7 @@ def parse_item(name=None, item_id=None, hq=None, collect=None, no_tag=None, ):
     else:
         item_id = int(item_id)
     if name is None:
-        name = item_names.get(item_id, 'unk_item')
+        name = item_names.get(item_id) or event_item_names.get(item_id) or f'unk_item:{item_id}'
     if hq:
         item_id += 1000000
         if not no_tag: name += '\ue03c'
@@ -50,7 +52,7 @@ def parse_quest(name=None, quest_id=None, ):
     else:
         quest_id = int(quest_id)
     if name is None:
-        name = quest_names.get(quest_id, 'unk_quest')
+        name = quest_names.get(quest_id) or f'unk_quest:{quest_id}'
     return f"<fixed(200,12,{quest_id - 65535},0,0,0,{name})>"
 
 
@@ -116,6 +118,7 @@ class SomeMacro(PluginBase):
             "c3", "80 79 ? ? 75 ? 48 8B 51 ? 41 B8 ? ? ? ?"
         ))
         self.off = read_int(read_ulonglong(am.scan_point("offset", "48 8D 05 * * * * 4C 89 61 ? 4C 8B FA") + 0x30) + 3)
+        self.logger(event_item_names)
 
     @PluginHook.decorator(c_int64, [c_int64, POINTER(c_int64)], True)
     def macro_parse_hook(self, hook, a1, a2):
