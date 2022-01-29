@@ -6,28 +6,23 @@ from FFxivPythonTrigger.saint_coinach import realm
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
 from XivMemory.se_string.messages import *
 
-print_chat_log_offset = find_signature_address("40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05")
-do_text_command_offset = find_signature_address("48 89 5C 24 ? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9")
-text_command_ui_module_offset = find_signature_point("48 8B 05 * * * * 48 8B D9 8B 40 14 85 C0")
-player_name_addr = find_signature_point("48 8D 0D * * * * E8 ? ? ? ? 0F B6 F0 0F B6 05 ? ? ? ?") + 1 + BASE_ADDR
 
+s="""
+《诗学的用处》
+亚拉戈诗学神典石可以用于兑换50级开始的整十级装备
+属性足以使用一个等级段推荐可以兑换后第一时间更新
+完成50级主线<q quest_id=66060>后开放<i item_id=8933>
+兑换地点：<p map_id=25 map_x=22.7 map_y=6.7 z=0><p map_id=12 map_x=9.9 map_y=11.4 z=0>
+                   <p map_id=2 map_x=11.9 map_y=12.3 z=0><p map_id=13 map_x=9.1 map_y=8.3 z=0>
+完成58级主线<quest quest_id=67191>后开放<i item_id=16327>
+兑换地点：<p map_id=257 map_x=5.8 map_y=5.3 z=0><p map_id=218 map_x=10.5 map_y=11.8 z=0>
+完成70级主线<quest quest_id=68089>后开放<i item_id=23472>
+兑换地点：<p map_id=370 map_x=12.2 map_y=10.8 z=0><p map_id=366 map_x=138.5 map_y=11.6 z=0>
+版本满级时开始使用新点数，而非诗学
+如果诗学溢出可兑换副职装备以作备用
+"""
 
-def player_name():
-    return read_string(player_name_addr)
+channel = '/cwl1'
 
-
-ui_module = read_memory(POINTER(c_int64), text_command_ui_module_offset + BASE_ADDR)
-_do_text_command = CFUNCTYPE(c_int64, c_void_p, c_void_p, c_int64, c_char)(do_text_command_offset + BASE_ADDR)
-TextCommandStruct = OffsetStruct({"cmd": c_void_p, "t1": c_longlong, "tLength": c_longlong, "t3": c_longlong}, full_size=400)
-
-
-def do_text_command(command: str | bytes):
-    if isinstance(command, str): command = command.encode('utf-8')
-    cmd_size = len(command)
-    cmd = OffsetStruct({"cmd": c_char * cmd_size}, full_size=cmd_size + 30)(cmd=command)
-    arg = TextCommandStruct(cmd=addressof(cmd), t1=64, tLength=cmd_size + 1, t3=0)
-    return _do_text_command(ui_module[0], addressof(arg), 0, 0)
-print(ui_module[0])
-print(plugins.XivMemory.calls.do_text_command("/e 1"))
-print(plugins.XivMemory.calls.do_text_command("/s 1"))
-#do_text_command("/s 1")
+for line in s.strip().split('\n'):
+    plugins.XivMemory.calls.do_text_command(f"{channel} {line}")

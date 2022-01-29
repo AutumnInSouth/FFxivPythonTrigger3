@@ -88,8 +88,13 @@ def read_double(address: int) -> float:
     return read_memory(c_double, address)
 
 
-def read_string(address: int, size: int = 100, coding: str = 'utf-8') -> str:
-    return read_memory(c_char * size, address).value.decode(coding, errors='ignore')
+def read_string(address: int, size: int = None, encode: str | None = 'utf-8') -> str | bytes:
+    if size is None:
+        size = 0
+        while read_ubyte(address + size): size += 1
+    msg = read_memory(c_char * size, address).value
+    if encode is not None: msg = msg.decode(encode, errors='ignore')
+    return msg
 
 
 def write_bytes(address: int, data, size=None, handler=CURRENT_PROCESS_HANDLER) -> None:
@@ -108,9 +113,10 @@ def write_memory(data_type, address: int, data, handler=CURRENT_PROCESS_HANDLER)
     write_bytes(address, raw, sizeof(data_type), handler)
 
 
-def write_string(address: int, data: str, coding: str = 'utf-8', size: int = None) -> None:
-    raw = bytearray(data.encode(coding))
-    raw.append(0)
+def write_string(address: int, data: str | bytes, coding: str = 'utf-8', size: int = None) -> None:
+    if isinstance(data, str): data = data.encode(coding)
+    raw = bytearray(data)
+    if raw[-1] != 0: raw.append(0)
     if size is not None and len(raw) > size:
         raw = raw[:size]
     return write_ubytes(address, raw)

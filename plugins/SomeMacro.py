@@ -4,7 +4,7 @@ from ctypes import *
 
 from FFxivPythonTrigger import plugins, PluginBase, AddressManager
 from FFxivPythonTrigger.hook import PluginHook
-from FFxivPythonTrigger.memory import read_memory, write_string, read_ulonglong, read_int
+from FFxivPythonTrigger.memory import read_memory, write_string, read_ulonglong, read_int, write_ubytes, read_string
 from FFxivPythonTrigger.saint_coinach import item_sheet, item_names, realm, status_sheet
 
 quest_sheet = realm.game_data.get_sheet("Quest")
@@ -19,6 +19,21 @@ maps = {}
 for row in map_sheet: maps.setdefault(getattr(row['TerritoryType'], 'key', 0), {})[row['MapIndex']] = row.key
 status_name_to_id = {}
 for row in status_sheet: status_name_to_id.setdefault(row['Name'], []).append(row.key)
+
+
+def raw_to_in_game_coord(pos): return pos / 1000
+
+
+def in_game_to_raw_coord(pos): return pos * 1000
+
+
+c1 = 41 / 2048
+
+
+def in_game_to_map_coord(pos, scale=100, offset=0): return (pos + offset) * c1 + 2050 / scale + 1
+
+
+def map_to_in_game_coord(pos, scale=100, offset=0): return (pos - 1 - 2050 / scale) / c1 - offset
 
 
 def parse_actor(name=None, world_id=None, actor_id=None, ):
@@ -51,26 +66,42 @@ def parse_quest(name=None, quest_id=None, ):
         if quest_id is None: return
     else:
         quest_id = int(quest_id)
+        if quest_id < 65536:
+            quest_id += 65536
     if name is None:
         name = quest_names.get(quest_id) or f'unk_quest:{quest_id}'
-    return f"<fixed(200,12,{quest_id - 65535},0,0,0,{name})>"
+    return f"<fixed(200,12,{quest_id - 65536},0,0,0,{name})>"
 
 
-def parse_pos(map_id=None, territory_id=None, x=None, y=None, z=None, ):
+def parse_pos(map_id=None, territory_id=None, x=None, y=None, z=None, map_x=None, map_y=None, ):
     if map_id is None and territory_id is None:
         territory_id = plugins.XivMemory.zone_id
         map_id = plugins.XivMemory.map_id
     if map_id: map_id = int(map_id)
     if territory_id: territory_id = int(territory_id)
+    if map_id is None:
+        maps.get(territory_id, {}).get(0, 0)
+    map_row = map_sheet[map_id]
     if territory_id is None:
-        territory_id = getattr(map_sheet[map_id]['TerritoryType'], 'key', 0)
+        territory_id = getattr(map_row['TerritoryType'], 'key', 0)
     if x is None:
-        x = plugins.XivMemory.coordinate.x
+        if map_x:
+            x = map_to_in_game_coord(float(map_x), map_row["SizeFactor"], map_row["Offset{X}"])
+        else:
+            x = plugins.XivMemory.coordinate.x
+    else:
+        x = float(x)
     if y is None:
-        y = plugins.XivMemory.coordinate.y
+        if map_y:
+            y = map_to_in_game_coord(float(map_y), map_row["SizeFactor"], map_row["Offset{Y}"])
+        else:
+            y = plugins.XivMemory.coordinate.y
+    else:
+        y = float(y)
     if z is None:
         z = plugins.XivMemory.coordinate.z
-    if map_id is None: maps.get(territory_id, {}).get(0, 0)
+    else:
+        z = float(z)
     return f"<fixed(200,3,{territory_id},{map_id},{x * 1000:.0f},{y * 1000:.0f},{z:.0f})>"
 
 
@@ -118,19 +149,24 @@ class SomeMacro(PluginBase):
             "c3", "80 79 ? ? 75 ? 48 8B 51 ? 41 B8 ? ? ? ?"
         ))
         self.off = read_int(read_ulonglong(am.scan_point("offset", "48 8D 05 * * * * 4C 89 61 ? 4C 8B FA") + 0x30) + 3)
-        self.logger(event_item_names)
+        # self.logger(event_item_names)
 
     @PluginHook.decorator(c_int64, [c_int64, POINTER(c_int64)], True)
     def macro_parse_hook(self, hook, a1, a2):
         try:
-            cmd = read_memory(c_char * 50, a2[0]).value
+            cmd = read_string(a2[0], encode=None)
             try:
                 end = cmd.find(b'>')
             except ValueError:
                 return hook.original(a1, a2)
             self.logger.debug(f"cmd: {cmd} end: {end}")
+            if cmd[1] == 47:
+                write_string(a2[0], cmd[:end].replace(b'</', b'<', 1) + cmd[end:])
+                a2[0] += end
+                return 0
             ans = parse_macro(cmd[1:end].decode('utf8', 'ignore').split(' '))
             if ans:
+                self.logger(ans)
                 write_string(read_ulonglong(a1 + 136), ans)
                 a2[0] += end + 1
                 buffer = (c_char * 1024)()

@@ -60,13 +60,13 @@ class TestHook(PluginBase):
         # self.macro_concat(self, BASE_ADDR + find_signature_address(
         #     "40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"
         # ))
-        # self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
-        #     "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
-        # ))
-
-        self.print_msg_hook(self, BASE_ADDR + find_signature_address(
-            "40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05"
+        self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
+            "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
         ))
+        #
+        # self.print_msg_hook(self, BASE_ADDR + find_signature_address(
+        #     "40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05"
+        # ))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
