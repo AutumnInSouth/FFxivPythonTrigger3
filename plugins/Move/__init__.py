@@ -46,10 +46,11 @@ class Move(PluginBase):
         if self.current_waypoint is not None:
             if not self.pause:
                 self.auto_move[0] = 3
-                current_map_id=plugins.XivMemory.map_id
+                current_map_id = plugins.XivMemory.map_id
+                me = plugins.XivMemory.actor_table.me
                 if self.last_map is None:
                     self.last_map = current_map_id
-                elif self.last_map != current_map_id:
+                elif self.last_map != current_map_id or me is None:
                     self.stop()
                     self.last_map = current_map_id
                 else:
@@ -62,6 +63,7 @@ class Move(PluginBase):
                             self.current_waypoint = None
                             self.auto_move[0] = 1
                     else:
-                        coordinate.r = atan2(t_x - coordinate.x, t_y - coordinate.y)
+                        new_r = atan2(t_x - coordinate.x, t_y - coordinate.y)
+                        coordinate.r = new_r
         elif self.waypoint_list:
             self.current_waypoint = self.waypoint_list.pop(0)
