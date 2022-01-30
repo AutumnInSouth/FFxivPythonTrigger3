@@ -17,7 +17,7 @@ class Move(PluginBase):
         super().__init__()
         self.current_waypoint = None
         self.waypoint_list = []
-        self.last_map = None
+        self.last_zone = None
         am = AddressManager(self.name, self.logger)
         self.auto_move = cast(am.scan_point(
             'auto_move_flag', "48 8D 0D * * * * E8 ? ? ? ? 84 C0 74 ? 48 8B 0D ? ? ? ? B2 ?",
@@ -52,9 +52,11 @@ class Move(PluginBase):
     def next_waypoint(self):
         try:
             self.current_waypoint = self.waypoint_list.pop(0)
+            self.logger.info("Move to next waypoint: ", self.current_waypoint)
         except IndexError:
             self.current_waypoint = None
             self.auto_move[0] = 1
+            self.logger.info("Move to last waypoint")
             return False
         return True
 
@@ -86,13 +88,13 @@ class Move(PluginBase):
         if self.current_waypoint is not None:
             if not self.pause:
                 self.auto_move[0] = 3
-                current_map_id = plugins.XivMemory.map_id
+                current_zone_id = plugins.XivMemory.zone_id
                 me = plugins.XivMemory.actor_table.me
-                if self.last_map is None:
-                    self.last_map = current_map_id
-                elif self.last_map != current_map_id or me is None:
+                if self.last_zone is None:
+                    self.last_zone = current_zone_id
+                elif self.last_zone != current_zone_id or me is None:
                     self.stop()
-                    self.last_map = current_map_id
+                    self.last_zone = current_zone_id
                 elif len(self.current_waypoint) == 2:
                     self.process_walk()
                 else:
