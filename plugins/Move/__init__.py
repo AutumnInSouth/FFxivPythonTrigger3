@@ -70,7 +70,7 @@ class Move(PluginBase):
             self.next_waypoint()
         else:
             coordinate.r = atan2(x_dis, y_dis)
-            self.depression_angle_ptr[0] = atan2(z_dis, xy_dis)
+            self.depression_angle_ptr[0] = atan2(z_dis, xy_dis ** .5)
 
     def process_walk(self):
         coordinate = plugins.XivMemory.coordinate
