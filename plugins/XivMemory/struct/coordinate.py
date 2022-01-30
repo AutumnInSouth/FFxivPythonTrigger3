@@ -15,6 +15,9 @@ class Coordinate(object):
             Position, address["coordinate_fly"]
         )
 
+    def __str__(self):
+        return str(self.coordinate_main)
+
     @property
     def coordinate_main(self):
         return self._coordinate_main.value

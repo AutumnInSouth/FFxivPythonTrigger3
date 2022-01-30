@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from XivCombat import XivCombat
     from XivCombo import XivCombo
     from XivHacks import XivHacks
+    from Move import Move
 
 
 class Plugins:
@@ -30,6 +31,7 @@ class Plugins:
     XivCombat: 'XivCombat'
     XivCombo: 'XivCombo'
     XivHacks: 'XivHacks'
+    Move: 'Move'
 
 
 plugins: Plugins
