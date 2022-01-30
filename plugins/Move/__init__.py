@@ -46,13 +46,12 @@ class Move(PluginBase):
         if self.current_waypoint is not None:
             if not self.pause:
                 self.auto_move[0] = 3
+                current_map_id=plugins.XivMemory.map_id
                 if self.last_map is None:
-                    self.last_map = plugins.XivMemory.map_id
-                elif self.last_map != plugins.XivMemory.map_id:
-                    self.waypoint_list.clear()
-                    self.current_waypoint = None
-                    self.auto_move[0] = 1
-                    self.last_map = plugins.XivMemory.map_id
+                    self.last_map = current_map_id
+                elif self.last_map != current_map_id:
+                    self.stop()
+                    self.last_map = current_map_id
                 else:
                     coordinate = plugins.XivMemory.coordinate
                     t_x, t_y = self.current_waypoint
