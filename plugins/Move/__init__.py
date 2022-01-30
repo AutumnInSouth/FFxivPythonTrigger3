@@ -52,11 +52,11 @@ class Move(PluginBase):
     def next_waypoint(self):
         try:
             self.current_waypoint = self.waypoint_list.pop(0)
-            self.logger.info("Move to next waypoint: ", self.current_waypoint)
+            # self.logger.info("Move to next waypoint: ", self.current_waypoint)
         except IndexError:
             self.current_waypoint = None
             self.auto_move[0] = 1
-            self.logger.info("Move to last waypoint")
+            # self.logger.info("Move to last waypoint")
             return False
         return True
 
