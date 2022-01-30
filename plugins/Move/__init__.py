@@ -37,6 +37,11 @@ class Move(PluginBase):
             self.auto_move[0] = 1
         return True
 
+    def stop(self):
+        self.waypoint_list.clear()
+        self.current_waypoint = None
+        self.auto_move[0] = 1
+
     def frame_work(self):
         if self.current_waypoint is not None:
             if not self.pause:
