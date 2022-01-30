@@ -1,4 +1,6 @@
 from ctypes import *
+from random import randint
+
 from FFxivPythonTrigger import *
 from FFxivPythonTrigger.memory import *
 from FFxivPythonTrigger.memory.struct_factory import *
@@ -9,6 +11,8 @@ from XivMemory.se_string.messages import *
 coordinate = plugins.XivMemory.coordinate
 
 way_marks = plugins.XivMemory.markings.way_mark
-for _ in range(5):
-    for point in (way_marks.a, way_marks.b, way_marks.c, way_marks.d):
-        plugins.Move.waypoint_list.append((point.x, point.y))
+z_base = coordinate.z
+for point in (way_marks.a, way_marks.b, way_marks.c, way_marks.d):
+    z_base += randint(5, 20)
+    point.z = z_base
+    plugins.Move.waypoint_list.append((point.x, point.y, point.z))
