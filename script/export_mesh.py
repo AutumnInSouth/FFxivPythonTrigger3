@@ -1,5 +1,6 @@
-import pysaintcoinach
 from pathlib import Path
+
+import pysaintcoinach
 
 root_path = Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3')
 
@@ -9,10 +10,29 @@ realm_chs = pysaintcoinach.ARealmReversed(game_path_chs, pysaintcoinach.Language
 game_path_eng = r'D:\game\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\game'
 realm_eng = pysaintcoinach.ARealmReversed(game_path_eng, pysaintcoinach.Language.english, root_path / 'DefinitionsExt4')  # 国际服
 
+realm = realm_eng
 
-def e_obj_sgb_path_mapping(e_obj_id, realm=realm_eng):
-    pass
+e_obj_sheet = realm.game_data.get_sheet('EObj')
+territory_sheet = realm.game_data.get_sheet('TerritoryType')
+bg_pack = realm.packs.get_pack('bg')
 
 
-def export_collision_mesh(territory_id, realm=realm_eng, output_path=root_path / 'collision_mesh'):
-    territory_path = realm.game_data.get_sheet('TerritoryType')[territory_id]['Bg']
+def e_obj_sgb_path(e_obj_id: int):
+    return e_obj_sheet[e_obj_id]['SgbPath']['SgbPath']
+
+
+def export_collision_mesh(territory_id, output_path=root_path / 'collision_mesh'):
+    territory = territory_sheet[territory_id]
+    territory_path = territory['Bg']
+    territory_name = territory['Name']
+    list_pcb_path = territory_path + "/collision/list.pcb"
+    bg_lgb_path = territory_path + "/level/bg.lgb"
+    planmap_lgb_path = territory_path + "/level/planmap.lgb"
+    collision_file_path = territory_path + "/collision/"
+
+    s0 = bg_pack.get_file(bg_lgb_path).get_data()
+    s1 = bg_pack.get_file(list_pcb_path).get_data()
+    s2 = bg_pack.get_file(planmap_lgb_path).get_data()
+
+    total_groups = 0
+    total_entries = 0
