@@ -14,7 +14,6 @@ realm = realm_eng
 
 e_obj_sheet = realm.game_data.get_sheet('EObj')
 territory_sheet = realm.game_data.get_sheet('TerritoryType')
-bg_pack = realm.packs.get_pack('bg')
 
 
 def e_obj_sgb_path(e_obj_id: int):
@@ -25,14 +24,14 @@ def export_collision_mesh(territory_id, output_path=root_path / 'collision_mesh'
     territory = territory_sheet[territory_id]
     territory_path = territory['Bg']
     territory_name = territory['Name']
-    list_pcb_path = territory_path + "/collision/list.pcb"
-    bg_lgb_path = territory_path + "/level/bg.lgb"
-    planmap_lgb_path = territory_path + "/level/planmap.lgb"
-    collision_file_path = territory_path + "/collision/"
+    list_pcb_path = "bg/" + territory_path + "/collision/list.pcb"
+    bg_lgb_path = "bg/" + territory_path + "/level/bg.lgb"
+    planmap_lgb_path = "bg/" + territory_path + "/level/planmap.lgb"
+    collision_file_path = "bg/" + territory_path + "/collision/"
 
-    s0 = bg_pack.get_file(bg_lgb_path).get_data()
-    s1 = bg_pack.get_file(list_pcb_path).get_data()
-    s2 = bg_pack.get_file(planmap_lgb_path).get_data()
+    s0 = realm.packs.get_file(bg_lgb_path).get_data()
+    s1 = realm.packs.get_file(list_pcb_path).get_data()
+    s2 = realm.packs.get_file(planmap_lgb_path).get_data()
 
     total_groups = 0
     total_entries = 0
