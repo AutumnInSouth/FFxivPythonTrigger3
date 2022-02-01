@@ -1,15 +1,11 @@
+import sys
 from pathlib import Path
-
-import pysaintcoinach
-import lgb_define
-import pcb_define
-import sgb_define
-import exporter
-import common_define
 import threading
 
-print_lock = threading.Lock()
 root_path = Path(r'D:\game\ff14_res\FFxivPythonTrigger3\FFxivPythonTrigger3')
+sys.path.insert(0, str(root_path))
+
+import pysaintcoinach
 
 game_path_chs = r'D:\game\WeGameApps\rail_apps\ffxiv(2000340)\game'
 realm_chs = pysaintcoinach.ARealmReversed(game_path_chs, pysaintcoinach.Language.chinese_simplified, root_path / 'DefinitionsExt3')  # 国服
@@ -19,19 +15,29 @@ realm_eng = pysaintcoinach.ARealmReversed(game_path_eng, pysaintcoinach.Language
 
 realm = realm_eng
 
+import lgb_define
+import pcb_define
+import sgb_define
+import exporter
+import common_define
+
+print_lock = threading.Lock()
 e_obj_sheet = realm.game_data.get_sheet('EObj')
 territory_sheet = realm.game_data.get_sheet('TerritoryType')
 
 _pcb_cache = {}
 
+
 def file_name_safe_str(file_name: str):
     return ''.join(c for c in file_name if c.isalnum() or c in '._-')
+
 
 def get_pcb_file(pcb_path: str) -> pcb_define.PcbFile | None:
     if pcb_path not in _pcb_cache:
         file = realm.packs.get_file(pcb_path)
         if file is None:
             # print(f"[!] {pcb_path} not found")
+            # print(''.join(traceback.format_stack()))
             _pcb_cache[pcb_path] = None
         else:
             # print(f"[*] {pcb_path} found")
@@ -108,19 +114,19 @@ def export_collision_mesh(territory_id, output_path=root_path / 'mesh'):
             y_base = abs(entry.header.v2.y - start_v.y)
             z_base = abs(entry.header.v2.z - start_v.z)
 
-            def make_translate(_v: common_define.Vec3):
-                if sgb_entry:
+            def make_translate(v: common_define.Vec3):
+                if sgb_entry is not None:
                     _scale = sgb_entry.header.scale
-                    _v.scale(_scale.x, _scale.y, _scale.z)
+                    v.scale(_scale.x, _scale.y, _scale.z)
                     _rotation = sgb_entry.header.rotation
-                    _v.rotate_x(_rotation.x).rotate_y(_rotation.y).rotate_z(_rotation.z)
+                    v.rotate_x(_rotation.x).rotate_y(-_rotation.y).rotate_z(_rotation.z)
                     _translation = sgb_entry.header.translation
-                    _v.transform(_translation.x, _translation.y, _translation.z)
-                if scale:
-                    _v.scale(scale.x, scale.y, scale.z)
-                    _v.rotate_x(rotation.x).rotate_y(rotation.y).rotate_z(rotation.z)
-                    _v.transform(translation.x, translation.y, translation.z)
-                return _v
+                    v.transform(_translation.x, _translation.y, _translation.z)
+                if scale is not None:
+                    v.scale(scale.x, scale.y, scale.z)
+                    v.rotate_x(rotation.x).rotate_y(-rotation.y).rotate_z(rotation.z)
+                    v.transform(translation.x, translation.y, translation.z)
+                return v
 
             for v in entry.data.vertices:
                 mesh.vertices.append(make_translate(common_define.Vec3(v.x, v.y, v.z)))
@@ -158,7 +164,7 @@ def export_collision_mesh(territory_id, output_path=root_path / 'mesh'):
                 sgb_model
             )
 
-    def export_sgb_model(sgb_path: str, exported_group: exporter.Group, gimmick_entry: lgb_define.GimmickData, is_eobj=False):
+    def export_sgb_model(sgb_path: str, exported_group: exporter.Group, gimmick_entry: lgb_define.GimmickData):
         sgb_file = get_sgb_file(sgb_path)
         if sgb_file is None: return
         for sgb_entry in sgb_file.iter_group_entries():
@@ -211,14 +217,19 @@ def export_collision_mesh(territory_id, output_path=root_path / 'mesh'):
                         # pcb_transform_model(file_name, sub_exported_group, header.scale, header.rotation, header.translation)
                         sgb_path = e_obj_sgb_path(entry.header.e_obj_id)
                         if sgb_path:
-                            export_sgb_model(sgb_path, sub_exported_group, entry, is_eobj=True)
+                            export_sgb_model(sgb_path, sub_exported_group, entry)
                             sgb_file = get_sgb_file(sgb_path)
                             if sgb_file is not None:
                                 for offset_1c_file in sgb_file.state_entries:
-                                    export_sgb_model(offset_1c_file, sub_exported_group, entry, is_eobj=True)
+                                    export_sgb_model(offset_1c_file, sub_exported_group, entry)
             exported_zone.groups[sub_exported_group.name] = sub_exported_group
-    exported_zone.export_obj(output_path / f"{territory_name}.obj")
-    print(f"Exported {territory['PlaceName{Region}']} - {territory['PlaceName{Zone}']} - {territory['PlaceName']}")
+    exported_zone.export_obj(output_path / f"{territory_id}.obj")
+    try:
+        territory = realm_chs.game_data.get_sheet('TerritoryType')[territory_id]
+    except:
+        pass
+    print(
+        f"Exported {territory_name} {territory['PlaceName{Region}']} - {territory['PlaceName{Zone}']} - {territory['PlaceName']} => {territory_id}.obj")
 
 
 def export_all_multi_thread():
@@ -231,4 +242,20 @@ def export_all_multi_thread():
     for job in jobs:
         job.join()
 
-export_all_multi_thread()
+
+def export_all_normal():
+    for row in realm.game_data.get_sheet('TerritoryType'):
+        if row['Bg']:
+            export_collision_mesh(row.key)
+
+
+try:
+    export_all_normal()
+except Exception as e:
+    import traceback
+
+    traceback.print_exc()
+#     input()
+#
+# for t_id in range(128, 134):
+#     export_collision_mesh(t_id)

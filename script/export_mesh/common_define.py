@@ -24,22 +24,28 @@ class Vec3(Structure):
     def rotate_x(self, x: float):
         cos_x = math.cos(x)
         sin_x = math.sin(x)
-        self.y = self.y * cos_x - self.z * sin_x
-        self.z = self.y * sin_x + self.z * cos_x
+        new_y = self.y * cos_x - self.z * sin_x
+        new_z = self.y * sin_x + self.z * cos_x
+        self.y = new_y
+        self.z = new_z
         return self
 
     def rotate_y(self, y: float):
         cos_y = math.cos(y)
         sin_y = math.sin(y)
-        self.x = self.x * cos_y - self.z * sin_y
-        self.z = self.x * sin_y + self.z * cos_y
+        new_x = self.x * cos_y - self.z * sin_y
+        new_z = self.x * sin_y + self.z * cos_y
+        self.x = new_x
+        self.z = new_z
         return self
 
     def rotate_z(self, z: float):
         cos_z = math.cos(z)
         sin_z = math.sin(z)
-        self.x = self.x * cos_z - self.y * sin_z
-        self.y = self.x * sin_z + self.y * cos_z
+        new_x = self.x * cos_z - self.y * sin_z
+        new_y = self.x * sin_z + self.y * cos_z
+        self.x = new_x
+        self.y = new_y
         return self
 
 
