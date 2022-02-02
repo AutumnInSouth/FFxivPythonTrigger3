@@ -21,11 +21,6 @@ from FFxivPythonTrigger import PluginBase, BindValue, frame_inject, wait_until, 
 from . import window, custom_glfw_renderer, test_window, key_hook
 
 
-def problem_draw():
-    imgui.begin("Problem")
-    raise Exception("Test")
-
-
 class Gui(PluginBase):
     name = "Gui"
     separate_thread = BindValue(default=True, auto_save=True)
@@ -40,8 +35,8 @@ class Gui(PluginBase):
         self.on_work = False
         self.work_queue = queue.Queue()
         self.interfaces = set()
-        self.interfaces.add(test_window.show_test_window)
-        self.interfaces.add(problem_draw)
+        # self.interfaces.add(test_window.show_test_window)
+        # self.interfaces.add(problem_draw)
         self.key_hook = key_hook.KeyHook(self, AddressManager(self.name, self.logger).scan_address(
             "key_hook", "48 89 5C 24 ? 55 56 57 41 56 41 57 48 83 EC ? 4D 8B F1"
         ))

@@ -3,6 +3,7 @@ AppData*/
 mesh/
 .idea/
 */gittest/
+imgui.ini
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
