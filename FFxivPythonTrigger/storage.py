@@ -22,7 +22,7 @@ class ModuleStorage(object):
     def __init__(self, path: Union[Path, str]):
         if type(path) == str:
             path = Path(path)
-        self._path = path
+        self._path = path.absolute()
         self.data = self.load() if self._path.exists() else dict()
 
     @property

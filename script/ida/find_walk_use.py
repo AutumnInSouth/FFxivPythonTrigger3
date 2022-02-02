@@ -36,8 +36,8 @@ def find_values(ea: int, depth=0):
             find_values(_ea, depth - 1)
 
 
-#for addr in sig_search("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
-for addr in sig_search("48 89 5C 24 ? 56 41 56 41 57 48 83 EC ? 48 63 C2"):
+for addr in sig_search("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
+#for addr in sig_search("48 89 5C 24 ? 56 41 56 41 57 48 83 EC ? 48 63 C2"):
     xrefs = find_xrefs(addr)
     for addr in chain(xrefs.get(19, []), xrefs.get(17, [])):
         find_values(addr, 10)

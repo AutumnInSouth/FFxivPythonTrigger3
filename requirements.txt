@@ -3,3 +3,5 @@ Pillow
 pefile
 requests
 PyGLM
+imgui[glfw]
+glfw-preview

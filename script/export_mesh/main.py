@@ -225,7 +225,11 @@ def export_collision_mesh(territory_id, output_path=root_path / 'mesh'):
             exported_zone.groups[sub_exported_group.name] = sub_exported_group
     exported_zone.export_obj(output_path / f"{territory_id}.obj")
     try:
-        territory = realm_chs.game_data.get_sheet('TerritoryType')[territory_id]
+        _territory = realm_chs.game_data.get_sheet('TerritoryType')[territory_id]
+        if _territory['PlaceName']:
+            territory = _territory
+    except KeyError:
+        pass
     except:
         pass
     print(
@@ -243,14 +247,20 @@ def export_all_multi_thread():
         job.join()
 
 
-def export_all_normal():
+def export_all_normal(start=0, end=None):
     for row in realm.game_data.get_sheet('TerritoryType'):
-        if row['Bg']:
-            export_collision_mesh(row.key)
+        if end and row.key < end:
+            break
+        if row.key > start and row['Bg']:
+            try:
+                export_collision_mesh(row.key)
+            except Exception as e:
+                import traceback
+                print(f"Failed to export {row.key}\n{traceback.format_exc()}")
 
 
 try:
-    export_all_normal()
+    export_all_normal(start=956)
 except Exception as e:
     import traceback
 
