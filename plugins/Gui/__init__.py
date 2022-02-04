@@ -3,7 +3,7 @@ import pathlib
 import queue
 import traceback
 import threading
-
+from math import atan2
 import glm
 from win32gui import GetForegroundWindow
 
@@ -202,13 +202,14 @@ class Gui(PluginBase):
 
     def add_line(self, start: glm.vec3, end: glm.vec3, line_color: glm.vec4 = None, line_width: float = 3.0,
                  point_color: glm.vec4 = None, point_size: float = 5.0):
-        dif = end - start
         self.models.line.render(
             self.program,
             mvp=self.get_view().projection_view,
             transform=glm.translate(start) * glm.rotate(
-                # TODO:?
-            ) * glm.scale(glm.length(dif)),
+                atan2(start.z - end.z, end.x - start.x), glm.vec3(0, 1, 0)
+            ) * glm.rotate(
+                atan2(end.y - start.y, glm.distance(start.xz, end.xz)), glm.vec3(0, 0, 1)
+            ) * glm.scale(glm.vec3(glm.length(end - start))),
             edge=line_color,
             line_width=line_width,
             point=point_color,
@@ -217,7 +218,7 @@ class Gui(PluginBase):
 
     def add_plane(self, transform: glm.mat4, surface_color: glm.vec4 = None, line_color: glm.vec4 = None,
                   line_width: float = 3.0, point_color: glm.vec4 = None, point_size: float = 5.0):
-        self.models.plane_xy.render(
+        self.models.plane_xz.render(
             self.program,
             mvp=self.get_view().projection_view,
             transform=transform,

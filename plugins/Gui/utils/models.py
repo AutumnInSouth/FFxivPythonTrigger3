@@ -98,8 +98,20 @@ class PlaneXY(BaseModel3d):
     _point_vertices = _surface_vertices
 
 
+class PlaneXZ(BaseModel3d):
+    _surface_vertices = [
+        -.5, 0.0, -.5,
+        .5, 0.0, -.5,
+        .5, 0.0, .5,
+        -.5, 0.0, .5
+    ]
+    _edge_vertices = _surface_vertices
+    _point_vertices = _surface_vertices
+
+
 class Models:
     def __init__(self):
         self.line = Line()
         self.point = Point()
         self.plane_xy = PlaneXY()
+        self.plane_xz = PlaneXZ()

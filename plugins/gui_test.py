@@ -73,8 +73,6 @@ def test_plane():
                     glm.vec3(pos.x, pos.z + sin_time, pos.y)
                 ) * glm.rotate(
                     pos.r + sin_time * math.pi, glm.vec3(0, 1, 0)
-                ) * glm.rotate(
-                    math.pi / 2, glm.vec3(1, 0, 0)
                 ) * glm.scale(
                     glm.vec3(1, 1, 1)
                 ),
@@ -89,8 +87,6 @@ def test_plane():
                     glm.vec3(pos.x, pos.z + cos_time, pos.y)
                 ) * glm.rotate(
                     pos.r + cos_time * math.pi, glm.vec3(0, 1, 0)
-                ) * glm.rotate(
-                    math.pi / 2, glm.vec3(1, 0, 0)
                 ) * glm.scale(
                     glm.vec3(1, 1, 1)
                 ),
@@ -107,11 +103,21 @@ def test_line():
     if me is None: return
     current = plugins.XivMemory.targets.current
     if current is None: return
+    t=glfw.get_time()
     plugins.Gui.add_line(
         start=glm.vec3(me.pos.x, me.pos.z, me.pos.y),
         end=glm.vec3(current.pos.x, current.pos.z, current.pos.y),
-        line_color=glm.vec4(1, 0, 0, 1)
+        line_color=glm.vec4(math.cos(t), math.cos(t/1.5), math.cos(t/2), 1),
+        line_width=1,
+        point_color=glm.vec4(0, 1, 0, 1),
+        point_size=5,
     )
+
+
+def test_point():
+    for a in plugins.XivMemory.actor_table:
+        if a.type == "player":
+            plugins.Gui.add_point(glm.vec3(a.pos.x, a.pos.z, a.pos.y), glm.vec4(1, 0, 0, 1))
 
 
 class GuiTest(PluginBase):
