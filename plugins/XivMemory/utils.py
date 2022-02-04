@@ -17,6 +17,6 @@ class Utils(object):
         entity = self.mo_entity
         if entity: return entity.pos.x, entity.pos.y, entity.pos.z
         try:
-            return self.plugin.calls.screen_to_world.cursor_to_world()
+            return self.plugin.calls.ray_cast.cursor_to_world()
         except ValueError:
             return None

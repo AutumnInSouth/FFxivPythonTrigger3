@@ -51,12 +51,17 @@ def obj_set_attr(obj, _t, key, val):
 
 class _OffsetStruct(Structure):
     _pack_ = 1
+    _iter_fields = []
     raw_fields: Dict[str, Tuple[any, int]] = None
     struct_size = 0
 
-    @cache
-    def _properties(self):
-        return [k for k, v in type(self).__dict__.items() if not k.startswith('_') and isinstance(v, (property, cached_property))]
+    @classmethod
+    def _properties(cls):
+        if not hasattr(cls, '_cached_properties'):
+            setattr(cls, '_cached_properties', [
+                k for k, v in cls.__dict__.items() if not k.startswith('_') and isinstance(v, (property, cached_property))
+            ])
+        return getattr(cls, '_cached_properties')
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -79,9 +84,8 @@ class _OffsetStruct(Structure):
             yield k, getattr(self, k)
 
     def get_item(self):
-        for k in self.raw_fields.keys():
-            if not k.startswith('_'):
-                yield k, getattr(self, k)
+        for k in self._iter_fields:
+            yield k, getattr(self, k)
         for k in self._properties():
             yield k, getattr(self, k)
 
@@ -125,7 +129,12 @@ def OffsetStruct(fields: dict, full_size: int = None, name=None, max_pad_length:
     return type(
         (name or f"OffsetStruct_{current_size:#X}"),
         (_OffsetStruct,),
-        {'raw_fields': fields, '_fields_': set_fields, 'struct_size': current_size}
+        {
+            'raw_fields': fields,
+            '_fields_': set_fields,
+            'struct_size': current_size,
+            '_iter_fields': [k for k in fields.keys() if not k.startswith('_')]
+        }
     )
 
 

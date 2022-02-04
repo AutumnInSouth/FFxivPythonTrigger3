@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from XivCombo import XivCombo
     from XivHacks import XivHacks
     from Move import Move
+    from Gui import Gui
 
 
 class Plugins:
@@ -32,6 +33,7 @@ class Plugins:
     XivCombo: 'XivCombo'
     XivHacks: 'XivHacks'
     Move: 'Move'
+    Gui: 'Gui'
 
 
 plugins: Plugins

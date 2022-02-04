@@ -6,6 +6,8 @@ from FFxivPythonTrigger.decorator import BindValue, re_event, event
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 
+
+
 class DebugPlugin(PluginBase):
     name = "DebugPlugin"
 
@@ -14,6 +16,7 @@ class DebugPlugin(PluginBase):
     def __init__(self):
         super().__init__()
         # plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
+
 
     def m_e(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.header.action_animation_id = 26362
@@ -184,6 +187,6 @@ class DebugPlugin(PluginBase):
             if m.Type == "Interactable/MapPositionLink":
                 self.logger(m.x, m.y)
 
-    @event("network/zone/client/update_position_handler")
+    # @event("network/zone/client/update_position_handler")
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
