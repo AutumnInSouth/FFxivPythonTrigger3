@@ -127,6 +127,11 @@ class CommandPlugin(PluginBase):
                 _self.script_name = script_name
                 _self.argus = argus
                 _self.id = self.scripts_counter.get()
+                _self.vars = {
+                    'print': self.logger,
+                    'argus': _self.argus,
+                    'script': _self,
+                }
 
             def exec(_self):
                 self.executing_scripts[_self.id] = _self
@@ -136,11 +141,7 @@ class CommandPlugin(PluginBase):
             def _exec(_self, *args, **kwargs):
                 self.client_event(f"update_scripts", self.list_script())
                 try:
-                    exec(_self.script, {
-                        'print': self.logger,
-                        'argus': _self.argus,
-                        'script': _self,
-                    })
+                    exec(_self.script, _self.vars)
                 except Exception:
                     self.logger.error(f'exception occurred in mission {_self.id}({_self.script_name}):\n{traceback.format_exc()}')
                 finally:
@@ -156,10 +157,11 @@ class CommandPlugin(PluginBase):
 
             def stop(_self):
                 if _self.mission is not None:
-                    _self.mission.terminate()
-                    _self.mission.join(5)
-                    if not _self.mission.is_alive():
-                        _self._end()
+                    if 'on_stop' not in _self.vars or _self.vars['on_stop']():
+                        _self.mission.terminate()
+                        _self.mission.join(5)
+                        if not _self.mission.is_alive():
+                            _self._end()
 
         self.Script = Script
 
