@@ -98,7 +98,7 @@ recv_opcode = "DesynthResult"
 
 
 def play():
-    target = find_nearest_tree()
+    target = plugins.XivMemory.actor_table.me  # find_nearest_tree()
     if target is None: raise Exception("No tree")
     solver = Solver()
     plugins.XivNetwork.send_messages('zone', ("EventStart", evt_start_msg | {'target_id': target.id}), response="EventPlay")
