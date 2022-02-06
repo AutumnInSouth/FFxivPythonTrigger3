@@ -126,6 +126,7 @@ def play():
         else:
             sleep(3)
             plugins.XivNetwork.send_messages('zone', ("EventFinish", evt_finish_msg))
+            sleep(.1)
             return
 
 
