@@ -272,7 +272,7 @@ class XivCombat(PluginBase):
             # 判断是否执行
             me = api.get_me_actor()
             if (me is None or not me.current_hp or  # 不存在角色、角色已经死亡
-                    me.casting_time - me.casting_progress > 0.2 or  # 正在咏唱
+                    me.cast_info.current_cast_time - me.cast_info.total_cast_time > 0.2 or  # 正在咏唱
                     me.mount_id  # 有坐骑
             ):
                 return default_period

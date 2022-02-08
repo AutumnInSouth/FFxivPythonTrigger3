@@ -109,7 +109,7 @@ class RDMLogic(Strategy):
                 return UseAbility(a('赤核爆'), aoe_target.id)
             return UseAbility(a('赤神圣') if (
                 next(iter(prepare)) == s('赤火炎预备')
-                if prepare_cnt == 1 else
+                if prepare_cnt == 1 and abs(data.gauge.white_mana - data.gauge.black_mana) < 10 else
                 data.gauge.white_mana < data.gauge.black_mana
             ) else a('赤核爆'), aoe_target.id)
 
@@ -147,7 +147,7 @@ class RDMLogic(Strategy):
             else:
                 return UseAbility(a('赤疾风') if (
                     next(iter(prepare)) == s('赤火炎预备')
-                    if prepare_cnt == 1 else
+                    if prepare_cnt == 1 and abs(data.gauge.white_mana - data.gauge.black_mana) < 13 else
                     (data.gauge.white_mana < data.gauge.black_mana and data.me.level >= 10)
                 ) else a('赤闪雷'), single_target.id)
         min_mana = min(data.gauge.white_mana, data.gauge.black_mana)
@@ -156,11 +156,12 @@ class RDMLogic(Strategy):
             if data.me.level >= 52 and (data.me.level < 68 or min_mana >= 60 - data.gauge.mana_stacks * 20):
                 moulienet_target, moulienet_cnt = cnt_enemy(data, moulienet)
                 if moulienet_cnt > 2: return UseAbility(a('魔划圆斩'), moulienet_target.id)
-            if data.gauge.mana_stacks or data[7520] > 100 or max(data.gauge.white_mana, data.gauge.black_mana) > 90 or (data.is_moving and not can_acceleration):
+            if data.gauge.mana_stacks or data[7520] > 100 or max(data.gauge.white_mana, data.gauge.black_mana) > 90 or (
+                    data.is_moving and not can_acceleration):
                 if min_mana >= (50 if data.me.level >= 50 else 35 if data.me.level >= 35 else 20) - data.gauge.mana_stacks * 15:
                     if single_distance <= 3:
                         return UseAbility(a('魔回刺'), single_target.id)
-                    elif data.gauge.mana_stacks:
+                    elif data.gauge.mana_stacks or s('倍增') in data.effects:
                         return
 
         if data.is_moving:
@@ -171,8 +172,8 @@ class RDMLogic(Strategy):
                     return use_acceleration(data)
             return
 
-        if prepare_cnt<2 and res:
-            if res and must_acceleration:
+        if prepare_cnt < 2 and res:
+            if res and must_acceleration and s('倍增') not in data.effects:
                 return use_acceleration(data, True)
 
             if data.config['use_swift'] and not data[a('即刻咏唱')]:
@@ -186,7 +187,6 @@ class RDMLogic(Strategy):
                     data.gauge.white_mana < data.gauge.black_mana
                 ) else a('赤火炎'),
                 single_target.id)
-
 
         if aoe_cnt > 2 and data.me.level >= 18:
             return UseAbility(
@@ -209,7 +209,8 @@ class RDMLogic(Strategy):
         if not res_lv(data): return
 
         if not data[a('鼓励')] and not data[a('倍增')]:
-            return UseAbility(a('鼓励'), data.me.id)
+            return UseAbility(a('鼓励'), data.me.id,
+                              wait_until=lambda: s('倍增') in data.refresh_cache('effects'))
         if (
                 not data[a('倍增')] and data[a('鼓励')] > 100 and
                 max(data.gauge.white_mana, data.gauge.black_mana) <= 50 and

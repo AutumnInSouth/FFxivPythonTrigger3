@@ -32,7 +32,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -157,7 +157,7 @@ class DebugPlugin(PluginBase):
         source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"
         self.logger(evt.id, evt.type, target, source)
 
-    # @event('network/zone/server/actor_control/targetable')
+    @event('network/zone/client/inventory_modify_handler')
     def actor_control_targetable(self, evt):
         self.logger(evt.id, evt.str_event(), evt.struct_message)
 

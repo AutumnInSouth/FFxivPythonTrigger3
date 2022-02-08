@@ -6,10 +6,12 @@ from ..utils import NetworkZoneClientEvent, BaseProcessors
 
 class ModifyInventoryEntry(OffsetStruct({
     'container': c_ushort,
-    'slot': c_ushort,
     'param1': c_ushort,
-    'param2': c_uint,
-    'param3': c_uint,
+    'slot': c_ushort,
+    'param2': c_ushort,
+    'param3': c_ushort,
+    'param4': c_ushort,
+    'param5': c_ushort,
 })):
     container: int
     slot: int

@@ -196,6 +196,7 @@ INVENTORY_CONTAINERS = {
     "necklace": {3208},
     "bracelet": {3209},
     "ring": {3300},
+    "armoury_chest": {3500, 3200, 3201, 3202, 3203, 3204, 3205, 3206, 3207, 3208, 3209, 3300},
     "soul_crystal": {3400},
     "chocobo_backpack": {4000, 4001, 4100, 4101},
     "employee_backpack": {10000, 10001, 10002, 10003, 10004, 10005},

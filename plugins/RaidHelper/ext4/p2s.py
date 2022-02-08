@@ -18,5 +18,5 @@ def p2s_target_icon_1(out, e: 'TargetIconEvent'):
             out(f'点名：連綫{e.icon_id - 144}')
         else:
             out(f'点名：鋼鐵{e.icon_id - 148}')
-            p = getattr(plugins.XivMemory.markings.way_mark, ['one', 'two', 'three', 'four'][e.icon_id - 149])
-            if p.is_active: plugins.XivMemory.coordinate.set(p.x, p.y, p.z)
+            # p = getattr(plugins.XivMemory.markings.way_mark, ['one', 'two', 'three', 'four'][e.icon_id - 149])
+            # if p.is_active: plugins.XivMemory.coordinate.set(p.x, p.y, p.z)

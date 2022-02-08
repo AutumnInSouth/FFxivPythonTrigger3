@@ -4,12 +4,13 @@ from typing import Dict, Set, Iterator, Tuple, Optional, TYPE_CHECKING
 
 from FFxivPythonTrigger import game_ext
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.popular_struct import Position
+from FFxivPythonTrigger.popular_struct import Position,Vector3
 
 from FFxivPythonTrigger.utils.shape import circle
 from .enum import Jobs, ActorType
 
 ACTOR_TABLE_SIZE = 424
+
 
 
 class Effect(OffsetStruct({
@@ -53,6 +54,34 @@ class Effects(Effect * 30):
         return 0
 
 
+class CastInfo(OffsetStruct({
+    'is_casting': (c_ubyte, 0),
+    'interruptible': (c_ubyte, 1),
+    'action_type': (c_ushort, 2),
+    'action_id': (c_uint, 4),
+    'unk_08': (c_uint, 8),
+    'cast_target_id': (c_uint, 16),
+    'cast_location': (Vector3, 32),
+    'unk_30': (c_uint, 48),
+    'current_cast_time': (c_float, 52),
+    'total_cast_time': (c_float, 56),
+    'used_action_id': (c_uint, 60),
+    'used_action_type': (c_ushort, 64),
+})):
+    is_casting: bool
+    interruptible: bool
+    action_type: int
+    action_id: int
+    unk_08: int
+    cast_target_id: int
+    cast_location: Vector3
+    unk_30: int
+    current_cast_time: float
+    total_cast_time: float
+    used_action_id: int
+    used_action_type: int
+
+
 if game_ext == 3:
     _actor_struct = {
         '_name': (c_char * 68, 0x30),
@@ -91,12 +120,12 @@ if game_ext == 3:
         '_status_flags': (c_ubyte, 0x19a0),
         '_status_flags_2': (c_ubyte, 0x19a5),
         'effects': (Effects, 0x19f8),
-        'is_casting_1': (c_bool, 0x1b80),
-        'is_casting_2': (c_bool, 0x1b82),
-        'casting_id': (c_uint, 0x1b84),
-        'casting_target_id': (c_uint, 0x1b90),
-        'casting_progress': (c_float, 0x1bb4),
-        'casting_time': (c_float, 0x1bb8),
+        'cast_info': (CastInfo, 0x1b80),
+        # 'is_casting_2': (c_bool, 0x1b82),
+        # 'casting_id': (c_uint, 0x1b84),
+        # 'casting_target_id': (c_uint, 0x1b90),
+        # 'casting_progress': (c_float, 0x1bb4),
+        # 'casting_time': (c_float, 0x1bb8),
     }
 else:
     _actor_struct = {
@@ -137,12 +166,12 @@ else:
         '_status_flags': (c_ubyte, 0x19DF),
         '_status_flags_2': (c_ubyte, 0x19E4),
         'effects': (Effects, 0x1A38),
-        'is_casting_1': (c_bool, 0x1bc0),
-        'is_casting_2': (c_bool, 0x1bc2),
-        'casting_id': (c_uint, 0x1bc4),
-        'casting_target_id': (c_uint, 0x1bd0),
-        'casting_progress': (c_float, 0x1bf4),
-        'casting_time': (c_float, 0x1bf8),
+        'cast_info': (CastInfo, 0x1bc0),
+        # 'is_casting_2': (c_bool, 0x1bc2),
+        # 'casting_id': (c_uint, 0x1bc4),
+        # 'casting_target_id': (c_uint, 0x1bd0),
+        # 'casting_progress': (c_float, 0x1bf4),
+        # 'casting_time': (c_float, 0x1bf8),
     }
 
 
@@ -182,12 +211,13 @@ class Actor(OffsetStruct(_actor_struct)):
     _status_flags: int
     _status_flags_2: int
     effects: Effects
-    is_casting_1: bool
-    is_casting_2: bool
-    casting_id: int
-    casting_target_id: int
-    casting_progress: float
-    casting_time: float
+    # is_casting_1: bool
+    # is_casting_2: bool
+    # casting_id: int
+    # casting_target_id: int
+    # casting_progress: float
+    # casting_time: float
+    cast_info:CastInfo
     mount_id: int
 
     def __hash__(self):
