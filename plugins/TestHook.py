@@ -53,20 +53,27 @@ class TestHook(PluginBase):
         # self.sub_1416014C0(self, BASE_ADDR + 0x16014C0)
         # self.sub_140A41260(self, BASE_ADDR + 0xA41260)
         # self.set_omen_create(self, BASE_ADDR + 0x6F9C60)
-
         # for offset, _ in search_from_text("48 89 5C 24 ? 48 89 6C 24 ? 57 48 83 EC ? 48 63 C2 48 8B D9"):
         #     self.is_key_trigger(self, offset + BASE_ADDR)
         # self.facing_hook(self, BASE_ADDR + find_signature_point("E8 * * * * 80 3D ? ? ? ? ? 0F 28 F0"))
         # self.macro_concat(self, BASE_ADDR + find_signature_address(
         #     "40 53 55 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 8B D8"
         # ))
-        self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
-            "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
-        ))
+        # self.macro_parse_hook(self, BASE_ADDR + find_signature_address(
+        #     "40 55 53 56 48 8B EC 48 83 EC ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 48 8B F1"
+        # ))
         #
         # self.print_msg_hook(self, BASE_ADDR + find_signature_address(
         #     "40 55 53 56 41 54 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC 20 02 00 00 48 8B 05"
         # ))
+        # self.b_channel_hook(self, BASE_ADDR + find_signature_address(
+        #     "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 40 32 F6 32 DB"
+        # ))
+        # self.interact_hook(self, BASE_ADDR + find_signature_address(
+        #     "4C 8B DC 49 89 5B ? 49 89 6B ? 49 89 73 ? 57 41 54 41 55 41 56 41 57 48 83 EC ? 0F B6 B1 ? ? ? ?"
+        # ))
+        h=self.mo_ui_entity(self, BASE_ADDR + find_signature_point("E8 * * * * 48 8B ? ? ? 48 8B ? ? ? 4C 8B ? ? ? 41 83 FC"))
+        self.logger(hex(h.address))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
@@ -153,3 +160,37 @@ class TestHook(PluginBase):
         except:
             self.logger.error(traceback.format_exc())
         return hook.original(manager, channel_id, p_sender, p_msg, sender_id, parm)
+
+    """__int64 __fastcall sub_140715F30(__int64 a1, int a2, int a3)"""
+
+    @PluginHook.decorator(c_ubyte, [c_int64, c_int, c_int], True)
+    def b_channel_hook(self, hook, a1, a2, a3):
+        try:
+            self.logger(f"{a1:x} {a2:x} {a3:x}")
+        except:
+            self.logger.error(traceback.format_exc())
+            hook.uninstall()
+        return hook.original(a1, a2, a3)
+
+    """
+    char __fastcall sub_140ACAFB0(__int64 *a1, _QWORD *a2, unsigned __int8 a3, int a4, int a5, unsigned __int8 a6, int a7)
+    """
+
+    @PluginHook.decorator(c_ubyte, [c_int64, c_int64, c_ubyte, c_int, c_int, c_ubyte, c_int], True)
+    def interact_hook(self, hook, a1, a2, a3, a4, a5, a6, a7):
+        try:
+            self.logger(f"{a1:x} {a2:x} {a3:x} {a4:x} {a5:x} {a6:x} {a7:x}")
+        except:
+            self.logger.error(traceback.format_exc())
+            hook.uninstall()
+        return hook.original(a1, a2, a3, a4, a5, a6, a7)
+
+    @PluginHook.decorator(c_void_p, [c_int64, c_int64], True)
+    def mo_ui_entity(self, hook, a1, a2):
+        try:
+            self.a1 = a1
+            self.a2 = a2
+        except:
+            self.logger.error(traceback.format_exc())
+            hook.uninstall()
+        return hook.original(a1, a2)

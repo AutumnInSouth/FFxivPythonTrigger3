@@ -157,7 +157,7 @@ class DebugPlugin(PluginBase):
         source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"
         self.logger(evt.id, evt.type, target, source)
 
-    @event('network/zone/client/inventory_modify_handler')
+    #@event('network/zone/client/inventory_modify_handler')
     def actor_control_targetable(self, evt):
         self.logger(evt.id, evt.str_event(), evt.struct_message)
 
@@ -190,3 +190,7 @@ class DebugPlugin(PluginBase):
     # @event("network/zone/client/update_position_handler")
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
+
+    @event("network/zone/server/event_start")
+    def event_start(self, evt):
+        self.logger(evt.id, evt, evt.raw_message.hex(' '))

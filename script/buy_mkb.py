@@ -44,7 +44,11 @@ def item_cost_cal(item_data, need_to_buy):
 
 def action(item_id, required_count, max_price):
     print('try', item_id, required_count, max_price)
-    item_data = group_pmb_data(item_id, max_price)
+    try:
+        item_data = group_pmb_data(item_id, max_price)
+    except Exception:
+        time.sleep(1)
+        item_data = group_pmb_data(item_id, max_price)
     need_to_buy = required_count - count_back_pack(item_id)
     if need_to_buy > 0:
         for _item_list in item_data.values():

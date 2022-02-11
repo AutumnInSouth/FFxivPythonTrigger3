@@ -1,3 +1,4 @@
+import time
 from ctypes import *
 from functools import cache
 from inspect import isclass
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
 
 get_action_data_interface = CFUNCTYPE(POINTER(utils.action_struct), c_int64)
 remove_omen_interface = CFUNCTYPE(c_void_p, c_void_p)
+add_lock_on_interface = CFUNCTYPE(c_void_p, c_void_p, c_uint)
 omen_sheet = realm.game_data.get_sheet('Omen')
 
 
@@ -53,6 +55,9 @@ class OmenReflect(PluginBase):
         ))
         self.add_action_omen_hook(self, am.scan_point(
             'add_action_omen', 'E8 * * * * 41 80 7E ? ? 0F 85 ? ? ? ? F3 0F 10 1D ? ? ? ?'
+        ))
+        self._add_lock_on = add_lock_on_interface(am.scan_address(
+            "add_lock_on", "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 8B EA 48 8B F9 BB ? ? ? ?"
         ))
 
         if game_ext == 3:
@@ -152,6 +157,14 @@ class OmenReflect(PluginBase):
                     f"{action['Omen'].key}({action['CastType']}/{action['EffectRange']}/{action['XAxisModifier']})=>{reflect_data.get(evt.action_id)}|",
                     # '\n', msg
                 )
+
+        if evt.struct_message.skill_type == 1 and evt.action_id in utils.lock_on:
+            t, l_id = utils.lock_on[evt.action_id]
+            if evt.cast_time > t: time.sleep(evt.cast_time - t)
+            self.add_lock_on(evt.target_actor, l_id)
+
+    def add_lock_on(self, target_actor, lock_on_id):
+        return self._add_lock_on(byref(target_actor), lock_on_id)
 
     def layout_get_action_data(self, action_id):
         return action_data(action_id)

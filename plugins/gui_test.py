@@ -158,4 +158,6 @@ class GuiTest(PluginBase):
                 imgui.text(row)
             imgui.end()
 
+        mo = plugins.XivMemory.utils.mo_entity
+
         # test_line()

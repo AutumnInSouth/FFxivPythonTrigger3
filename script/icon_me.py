@@ -13,6 +13,6 @@ address = find_signature_address("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 4
 s = 0
 while read_ulonglong(addressof(t) + 0x1890 + s * 8): s += 1
 CFUNCTYPE(c_void_p, c_void_p, c_uint)(address)(byref(t), k)
-start = perf_counter()
-wait_until(lambda: not read_ulonglong(addressof(t) + 0x1890 + s * 8) or None, period=.01)
-print(f"{k}: {perf_counter() - start:.3f}s")
+# start = perf_counter()
+# wait_until(lambda: not read_ulonglong(addressof(t) + 0x1890 + s * 8) or None, period=.01)
+# print(f"{k}: {perf_counter() - start:.3f}s")

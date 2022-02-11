@@ -79,6 +79,27 @@ cast type:
 [12] = "Line - No Padding",
 [13] = "Cone / Fan - No Padding",
 """
+"""
+常用lock_on
+62:6分摊 5s
+277:分摊六秒（白）
+267：倒数三秒
+259：双人分摊 5s
+243：死刑
+220：20aoe 5s
+233：20aoe 6s
+215:6aoe（白）  5s
+216:6aoe（黑）  5s
+213:双人分摊（普通）
+196:8aoe 8s
+189:9aoe 5s
+169:5aoe 6s
+141:7aoe 4s
+"""
+lock_on = {
+    # skill_id : (remain_time, lock_id),
+    # 7514:(5,220)
+}
 
 cast_type_name = {
     0: 'unk_0',
