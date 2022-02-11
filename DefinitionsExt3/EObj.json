@@ -8,7 +8,10 @@
     },
     {
       "index": 9,
-      "name": "Data"
+      "name": "Data",
+      "converter": {
+        "type": "generic"
+      }
     },
     {
       "index": 10,
