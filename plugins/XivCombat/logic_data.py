@@ -48,6 +48,7 @@ class LogicData(object):
         self.config = config
         self.ability_cnt = 0
         self.last_action = None
+        self.action_history: list[tuple[float, int]] = []  # [(time, action_id)]
 
     def refresh_cache(self, key: str):
         try:

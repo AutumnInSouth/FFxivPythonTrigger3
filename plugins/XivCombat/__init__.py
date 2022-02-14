@@ -137,6 +137,7 @@ class XivCombat(PluginBase):
             self.hot_bar_process_hook_obj = self.hot_bar_process_hook(self, self._address['hot_bar_process'])
 
             self._last_action_recorder = last_action_recorder.LastActionRecorder()
+            self.action_history = []
             self.register_event('network/zone/server/combat_reset', lambda evt: self.new_monitor())
             self.register_event("network/zone/server/actor_control_self/accept_action", self._last_action_recorder.on_accept_action)
             self.register_event("network/zone/server/actor_control/cast_cancel", self._last_action_recorder.on_cast_cancel)
@@ -231,6 +232,7 @@ class XivCombat(PluginBase):
             data = logic_data.LogicData(self.common_config | self.strategy_config, self)
             data.ability_cnt = self.ability_cnt
             data.last_action = self._last_action_recorder.last_action
+            data.action_history = self.action_history
             return data
 
         def new_monitor(self):
@@ -439,6 +441,15 @@ class XivCombat(PluginBase):
                 self.process_monitor(evt.bundle_header.epoch / 1000, 'on_action', evt)
             if self.enable_record:
                 self.record(int(evt.bundle_header.epoch), evt.source_id, getattr(evt.source_actor, 'name', 'unk'), evt.str_event())
+
+            # action history of me actor
+            if evt.action_type != 'action': return
+            me = api.get_me_actor()
+            if me is None or me.id != evt.source_id: return
+            current_time = time.time()
+            self.action_history.insert(0, (current_time, evt.action_id))
+            while self.action_history[-1][0] < current_time - 120:  # store 2 min only
+                self.action_history.pop()
 
         @event("network/zone/server/actor_control/dot")
         def actor_control_dot_event(self, evt: 'DotEvent'):
