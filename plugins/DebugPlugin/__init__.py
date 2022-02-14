@@ -32,7 +32,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    #@re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -191,6 +191,6 @@ class DebugPlugin(PluginBase):
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
 
-    @event("network/zone/server/event_start")
+    #@event("network/zone/server/event_start")
     def event_start(self, evt):
         self.logger(evt.id, evt, evt.raw_message.hex(' '))

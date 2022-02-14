@@ -24,9 +24,14 @@ get_evt_base = CFUNCTYPE(c_int64, c_int64, c_uint, c_int64)(BASE_ADDR + find_sig
 module = read_ulonglong(module_address)
 actor_ptr = addressof(plugins.XivMemory.targets.current or plugins.XivMemory.actor_table.me)
 base = get_evt_base(module, eid, actor_ptr)
+sleep(.1)
 if base:
     v3 = c_int64(base)
     write_ulonglong(num_of_element_address, 0)
     if init_start(module, read_ulonglong(unk_address), actor_ptr, addressof(v3), 1, (c_uint * 4)()):
         write_ulonglong(target_actor_address, actor_ptr)
         exec_start(module)
+    else:
+        print("Failed to init event")
+else:
+    print("no base")
