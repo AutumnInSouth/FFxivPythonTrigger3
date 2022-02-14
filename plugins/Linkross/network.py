@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from XivNetwork.message_processors.zone_server.triple_triad_game_data import ServerTripleTriadGameDataEvent
     from XivNetwork.message_processors.zone_server.triple_triad_place_card_recv import ServerTripleTriadPlaceCardRecvEvent
 
-recv_duel_action_finish_opcode = 826  # cn5.57
+recv_duel_action_finish_opcode = 896  # cn5.57
 
 send_client_trigger = OffsetStruct({
     'unk0': (c_uint, 0),

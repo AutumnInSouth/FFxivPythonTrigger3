@@ -47,8 +47,8 @@ class DebugPlugin(PluginBase):
         self.logger(evt.id, evt, len(evt.raw_message),
                     # '\n', evt.str_event()
                     )
-        if "unknown" in evt.id:
-            self.logger(evt.raw_message.hex(' '))
+        # if "unknown" in evt.id:
+        #     self.logger(evt.raw_message.hex(' '))
 
     # @re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
