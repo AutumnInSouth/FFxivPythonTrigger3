@@ -1,6 +1,6 @@
 from ctypes import *
 from FFxivPythonTrigger import plugins
-from FFxivPythonTrigger.saint_coinach import status_names, class_job_names
+from FFxivPythonTrigger.saint_coinach import status_names, class_job_names, action_names, item_names
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
@@ -234,6 +234,34 @@ class EffectRemoveEvent(ActorControlEvent):
         return f"network_actor_effect_remove|{self.target_name}|{self.effect_id}|{status_names.get(self.effect_id)}|{self.source_name}"
 
 
+class CastCancelEvent(ActorControlEvent):
+    id = ActorControlEvent.id + 'cast_cancel'
+
+    def __init__(self, bundle_header, message_header, raw_message, struct_message):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.action_id = struct_message.param3
+        self.action_type = struct_message.param2
+        if self.action_type == 1:
+            self.action_name = f"unk_action_{self.action_id}"
+        elif self.action_type == 2:
+            self.action_name = f"unk_item_{self.action_id}"
+        else:
+            self.action_name = f"unk_{self.action_type}_{self.action_id}"
+
+    def init(self):
+        super().init()
+        if self.action_type == 1:
+            self.action_name = action_names.get(self.action_id, self.action_name)
+        elif self.action_type == 2:
+            self.action_name = item_names.get(self.action_id, self.action_name)
+
+    def _text(self):
+        return f"{self.target_name} cancel cast {self.action_name}"
+
+    def _str_event(self):
+        return f"network_actor_cast_cancel|{self.target_name}|{self.target_id}|{self.action_id}|{self.action_name}"
+
+
 category_event_map = {
     6: DeathEvent,
     22: EffectUpdateEvent,
@@ -244,6 +272,7 @@ category_event_map = {
     23: dot_hot_event,
     4: CombatStateChangeEvent,
     34: TargetIconEvent,
+    15: CastCancelEvent,
 }
 
 

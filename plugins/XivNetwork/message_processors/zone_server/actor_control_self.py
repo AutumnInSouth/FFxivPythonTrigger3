@@ -1,6 +1,6 @@
 from ctypes import *
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
-from FFxivPythonTrigger.saint_coinach import realm
+from FFxivPythonTrigger.saint_coinach import realm, action_names, item_names
 from ..utils import NetworkZoneServerEvent, BaseProcessors
 
 fate_sheet = realm.game_data.get_sheet('Fate')
@@ -167,6 +167,44 @@ class VictoryEvent(DirectorUpdateEvent):
     id = DirectorUpdateEvent.id + "victory"
 
 
+class AcceptActionEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + "accept_action"
+
+    def __init__(self, bundle_header, message_header, raw_message: bytearray, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.action_id = struct_message.param2
+        self.action_name = action_names.get(self.action_id, f"unk_{self.action_id}")
+
+    def text(self):
+        return f"accept action {self.action_name}"
+
+    def str_event(self):
+        return f"network_actor_control_accept_action|{self.action_id}|{self.action_name}|{self.struct_message.param1}|" \
+               f"{self.struct_message.param3}|{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
+
+
+class RejectActionEvent(ActorControlSelfEvent):
+    id = ActorControlSelfEvent.id + "reject_action"
+
+    def __init__(self, bundle_header, message_header, raw_message: bytearray, struct_message: ServerActorControlSelf):
+        super().__init__(bundle_header, message_header, raw_message, struct_message)
+        self.action_id = struct_message.param3
+        self.action_type = struct_message.param2
+        if self.action_type == 1:
+            self.action_name = action_names.get(self.action_id, f"unk_action_{self.action_id}")
+        elif self.action_type == 2:
+            self.action_name = item_names.get(self.action_id, f"unk_item_{self.action_id}")
+        else:
+            self.action_name = f"unk_{self.action_type}_{self.action_id}"
+
+    def text(self):
+        return f"reject action {self.action_name}"
+
+    def str_event(self):
+        return f"network_actor_control_reject_action|{self.action_id}|{self.action_name}|{self.struct_message.param1}|" \
+               f"{self.struct_message.param2}|{self.struct_message.param4}|{self.struct_message.param5}|{self.struct_message.param6}"
+
+
 director_update_map = {
     0x40000001: InitialCommenceEvent,
     0x40000006: RecommenceEvent,
@@ -180,11 +218,13 @@ director_update_map = {
 }
 
 actor_control_self_map = {
-    505: LimitBreakEvent,
-    2353: FateInitiEvent,
-    2357: FateStartEvent,
-    2358: FateEndEvent,
-    2366: FateProgressEvent,
+    0x1f9: LimitBreakEvent,
+    0x931: FateInitiEvent,
+    0x935: FateStartEvent,
+    0x936: FateEndEvent,
+    0x934: FateProgressEvent,
+    0x11: AcceptActionEvent,
+    0x2bc: RejectActionEvent,
 }
 
 
@@ -195,7 +235,7 @@ class ActorControlSelf(BaseProcessors):
     @staticmethod
     def event(bundle_header, message_header, raw_message, struct_message: ServerActorControlSelf):
         match struct_message.category:
-            case 109:
+            case 0x6d:
                 evt = director_update_map.get(struct_message.param2, UnknownDirectorUpdateEvent)
             case c:
                 evt = actor_control_self_map.get(c, UnknownActorControlSelfEvent)

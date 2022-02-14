@@ -72,8 +72,12 @@ class TestHook(PluginBase):
         # self.interact_hook(self, BASE_ADDR + find_signature_address(
         #     "4C 8B DC 49 89 5B ? 49 89 6B ? 49 89 73 ? 57 41 54 41 55 41 56 41 57 48 83 EC ? 0F B6 B1 ? ? ? ?"
         # ))
-        h=self.mo_ui_entity(self, BASE_ADDR + find_signature_point("E8 * * * * 48 8B ? ? ? 48 8B ? ? ? 4C 8B ? ? ? 41 83 FC"))
-        self.logger(hex(h.address))
+        # h=self.mo_ui_entity(self, BASE_ADDR + find_signature_point("E8 * * * * 48 8B ? ? ? 48 8B ? ? ? 4C 8B ? ? ? 41 83 FC"))
+        # self.logger(hex(h.address))
+
+        self.reset_cd_hook(self, BASE_ADDR + find_signature_address(
+            "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 8B F2 0F 29 74 24 ? 0F B6 D2"
+        ))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
     def set_omen_create(self, hook, source_actor_ptr, skill_type, action_id, pos, facing, a6):
@@ -194,3 +198,16 @@ class TestHook(PluginBase):
             self.logger.error(traceback.format_exc())
             hook.uninstall()
         return hook.original(a1, a2)
+
+    """
+    __int64 __fastcall sub_14080FF50(__int64 a1, int a2, int a3, float a4, int a5)
+    """
+
+    @PluginHook.decorator(c_int64, [c_int64, c_int, c_int, c_float, c_int], True)
+    def reset_cd_hook(self, hook, a1, a2, a3, a4, a5):
+        try:
+            self.logger(f"{a1:x} {a2:x} {a3:x} {a4:.1f} {a5:x}")
+        except:
+            self.logger.error(traceback.format_exc())
+            hook.uninstall()
+        return hook.original(a1, a2, a3, a4, a5)

@@ -47,6 +47,7 @@ class LogicData(object):
         self.plugin = plugin
         self.config = config
         self.ability_cnt = 0
+        self.last_action = None
 
     def refresh_cache(self, key: str):
         try:
@@ -211,7 +212,7 @@ class LogicData(object):
     @cache
     def effect_time(self, effect_id: int):
         if effect_id in self.effects:
-            return self.effects[effect_id].timer+0.01
+            return self.effects[effect_id].timer + 0.01
         return 0
 
     @cached_property

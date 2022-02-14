@@ -12,3 +12,4 @@ if game_ext == 3:
     from .nin_pvp import NinPvpLogic
     from .gnb_pvp import GnbPvpLogic
     from .paladin import PaladinLogic
+    from .triggers import last_use_record

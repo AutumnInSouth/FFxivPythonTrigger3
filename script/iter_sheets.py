@@ -10,6 +10,6 @@ realm_eng = pysaintcoinach.ARealmReversed(game_path_eng, pysaintcoinach.Language
 
 for sheet in realm_chs._game_data.definition.sheet_definitions:
     try:
-        print(sheet.name,realm_chs.game_data.get_sheet(sheet.name)[0xb0013])
+        print(sheet.name,realm_chs.game_data.get_sheet(sheet.name)[852])
     except:
         pass

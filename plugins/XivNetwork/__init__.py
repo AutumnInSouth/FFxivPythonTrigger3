@@ -164,7 +164,6 @@ class XivNetwork(PluginBase):
             return message
         else:
             message_header = MessageHeader.from_buffer(message)
-
             raw_message = message[MessageHeader.struct_size:]
             scope = socket * 2 + is_server
             struct_message = None

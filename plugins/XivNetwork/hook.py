@@ -88,8 +88,7 @@ class BufferProcessorHook(PluginHook):
                 if isinstance(res, tuple):
                     bundle_header, messages = res
                     bundle_header, messages = self.plugin.process_messages(bundle_header, messages, True, self.socket_type)
-                    if messages:
-                        data += pack_message(bundle_header, messages)
+                    if messages: data += pack_message(bundle_header, messages)
                 else:
                     data += res
                 res = self.processor.get()

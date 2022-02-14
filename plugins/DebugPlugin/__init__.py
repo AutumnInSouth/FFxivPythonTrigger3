@@ -6,8 +6,6 @@ from FFxivPythonTrigger.decorator import BindValue, re_event, event
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 
 
-
-
 class DebugPlugin(PluginBase):
     name = "DebugPlugin"
 
@@ -16,7 +14,6 @@ class DebugPlugin(PluginBase):
     def __init__(self):
         super().__init__()
         # plugins.XivNetwork.register_packet_fixer(self, 'zone', True, "Effect", self.m_e)
-
 
     def m_e(self, bundle_header, message_header, raw_message, struct_message):
         struct_message.header.action_animation_id = 26362
@@ -32,7 +29,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    @re_event(r"^network/")
+    #@re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -45,10 +42,10 @@ class DebugPlugin(PluginBase):
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
         self.logger(evt.id, evt, len(evt.raw_message),
-                    # '\n', evt.str_event()
+                    '\n', evt.str_event()
                     )
         # if "unknown" in evt.id:
-        #     self.logger(evt.raw_message.hex(' '))
+        #   self.logger(evt.raw_message.hex(' '))
 
     # @re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
@@ -157,7 +154,7 @@ class DebugPlugin(PluginBase):
         source = f"source:{evt.source_name}({evt.source_id:x}) {evt.source_actor.pos.x:.1f} {evt.source_actor.pos.y:.1f} {evt.source_actor.pos.z:.1f}"
         self.logger(evt.id, evt.type, target, source)
 
-    #@event('network/zone/client/inventory_modify_handler')
+    # @event('network/zone/client/inventory_modify_handler')
     def actor_control_targetable(self, evt):
         self.logger(evt.id, evt.str_event(), evt.struct_message)
 
@@ -191,6 +188,16 @@ class DebugPlugin(PluginBase):
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
 
-    #@event("network/zone/server/event_start")
+    # @event("network/zone/server/event_start")
     def event_start(self, evt):
         self.logger(evt.id, evt, evt.raw_message.hex(' '))
+
+    @re_event("network/zone/server/actor_control_self/(accept|reject)_action")
+    def action_a_r(self, evt, match):
+        self.logger(evt, evt.str_event())
+        self.logger.debug(evt.struct_message)
+
+    @event("network/zone/server/actor_control/cast_cancel")
+    def cast_cancel(self, evt):
+        self.logger(evt, evt.str_event())
+        self.logger.debug(evt.struct_message)

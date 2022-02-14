@@ -16,7 +16,7 @@ from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.saint_coinach import action_names, status_sheet, territory_type_names
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
-from . import define, strategies, api, logic_data, utils
+from . import define, strategies, api, logic_data, utils, last_action_recorder
 from .define import AbilityType
 from .utils import is_area_action, use_ability
 from .monitor import Monitor
@@ -136,7 +136,10 @@ class XivCombat(PluginBase):
             self.storage.save()
             self.hot_bar_process_hook_obj = self.hot_bar_process_hook(self, self._address['hot_bar_process'])
 
+            self._last_action_recorder = last_action_recorder.LastActionRecorder()
             self.register_event('network/zone/server/combat_reset', lambda evt: self.new_monitor())
+            self.register_event("network/zone/server/actor_control_self/accept_action", self._last_action_recorder.on_accept_action)
+            self.register_event("network/zone/server/actor_control/cast_cancel", self._last_action_recorder.on_cast_cancel)
 
         def start(self):
             self.work = True
@@ -227,6 +230,7 @@ class XivCombat(PluginBase):
         def get_logic_data(self):
             data = logic_data.LogicData(self.common_config | self.strategy_config, self)
             data.ability_cnt = self.ability_cnt
+            data.last_action = self._last_action_recorder.last_action
             return data
 
         def new_monitor(self):
