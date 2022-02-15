@@ -163,7 +163,7 @@ class XivHacks(PluginBase):
             cmd = args[0]
             expression = ' '.join(args[1:])
             if isinstance(getattr(self.__class__, cmd, None), BindValue):
-                setattr(self, cmd, eval(expression))
+                setattr(self, cmd, eval(expression, {}, {'self': self}))
             else:
                 self.logger.warning("Command not found")
         except Exception as e:
