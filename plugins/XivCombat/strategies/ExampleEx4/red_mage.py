@@ -209,15 +209,16 @@ class RDMLogic(Strategy):
         if not res_lv(data): return
 
         if not data[a('鼓励')] and not data[a('倍增')]:
-            return UseAbility(a('鼓励'), data.me.id,
-                              wait_until=lambda: s('倍增') in data.refresh_cache('effects'))
+            return UseAbility(a('鼓励'), data.me.id)
+        if data[a('鼓励')] > 115 and not data.ability_cnt and data.config['tincture'] and not data.item_cd and data.item_count(36112):
+            return UseItem(36112)
         if (
                 not data[a('倍增')] and data[a('鼓励')] > 100 and
                 max(data.gauge.white_mana, data.gauge.black_mana) <= 50 and
                 data.combo_id not in combo_should_not_break(data.me.level) and
                 not (speed_swing.intersection(data.effects_set) or s('促进') in data.effects_set)
         ):
-            return UseAbility(a('倍增'), data.me.id)
+            return UseAbility(a('倍增'), data.me.id, wait_until=lambda: s('倍增') in data.refresh_cache('effects'))
 
         if not data[a('飞刺')]:
             return UseAbility(a('飞刺'), single_target.id)
@@ -243,10 +244,12 @@ class RDMLogic(Strategy):
             return UseAbility(a('醒梦'), data.me.id)
 
     def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
-        if data.last_count_down > 5: return
-        target = api.get_current_target()
-        if target is None or not data.is_target_attackable(target): return
+        if data.last_count_down > 15: return
         effects = data.me.effects.get_set()
-        if speed_swing.intersection(effects) or s('促进') in effects: return
-        if data.last_count_down > 4: return UseAbility(a('赤疾风'), target.id)
-        if data.last_count_down < 2: return UseAbility(a('摇荡'), target.id)
+        if not (speed_swing.intersection(effects) or s('促进') in effects): return use_acceleration(data)
+        if data.last_count_down < 2 and data.config['tincture'] and not data.item_cd and data.item_count(36112):
+            return UseItem(36112)
+        if data.last_count_down < .5:
+            target = api.get_current_target()
+            if target is not None and data.is_target_attackable(target):
+                return UseAbility(a('赤疾风'), target.id)

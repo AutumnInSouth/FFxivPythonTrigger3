@@ -233,6 +233,14 @@ class LogicData(object):
     def gcd_total(self):
         return self.gcd_group.total
 
+    @cached_property
+    def item_group(self):
+        return api.get_item_cool_down_group()
+
+    @cached_property
+    def item_cd(self):
+        return self.item_group.remain
+
     def reset_cd(self, action_id: int):
         """
         reset the cd of a skill (just in client!)

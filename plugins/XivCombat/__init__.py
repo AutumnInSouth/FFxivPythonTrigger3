@@ -43,6 +43,7 @@ default_common_config = {
     'use_builtin_effective_distance': False,
     'cast_move': define.CAST_MOVE_AUTO,
     'auto_set_current_target': False,
+    'tincture': False,
 }
 sigs = {
     "hot_bar_process": {
@@ -396,7 +397,7 @@ class XivCombat(PluginBase):
                             config = self.common_config if t == 'common' else self.strategy_config
                             old = config.get(args[2])
                             try:
-                                new = eval(' '.join(args[3:]), {}, define.__dict__)
+                                new = eval(' '.join(args[3:]), {**define.__dict__, 'old': old, })
                             except:
                                 new = ' '.join(args[3:])
                             config[args[2]] = new
