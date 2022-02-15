@@ -188,16 +188,16 @@ class DebugPlugin(PluginBase):
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
 
-    # @event("network/zone/server/event_start")
-    def event_start(self, evt):
+    @re_event("network/zone/(server|client)/event_start")
+    def event_start(self, evt,_=None):
         self.logger(evt.id, evt, evt.raw_message.hex(' '))
 
-    @re_event("network/zone/server/actor_control_self/(accept|reject)_action")
+    #@re_event("network/zone/server/actor_control_self/(accept|reject)_action")
     def action_a_r(self, evt, match):
         self.logger(evt, evt.str_event())
         self.logger.debug(evt.struct_message)
 
-    @event("network/zone/server/actor_control/cast_cancel")
+    #@event("network/zone/server/actor_control/cast_cancel")
     def cast_cancel(self, evt):
         self.logger(evt, evt.str_event())
         self.logger.debug(evt.struct_message)

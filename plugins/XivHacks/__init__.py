@@ -419,7 +419,7 @@ class XivHacks(PluginBase):
         def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
             if self.moving_swing_enable:
                 me = plugins.XivMemory.actor_table.me
-                if me and self.moving_swing_time > me.cast_info.current_cast_time - me.cast_info.total_cast_time  > 0.3:  # TODO: flag check
+                if me and self.moving_swing_time > me.cast_info.total_cast_time - me.cast_info.current_cast_time > 0.3:  # TODO: flag check
                     return None
             if self.moving_no_fall: struct_message.unk0 &= 0xf000
             if self.moving_z_modify: struct_message.pos.z += self.moving_z_modify
