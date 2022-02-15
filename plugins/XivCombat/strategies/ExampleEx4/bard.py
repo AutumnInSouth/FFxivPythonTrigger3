@@ -129,15 +129,14 @@ class BardLogic(Strategy):
 
         minuet = data[a('放浪神的小步舞曲')]
         ballad = data[a('贤者的叙事谣')]
+        paeon = data[a('军神的赞美歌')]
         if self.last_song < perf_counter() - 2:
-            if not song or (song == 'paeon' and max(minuet, ballad) <= 45):
-                if rain_of_death_cnt > 2:
-                    if not ballad: return self.use_song(a('贤者的叙事谣'), single_target.id)
-                    if not minuet: return self.use_song(a('放浪神的小步舞曲'), single_target.id)
-                else:
-                    if not minuet: return self.use_song(a('放浪神的小步舞曲'), single_target.id)
-                    if not ballad: return self.use_song(a('贤者的叙事谣'), single_target.id)
-                if not data[a('军神的赞美歌')]: return self.use_song(a('军神的赞美歌'), single_target.id)
+            if not song or song == 'paeon' and ballad <= 42:
+                if not minuet: return self.use_song(a('放浪神的小步舞曲'), single_target.id)
+            if not song or song == 'minuet' and data.gauge.song_milliseconds < 3000 and data.gauge.song_procs == 0:
+                if not ballad: return self.use_song(a('贤者的叙事谣'), single_target.id)
+            if not song or song == 'ballad' and minuet <= 45 and ballad <= 90:
+                if not paeon: return self.use_song(a('军神的赞美歌'), single_target.id)
 
         if data.me.level < 4: return
         raging_strikes = data[a('猛者强击')]
@@ -146,7 +145,10 @@ class BardLogic(Strategy):
             if data.skill_unlocked(a('纷乱箭')): other_cds.append(data[a('纷乱箭')])
             if data.skill_unlocked(a('战斗之声')): other_cds.append(data[a('战斗之声')])
             if data.skill_unlocked(a('Radiant Finale')): other_cds.append(data[a('Radiant Finale')])
-            if not other_cds or max(other_cds) < 10: return UseAbility(a('猛者强击'), data.me.id)
+            if not other_cds or max(other_cds) < 10:
+                if not data.ability_cnt and data.config['tincture'] and not data.item_cd and data.item_count(36110):
+                    return UseItem(36110)
+                return UseAbility(a('猛者强击'), data.me.id)
         if raging_strikes > 100:
             if not data[a('战斗之声')]:
                 return UseAbility(a('战斗之声'), data.me.id)
@@ -162,7 +164,7 @@ class BardLogic(Strategy):
                     ready = s('直线射击预备') not in data.effects
                 if ready:
                     return UseAbility(a('纷乱箭'), data.me.id)
-            if blood_letter < (30 if data.me.level>=84 else 15):
+            if blood_letter < (30 if data.me.level >= 84 else 15):
                 if rain_of_death_cnt > 1:
                     return UseAbility(a('死亡箭雨'), rain_of_death_target.id)
                 else:
@@ -182,3 +184,7 @@ class BardLogic(Strategy):
                     if data.gauge.song_procs >= 4 and min(data.gauge.song_milliseconds, max(minuet, ballad) - 45) < 30:
                         return
             return UseAbility(a('九天连箭'), single_target.id)
+
+    def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        if data.last_count_down < 1.5 and data.config['tincture'] and not data.item_cd and data.item_count(36110):
+            return UseItem(36110)

@@ -253,3 +253,4 @@ class RDMLogic(Strategy):
             target = api.get_current_target()
             if target is not None and data.is_target_attackable(target):
                 return UseAbility(a('赤疾风'), target.id)
+
