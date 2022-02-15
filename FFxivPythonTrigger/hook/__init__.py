@@ -129,7 +129,7 @@ class PluginHook(Hook):
     A hook class for fpt plugins, which can be auto install / uninstall,
     and easier to communicate between the hook and the plugin
     """
-    auto_install: bool
+    auto_install: bool = False
 
     def __init__(self, plugin: 'PluginBase', func_address: int):
         super().__init__(func_address)

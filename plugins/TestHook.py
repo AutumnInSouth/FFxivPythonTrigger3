@@ -74,9 +74,8 @@ class TestHook(PluginBase):
         # ))
         # h=self.mo_ui_entity(self, BASE_ADDR + find_signature_point("E8 * * * * 48 8B ? ? ? 48 8B ? ? ? 4C 8B ? ? ? 41 83 FC"))
         # self.logger(hex(h.address))
-
-        self.reset_cd_hook(self, BASE_ADDR + find_signature_address(
-            "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 8B F2 0F 29 74 24 ? 0F B6 D2"
+        self.cnt_down_hook(self, BASE_ADDR + find_signature_point(
+            "E8 * * * * 48 8B CB E8 ? ? ? ? 83 7B ? ? 74 ? 48 8B 4B ? 48 8B 01 FF 90 ? ? ? ?"
         ))
 
     @PluginHook.decorator(c_int64, [c_int64, c_uint, c_uint, POINTER(c_ushort), c_float, c_int], True)
@@ -200,14 +199,17 @@ class TestHook(PluginBase):
         return hook.original(a1, a2)
 
     """
-    __int64 __fastcall sub_14080FF50(__int64 a1, int a2, int a3, float a4, int a5)
+    __int64 __fastcall sub_1402A8930(__int64 a1)
     """
 
-    @PluginHook.decorator(c_int64, [c_int64, c_int, c_int, c_float, c_int], True)
-    def reset_cd_hook(self, hook, a1, a2, a3, a4, a5):
+    @PluginHook.decorator(c_int64, [c_int64], True)
+    def cnt_down_hook(self, hook, a1):
+        res = hook.original(a1)
         try:
-            self.logger(f"{a1:x} {a2:x} {a3:x} {a4:.1f} {a5:x}")
+            new_update = perf_counter()
+            self.logger(f"{a1:#x} {read_float(a1 + 40):.2f}")
+            self.last_update = new_update
         except:
             self.logger.error(traceback.format_exc())
             hook.uninstall()
-        return hook.original(a1, a2, a3, a4, a5)
+        return res

@@ -3,7 +3,7 @@ from math import radians
 
 from XivCombat.utils import a, s, cnt_enemy, res_lv
 from XivCombat.strategies import *
-from XivCombat import define
+from XivCombat import define, api
 from XivCombat.multi_enemy_selector import Rectangle, FarCircle, Sector
 
 aoe_area = FarCircle(25, 5)
@@ -241,3 +241,12 @@ class RDMLogic(Strategy):
 
         if data.me.current_mp < 7500:
             return UseAbility(a('醒梦'), data.me.id)
+
+    def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        if data.last_count_down > 5: return
+        target = api.get_current_target()
+        if target is None or not data.is_target_attackable(target): return
+        effects = data.me.effects.get_set()
+        if speed_swing.intersection(effects) or s('促进') in effects: return
+        if data.last_count_down > 4: return UseAbility(a('赤疾风'), target.id)
+        if data.last_count_down < 2: return UseAbility(a('摇荡'), target.id)

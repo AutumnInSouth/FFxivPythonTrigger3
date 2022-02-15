@@ -70,3 +70,9 @@ class Strategy(object):
 
     def process_ability_use(self, data: 'LogicData', action_id: int, target_id: int) -> None | Tuple[int, int] | UseAbility:
         pass
+
+    def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        pass
+
+    def non_global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        pass

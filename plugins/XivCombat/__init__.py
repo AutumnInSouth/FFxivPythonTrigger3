@@ -16,7 +16,7 @@ from FFxivPythonTrigger.memory import BASE_ADDR
 from FFxivPythonTrigger.memory.struct_factory import OffsetStruct
 from FFxivPythonTrigger.saint_coinach import action_names, status_sheet, territory_type_names
 from FFxivPythonTrigger.text_pattern import find_signature_point, find_signature_address
-from . import define, strategies, api, logic_data, utils, last_action_recorder
+from . import define, strategies, api, logic_data, utils, last_action_recorder, count_down_hook
 from .define import AbilityType
 from .utils import is_area_action, use_ability
 from .monitor import Monitor
@@ -68,6 +68,11 @@ sigs = {
     "action_recast_ms": {
         'call': find_signature_point,
         'param': "E8 * * * * 8B D0 45 33 C0 49 8B CE E8 ? ? ? ? F6 46 ? ?",
+        'add': BASE_ADDR,
+    },
+    "count_down_set": {
+        'call': find_signature_point,
+        'param': "E8 * * * * 48 8B CB E8 ? ? ? ? 83 7B ? ? 74 ? 48 8B 4B ? 48 8B 01 FF 90 ? ? ? ?",
         'add': BASE_ADDR,
     },
 }
@@ -132,6 +137,7 @@ class XivCombat(PluginBase):
             self.prev_job = None
             self.layout_set_lock = Lock()
 
+            self.count_down_hook = count_down_hook.CountDownHook(self, self._address['count_down_set'])
             self.common_config = default_common_config | self.common_config
             self.storage.save()
             self.hot_bar_process_hook_obj = self.hot_bar_process_hook(self, self._address['hot_bar_process'])
@@ -233,6 +239,7 @@ class XivCombat(PluginBase):
             data.ability_cnt = self.ability_cnt
             data.last_action = self._last_action_recorder.last_action
             data.action_history = self.action_history
+            data.last_count_down = self.count_down_hook.last_count_down
             return data
 
         def new_monitor(self):
@@ -257,20 +264,24 @@ class XivCombat(PluginBase):
     if 1:
         def get_to_use(self, data: logic_data.LogicData, strategy: strategies.Strategy):
             if data.gcd < 0.2: self.ability_cnt = 0
+            if strategy is None: return
             process_non_gcd = data.gcd > 0.8 and self.ability_cnt < (data.gcd_total // 0.65) - 1 or data.gcd == 0
-            if strategy is not None and (not strategy.fight_only or data.valid_enemies):
+            has_count_down = data.last_count_down is not None and data.last_count_down > 0
+            go_normal = not strategy.fight_only or data.valid_enemies
+            if go_normal or has_count_down:
                 to_use = strategy.common_ability(data)
-                if to_use is not None:
-                    return to_use
-                if data.gcd < 0.2:
+                if to_use is not None: return to_use
+                if data.gcd > .3 and not process_non_gcd: return
+                if has_count_down and not data.valid_enemies:
+                    to_use = strategy.global_cool_down_ability_on_count_down(data)
+                    if to_use is not None and (data.gcd < .3 or to_use.ability_type == AbilityType.oGCD): return to_use
+                    if process_non_gcd:
+                        to_use = strategy.non_global_cool_down_ability_on_count_down(data)
+                        if to_use is not None: return to_use
+                if go_normal:
                     to_use = strategy.global_cool_down_ability(data)
-                    if to_use is not None:
-                        return to_use
-                if process_non_gcd:
-                    predict = strategy.global_cool_down_ability(data)
-                    if predict and predict.ability_type == AbilityType.oGCD:
-                        return predict
-                    return strategy.non_global_cool_down_ability(data)
+                    if to_use is not None and (data.gcd < .3 or to_use.ability_type == AbilityType.oGCD):  return to_use
+                    if process_non_gcd: return strategy.non_global_cool_down_ability(data)
 
         def process(self) -> float:
             default_period = self.common_config.setdefault('period', 0.2)
