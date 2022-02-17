@@ -29,7 +29,7 @@ class DebugPlugin(PluginBase):
     def makeup_moving_handler(self, bundle_header, message_header, raw_message, struct_message):
         return None
 
-    #@re_event(r"^network/")
+    @re_event(r"^network/")
     def discover_event(self, evt, match: re.Match):
         if evt.id in [
             # "network/zone/client/update_position_handler",
@@ -41,11 +41,10 @@ class DebugPlugin(PluginBase):
             "network/zone/server/status_effect_list",
         ]: return
         # if any(s in evt.id for s in ["undefined", "unknown", "unk"]): return
-        self.logger(evt.id, evt, len(evt.raw_message),
-                    '\n', evt.str_event()
-                    )
-        # if "unknown" in evt.id:
-        #   self.logger(evt.raw_message.hex(' '))
+        self.logger(
+            evt.id, evt, len(evt.raw_message),
+            '\n', evt.raw_message.hex(' ') if "unknown" in evt.id else evt.str_event()
+        )
 
     # @re_event(r"^network/.*/client/")
     def discover_client_event(self, evt, match: re.Match):
@@ -188,16 +187,16 @@ class DebugPlugin(PluginBase):
     def update_position_handler(self, evt):
         self.logger(evt.id, evt, f'{evt.struct_message.unk0:x}|{evt.struct_message.unk1:x}|{evt.struct_message.unk2:x}')
 
-    @re_event("network/zone/(server|client)/event_start")
-    def event_start(self, evt,_=None):
+    # @re_event("network/zone/(server|client)/event_start")
+    def event_start(self, evt, _=None):
         self.logger(evt.id, evt, evt.raw_message.hex(' '))
 
-    #@re_event("network/zone/server/actor_control_self/(accept|reject)_action")
+    # @re_event("network/zone/server/actor_control_self/(accept|reject)_action")
     def action_a_r(self, evt, match):
         self.logger(evt, evt.str_event())
         self.logger.debug(evt.struct_message)
 
-    #@event("network/zone/server/actor_control/cast_cancel")
+    # @event("network/zone/server/actor_control/cast_cancel")
     def cast_cancel(self, evt):
         self.logger(evt, evt.str_event())
         self.logger.debug(evt.struct_message)

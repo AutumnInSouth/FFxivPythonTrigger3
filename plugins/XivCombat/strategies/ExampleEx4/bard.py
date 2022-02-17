@@ -186,5 +186,7 @@ class BardLogic(Strategy):
             return UseAbility(a('九天连箭'), single_target.id)
 
     def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        if data.last_count_down < 5 and not data[a('速行')]:
+            return UseAbility(a('速行'))
         if data.last_count_down < 1.5 and data.config['tincture'] and not data.item_cd and data.item_count(36110):
             return UseItem(36110)

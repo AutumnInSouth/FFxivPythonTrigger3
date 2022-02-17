@@ -191,3 +191,14 @@ class RDMLogic(Strategy):
             if not data[7517]: return UseAbility(7517)  # 飞刺
             if not data[7519]: return UseAbility(7519)  # 六分
         if not data[7562] and data.me.current_mp < 7000: return UseAbility(7562)  # 醒梦
+
+    def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        if data.last_count_down > 10: return
+        if res_lv(data) and not data[7518]: return UseAbility(7518)
+        if data.last_count_down > 5: return
+        target = api.get_current_target()
+        if target is None or not data.is_target_attackable(target): return
+        effects = data.me.effects.get_set()
+        if {1234, 1235}.intersection(effects): return
+        if data.last_count_down > 4: return UseAbility(7507, target.id)
+        if data.last_count_down < 2: return UseAbility(7503, target.id)

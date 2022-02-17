@@ -86,6 +86,14 @@ class MachinistLogic(Strategy):
         if not res_use: return
         if data.gauge.battery >= 90:
             return data.use_ability_to_target(2864)
+
+        if data.config['tincture'] and not data.item_cd and data.item_count(31894):
+            cds = [2878, 16498, 7414]
+            if data.me.level > 76: cds.append(16500)
+            cds = [data[cd] for cd in cds]
+            if min(cds) < 3 and max(cds) < 25:
+                return UseItem(31894)
+
         if not data[2876]:
             if data[16498] < data.gcd:
                 data.reset_cd(16498)
@@ -93,7 +101,12 @@ class MachinistLogic(Strategy):
             elif data[hsid] < data.gcd and data.me.level > 76:
                 data.reset_cd(hsid)
                 return data.use_ability_to_target(2876)
-        can_over = not data.gauge.overheat_ms and data[16498] > 8 and data[hsid] > 8 and data.combo_remain > 11 and data.gauge.heat >= 50
+
+        can_over = not data.gauge.overheat_ms and \
+                   data[16498] > 8 and data[hsid] > 8 and \
+                   (data.combo_remain > 11 or data.combo_id not in {2866,2868}) and\
+                   data.gauge.heat >= 50
+
         if can_over and not data[2878] and not data.ability_cnt:
             return data.use_ability_to_target(2878)
         if can_over and data[2878] > 8:
@@ -106,3 +119,14 @@ class MachinistLogic(Strategy):
             return data.use_ability_to_target(2874) if data[2874] <= data[2890] else data.use_ability_to_target(2890)
         if data.gauge.battery >= 50:
             return data.use_ability_to_target(2864)
+
+    def global_cool_down_ability_on_count_down(self, data: 'LogicData') -> AnyUse:
+        if data.last_count_down > 5 or not res_lv(data): return
+        if not data[2876]: return UseAbility(2876)
+        if data.last_count_down < 2 and data.config['tincture'] and not data.item_cd and data.item_count(31894):
+            return UseItem(31894)
+        if data.last_count_down < 1 and not data[16498]:
+            target = api.get_current_target()
+            if target is None or not data.is_target_attackable(target): return
+            return UseAbility(16498, target.id)
+        if not data[7557]: return UseAbility(7557)
